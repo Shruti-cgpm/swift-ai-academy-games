@@ -443,7 +443,7 @@
   /* ---- the text that is spoken: same walk for generation and for the highlight ---- */
   var SKIP = 'button, input, select, textarea, label, svg, code, script, style, .saa-kit, .saa-work, [aria-hidden="true"], ' +
     '.kicker, .eyebrow, .saa-eyebrow, .q-kicker, .hero-kicker, .tag, .chip, .pill, .badge, .sr-only, .visually-hidden, ' +
-    'nav, header, footer, .saa-prog, .saa-vo-skip, .topbar, .schema, .code, .mono, .pc-meta, .meta, .meta-foot, .card-meta, .topbar-sub, ' +
+    'nav, .app > header, body > header, header.top, header.saa-header, .saa-header, footer, .saa-prog, .saa-vo-skip, .topbar, .schema, .code, .mono, .pc-meta, .meta, .meta-foot, .card-meta, .topbar-sub, ' +
     '[class*="badge"], [class*="mandatory"], [class*="flag"], .saa-start, ' +
     /* live status lines and chats change while you play: they are not narration */
     '[aria-live], [role="status"], [role="log"], .chat, .chat-card, .phone-frame-outer, .result-placeholder';
