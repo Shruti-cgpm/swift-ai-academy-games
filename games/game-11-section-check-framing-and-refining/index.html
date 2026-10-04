@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Section Check: Framing and Refining · Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span>Swift&nbsp;AI&nbsp;Academy</div>
+    <div class="top-meta">Section 1.2 · Framing and Refining</div>
+  </header>
+
+  <main class="stage">
+
+    <!-- 1 · Opening -->
+    <section class="slide" id="intro">
+      <div class="card narrow">
+        <div class="head">
+          <div class="eyebrow">Section Check · Evaluation</div>
+          <h1 class="title">Framing and Refining</h1>
+          <p class="lede">You answer 20 quick questions. They cover how to frame a request, the five moves and when to stop.</p>
+        </div>
+        <div class="rule"></div>
+        <div class="grid g3 keep3">
+          <div class="tile center"><span class="dot-ic"><span data-i="list"></span></span><h3>20 questions</h3></div>
+          <div class="tile center"><span class="dot-ic"><span data-i="target"></span></span><h3>70% to pass</h3></div>
+          <div class="tile center"><span class="dot-ic"><span data-i="refresh"></span></span><h3>Unlimited tries</h3></div>
+        </div>
+        <p class="small">This check is not counted. It is here to help you practise.</p>
+        <p class="code">AAI-E-MC1-S02-EVAL01</p>
+      </div>
+    </section>
+
+    <!-- 2 · How it works -->
+    <section class="slide" id="how" data-next="Start the check">
+      <div class="card narrow">
+        <div class="head">
+          <div class="eyebrow">How it works</div>
+          <h2 class="title">Here is how the section check works.</h2>
+          <p class="lede">There are 4 simple rules. Learn them before you start.</p>
+          <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap each card to see the rule.</p>
+        </div>
+        <div class="saa-kit g11-rules" data-kit="reveal" data-required>
+          <div class="saa-cards">
+            <button class="saa-card" type="button"><span class="saa-front"><img class="g11-rule-ic" src="assets/icons/icon-rule-answer.webp" alt="" aria-hidden="true" width="24" height="24">Answer</span><span class="saa-back">Pick an answer, then press Check answer.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="g11-rule-ic" src="assets/icons/icon-rule-reason.webp" alt="" aria-hidden="true" width="24" height="24">Reason</span><span class="saa-back">You see the reason after every answer.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="g11-rule-ic" src="assets/icons/icon-rule-pass-mark.webp" alt="" aria-hidden="true" width="24" height="24">Pass mark</span><span class="saa-back">You need 14 out of 20 to pass. That is 70%.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="g11-rule-ic" src="assets/icons/icon-rule-tries.webp" alt="" aria-hidden="true" width="24" height="24">Tries</span><span class="saa-back">You can try as many times as you like. Each try shuffles the questions and answers.</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · The questions (drawn by script.js) -->
+    <section class="slide" id="quiz">
+      <div class="card quiz" id="qcard"></div>
+    </section>
+
+    <!-- 4 · Result -->
+    <section class="slide" id="result" data-back="off" data-next="Review my answers">
+      <div class="card narrow">
+        <div class="result-top">
+          <div class="ring" id="ring"></div>
+          <div class="head">
+            <span class="kicker" id="res-kicker">Your result</span>
+            <h2 class="title" id="res-title">Result</h2>
+            <p class="status saa-vo-skip" id="res-status"></p>
+            <p class="lede" id="res-msg"></p>
+          </div>
+        </div>
+        <div class="rule"></div>
+        <div class="row">
+          <button type="button" class="btn btn-ghost btn-sm" data-retry><span data-i="refresh"></span>Try again</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-save><span data-i="download"></span>Download my results</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · Review -->
+    <section class="slide" id="review" data-next="Try again" data-icon="refresh">
+      <div class="card">
+        <div class="head">
+          <div class="eyebrow">Review</div>
+          <h2 class="title">Here are your answers.</h2>
+          <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap a number to see that question again.</p>
+        </div>
+        <div class="two-col even">
+          <div class="col">
+            <div class="qgrid" id="qgrid" role="group" aria-label="Questions"></div>
+            <div class="row small">
+              <span class="row"><span class="dot-ic sm ok"><span data-i="check"></span></span>Correct</span>
+              <span class="row"><span class="dot-ic sm bad"><span data-i="x"></span></span>Not quite</span>
+            </div>
+            <button type="button" class="btn btn-ghost btn-sm fit-start" data-save><span data-i="download"></span>Download my results</button>
+          </div>
+          <div class="detail" id="detail" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <div class="foot-left" id="progress" role="status"></div>
+    <div class="nav">
+      <button type="button" class="btn btn-ghost" id="back"><span data-i="arrow-left"></span><span class="btn-back-label">Back</span></button>
+      <button type="button" class="btn btn-primary" id="primary">Continue</button>
+    </div>
+  </footer>
+
+</div>
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

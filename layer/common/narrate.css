@@ -1,0 +1,34 @@
+/* ==========================================================================
+   NARRATION controls + word highlight (same look as game 1's header buttons)
+   ========================================================================== */
+.saa-vo { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; flex: 0 0 auto; }
+.saa-vo.none { display: none !important; }
+html .saa-vo + :is(.saa-header-actions, .topbar-tools, .top-actions, .header-actions, .actions), html.saa-skin .saa-vo + :is(.saa-header-actions, .topbar-tools, .top-actions, .header-actions, .actions) { margin-left: calc(8px / var(--zz, 1)) !important; }
+.saa-vo-b { display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 13px; font-weight: 600; line-height: 1;
+  color: #F6F4EF; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); border-radius: 999px;
+  padding: 8px 14px; min-height: 38px; cursor: pointer; transition: background .15s, border-color .15s; -webkit-user-select: none; user-select: none; }
+.saa-vo-b.icon { padding: 0; width: 38px; justify-content: center; }
+.saa-vo-b:hover { border-color: #5B76FF; }
+.saa-vo-b:focus-visible { outline: 2px solid #FFC168; outline-offset: 3px; }
+.saa-vo-b .i-pause, .saa-vo-b .i-off { display: none; }
+.saa-vo-b.playing { background: rgba(91,118,255,.16); border-color: #5B76FF; }
+.saa-vo-b.playing .i-play { display: none; }
+.saa-vo-b.playing .i-pause { display: block; }
+.saa-vo-voice[aria-pressed="false"] .i-on { display: none; }
+.saa-vo-voice[aria-pressed="false"] .i-off { display: block; }
+.saa-vo-voice[aria-pressed="false"] { color: #AEB6D4; }
+html.saa-skin .saa-vo-b { min-height: calc(38px / var(--zz, 1)); font-size: calc(13px / var(--zz, 1)); padding: calc(8px / var(--zz, 1)) calc(14px / var(--zz, 1)); }
+html.saa-skin .saa-vo-b.icon { width: calc(38px / var(--zz, 1)); padding: 0; }
+/* light games */
+html:not(.saa-skin) .saa-vo-b { color: #0E1A4F; background: #fff; border-color: #D9DEEE; }
+html:not(.saa-skin) .saa-vo-b.playing { background: #EAEEFF; border-color: #3C59F6; }
+html:not(.saa-skin) .saa-vo-voice[aria-pressed="false"] { color: #5C6690; }
+@media (max-width: 560px) { .saa-vo-listen span { display: none; } .saa-vo-listen { padding: 0; width: 38px; justify-content: center; } }
+@media print { .saa-vo { display: none !important; } }
+
+/* word highlight while the clip plays: words not yet read are dimmed, the current word is lit */
+::highlight(saa-vo-todo) { color: rgba(246,244,239,.45); }
+::highlight(saa-vo-on) { background-color: rgba(143,160,255,.34); color: #fff; }
+html:not(.saa-skin) ::highlight(saa-vo-todo) { color: rgba(14,26,79,.45); }
+html:not(.saa-skin) ::highlight(saa-vo-on) { background-color: rgba(60,89,246,.18); color: #0E1A4F; }
+@media (max-width: 560px) { html.saa-skin .saa-vo-listen { padding: 0; width: calc(38px / var(--zz, 1)); justify-content: center; } }

@@ -1,0 +1,428 @@
+/* ==========================================================================
+   Swift AI Academy — module frame base (from handoff/tokens.css + screens/dark)
+   Paste at the TOP of each activity's style.css. Site-specific rules follow.
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+  --font:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+
+  /* spacing (8px base) */
+  --sp-1:8px;--sp-2:12px;--sp-3:16px;--sp-4:24px;--sp-5:32px;--sp-6:40px;--sp-7:64px;
+
+  /* surfaces */
+  --bg-0:#080D24; --bg-1:#0E1A4F; --bg-2:#0B1440;
+  --glass:rgba(255,255,255,0.035);
+  --glass-2:rgba(255,255,255,0.05);
+  --glass-3:rgba(255,255,255,0.08);
+  --line:rgba(255,255,255,0.10);
+  --line-2:rgba(255,255,255,0.14);
+  --line-soft:rgba(255,255,255,0.08);
+
+  /* text */
+  --ivory:#F6F4EF;        /* headings */
+  --text:#DCE1F2;         /* body copy */
+  --text-2:#D5DAEE;       /* option / input text */
+  --muted:#AEB6D4;        /* secondary */
+  --dim:#7C86AE;          /* captions, help, meta */
+  --faint:#5C6690;        /* footer meta, disabled */
+
+  /* brand */
+  --amber:#F3AB31; --amber-2:#FFC168; --amber-ink:#241300;
+  --amber-tint:rgba(243,171,49,0.08); --amber-line:rgba(243,171,49,0.22);
+  --blue:#5B76FF; --blue-light:#8FA0FF; --blue-pale:#B8C4FF;
+  --blue-tint:rgba(91,118,255,0.12); --blue-tint-2:rgba(91,118,255,0.16);
+  --blue-line:rgba(91,118,255,0.35); --blue-line-2:rgba(91,118,255,0.5);
+
+  /* feedback (dark-theme tonal) */
+  --ok:#4FE0A8; --ok-pale:#6EE7B7; --ok-tint:rgba(79,224,168,0.10); --ok-line:rgba(79,224,168,0.40);
+  --warn:#FFC168; --warn-tint:rgba(243,171,49,0.10); --warn-line:rgba(243,171,49,0.35);
+  --bad:#FF8A80; --bad-tint:rgba(255,107,107,0.10); --bad-line:rgba(255,107,107,0.40);
+
+  --radius-card:20px; --radius-field:10px; --radius-pill:999px;
+  --shadow-amber:0 8px 24px rgba(243,171,49,0.30);
+  --shadow-modal:0 40px 90px rgba(0,0,0,0.5);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;
+  font-family:var(--font);font-size:15px;line-height:1.6;color:var(--text);
+  background:linear-gradient(150deg,var(--bg-0) 0%,var(--bg-1) 52%,var(--bg-2) 100%) fixed;
+  background-color:var(--bg-0);
+  -webkit-font-smoothing:antialiased;
+}
+/* ambient glow + grain, same recipe as the Reading/Prompt Card frames */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(circle at 88% 4%,rgba(60,89,246,0.22) 0%,rgba(60,89,246,0) 40%);
+}
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px);background-size:3px 3px;
+  mix-blend-mode:overlay;
+}
+body > *{position:relative;z-index:1}
+
+h1,h2,h3,h4{font-family:var(--font);color:var(--ivory);font-weight:700;margin:0;line-height:1.2}
+p{margin:0}
+a{color:var(--blue-light)}
+strong,b{color:var(--ivory);font-weight:600}
+::selection{background:rgba(91,118,255,0.35);color:#fff}
+
+/* ---------- header chrome (identical on every frame) ---------- */
+.saa-header{
+  display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);
+  padding:var(--sp-5) 0 var(--sp-4);
+}
+.saa-brand{display:flex;align-items:center;gap:var(--sp-2);text-decoration:none}
+.saa-brand img{width:20px;height:auto;display:block}
+.saa-brand span{font-size:11px;letter-spacing:.16em;color:#C6CDE6;font-weight:600;white-space:nowrap}
+.saa-header-actions{display:flex;align-items:center;gap:10px}
+.saa-icon-btn{
+  width:38px;height:38px;border-radius:50%;background:var(--glass-2);border:1px solid var(--line-2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);padding:0;
+}
+.saa-icon-btn svg{width:15px;height:15px}
+.saa-ghost-pill{
+  display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--radius-pill);
+  background:var(--glass-2);border:1px solid var(--line-2);color:var(--muted);
+  font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;
+}
+.saa-ghost-pill svg{width:13px;height:13px}
+
+/* ---------- eyebrow: amber hairline + tracked caps ---------- */
+.saa-eyebrow{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);font-weight:600;
+}
+.saa-eyebrow::before{content:'';width:22px;height:1px;background:var(--amber);flex:0 0 auto}
+.saa-cap{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:600}
+
+/* ---------- glass card ---------- */
+.saa-card{
+  background:var(--glass);border:1px solid var(--line);border-radius:var(--radius-card);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  padding:var(--sp-5) var(--sp-6);
+}
+.saa-divider{height:1px;background:var(--line-soft);border:0;margin:0}
+
+/* ---------- buttons ---------- */
+/* PRIMARY = amber. ONE visible per screen, ever. */
+.saa-btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:13px 24px;min-height:44px;border:none;border-radius:var(--radius-pill);cursor:pointer;
+  background:linear-gradient(135deg,var(--amber-2),var(--amber));color:var(--amber-ink);
+  font-family:var(--font);font-size:14px;font-weight:700;box-shadow:var(--shadow-amber);
+}
+.saa-btn-primary:disabled,.saa-btn-primary[aria-disabled="true"]{opacity:.4;cursor:not-allowed;box-shadow:none}
+/* SECONDARY = glass */
+.saa-btn-secondary{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 20px;min-height:44px;border-radius:var(--radius-pill);cursor:pointer;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.16);color:#DADEEE;
+  font-family:var(--font);font-size:13px;font-weight:600;
+}
+/* TEXT LINK button = blue */
+.saa-btn-link{background:none;border:none;padding:8px 4px;color:var(--blue-light);font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--amber-2);outline-offset:2px;
+}
+
+/* ---------- chips / tabs ---------- */
+.saa-chip{
+  display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--blue-light);
+  background:var(--blue-tint);border:1px solid var(--blue-line);border-radius:var(--radius-pill);padding:8px 14px;
+  font-family:var(--font);cursor:pointer;
+}
+.saa-tabs{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:var(--radius-pill);padding:4px}
+.saa-tab{padding:8px 16px;border-radius:var(--radius-pill);color:var(--dim);font-size:12.5px;font-weight:600;background:none;border:none;cursor:pointer;font-family:var(--font)}
+.saa-tab.is-active,.saa-tab[aria-selected="true"]{background:var(--blue);color:#fff;font-weight:700}
+
+/* ---------- form fields ---------- */
+.saa-label{font-size:12.5px;font-weight:700;color:#EDEFF7}
+.saa-help{font-size:11.5px;color:#8089AC}
+.saa-input,input[type=text],input[type=email],input:not([type]),textarea,select{
+  width:100%;padding:11px 14px;border-radius:var(--radius-field);
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);color:var(--text-2);
+  font-family:var(--font);font-size:14px;line-height:1.5;
+}
+input::placeholder,textarea::placeholder{color:#5C6690}
+input:focus,textarea:focus,select:focus{border-color:var(--blue-line-2);background:rgba(91,118,255,0.06);outline:none}
+
+/* ---------- option rows (quiz) ---------- */
+.saa-option{
+  width:100%;display:flex;align-items:center;gap:14px;text-align:left;cursor:pointer;
+  padding:14px 18px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid var(--line);
+  color:var(--text-2);font-family:var(--font);font-size:14.5px;
+}
+.saa-option.is-selected{background:rgba(243,171,49,0.10);border-color:var(--amber);color:var(--ivory);font-weight:600}
+
+/* ---------- callouts ---------- */
+.saa-callout{display:flex;align-items:flex-start;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);border-radius:12px;background:var(--amber-tint);border:1px solid var(--amber-line);color:var(--ivory);font-size:14px;line-height:1.55}
+.saa-callout-blue{display:flex;align-items:flex-start;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);border-radius:14px;background:rgba(91,118,255,0.08);border:1px solid rgba(91,118,255,0.28);color:var(--ivory)}
+
+/* ---------- numbered step marker ---------- */
+.saa-num{width:30px;height:30px;border-radius:50%;background:var(--blue-tint-2);border:1px solid var(--blue-line-2);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:13px;font-weight:800;color:var(--blue-pale)}
+
+/* ---------- progress bars (footer pattern) ---------- */
+.saa-dots{display:flex;align-items:center;gap:8px}
+.saa-dots > *{width:10px;height:3px;border-radius:2px;background:rgba(255,255,255,0.16)}
+.saa-dots > .is-done{background:var(--blue)}
+.saa-dots > .is-current{width:20px;background:var(--blue-pale);box-shadow:0 0 0 3px rgba(91,118,255,0.24)}
+
+@media (max-width:640px){
+  .saa-card{padding:var(--sp-4) var(--sp-3);border-radius:16px}
+  .saa-header{padding:var(--sp-3) 0}
+  .saa-brand span{font-size:10px}
+}
+
+
+/* ==========================================================================
+   Site: Peer Exchange · Framing and Refining
+   Round 2: one-screen slide deck. Fixed 100dvh column:
+   header chrome -> .stage (one .slide, never scrolls) -> .deck-foot (progress + Back/Next)
+   ========================================================================== */
+html,body{height:100%;overflow:hidden;}
+body{min-height:0;padding:0;}
+.app{
+  height:100vh;height:100dvh;max-width:720px;margin:0 auto;
+  padding:0 16px env(safe-area-inset-bottom);
+  display:flex;flex-direction:column;
+}
+.app > .saa-header{flex:none;padding:14px 0 10px;}
+
+/* slide area: flex column; the active slide centres itself with margin:auto
+   (so if anything ever grew too tall it would push down, never clip the top) */
+.stage{flex:1;min-height:0;display:flex;flex-direction:column;padding:4px 0 12px;}
+.slide{
+  margin:auto 0;width:100%;
+  background:var(--glass);border:1px solid var(--line);border-radius:var(--radius-card);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  padding:28px 32px;animation:fade .22s ease;
+}
+.slide[hidden]{display:none;}
+@keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+/* footer bar */
+.deck-foot{flex:none;padding:10px 0 16px;border-top:1px solid var(--line-soft);}
+.progress{display:flex;gap:6px;margin:0 0 10px;}
+.progress-dot{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.16);transition:background .15s ease;}
+.progress-dot.is-done{background:var(--blue);}
+.progress-dot.active{background:var(--blue-pale);box-shadow:0 0 0 2px rgba(91,118,255,0.24);}
+.foot-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.counter{font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--dim);font-variant-numeric:tabular-nums;}
+
+/* type */
+h1{font-size:clamp(28px,4.6vw,36px);line-height:1.15;letter-spacing:-.01em;margin:0 0 14px;}
+h2{font-size:22px;margin:0 0 12px;}
+p{margin:0 0 12px;font-size:15px;color:var(--text);}
+.lead{font-size:16px;color:var(--text);margin:0 0 14px;}
+.hint{margin:0 0 10px;font-size:13px;color:var(--muted);font-weight:600;}
+.hint .opt{font-weight:400;}
+.step-meta{font-size:12px;color:var(--blue-light);text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin:0 0 8px;}
+
+/* cover slide */
+.slide-cover .saa-eyebrow{margin:0 0 6px;}
+.schema{display:block;font-size:12px;letter-spacing:.08em;color:var(--dim);font-weight:500;margin:0 0 20px 32px;}
+.slide-cover .hint{margin:0;font-weight:500;}
+
+/* bulleted pointers */
+.pointer-list{list-style:none;margin:4px 0 16px;padding:0;display:grid;gap:10px;}
+.pointer-list li{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:var(--text);}
+.pointer-list li svg{flex:none;margin-top:5px;color:var(--blue-light);}
+
+/* story-flow (how this works): numbered glass steps */
+.step-flow{display:flex;flex-direction:column;align-items:center;gap:4px;margin:4px 0 0;}
+.step-flow .recap-node{width:100%;}
+.step-arrow{color:var(--faint);flex:none;}
+.recap-node{
+  display:flex;align-items:center;gap:14px;
+  background:var(--glass-2);border:1px solid var(--line);border-radius:16px;
+  padding:12px 18px;
+}
+.recap-node > svg{flex:none;color:var(--blue-light);}
+.recap-node p{margin:0;font-size:15px;color:var(--text);}
+.recap-num{position:static;}
+
+/* diagnosis chips (multi-select, tonal blue) */
+.diag-row{display:flex;flex-wrap:wrap;gap:8px;}
+.diag-chip{
+  font-family:var(--font);font-size:14px;font-weight:600;color:var(--text-2);
+  background:rgba(255,255,255,0.04);border:1px solid var(--line-2);border-radius:var(--radius-pill);
+  padding:10px 20px;min-height:44px;cursor:pointer;
+  transition:background .15s ease,border-color .15s ease,color .15s ease;
+}
+.diag-chip:hover{border-color:var(--blue-line);color:var(--ivory);}
+.diag-chip.selected{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700;}
+
+/* practice box = inset surface inside the card */
+.practice-box{
+  border:1px solid var(--line-soft);border-radius:16px;padding:18px 20px;
+  background:rgba(255,255,255,0.025);margin-top:4px;
+}
+.practice-box label{display:block;font-weight:700;font-size:13px;color:#EDEFF7;margin-bottom:6px;}
+.practice-box label .opt{font-weight:400;color:var(--dim);}
+.practice-box label:not(:first-child){margin-top:14px;}
+.practice-box textarea{resize:none;display:block;}
+
+/* MCQ (single-select) */
+.mcq-question{font-weight:700;font-size:15px;color:#EDEFF7;margin:0 0 12px;}
+.mcq-options{display:flex;gap:8px;margin-bottom:12px;}
+.mcq-options.wrap-5{flex-wrap:wrap;margin-bottom:0;}
+.mcq-option{
+  flex:1;min-height:44px;padding:10px 16px;border-radius:12px;cursor:pointer;
+  background:rgba(255,255,255,0.04);border:1px solid var(--line);color:var(--text-2);
+  font-family:var(--font);font-size:14px;font-weight:600;
+  transition:background .15s ease,border-color .15s ease,color .15s ease;
+}
+.mcq-options.wrap-5 .mcq-option{flex:none;}
+.mcq-option:hover{border-color:var(--blue-line);color:var(--ivory);}
+.mcq-option.selected{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700;}
+.mcq-feedback{
+  font-size:14px;color:var(--ivory);margin:0;min-height:48px;
+  background:rgba(91,118,255,0.08);border:1px solid rgba(91,118,255,0.28);border-radius:12px;padding:12px 16px;
+}
+/* reserve the feedback space so revealing it never pushes the slide */
+.mcq-feedback[hidden]{display:block;visibility:hidden;}
+
+/* respectful-disagreement phrase frame + reminder (blue callouts) */
+.phrase-frame,.stop-rule{
+  display:flex;gap:14px;align-items:flex-start;
+  background:rgba(91,118,255,0.08);border:1px solid rgba(91,118,255,0.28);border-radius:14px;
+  padding:16px 20px;color:var(--ivory);
+}
+.phrase-frame svg,.stop-rule svg{flex:none;margin-top:2px;color:var(--blue-light);}
+.phrase-frame p{margin:0;font-size:17px;line-height:1.5;color:var(--ivory);}
+.stop-rule p{margin:0;font-size:14px;color:var(--ivory);}
+.phrase-frame .label,.stop-rule .label{
+  display:block;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--blue-pale);margin-bottom:4px;
+}
+.stop-rule{margin:16px 0 0;}
+
+/* evidence list */
+.evidence-list{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:8px;}
+.evidence-list li{
+  display:flex;gap:12px;align-items:center;font-size:15px;color:var(--text);
+  background:var(--glass-2);border:1px solid var(--line);border-radius:12px;padding:12px 16px;
+}
+.evidence-list li::before{content:'';flex:none;width:8px;height:8px;border-radius:50%;background:var(--blue-light);}
+
+/* end slide */
+.slide-end #download-btn{margin:4px 0 14px;}
+.slide-end .hint{font-weight:500;}
+
+/* buttons */
+.btn-next,.btn-back{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;
+  font-family:var(--font);border-radius:var(--radius-pill);cursor:pointer;
+  transition:filter .15s ease,background .15s ease,border-color .15s ease;
+}
+.btn-next[hidden],.btn-back[hidden]{display:none;}
+/* primary: amber (only one visible per slide) */
+.btn-next{
+  padding:12px 24px;border:none;font-size:14px;font-weight:700;color:var(--amber-ink);
+  background:linear-gradient(135deg,var(--amber-2),var(--amber));box-shadow:var(--shadow-amber);
+}
+.btn-next:hover{filter:brightness(1.05);}
+/* secondary: glass */
+.btn-back{
+  padding:11px 20px;font-size:13px;font-weight:600;color:#DADEEE;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.16);
+}
+.btn-back:hover{background:rgba(255,255,255,0.09);border-color:var(--line-2);}
+
+/* short laptop screens */
+@media (max-height:760px) and (min-width:641px){
+  .slide{padding:24px 30px;}
+}
+
+@media (max-width:640px){
+  .app > .saa-header{padding:10px 0 8px;}
+  .slide{padding:20px 18px;border-radius:16px;}
+  h2{font-size:20px;}
+  .practice-box{padding:14px;}
+  .recap-node{padding:10px 14px;}
+  .schema{margin-left:0;}
+  .phrase-frame,.stop-rule{padding:14px 16px;}
+  .deck-foot{padding:8px 0 12px;}
+  .btn-next{padding:12px 20px;}
+  .btn-back{padding:11px 16px;}
+}
+@media (max-width:479px){
+  .saa-header .saa-icon-btn{display:none;}
+}
+
+/* ESL upgrade (game-specific) */
+.slide .do{display:block;margin:10px 0;padding:12px 16px;border-radius:14px;background:rgba(91,118,255,.16);border:1px solid rgba(91,118,255,.6);color:#F6F4EF;font-weight:600;line-height:1.45;text-align:left;font-size:inherit}
+.slide .do b{color:#8FA0FF;font-weight:700;margin-right:.3em}
+
+/* Game 10 designer assets (Oct 2026) */
+/* icons: dark-theme (ivory line) versions from the pack, in assets/icons/ */
+.g10-ic{width:22px;height:22px;flex:none;display:inline-block;vertical-align:-5px;margin-right:8px;-webkit-user-drag:none;user-select:none;pointer-events:none}
+/* screen 2: step icons move with their cards */
+.saa-steps li .g10-step-ic{width:24px;height:24px;margin-right:10px}
+/* screens 4-5: chips and move options */
+.diag-chip,.mcq-options.wrap-5 .mcq-option{display:inline-flex;align-items:center}
+.diag-chip .g10-ic,.mcq-option .g10-ic{width:20px;height:20px;margin-right:7px}
+/* screens 6 and 8: field labels */
+.practice-box label{display:flex;align-items:center}
+.practice-box label .g10-ic{width:22px;height:22px}
+/* screen 11: record card fronts */
+/* icon left of the label, so the card keeps its height on short screens */
+.saa-kit .saa-front:has(.g10-card-ic){display:grid;grid-template-columns:auto 1fr;column-gap:12px;row-gap:2px;align-content:center;align-items:center;justify-items:start;text-align:left}
+.saa-kit .saa-front .g10-card-ic{width:32px;height:32px;display:block;margin:0;grid-column:1;grid-row:1 / 3}
+/* screen 3: never-share row (right column) */
+.g10-never{margin:0 0 14px;padding:12px 16px;border-radius:14px;background:rgba(91,118,255,0.06);border:1px solid rgba(91,118,255,0.22)}
+.g10-never-h{margin:0 0 8px;font-size:13px;font-weight:700;color:var(--ivory)}
+.g10-never-row{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 18px}
+.g10-never-row li{display:inline-flex;align-items:center;font-size:14px;color:var(--text);line-height:1.3}
+.g10-never-row .g10-ic{width:26px;height:26px}
+/* pictures */
+.g10-fig{margin:0;padding:0}
+.g10-fig img{display:block;max-width:100%;height:auto}
+.g10-cover{display:flex;justify-content:center}
+.g10-cover img{width:auto;max-height:calc(46vh / var(--z,1));border-radius:16px;border:1px solid var(--line)}
+.g10-disagree{margin:2px 0 4px}
+.g10-disagree img{width:auto;max-height:calc(24vh / var(--z,1));border-radius:12px;border:1px solid var(--line)}
+/* start screen: the two partners above the title */
+.saa-start .g10-start-hero{display:block;width:auto;height:clamp(80px,24vh,300px);max-width:80vw;object-fit:contain;border-radius:16px}
+@media (max-height:640px){.saa-start .g10-start-hero{height:clamp(70px,19vh,200px)}}
+@media (max-width:640px){
+  .g10-cover img{max-height:30vh}
+  .g10-disagree img{max-height:130px}
+  .g10-never{padding:10px 12px}
+  .g10-never-row{gap:6px 14px}
+  .g10-never-row li{font-size:13px}
+}
+@media (min-width:1500px){
+  .g10-cover img{max-height:calc(40vh / var(--z,1))}
+  .g10-disagree img{max-height:calc(22vh / var(--z,1))}
+}
+
+/* UI consistency (Oct 2026) */
+/* 1. standard inner padding: content sits inside the glass card, never on its border */
+html.saa-skin .stage > section.slide{
+  padding:calc(clamp(14px,3vh,32px) / var(--zz,1)) calc(clamp(20px,3.5vw,56px) / var(--zz,1)) !important;
+  box-sizing:border-box !important;
+}
+@media (max-width:640px){
+  html.saa-skin .stage > section.slide{padding:16px 16px !important;}
+}
+/* 2. shared small blue letter-spaced eyebrow */
+html.saa-skin .stage > .slide p.step-meta.step-meta.step-meta.step-meta.step-meta.step-meta.step-meta.step-meta.step-meta.step-meta{
+  font-size:calc(11.5px / var(--zz,1)) !important;font-weight:600 !important;letter-spacing:.22em !important;text-transform:uppercase !important;
+  color:#8FA0FF !important;margin:0 0 calc(6px / var(--zz,1)) !important;padding:0 !important;background:none !important;line-height:1.4 !important;
+}
+html.saa-skin .stage > .slide p.step-meta .lane-name{color:inherit !important;font:inherit !important;letter-spacing:inherit !important;}
+.slide-cover .meta{margin-left:0 !important;}
+/* 3. in-card Download button is blue; amber is only the footer's main button */
+html.saa-skin .stage > .slide #download-btn{
+  background:#5B76FF !important;color:#fff !important;box-shadow:0 3px 0 rgba(0,0,0,.3) !important;
+}
+/* keep screen 7 inside the card on short screens now that the card has inner padding */
+@media (max-height:640px) and (min-width:641px){
+  .g10-disagree img{max-height:calc(19vh / var(--z,1))}
+}

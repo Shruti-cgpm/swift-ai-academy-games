@@ -1,0 +1,82 @@
+{
+ "game-01-what-is-an-ai-tool": {
+  "title": "Understanding What Is an AI Tool?",
+  "eb": "First contact"
+ },
+ "game-02-first-contact-practice-bot": {
+  "title": "Practice Bot: First Contact",
+  "eb": "First Contact"
+ },
+ "game-03-set-up-and-send-ten-prompts": {
+  "title": "Set Up and Send Ten Prompts",
+  "eb": "First Contact"
+ },
+ "game-04-ten-starter-prompts": {
+  "title": "Ten Starter Prompts",
+  "eb": "First Contact"
+ },
+ "game-05-framing-and-five-refinement-moves": {
+  "title": "Framing and the Five Refinement Moves",
+  "eb": "Framing and Refining"
+ },
+ "game-06-request-builder-and-refinement-card": {
+  "title": "Request Builder and Refinement Card",
+  "eb": "Framing and Refining"
+ },
+ "game-07-rewrite-five-weak-requests": {
+  "title": "Rewrite Five Weak Requests",
+  "eb": "Framing and Refining"
+ },
+ "game-08-your-own-task-framed-and-refined": {
+  "title": "Your Own Task, Framed and Refined",
+  "eb": "Framing and Refining"
+ },
+ "game-09-practice-bot-framing-and-refining": {
+  "title": "Practice Bot - Framing and Refining",
+  "eb": "Framing and Refining"
+ },
+ "game-10-peer-exchange-framing-and-refining": {
+  "title": "Peer Exchange - Framing and Refining",
+  "eb": "Framing and Refining"
+ },
+ "game-11-section-check-framing-and-refining": {
+  "title": "Section Check: Framing and Refining",
+  "eb": "Framing and Refining"
+ },
+ "game-12-marking-card": {
+  "title": "The Marking Card",
+  "eb": "Check Before You Use"
+ },
+ "game-13-marking-separating-and-correcting": {
+  "title": "Marking, Separating and Correcting",
+  "eb": "Check Before You Use"
+ },
+ "game-14-correct-it-then-finish-it": {
+  "title": "Correct It, Then Finish It",
+  "eb": "Check Before You Use"
+ },
+ "game-15-find-the-planted-errors": {
+  "title": "Find the Planted Errors",
+  "eb": "Check Before You Use"
+ },
+ "game-16-practice-bot-check-before-you-use": {
+  "title": "Practice Bot — Check Before You Use",
+  "eb": "Check Before You Use"
+ },
+ "game-17-peer-exchange-check-before-you-use": {
+  "title": "Peer Exchange — Check Before You Use",
+  "eb": "Check Before You Use"
+ },
+ "game-18-my-personal-ai-rulebook": {
+  "title": "My Personal AI Rulebook",
+  "eb": "Check Before You Use"
+ },
+ "game-19-section-check-check-before-you-use": {
+  "title": "Section Check: Check Before You Use",
+  "eb": "Check Before You Use"
+ },
+ "game-20-facilitator-kit-check-before-you-use": {
+  "title": "Facilitator Kit — Check Before You Use",
+  "eb": "Check Before You Use"
+ }
+}

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Framing and the Five Refinement Moves</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="saa-header">
+    <div class="saa-brand">
+      <img src="assets/logo-mark.webp" alt="">
+      <span>SWIFT&nbsp;AI&nbsp;ACADEMY</span>
+    </div>
+  </div>
+
+  <main class="reading-card saa-card">
+  <!-- Slide 1 — title -->
+  <section class="page page-intro active">
+    <header>
+      <div class="saa-eyebrow">Reading Material &middot; 0.75 hrs &middot; Theory</div>
+      <h1>Framing and the Five Refinement Moves</h1>
+      <p class="subtitle">Learn to ask an AI tool clearly. Then check its answer before you use it.</p>
+      <span class="schema">AAI-E-MC1-S02-READ01</span>
+    </header>
+    <figure class="ga5-hero"><img src="assets/char-iti-trainee.webp" alt="An ITI trainee in a blue uniform and safety glasses types a request on a phone at a workshop bench and checks the AI tool's reply with a magnifier."></figure>
+  </section>
+
+  <!-- Slide 2 — (old page 1, part 1) why detail matters -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 1 &middot; Framing</div>
+    <h2>A missing detail makes the AI tool guess.</h2>
+    <p>Tell the AI tool exactly what you need. See what happens when you leave out a detail.</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Put the 3 steps in the right order.</p>
+    <figure class="ga5-fig ga5-lead-fig ga5-diag"><img src="assets/diagram-missing-detail.webp" alt="A request with a missing piece goes to the AI tool. The AI tool shows question marks because it has to guess, and the answer it gives is only a dashed outline."></figure>
+    <div class="saa-kit" data-kit="order" data-required>
+      <ol class="saa-steps">
+        <li data-n="1">You ask the AI tool for help.</li>
+        <li data-n="2">You miss a detail, so the AI tool has to guess.</li>
+        <li data-n="3">A guess can be wrong, so you always check first.</li>
+      </ol>
+      <p class="saa-k-why" data-right="Yes. A missing detail leads to a guess, and a guess needs a check." data-wrong="Not yet. The AI tool can only guess after a detail is missing."></p>
+    </div>
+  </section>
+
+  <!-- Slide 3 — (old page 1, part 2) the 4 things -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 1 &middot; Framing</div>
+    <h2>A clear request gives the AI tool 4 things.</h2>
+    <p>The 4 things are Context, Role, Task and Format. Next, you will see them in a real example.</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Answer the question about a missing part.</p>
+    <div class="saa-kit" data-kit="quick" data-required>
+      <ul class="ga5-parts" aria-hidden="true">
+        <li><img class="ga5-ic" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">Context</li><li><img class="ga5-ic" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">Role</li><li><img class="ga5-ic" src="assets/icons/icon-task.webp" alt="" aria-hidden="true">Task</li><li><img class="ga5-ic" src="assets/icons/icon-format.webp" alt="" aria-hidden="true">Format</li>
+      </ul>
+      <p class="saa-q">Your request does not say the Format. What does the AI tool do?</p>
+      <div class="saa-k-opts">
+        <button class="saa-k-opt" type="button" data-ok data-why="Yes. When a detail is missing, the AI tool has to guess.">It guesses how the answer should look.</button>
+        <button class="saa-k-opt" type="button" data-why="Not quite. Think back: what does the AI tool do when a detail is missing?">It always makes the answer look right.</button>
+      </div>
+      <p class="saa-k-why"></p>
+    </div>
+  </section>
+
+  <!-- Slide 4 — (old page 2, part 1) two prompts -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 2 &middot; Two prompts</div>
+    <h2>You can ask for the same job in 2 ways.</h2>
+    <p>Prompt 1 is very short. Prompt 2 adds details that Prompt 1 does not have.</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap the parts of Prompt 2 that Prompt 1 does not have.</p>
+    <div class="example-grid">
+      <div class="example-card weak">
+        <div class="example-tag weak-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          Prompt 1
+        </div>
+        <p>&ldquo;Write about road safety.&rdquo;</p>
+      </div>
+      <div class="example-card usable">
+        <div class="example-tag usable-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Prompt 2
+        </div>
+        <div class="saa-kit" data-kit="spot" data-required data-done-text="Well done. Prompt 2 adds a role, a reader, a place and a format.">
+          <div class="saa-text">&ldquo;<span class="saa-s" data-ok data-why="This is the Role. Prompt 1 gives no role.">You are a teacher.</span> <span class="saa-s" data-ok data-why="This says what to make and who will read it.">Write a short notice for students</span> <span class="saa-s" data-why="Both prompts are about road safety.">about crossing the road safely</span> <span class="saa-s" data-ok data-why="This is Context. It says where the students cross.">near school.</span> <span class="saa-s" data-ok data-why="This is the Format. Prompt 1 does not say how it should look.">Make it 3 short points for the notice board.</span>&rdquo;</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 5 — (old page 2, part 2) paste both answers -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 2 &middot; Two prompts</div>
+    <h2>Now try both prompts yourself.</h2>
+    <p class="lead-sm">Open your AI tool. Type Prompt 1 first, and then type Prompt 2.</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Paste each answer into its box.</p>
+    <figure class="ga5-fig ga5-lead-fig ga5-tiles"><img src="assets/tool-logo-tiles.webp" alt="Open one of these AI tools: ChatGPT by OpenAI, Gemini by Google, or Claude by Anthropic."></figure>
+    <div class="practice-box">
+      <button type="button" class="ga5-see" id="ga5-copy-open" aria-haspopup="dialog"><svg class="ga5-see-ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"></path></svg> See how to copy an answer</button>
+      <label for="out-1">Answer from Prompt 1</label>
+      <textarea id="out-1" rows="3" placeholder="Paste the AI tool's answer here"></textarea>
+      <label for="out-2">Answer from Prompt 2</label>
+      <textarea id="out-2" rows="3" placeholder="Paste the AI tool's answer here"></textarea>
+    </div>
+  </section>
+
+  <!-- Slide 6 — (old page 2, part 3) MCQ -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 2 &middot; Two prompts</div>
+    <h2 class="mcq-question">Which answer do you like more?</h2>
+    <p>Your 2 pasted answers are on the right. Think about which one you could use.</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap the prompt that gave the better answer.</p>
+    <div class="mcq-group">
+      <div class="pasted-pair">
+        <div class="pasted-card weak" data-src="out-1">
+          <div class="example-tag weak-tag">Prompt 1 answer</div>
+          <p class="pasted-text"></p>
+          <button type="button" class="pasted-open" hidden>Read all</button>
+        </div>
+        <div class="pasted-card usable" data-src="out-2">
+          <div class="example-tag usable-tag">Prompt 2 answer</div>
+          <p class="pasted-text"></p>
+          <button type="button" class="pasted-open" hidden>Read all</button>
+        </div>
+      </div>
+      <div class="mcq-options">
+        <button type="button" class="mcq-option" data-feedback="The answer to Prompt 1 is often too general. The AI tool had to guess who it is for.">Prompt 1</button>
+        <button type="button" class="mcq-option" data-feedback="Prompt 2 usually works better. It tells the AI tool who it is for, what to write and how it should look.">Prompt 2</button>
+      </div>
+      <p class="mcq-feedback" hidden></p>
+    </div>
+  </section>
+
+  <!-- Slide 7 — (old page 3) the four elements -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 3 &middot; The 4 words</div>
+    <h2>Each of the 4 words has one meaning.</h2>
+    <p>Use these 4 words to plan every request. Prompt 2 used all 4 of them.</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap each card to see what the word means.</p>
+    <div class="saa-kit" data-kit="reveal" data-required>
+      <div class="saa-cards">
+        <button class="saa-card" type="button"><span class="saa-front"><img class="ga5-ic" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">Context</span><span class="saa-back">Context is why you need this, and who will read it.</span></button>
+        <button class="saa-card" type="button"><span class="saa-front"><img class="ga5-ic" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">Role</span><span class="saa-back">Role is who the AI tool should act like.</span></button>
+        <button class="saa-card" type="button"><span class="saa-front"><img class="ga5-ic" src="assets/icons/icon-task.webp" alt="" aria-hidden="true">Task</span><span class="saa-back">Task is what you want the AI tool to make.</span></button>
+        <button class="saa-card" type="button"><span class="saa-front"><img class="ga5-ic" src="assets/icons/icon-format.webp" alt="" aria-hidden="true">Format</span><span class="saa-back">Format is how the answer should look when it is done.</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 8 — (old page 4, part 1) the fix loop -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 4 &middot; Fix moves</div>
+    <h2>The first answer is not always right.</h2>
+    <p>The 5 moves are Narrow, Expand, Change register, Check it and Combine.</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Put the 3 steps in the right order.</p>
+    <div class="saa-kit" data-kit="order" data-required>
+      <ol class="saa-steps">
+        <li data-n="1">You read the first answer.</li>
+        <li data-n="2">You pick one of the 5 moves.</li>
+        <li data-n="3">You get a better answer.</li>
+      </ol>
+      <p class="saa-k-why" data-right="Yes. You read the answer, pick a move, and then get a better answer." data-wrong="Not yet. You must read the answer before you can pick a move."></p>
+    </div>
+    <figure class="ga5-fig ga5-anim" id="ga5-anim" hidden><video muted loop playsinline preload="none" poster="assets/anim-refine-loop-poster.webp" aria-label="Animation: a first answer gets one of the 5 moves and turns into a better answer with a tick." tabindex="0"><source src="assets/anim-refine-loop.mp4" type="video/mp4"></video></figure>
+  </section>
+
+  <!-- Slide 9 — (old page 4, part 2) tricks 1–3 -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 4 &middot; Fix moves</div>
+    <h2>Moves 1 to 3 fix the size and the tone.</h2>
+    <p>Each move has words that you can type to the AI tool.</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Turn the dial to each move and read the new answer.</p>
+    <div class="saa-kit ga5-dial" data-kit="dial" data-required data-label="Move dial">
+      <div class="saa-dial-stop" data-start data-why="This is the first answer. Now try each of the 3 moves.">
+        <span class="saa-d-name"><span>First answer<small>what you got</small></span></span>
+        <p class="saa-d-you">Write a notice about crossing the road near school.</p>
+        <p class="saa-d-ans">Students must use the zebra crossing. They must check for traffic in both directions. Running is not allowed.</p>
+      </div>
+      <div class="saa-dial-stop" data-why="Use Narrow when the answer covers too much. Now it talks about one part only.">
+        <span class="saa-d-name"><img class="ga5-ic" src="assets/icons/icon-move-1.webp" alt="" aria-hidden="true"><span>1. Narrow<small>make it smaller</small></span></span>
+        <p class="saa-d-you">Only tell me about <mark>the zebra crossing</mark>.</p>
+        <p class="saa-d-ans">Students must use the zebra crossing. They must wait for the cars to stop.</p>
+      </div>
+      <div class="saa-dial-stop" data-why="Use Expand when the answer is too short. Now it gives more detail.">
+        <span class="saa-d-name"><img class="ga5-ic" src="assets/icons/icon-move-2.webp" alt="" aria-hidden="true"><span>2. Expand<small>add more</small></span></span>
+        <p class="saa-d-you">Tell me more about <mark>checking for traffic</mark>.</p>
+        <p class="saa-d-ans">Students must use the zebra crossing. They must stop at the edge of the road. They must look right, then left, then right again. They must cross only when the road is clear. Running is not allowed.</p>
+      </div>
+      <div class="saa-dial-stop" data-why="Use Change register when the words are too hard. Now small children can understand it.">
+        <span class="saa-d-name"><img class="ga5-ic" src="assets/icons/icon-move-3.webp" alt="" aria-hidden="true"><span>3. Change register<small>change the tone</small></span></span>
+        <p class="saa-d-you">Say this in a simple way for <mark>small children</mark>.</p>
+        <p class="saa-d-ans">Cross at the white stripes. Look both ways first. Please walk, do not run.</p>
+      </div>
+      <p class="saa-k-why"></p>
+    </div>
+  </section>
+
+  <!-- Slide 10 — (old page 4, part 3) tricks 4–5 + when to stop -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 4 &middot; Fix moves</div>
+    <h2>Check it and Combine are moves 4 and 5.</h2>
+    <p>Sometimes you do not need another move. The &ldquo;When to stop&rdquo; box tells you when to stop asking.</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap each move to see when to use it.</p>
+    <div class="accordion" data-accordion>
+      <div class="acc-item">
+        <button type="button" class="acc-header" aria-expanded="false">
+          <span class="acc-title"><span class="acc-num">4</span> <img class="ga5-ic ga5-acc-ic" src="assets/icons/icon-move-4.webp" alt="" aria-hidden="true"><span>Check it<span class="acc-mean">: find what may be wrong</span></span></span>
+          <svg class="acc-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Does the answer sound sure, but it might be wrong? Ask the AI tool to check itself.</p>
+          <span class="trigger">&ldquo;What might be wrong here?&rdquo;</span>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button type="button" class="acc-header" aria-expanded="false">
+          <span class="acc-title"><span class="acc-num">5</span> <img class="ga5-ic ga5-acc-ic" src="assets/icons/icon-move-5.webp" alt="" aria-hidden="true"><span>Combine<span class="acc-mean">: join the best parts</span></span></span>
+          <svg class="acc-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Do you have 2 good answers? Ask the AI tool to combine the best parts.</p>
+          <span class="trigger">&ldquo;Combine the best parts of both.&rdquo;</span>
+        </div></div>
+      </div>
+    </div>
+    <div class="stop-rule">
+      <img class="ga5-stop-ic" src="assets/icons/icon-stop.webp" alt="" aria-hidden="true">
+      <div>
+        <span class="label">When to stop</span>
+        <p>Is it faster to fix the answer yourself than to ask again? Then stop and fix it yourself.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 11 — (old page 5, part 1) write the message -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 5 &middot; Practice</div>
+    <h2>Now write a request with all 4 parts.</h2>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Write one message that gives the AI tool the context, role, task and format.</p>
+    <div class="callout">
+      <p>Imagine that you are the class leader. Your group has homework due on Friday. This is only for practice.</p>
+    </div>
+    <div class="practice-box">
+      <p class="practice-label">Your turn</p>
+      <ul class="ga5-parts" aria-hidden="true">
+          <li><img class="ga5-ic" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">Context</li><li><img class="ga5-ic" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">Role</li><li><img class="ga5-ic" src="assets/icons/icon-task.webp" alt="" aria-hidden="true">Task</li><li><img class="ga5-ic" src="assets/icons/icon-format.webp" alt="" aria-hidden="true">Format</li>
+        </ul>
+      <label for="practice-message">Your message</label>
+      <textarea id="practice-message" rows="3" placeholder="You are ... Write ... for ... Format it as ..."></textarea>
+    </div>
+  </section>
+
+  <!-- Slide 12 — (old page 5, part 2) MCQ -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 5 &middot; Practice</div>
+    <h2>Ask the AI tool to check its own answer.</h2>
+    <p class="hint hint-ask">Now ask the AI tool: &ldquo;What might you be wrong about?&rdquo;</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap Yes or No to answer the question.</p>
+    <div class="mcq-group">
+      <figure class="ga5-fig ga5-selfcheck"><img src="assets/mock-ai-self-check.webp" alt="Example chat. You ask: What might you be wrong about? The AI tool replies: I am not sure the homework is due on Friday, please check the date. I also guessed the group size."></figure>
+      <p class="mcq-question">Did the AI tool find something that it was not sure about?</p>
+      <div class="mcq-options">
+        <button type="button" class="mcq-option" data-feedback="That is exactly why we check. Always confirm anything that the AI tool was not sure about.">Yes</button>
+        <button type="button" class="mcq-option" data-feedback="That is fine too, but keep checking anyway. An AI tool can be wrong without saying so.">No</button>
+      </div>
+      <p class="mcq-feedback" hidden></p>
+    </div>
+  </section>
+
+  <!-- Slide 13 — (old page 6, part 1) recap 1–3 -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 6 &middot; Recap</div>
+    <h2>Each problem has its own fix.</h2>
+    <p>Each card shows a problem. Think of the fix before you tap.</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap a problem, then tap its fix.</p>
+    <div class="saa-kit" data-kit="match" data-required data-shuffle>
+      <div class="saa-m-board">
+        <div class="saa-m-left">
+          <button class="saa-m-item" type="button" data-pair="frame" data-why="Tell the AI tool the 4 things.">Before you ask</button>
+          <button class="saa-m-item" type="button" data-pair="narrow" data-why="Use Narrow. Ask the AI tool for less.">Too much</button>
+          <button class="saa-m-item" type="button" data-pair="expand" data-why="Use Expand. Ask the AI tool for more.">Too little</button>
+          <button class="saa-m-item" type="button" data-pair="register" data-why="Use Change register. Ask for a new tone.">Wrong tone</button>
+          <button class="saa-m-item" type="button" data-pair="check" data-why="Use Check it. Ask the AI tool to check itself.">Not sure</button>
+        </div>
+        <div class="saa-m-right">
+          <button class="saa-m-target" type="button" data-pair="frame"><img class="ga5-ic" src="assets/icons/icon-frame.webp" alt="" aria-hidden="true">Give the 4 things</button>
+          <button class="saa-m-target" type="button" data-pair="narrow"><img class="ga5-ic" src="assets/icons/icon-move-1.webp" alt="" aria-hidden="true">Narrow</button>
+          <button class="saa-m-target" type="button" data-pair="expand"><img class="ga5-ic" src="assets/icons/icon-move-2.webp" alt="" aria-hidden="true">Expand</button>
+          <button class="saa-m-target" type="button" data-pair="register"><img class="ga5-ic" src="assets/icons/icon-move-3.webp" alt="" aria-hidden="true">Change register</button>
+          <button class="saa-m-target" type="button" data-pair="check"><img class="ga5-ic" src="assets/icons/icon-move-4.webp" alt="" aria-hidden="true">Check it</button>
+        </div>
+      </div>
+      <p class="saa-k-why"></p>
+    </div>
+  </section>
+
+  <!-- Slide 14 — (old page 6, part 2) recap 4–5 -->
+  <section class="page" hidden>
+    <div class="saa-eyebrow">Part 6 &middot; Recap</div>
+    <h2>Combine good answers, and know when to stop.</h2>
+    <p>Do you have 2 good answers? Use Combine. Always check an answer before you use it.</p>
+    <p class="do saa-do"><b class="saa-do-label">Your task.</b> Answer one last question.</p>
+    <figure class="ga5-fig ga5-lead-fig ga5-diag"><img src="assets/diagram-combine-check.webp" alt="Answer A and Answer B join into one answer. Then you check it with a magnifier before you give it a tick."></figure>
+    <div class="saa-kit" data-kit="quick" data-required>
+      <p class="saa-q">It is faster to fix the answer yourself than to ask again. What do you do?</p>
+      <div class="saa-k-opts">
+        <button class="saa-k-opt" type="button" data-ok data-why="Yes. When your own fix is faster, stop asking and fix it.">I stop asking and fix it myself.</button>
+        <button class="saa-k-opt" type="button" data-why="Not quite. Asking again would take longer than your own fix.">I ask the AI tool again and again.</button>
+      </div>
+      <p class="saa-k-why"></p>
+    </div>
+  </section>
+  </main>
+
+  <!-- footer: Back · progress · Next -->
+  <footer class="deck-foot">
+    <button type="button" class="btn-back saa-btn-secondary" id="deck-back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      Back
+    </button>
+    <div class="deck-progress">
+      <div class="progress" id="deck-dots" aria-hidden="true"></div>
+      <span class="deck-count" id="deck-count" aria-live="polite">1 / 14</span>
+    </div>
+    <button type="button" class="btn-next saa-btn-primary" id="deck-next">
+      Next
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </button>
+    <button type="button" class="btn-restart saa-btn-secondary" id="deck-restart" hidden>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"></path><polyline points="21 3 21 9 15 9"></polyline></svg>
+      Start over
+    </button>
+  </footer>
+
+</div>
+<div class="pasted-modal" id="pasted-modal" role="dialog" aria-modal="true" aria-labelledby="pasted-modal-title" hidden>
+  <div class="pasted-modal-card">
+    <div class="pasted-modal-hd">
+      <h3 id="pasted-modal-title">Prompt 1 answer</h3>
+      <button type="button" class="pasted-modal-x" id="pasted-modal-x" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="pasted-modal-body" id="pasted-modal-body"></div>
+    <div class="pasted-modal-ft"><button type="button" class="saa-btn-secondary" id="pasted-modal-done">Close</button></div>
+  </div>
+</div>
+<div class="pasted-modal ga5-modal" id="ga5-copy-modal" role="dialog" aria-modal="true" aria-labelledby="ga5-copy-title" hidden>
+  <div class="pasted-modal-card">
+    <div class="pasted-modal-hd">
+      <h3 id="ga5-copy-title">How to copy an answer</h3>
+      <button type="button" class="pasted-modal-x" id="ga5-copy-x" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="pasted-modal-body"><img class="ga5-copy-img" src="assets/mock-copy-answer.webp" alt="An AI tool chat. Step 1: type the prompt in the Message box. Step 2: press the Copy button under the reply to copy the answer."></div>
+    <div class="pasted-modal-ft"><button type="button" class="saa-btn-secondary" id="ga5-copy-done">Close</button></div>
+  </div>
+</div>
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

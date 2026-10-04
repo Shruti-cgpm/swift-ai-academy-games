@@ -1,0 +1,23 @@
+{
+ "s6_prompt": "The buses leave the ITI gate at. Which time will the tool pick?",
+ "p_top": "That is the most likely word. But likely is not the same as true: the real time depends on your notice, not on patterns.",
+ "p_other": "A less likely word, but the tool could still write it. It picks by likelihood, not by what is true for your class.",
+ "q0": "Task 1. Find today's bus timetable.",
+ "q1": "Task 2. Work out 32 times 450 rupees.",
+ "q2": "Task 3. Write a friendly reminder for tomorrow's class.",
+ "ok0": "A search engine finds pages that already exist.",
+ "ok1": "A calculator applies fixed rules and gives one right answer.",
+ "ok2": "An AI tool generates new wording. You still check it.",
+ "q_wrong": "Not quite. Think about what each tool actually does.",
+ "q_done": "All three matched.",
+ "f0": "Yes. Drafting is what it does well.",
+ "f1": "It can sound sure and still be wrong. Check it.",
+ "f2": "Yes. Reshaping your own words is a good fit.",
+ "f3": "It cannot know your local details. Check them.",
+ "f4": "Yes. Explaining is a good fit.",
+ "f5": "Big decisions stay with a person.",
+ "sort_wrong": "Not that one. Ask: would it matter if this came out wrong?",
+ "sort_done": "All sorted. The more it matters, the more you check.",
+ "s9_reveal": "The 9 am time is wrong. The prompt said 8 am. The lunch is invented. And there is no contact person. Those are the parts to check.",
+ "s10_done": "Good. Useful draft, human check. This is your work now."
+}

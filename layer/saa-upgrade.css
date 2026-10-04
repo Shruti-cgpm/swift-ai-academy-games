@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Swift AI Academy - activity frame upgrade layer (family A: Deck games)
+   Loaded AFTER style.css. Non-destructive: remove the two tags to roll back.
+   - Full-width two-column cards (head left, activity right), bigger type
+   - One option look for every choice; hover/press/selected states
+   - Text lock (typed fields excepted), idle nudge glow, phone single column
+   ========================================================================== */
+
+/* ---- 1. full-width card, two columns: .head left, everything else right ---- */
+.slide { padding-inline: clamp(8px, 2vw, 32px); }
+.card, .card.narrow, .card.quiz, .card.wide { max-width: min(1280px, 100%); width: 100%; }
+.card.saa-split {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  column-gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+  padding-inline: clamp(24px, 4vw, 56px);
+}
+.card.saa-split > .saa-lead,
+.card.saa-split > .saa-work { min-width: 0; display: flex; flex-direction: column; gap: inherit; }
+.card.saa-split .title { font-size: clamp(1.5rem, 2.6vw, 2.4rem); line-height: 1.12; }
+.card.saa-split .lede  { font-size: clamp(1rem, 1.25vw, 1.2rem); line-height: 1.55; max-width: none; }
+
+/* ---- 2. one option look ---- */
+.opts { gap: clamp(8px, 1.4vh, 12px); }
+.opt, button.tile, .tile.pick, .select {
+  min-height: clamp(46px, 7.2vh, 64px);
+  border: 1.5px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  transition: transform 0.12s, border-color 0.12s, background 0.12s, box-shadow 0.12s;
+}
+.opt:hover:not([disabled]):not(.locked), button.tile:hover { transform: translateY(-1px); border-color: var(--blue, #5B76FF); }
+.opt:active:not([disabled]), button.tile:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.28); }
+
+/* ---- 3. text lock ---- */
+html, body, body * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+input, textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; }
+img { -webkit-user-drag: none; }
+
+/* ---- 4. idle nudge ---- */
+@keyframes saaGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(143, 160, 255, 0), 0 0 0 rgba(143, 160, 255, 0); }
+  50%      { box-shadow: 0 0 0 5px rgba(143, 160, 255, 0.5), 0 0 26px rgba(143, 160, 255, 0.6); border-color: #8FA0FF; }
+}
+@keyframes saaGlowAmber {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 193, 104, 0); }
+  50%      { box-shadow: 0 0 0 7px rgba(255, 193, 104, 0.55), 0 0 34px rgba(255, 193, 104, 0.85); }
+}
+.saa-nudge { animation: saaGlow 1.3s ease-in-out infinite !important; position: relative; z-index: 1; }
+.btn-primary.saa-nudge, #primary.saa-nudge { animation: saaGlowAmber 1.3s ease-in-out infinite !important; }
+@media (prefers-reduced-motion: reduce) { .saa-nudge { animation: none !important; outline: 2px solid #8FA0FF; } }
+
+/* ---- 5. phones and narrow windows: single column ---- */
+@media (max-width: 900px) {
+  .card.saa-split { display: flex; flex-direction: column; align-items: stretch; }
+}

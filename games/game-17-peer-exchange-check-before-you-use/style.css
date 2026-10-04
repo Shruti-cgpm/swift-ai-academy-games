@@ -1,0 +1,432 @@
+/* ==========================================================================
+   Swift AI Academy — module frame base (from handoff/tokens.css + screens/dark)
+   Paste at the TOP of each activity's style.css. Site-specific rules follow.
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+  --font:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+
+  /* spacing (8px base) */
+  --sp-1:8px;--sp-2:12px;--sp-3:16px;--sp-4:24px;--sp-5:32px;--sp-6:40px;--sp-7:64px;
+
+  /* surfaces */
+  --bg-0:#080D24; --bg-1:#0E1A4F; --bg-2:#0B1440;
+  --glass:rgba(255,255,255,0.035);
+  --glass-2:rgba(255,255,255,0.05);
+  --glass-3:rgba(255,255,255,0.08);
+  --line:rgba(255,255,255,0.10);
+  --line-2:rgba(255,255,255,0.14);
+  --line-soft:rgba(255,255,255,0.08);
+
+  /* text */
+  --ivory:#F6F4EF;        /* headings */
+  --text:#DCE1F2;         /* body copy */
+  --text-2:#D5DAEE;       /* option / input text */
+  --muted:#AEB6D4;        /* secondary */
+  --dim:#7C86AE;          /* captions, help, meta */
+  --faint:#5C6690;        /* footer meta, disabled */
+
+  /* brand */
+  --amber:#F3AB31; --amber-2:#FFC168; --amber-ink:#241300;
+  --amber-tint:rgba(243,171,49,0.08); --amber-line:rgba(243,171,49,0.22);
+  --blue:#5B76FF; --blue-light:#8FA0FF; --blue-pale:#B8C4FF;
+  --blue-tint:rgba(91,118,255,0.12); --blue-tint-2:rgba(91,118,255,0.16);
+  --blue-line:rgba(91,118,255,0.35); --blue-line-2:rgba(91,118,255,0.5);
+
+  /* feedback (dark-theme tonal) */
+  --ok:#4FE0A8; --ok-pale:#6EE7B7; --ok-tint:rgba(79,224,168,0.10); --ok-line:rgba(79,224,168,0.40);
+  --warn:#FFC168; --warn-tint:rgba(243,171,49,0.10); --warn-line:rgba(243,171,49,0.35);
+  --bad:#FF8A80; --bad-tint:rgba(255,107,107,0.10); --bad-line:rgba(255,107,107,0.40);
+
+  --radius-card:20px; --radius-field:10px; --radius-pill:999px;
+  --shadow-amber:0 8px 24px rgba(243,171,49,0.30);
+  --shadow-modal:0 40px 90px rgba(0,0,0,0.5);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;
+  font-family:var(--font);font-size:15px;line-height:1.6;color:var(--text);
+  background:linear-gradient(150deg,var(--bg-0) 0%,var(--bg-1) 52%,var(--bg-2) 100%) fixed;
+  background-color:var(--bg-0);
+  -webkit-font-smoothing:antialiased;
+}
+/* ambient glow + grain, same recipe as the Reading/Prompt Card frames */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(circle at 88% 4%,rgba(60,89,246,0.22) 0%,rgba(60,89,246,0) 40%);
+}
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px);background-size:3px 3px;
+  mix-blend-mode:overlay;
+}
+body > *{position:relative;z-index:1}
+
+h1,h2,h3,h4{font-family:var(--font);color:var(--ivory);font-weight:700;margin:0;line-height:1.2}
+p{margin:0}
+a{color:var(--blue-light)}
+strong,b{color:var(--ivory);font-weight:600}
+::selection{background:rgba(91,118,255,0.35);color:#fff}
+
+/* ---------- header chrome (identical on every frame) ---------- */
+.saa-header{
+  display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);
+  padding:var(--sp-5) 0 var(--sp-4);
+}
+.saa-brand{display:flex;align-items:center;gap:var(--sp-2);text-decoration:none}
+.saa-brand img{width:20px;height:auto;display:block}
+.saa-brand span{font-size:11px;letter-spacing:.16em;color:#C6CDE6;font-weight:600;white-space:nowrap}
+.saa-header-actions{display:flex;align-items:center;gap:10px}
+.saa-icon-btn{
+  width:38px;height:38px;border-radius:50%;background:var(--glass-2);border:1px solid var(--line-2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);padding:0;
+}
+.saa-icon-btn svg{width:15px;height:15px}
+.saa-ghost-pill{
+  display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--radius-pill);
+  background:var(--glass-2);border:1px solid var(--line-2);color:var(--muted);
+  font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;
+}
+.saa-ghost-pill svg{width:13px;height:13px}
+
+/* ---------- eyebrow: amber hairline + tracked caps ---------- */
+.saa-eyebrow{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);font-weight:600;
+}
+.saa-eyebrow::before{content:'';width:22px;height:1px;background:var(--amber);flex:0 0 auto}
+.saa-cap{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:600}
+
+/* ---------- glass card ---------- */
+.saa-card{
+  background:var(--glass);border:1px solid var(--line);border-radius:var(--radius-card);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  padding:var(--sp-5) var(--sp-6);
+}
+.saa-divider{height:1px;background:var(--line-soft);border:0;margin:0}
+
+/* ---------- buttons ---------- */
+/* PRIMARY = amber. ONE visible per screen, ever. */
+.saa-btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:13px 24px;min-height:44px;border:none;border-radius:var(--radius-pill);cursor:pointer;
+  background:linear-gradient(135deg,var(--amber-2),var(--amber));color:var(--amber-ink);
+  font-family:var(--font);font-size:14px;font-weight:700;box-shadow:var(--shadow-amber);
+}
+.saa-btn-primary:disabled,.saa-btn-primary[aria-disabled="true"]{opacity:.4;cursor:not-allowed;box-shadow:none}
+/* SECONDARY = glass */
+.saa-btn-secondary{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 20px;min-height:44px;border-radius:var(--radius-pill);cursor:pointer;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.16);color:#DADEEE;
+  font-family:var(--font);font-size:13px;font-weight:600;
+}
+/* TEXT LINK button = blue */
+.saa-btn-link{background:none;border:none;padding:8px 4px;color:var(--blue-light);font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--amber-2);outline-offset:2px;
+}
+
+/* ---------- chips / tabs ---------- */
+.saa-chip{
+  display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--blue-light);
+  background:var(--blue-tint);border:1px solid var(--blue-line);border-radius:var(--radius-pill);padding:8px 14px;
+  font-family:var(--font);cursor:pointer;
+}
+.saa-tabs{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:var(--radius-pill);padding:4px}
+.saa-tab{padding:8px 16px;border-radius:var(--radius-pill);color:var(--dim);font-size:12.5px;font-weight:600;background:none;border:none;cursor:pointer;font-family:var(--font)}
+.saa-tab.is-active,.saa-tab[aria-selected="true"]{background:var(--blue);color:#fff;font-weight:700}
+
+/* ---------- form fields ---------- */
+.saa-label{font-size:12.5px;font-weight:700;color:#EDEFF7}
+.saa-help{font-size:11.5px;color:#8089AC}
+.saa-input,input[type=text],input[type=email],input:not([type]),textarea,select{
+  width:100%;padding:11px 14px;border-radius:var(--radius-field);
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);color:var(--text-2);
+  font-family:var(--font);font-size:14px;line-height:1.5;
+}
+input::placeholder,textarea::placeholder{color:#5C6690}
+input:focus,textarea:focus,select:focus{border-color:var(--blue-line-2);background:rgba(91,118,255,0.06);outline:none}
+
+/* ---------- option rows (quiz) ---------- */
+.saa-option{
+  width:100%;display:flex;align-items:center;gap:14px;text-align:left;cursor:pointer;
+  padding:14px 18px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid var(--line);
+  color:var(--text-2);font-family:var(--font);font-size:14.5px;
+}
+.saa-option.is-selected{background:rgba(243,171,49,0.10);border-color:var(--amber);color:var(--ivory);font-weight:600}
+
+/* ---------- callouts ---------- */
+.saa-callout{display:flex;align-items:flex-start;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);border-radius:12px;background:var(--amber-tint);border:1px solid var(--amber-line);color:var(--ivory);font-size:14px;line-height:1.55}
+.saa-callout-blue{display:flex;align-items:flex-start;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);border-radius:14px;background:rgba(91,118,255,0.08);border:1px solid rgba(91,118,255,0.28);color:var(--ivory)}
+
+/* ---------- numbered step marker ---------- */
+.saa-num{width:30px;height:30px;border-radius:50%;background:var(--blue-tint-2);border:1px solid var(--blue-line-2);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:13px;font-weight:800;color:var(--blue-pale)}
+
+/* ---------- progress bars (footer pattern) ---------- */
+.saa-dots{display:flex;align-items:center;gap:8px}
+.saa-dots > *{width:10px;height:3px;border-radius:2px;background:rgba(255,255,255,0.16)}
+.saa-dots > .is-done{background:var(--blue)}
+.saa-dots > .is-current{width:20px;background:var(--blue-pale);box-shadow:0 0 0 3px rgba(91,118,255,0.24)}
+
+@media (max-width:640px){
+  .saa-card{padding:var(--sp-4) var(--sp-3);border-radius:16px}
+  .saa-header{padding:var(--sp-3) 0}
+  .saa-brand span{font-size:10px}
+}
+
+
+/* ==========================================================================
+   Site: Peer Exchange · Check Before You Use
+   Round 2: one-screen slide deck. Fixed 100dvh column:
+   header chrome -> .stage (one section, never scrolls) -> .deck-foot (progress + Back/Next)
+   ========================================================================== */
+html,body{height:100%;overflow:hidden;}
+body{min-height:0;}
+.app{
+  height:100vh;height:100dvh;max-width:720px;margin:0 auto;
+  padding:0 16px env(safe-area-inset-bottom);
+  display:flex;flex-direction:column;
+}
+.app > .saa-header{flex:none;padding:14px 0 10px;}
+
+/* slide area */
+.stage{flex:1;min-height:0;display:flex;flex-direction:column;padding:4px 0 12px;}
+section{
+  display:none;margin:auto 0;width:100%;
+  background:var(--glass);border:1px solid var(--line);border-radius:var(--radius-card);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  padding:28px 32px;
+}
+section.active{display:block;animation:fade .22s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+/* footer bar */
+.deck-foot{flex:none;padding:10px 0 16px;border-top:1px solid var(--line-soft);}
+.progress{display:flex;gap:6px;margin:0 0 10px;}
+.progress span{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.16);transition:background .15s ease;}
+.progress span.is-done{background:var(--blue);}
+.progress span.active{background:var(--blue-pale);box-shadow:0 0 0 2px rgba(91,118,255,0.24);}
+.foot-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.counter{font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--dim);font-variant-numeric:tabular-nums;}
+.foot-row [hidden]{display:none;}
+
+/* cover */
+.slide-cover .saa-eyebrow{margin:0 0 6px;}
+.meta{font-size:12px;letter-spacing:.08em;color:var(--dim);font-weight:500;margin:0 0 20px 32px;}
+h1{font-size:clamp(28px,4.6vw,36px);font-weight:700;margin:0 0 14px;letter-spacing:-.01em;line-height:1.15;}
+.subtitle{font-size:16px;color:var(--text);margin:0 0 14px;max-width:56ch;}
+.slide-cover .note-line{margin:0 0 14px;}
+.pc-meta{font-size:12px;letter-spacing:.08em;color:var(--faint);margin:0;}
+
+h2{font-size:22px;font-weight:700;margin:0 0 12px;}
+.step-meta{font-size:12px;color:var(--blue-light);text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:8px;}
+p{margin:0 0 14px;font-size:15px;color:var(--text);}
+
+/* how it works: numbered list with .saa-num markers */
+.numbered{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.numbered li{
+  display:flex;gap:14px;align-items:flex-start;
+  background:var(--glass-2);border:1px solid var(--line);border-radius:16px;padding:14px 18px;
+}
+.numbered span:not(.n){font-size:15px;color:var(--text);padding-top:3px;}
+
+.note-line{font-size:14px;color:var(--dim);margin:0;}
+
+/* form elements */
+label{display:block;font-weight:700;font-size:13px;margin:14px 0 6px;color:#EDEFF7;}
+section > label:first-of-type{margin-top:0;}
+textarea{min-height:68px;height:68px;resize:none;display:block;}
+select{
+  cursor:pointer;margin:0;appearance:none;-webkit-appearance:none;padding-right:40px;
+  background:rgba(255,255,255,0.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238FA0FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center/16px;
+  min-height:46px;
+}
+select option{background:#0E1A4F;color:var(--text-2);}
+.radio-row{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 16px;}
+.radio-row label{
+  display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;margin:0;cursor:pointer;color:var(--text-2);
+  background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:12px;padding:12px 16px;min-height:44px;
+}
+.radio-row label:has(input:checked){background:rgba(91,118,255,0.22);border-color:var(--blue);color:#fff;}
+.radio-row input{width:auto;margin:0;accent-color:var(--blue);}
+
+/* artifact "posts" + sentence frames = glass cards */
+blockquote{
+  margin:0 0 12px;padding:16px 20px;
+  background:var(--glass-2);border:1px solid var(--line);border-radius:16px;
+}
+blockquote:last-child{margin-bottom:0;}
+blockquote.owner{background:rgba(91,118,255,0.08);border-color:rgba(91,118,255,0.28);}
+blockquote p{margin:0;font-size:15px;color:var(--ivory);}
+blockquote .label{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.14em;font-weight:600;margin-bottom:6px;}
+blockquote.owner .label{color:var(--blue-pale);}
+/* the note itself reads larger on its own slide */
+#artifactAI p,#artifactFixed p{font-size:17px;line-height:1.65;}
+section[data-step="disagree"] .note-line{margin-bottom:12px;}
+.mark{
+  color:var(--ivory);font-weight:600;
+  background:rgba(91,118,255,0.18);border-radius:4px;padding:0 3px;
+  text-decoration:underline;text-decoration-color:var(--blue-light);text-decoration-thickness:1.5px;text-underline-offset:3px;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+}
+
+/* checklist (label wraps the text so the whole row is tappable) */
+.checklist{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:8px;}
+.checklist li{
+  display:flex;gap:12px;align-items:flex-start;padding:11px 16px;
+  background:var(--glass-2);border:1px solid var(--line);border-radius:12px;
+}
+.checklist li:has(input:checked){border-color:var(--blue-line);background:rgba(91,118,255,0.07);}
+.checklist input{width:18px;height:18px;accent-color:var(--blue);flex-shrink:0;margin:3px 0 0;}
+.checklist label{margin:0;font-size:15px;font-weight:400;color:var(--text);cursor:pointer;line-height:1.5;}
+
+/* timer: one inset block so digits, phase, instruction and controls read together */
+.timer-box{
+  background:var(--glass-2);border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin:0 0 16px;
+}
+.timer-line{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 0 6px;}
+.timer-digits{font-family:var(--font);font-variant-numeric:tabular-nums;font-size:40px;font-weight:700;color:var(--ivory);line-height:1;letter-spacing:-.01em;}
+.timer-phase{font-size:12px;color:var(--blue-pale);font-weight:600;text-transform:uppercase;letter-spacing:.14em;}
+.timer-instruction{font-size:14px;color:var(--muted);margin:0 0 10px;min-height:2.9em;}
+.timer-ctrls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+label.after-timer{margin-top:0;}
+
+/* buttons */
+/* primary = amber pill; one per slide */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;
+  font-family:var(--font);font-weight:700;font-size:14px;color:var(--amber-ink);
+  background:linear-gradient(135deg,var(--amber-2),var(--amber));box-shadow:var(--shadow-amber);
+  border:none;border-radius:var(--radius-pill);padding:12px 24px;cursor:pointer;
+}
+.btn:hover{filter:brightness(1.05);}
+/* ghost = glass secondary (the timer control) */
+.btn.ghost{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.16);color:#DADEEE;
+  box-shadow:none;font-size:13px;font-weight:600;padding:11px 20px;min-width:96px;
+}
+.btn.ghost:hover{background:rgba(255,255,255,0.09);filter:none;}
+.btn:disabled{opacity:.4;cursor:default;box-shadow:none;}
+.back-link{
+  display:inline-flex;align-items:center;min-height:44px;
+  font-family:var(--font);font-size:13px;font-weight:700;color:var(--blue-light);
+  background:none;border:none;padding:8px 6px;cursor:pointer;text-decoration:none;
+}
+.back-link:hover{color:var(--blue-pale);text-decoration:underline;text-underline-offset:3px;}
+
+.reminder{font-size:14px;color:var(--muted);margin:16px 0 0;padding-top:14px;border-top:1px solid var(--line-soft);}
+.reminder b{color:var(--ivory);}
+
+@media (max-height:760px) and (min-width:641px){
+  section{padding:24px 30px;}
+}
+
+@media (max-width:640px){
+  .app > .saa-header{padding:10px 0 8px;}
+  section{padding:20px 18px;border-radius:16px;}
+  h2{font-size:20px;}
+  .meta{margin-left:0;}
+  .numbered li{padding:12px 14px;}
+  .radio-row label{width:100%;}
+  .timer-digits{font-size:34px;}
+  .deck-foot{padding:8px 0 12px;}
+  #artifactAI p,#artifactFixed p{font-size:16px;}
+}
+@media (max-width:479px){
+  .saa-header .saa-icon-btn{display:none;}
+}
+
+/* ESL upgrade (game-specific) */
+.slide .do{display:block;margin:10px 0;padding:12px 16px;border-radius:14px;background:rgba(91,118,255,.16);border:1px solid rgba(91,118,255,.6);color:#F6F4EF;font-weight:600;line-height:1.45;text-align:left;font-size:inherit}
+.slide .do b{color:#8FA0FF;font-weight:700;margin-right:.3em}
+.fb-fields > label:first-of-type{margin-top:0;}
+.slide .saa-work > .radio-row{margin:0;}
+.slide .saa-work > .btn{align-self:flex-start;}
+
+/* UI consistency (Oct 2026) */
+/* 1. standard inner padding: content sits inside the glass card, never on its border */
+html.saa-skin .stage > section.slide{
+  padding:calc(clamp(14px,3vh,32px) / var(--zz,1)) calc(clamp(20px,3.5vw,56px) / var(--zz,1)) !important;
+  box-sizing:border-box !important;
+}
+@media (max-width:640px){
+  html.saa-skin .stage > section.slide{padding:16px 16px !important;}
+}
+/* 2. shared small blue letter-spaced eyebrow */
+html.saa-skin .stage > .slide p.step-meta.step-meta.step-meta.step-meta.step-meta.step-meta.step-meta.step-meta.step-meta.step-meta{
+  font-size:calc(11.5px / var(--zz,1)) !important;font-weight:600 !important;letter-spacing:.22em !important;text-transform:uppercase !important;
+  color:#8FA0FF !important;margin:0 0 calc(6px / var(--zz,1)) !important;padding:0 !important;background:none !important;line-height:1.4 !important;
+}
+html.saa-skin .stage > .slide p.step-meta .lane-name{color:inherit !important;font:inherit !important;letter-spacing:inherit !important;}
+.slide-cover .meta{margin-left:0 !important;}
+/* 3. in-card Download button is blue; amber is only the footer's main button */
+html.saa-skin .stage > .slide .btn:not(.ghost){
+  background:#5B76FF !important;color:#fff !important;box-shadow:0 3px 0 rgba(0,0,0,.3) !important;
+}
+
+/* Game 17 designer assets (Oct 2026) */
+.g17-fig{margin:0;padding:0}
+.g17-fig img{display:block;max-width:100%;height:auto}
+.g17-ic{width:22px;height:22px;flex:0 0 auto;display:block}
+/* screen 1: two buddies with one checked note (right half of the cover) */
+.g17-cover{display:flex;justify-content:center}
+.g17-cover img{width:auto;max-height:calc(46vh / var(--z,1));border-radius:16px;border:1px solid var(--line)}
+.saa-start .g17-start-hero{display:block;width:auto;height:clamp(80px,24vh,300px);max-width:80vw;object-fit:contain;border-radius:16px}
+@media (max-height:640px){.saa-start .g17-start-hero{height:clamp(70px,19vh,200px)}}
+/* screen 2: step icons inside the reorder chips */
+.saa-kit .saa-steps li .g17-ic{margin-right:2px}
+/* screen 3: Owner / Reviewer badges in the drop-box headers */
+.saa-bin .saa-bin-h{display:flex;align-items:center;gap:8px}
+.saa-bin .saa-bin-h::before{content:"";width:22px;height:22px;flex:0 0 auto;background:no-repeat center/contain}
+.saa-bin[data-bin="a"] .saa-bin-h::before{background-image:url("assets/icons/icon-role-owner.webp")}
+.saa-bin[data-bin="b"] .saa-bin-h::before{background-image:url("assets/icons/icon-role-reviewer.webp")}
+/* screen 4: setting icon beside the dropdown */
+.g17-lane{display:flex;align-items:center;gap:12px}
+.g17-lane select{flex:1 1 auto;min-width:0}
+.g17-lane-ic{width:32px;height:32px;flex:0 0 auto}
+/* screen 5: the ITI prompt as a user bubble, then the AI reply */
+.g17-prompt{display:block;width:fit-content;max-width:85%;margin:0 0 10px auto !important;padding:7px 14px;border-radius:14px 14px 4px 14px;
+  background:rgba(91,118,255,0.22);border:1px solid rgba(91,118,255,0.45);font-size:14px !important;line-height:1.4 !important;color:var(--ivory)}
+.g17-prompt[hidden]{display:none}
+/* category tags on the marks: only after the question on screen 5 is answered */
+.g17-tag{display:none;width:15px;height:15px;vertical-align:-2px;margin-right:3px}
+.slide:has(.saa-kit.is-done) .g17-tag{display:inline-block}
+/* screen 6: visit-register excerpt (ITI), shown after the question is answered */
+.g17-register{display:none}
+.slide:has(.saa-kit.is-done) .g17-register:not([hidden]){display:block}
+.g17-register{margin-top:calc(14px / var(--z,1)) !important}
+.g17-register svg{display:block;width:auto;height:calc(16vh / var(--z,1));max-width:100%}
+.slide:has(.saa-kit.is-done) .g17-supported{box-shadow:0 0 0 1.5px var(--blue-light)}
+/* screens 7 and 12: icons on the checklist rows */
+.checklist label:has(.g17-ic){display:flex;gap:10px;align-items:flex-start}
+.checklist label .g17-ic{width:20px;height:20px;margin-top:2px}
+/* screen 8: strength / risk / suggestion icons on the field labels */
+.fb-fields label:has(.g17-ic){display:flex;align-items:center;gap:8px}
+.fb-fields label .g17-ic{width:20px;height:20px}
+/* screen 9: Helpful vs Not helpful scene under the left text */
+.g17-respect img{width:auto;max-height:calc(20vh / var(--z,1));border-radius:12px;border:1px solid var(--line)}
+/* screen 11: role-swap loop */
+.g17-swap{margin:0 0 12px}
+.g17-swap img{width:auto;max-height:calc(22vh / var(--z,1));border-radius:12px;border:1px solid var(--line)}
+/* screen 13: never-share icons under the privacy line */
+.g17-never{display:flex;flex-wrap:wrap;gap:14px;margin:10px 0 0}
+.g17-never img{width:26px;height:26px;opacity:.9}
+@media (max-width:640px){
+  .g17-cover img{max-height:30vh}
+  .g17-respect img,.g17-swap img{max-height:130px}
+}
+@media (max-height:640px) and (min-width:641px){
+  .g17-respect img{max-height:calc(16vh / var(--z,1))}
+  .g17-swap img{max-height:calc(17vh / var(--z,1))}
+}
+/* cover: the staff mapping line stays small now that the cover is split */
+html.saa-skin .slide-cover .saa-lead p.pc-meta.pc-meta.pc-meta.pc-meta.pc-meta.pc-meta.pc-meta.pc-meta.pc-meta{font-size:12px !important;font-weight:400 !important;color:var(--dim) !important;letter-spacing:.04em;margin:4px 0 0 !important}
+@media (min-height:641px){
+  .g17-respect img{max-height:calc(24vh / var(--z,1))}
+  .g17-swap img{max-height:calc(27vh / var(--z,1))}
+}
+.saa-start .g17-start-hero{margin-top:10px}

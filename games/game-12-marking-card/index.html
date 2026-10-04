@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Marking Card — Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="saa-header">
+    <div class="saa-brand">
+      <img src="assets/logo-mark.webp" alt="">
+      <span>SWIFT&nbsp;AI&nbsp;ACADEMY</span>
+    </div>
+  </header>
+
+  <main class="slides" id="slides">
+
+  <!-- SLIDE 1: Hero intro -->
+  <section class="page active" data-name="The Marking Card">
+    <div class="topbar">
+      <span class="schema">AAI-E-MC1-S03-CARD01 · MC1 / 1.3 Check Before You Use</span>
+      <span class="badge-mandatory">Mandatory · Element 4</span>
+    </div>
+    <div class="hero">
+      <div class="hero-kicker">Prompt Card · 0.5 hours</div>
+      <h1>The Marking Card</h1>
+      <p>Side 1 of this card is a 30-second routine for every AI answer. Side 2 is a short list of the things you always check.</p>
+      <figure class="g12-scene g12-scene-hero"><img src="assets/scenes/scene-marking-card-workstation-600.webp" alt="A two-sided card pinned on the wall above a workbench with a vice, tools and a phone: side 1 is the routine, side 2 is the checklist." width="600" height="400"></figure>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Why this exists -->
+  <section class="page" data-name="Why this card exists">
+    <div class="card">
+      <p class="kicker">Why this exists</p>
+      <h2>An AI answer can sound sure and still be wrong.</h2>
+      <p>It can get a date, a number or a name wrong. This card gives you a habit that catches these mistakes before you send the answer.</p>
+      <p class="do"><b>Your task.</b> Put the four steps of the routine in the right order.</p>
+      <div class="saa-kit" data-kit="order" data-required>
+        <ol class="saa-steps">
+          <li data-n="1"><img class="g12-ic g12-row-ic" src="assets/icons/dark/icon-mark.webp" alt="" aria-hidden="true">Mark every fact, figure, date, name and source.</li>
+          <li data-n="2"><img class="g12-ic g12-row-ic" src="assets/icons/dark/icon-separate.webp" alt="" aria-hidden="true">Separate what a record supports from what it does not.</li>
+          <li data-n="3"><img class="g12-ic g12-row-ic" src="assets/icons/dark/icon-correct.webp" alt="" aria-hidden="true">Correct anything that is not clearly supported.</li>
+          <li data-n="4"><img class="g12-ic g12-row-ic" src="assets/icons/dark/icon-pause.webp" alt="" aria-hidden="true">Pause before you send the answer.</li>
+        </ol>
+        <p class="saa-k-why" data-right="Yes. You mark, separate and correct, and then you pause before you send." data-wrong="Not yet. You cannot separate or correct parts before you mark them."></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Flip card -->
+  <section class="page page-bare" data-name="The card, both sides">
+    <p class="kicker">The card, both sides</p>
+    <h2>This card has a routine and a checklist.</h2>
+    <p class="sub">Side 1 shows the routine. Side 2 shows the checklist.</p>
+    <p class="do"><b>Your task.</b> Tap the card to flip it and read both sides.</p>
+
+    <div class="flip-wrap">
+      <div class="flip-scene">
+        <div class="flip-inner" id="flipInner" onclick="toggleFlip()" role="button" tabindex="0" aria-label="Flip the card" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFlip();}">
+          <div class="flip-face flip-front">
+            <div class="side-tag">Side 1 · The routine</div>
+            <h3>Run it every time. It takes 30 seconds.</h3>
+
+            <div class="routine-step">
+              <div class="rnum">1</div>
+              <div class="rtext"><b><img class="g12-ic g12-step-ic" src="assets/icons/dark/icon-mark.webp" alt="" aria-hidden="true">Mark</b><span>Underline every fact, figure, date, name and source in the answer.</span></div>
+            </div>
+            <div class="routine-step">
+              <div class="rnum">2</div>
+              <div class="rtext"><b><img class="g12-ic g12-step-ic" src="assets/icons/dark/icon-separate.webp" alt="" aria-hidden="true">Separate</b><span>Decide if a record supports, cannot confirm or goes against each mark.</span></div>
+            </div>
+            <div class="routine-step">
+              <div class="rnum">3</div>
+              <div class="rtext"><b><img class="g12-ic g12-step-ic" src="assets/icons/dark/icon-correct.webp" alt="" aria-hidden="true">Correct</b><span>Verify, replace, qualify or remove what is not clearly supported.</span></div>
+            </div>
+            <div class="pause-line"><img class="g12-ic g12-pause-ic" src="assets/icons/dark/icon-pause.webp" alt="" aria-hidden="true">Pause before send. If you cannot show where a mark came from, do not send it yet.</div>
+          </div>
+
+          <div class="flip-face flip-back">
+            <div class="side-tag">Side 2 · The checklist</div>
+            <h3>Always check these five things.</h3>
+
+            <div class="check-pill">
+              <div class="cicon"><img class="g12-ic" src="assets/icons/dark/icon-fact.webp" alt="" aria-hidden="true"></div>
+              <div><b>Facts</b><span>Claims stated as true</span></div>
+            </div>
+            <div class="check-pill">
+              <div class="cicon"><img class="g12-ic" src="assets/icons/dark/icon-figure.webp" alt="" aria-hidden="true"></div>
+              <div><b>Figures</b><span>Numbers, counts and percentages</span></div>
+            </div>
+            <div class="check-pill">
+              <div class="cicon"><img class="g12-ic" src="assets/icons/dark/icon-date.webp" alt="" aria-hidden="true"></div>
+              <div><b>Dates</b><span>Days, months, years and lengths of time</span></div>
+            </div>
+            <div class="check-pill">
+              <div class="cicon"><img class="g12-ic" src="assets/icons/dark/icon-name.webp" alt="" aria-hidden="true"></div>
+              <div><b>Names</b><span>People, places and organisations</span></div>
+            </div>
+            <div class="check-pill">
+              <div class="cicon"><img class="g12-ic" src="assets/icons/dark/icon-source.webp" alt="" aria-hidden="true"></div>
+              <div><b>Sources</b><span>Where the claim says it came from</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="flip-btn" onclick="toggleFlip()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2.1l4 4-4 4M3 12.6v-2a4 4 0 0 1 4-4h14M7 21.9l-4-4 4-4M21 11.4v2a4 4 0 0 1-4 4H3"/></svg>
+        Flip to the other side
+      </button>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Accordion part 1 -->
+  <section class="page" data-name="Why each check matters · 1 of 2">
+    <div class="card">
+      <p class="kicker">Side 2, in detail · 1 of 2</p>
+      <h2>Why does each check on side 2 matter?</h2>
+      <p>Each check catches a different kind of mistake. Choose your place, and the examples change to match it.</p>
+      <p class="do"><b>Your task.</b> Open Facts, Figures and Dates to read why each one matters.</p>
+
+      <div class="lane-select-row">
+        <label for="laneSelect">Show examples for:</label>
+        <select class="lane-select" id="laneSelect" onchange="updateLane(this)">
+          <option value="iti">ITI workshop</option>
+          <option value="higher">Higher education campus</option>
+        </select>
+      </div>
+
+      <div class="acc-group">
+      <div class="acc-item" data-key="fact">
+        <button type="button" class="acc-head" onclick="toggleAcc(this)" aria-expanded="false">
+          <span class="aicon"><img class="g12-ic" src="assets/icons/dark/icon-fact.webp" alt="" aria-hidden="true"></span>
+          <span class="atitle">Facts</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <div class="why">A claim stated as true needs a source before you trust it.</div>
+          <div class="example" data-lane-text="fact"></div>
+        </div></div>
+      </div>
+
+      <div class="acc-item" data-key="figure">
+        <button type="button" class="acc-head" onclick="toggleAcc(this)" aria-expanded="false">
+          <span class="aicon"><img class="g12-ic" src="assets/icons/dark/icon-figure.webp" alt="" aria-hidden="true"></span>
+          <span class="atitle">Figures</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <div class="why">A number is easy to get a little wrong. It is also easy to check.</div>
+          <div class="example" data-lane-text="figure"></div>
+        </div></div>
+      </div>
+
+      <div class="acc-item" data-key="date">
+        <button type="button" class="acc-head" onclick="toggleAcc(this)" aria-expanded="false">
+          <span class="aicon"><img class="g12-ic" src="assets/icons/dark/icon-date.webp" alt="" aria-hidden="true"></span>
+          <span class="atitle">Dates</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <div class="why">A vague date like &ldquo;last Friday&rdquo; can hide a wrong date.</div>
+          <div class="example" data-lane-text="date"></div>
+        </div></div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Accordion part 2 -->
+  <section class="page" data-name="Why each check matters · 2 of 2">
+    <div class="card">
+      <p class="kicker">Side 2, in detail · 2 of 2</p>
+      <h2>Names and sources need a check too.</h2>
+      <p>An AI tool can make up a name or a source that sounds real.</p>
+      <p class="do"><b>Your task.</b> Open Names and Sources to read why each one matters.</p>
+
+      <div class="lane-select-row">
+        <label for="laneSelect2">Show examples for:</label>
+        <select class="lane-select" id="laneSelect2" onchange="updateLane(this)">
+          <option value="iti">ITI workshop</option>
+          <option value="higher">Higher education campus</option>
+        </select>
+      </div>
+
+      <div class="acc-group">
+      <div class="acc-item" data-key="name">
+        <button type="button" class="acc-head" onclick="toggleAcc(this)" aria-expanded="false">
+          <span class="aicon"><img class="g12-ic" src="assets/icons/dark/icon-name.webp" alt="" aria-hidden="true"></span>
+          <span class="atitle">Names</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <div class="why">An AI tool may guess a name that sounds right but is wrong.</div>
+          <div class="example" data-lane-text="name"></div>
+        </div></div>
+      </div>
+
+      <div class="acc-item" data-key="source">
+        <button type="button" class="acc-head" onclick="toggleAcc(this)" aria-expanded="false">
+          <span class="aicon"><img class="g12-ic" src="assets/icons/dark/icon-source.webp" alt="" aria-hidden="true"></span>
+          <span class="atitle">Sources</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <div class="why">The words &ldquo;according to policy&rdquo; mean nothing if nobody shows the policy.</div>
+          <div class="example" data-lane-text="source"></div>
+        </div></div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDES 6–10: Quiz, one question per slide -->
+  <section class="page" data-name="Quick check · 1 of 5" data-quiz="q1">
+    <div class="card">
+      <p class="kicker">Quick check · 1 of 5</p>
+      <h2>Which check type does the bold phrase need?</h2>
+      <p>Each phrase has one bold part. The bold part matches one of the five checks on side 2.</p>
+      <p class="do"><b>Your task.</b> Choose a check type from the list, then tap Check my answer.</p>
+      <div class="quiz-item" data-correct="date" id="q1">
+        <div class="qtext">"The inventory was <b>last updated on Tuesday</b>."</div>
+        <select class="quiz-select" aria-label="Check type" onchange="setQuizChoice('q1', this.value)">
+          <option value="">Choose…</option>
+          <option value="fact">Fact</option>
+          <option value="figure">Figure</option>
+          <option value="date">Date</option>
+          <option value="name">Name</option>
+          <option value="source">Source</option>
+        </select>
+      </div>
+      <button type="button" class="check-btn" onclick="checkOne('q1')" disabled>Check my answer</button>
+      <div class="quiz-fb" id="fb-q1" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="page" data-name="Quick check · 2 of 5" data-quiz="q2">
+    <div class="card">
+      <p class="kicker">Quick check · 2 of 5</p>
+      <h2>Which check type does the bold phrase need?</h2>
+      <p class="do"><b>Your task.</b> Choose a check type from the list, then tap Check my answer.</p>
+      <div class="quiz-item" data-correct="figure" id="q2">
+        <div class="qtext">"<b>150 students</b> registered for the workshop."</div>
+        <select class="quiz-select" aria-label="Check type" onchange="setQuizChoice('q2', this.value)">
+          <option value="">Choose…</option>
+          <option value="fact">Fact</option>
+          <option value="figure">Figure</option>
+          <option value="date">Date</option>
+          <option value="name">Name</option>
+          <option value="source">Source</option>
+        </select>
+      </div>
+      <button type="button" class="check-btn" onclick="checkOne('q2')" disabled>Check my answer</button>
+      <div class="quiz-fb" id="fb-q2" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="page" data-name="Quick check · 3 of 5" data-quiz="q3">
+    <div class="card">
+      <p class="kicker">Quick check · 3 of 5</p>
+      <h2>Which check type does the bold phrase need?</h2>
+      <p class="do"><b>Your task.</b> Choose a check type from the list, then tap Check my answer.</p>
+      <div class="quiz-item" data-correct="source" id="q3">
+        <div class="qtext">"<b>As per university guidelines</b>, late entries are not accepted."</div>
+        <select class="quiz-select" aria-label="Check type" onchange="setQuizChoice('q3', this.value)">
+          <option value="">Choose…</option>
+          <option value="fact">Fact</option>
+          <option value="figure">Figure</option>
+          <option value="date">Date</option>
+          <option value="name">Name</option>
+          <option value="source">Source</option>
+        </select>
+      </div>
+      <button type="button" class="check-btn" onclick="checkOne('q3')" disabled>Check my answer</button>
+      <div class="quiz-fb" id="fb-q3" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="page" data-name="Quick check · 4 of 5" data-quiz="q4">
+    <div class="card">
+      <p class="kicker">Quick check · 4 of 5</p>
+      <h2>Which check type does the bold phrase need?</h2>
+      <p class="do"><b>Your task.</b> Choose a check type from the list, then tap Check my answer.</p>
+      <div class="quiz-item" data-correct="name" id="q4">
+        <div class="qtext">The note gives credit to "<b>the lab in-charge</b>" but does not say who that is.</div>
+        <select class="quiz-select" aria-label="Check type" onchange="setQuizChoice('q4', this.value)">
+          <option value="">Choose…</option>
+          <option value="fact">Fact</option>
+          <option value="figure">Figure</option>
+          <option value="date">Date</option>
+          <option value="name">Name</option>
+          <option value="source">Source</option>
+        </select>
+      </div>
+      <button type="button" class="check-btn" onclick="checkOne('q4')" disabled>Check my answer</button>
+      <div class="quiz-fb" id="fb-q4" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="page" data-name="Quick check · 5 of 5" data-quiz="q5">
+    <div class="card">
+      <p class="kicker">Quick check · 5 of 5</p>
+      <h2>Which check type does the bold phrase need?</h2>
+      <p class="do"><b>Your task.</b> Choose a check type from the list, then tap Check my answer.</p>
+      <div class="quiz-item" data-correct="fact" id="q5">
+        <div class="qtext">"This machine <b>never needs calibration</b>."</div>
+        <select class="quiz-select" aria-label="Check type" onchange="setQuizChoice('q5', this.value)">
+          <option value="">Choose…</option>
+          <option value="fact">Fact</option>
+          <option value="figure">Figure</option>
+          <option value="date">Date</option>
+          <option value="name">Name</option>
+          <option value="source">Source</option>
+        </select>
+      </div>
+      <button type="button" class="check-btn" onclick="checkOne('q5')" disabled>Check my answer</button>
+      <div class="quiz-fb" id="fb-q5" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: Quiz score -->
+  <section class="page" data-name="Quick check · Your score" data-score>
+    <div class="card">
+      <p class="kicker">Quick check</p>
+      <h2>Here is your score for the quick check.</h2>
+      <p class="do"><b>Your task.</b> Tap a question number to go back to it.</p>
+      <div class="score-banner" id="scoreBanner"></div>
+      <div class="score-chips" id="scoreChips">
+        <button type="button" class="score-chip" data-q="q1">1</button>
+        <button type="button" class="score-chip" data-q="q2">2</button>
+        <button type="button" class="score-chip" data-q="q3">3</button>
+        <button type="button" class="score-chip" data-q="q4">4</button>
+        <button type="button" class="score-chip" data-q="q5">5</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 12: Wall illustration -->
+  <section class="page" data-name="Pin it up">
+    <div class="card">
+      <p class="kicker">Pin it up</p>
+      <h2>Pin this card above your workstation.</h2>
+      <p>The card is made to be laminated and pinned where you work. You can read it from arm's length in one look.</p>
+      <p class="do"><b>Your task.</b> Answer the question about the card.</p>
+
+      <figure class="wall-scene g12-scene g12-scene-wall"><img src="assets/scenes/scene-trainee-checking-card-600.webp" alt="A trainee at a workbench looks up from the AI answer on his phone to the marking card pinned above his workstation." width="600" height="400"></figure>
+      <div class="saa-kit" data-kit="quick" data-required>
+        <p class="saa-q">Why do you pin the card where you work?</p>
+        <div class="saa-k-opts">
+          <button class="saa-k-opt" type="button" data-ok data-why="Yes. You see the routine each time you use an AI answer.">You see it every time you use an AI answer.</button>
+          <button class="saa-k-opt" type="button" data-why="Not quite. The card does not change the AI tool. It reminds you to check.">It makes the AI tool give better answers.</button>
+        </div>
+        <p class="saa-k-why"></p>
+      </div>
+      <button type="button" class="flip-btn print-btn" onclick="printCard()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+        Print the card
+      </button>
+    </div>
+  </section>
+
+  <!-- SLIDE 13: Recap chips + transfer -->
+  <section class="page" data-name="The routine at a glance">
+    <div class="card">
+      <p class="kicker">Pin it up</p>
+      <h2>Here is the whole routine at a glance.</h2>
+      <p>The routine has five steps. You run them on every AI answer.</p>
+      <p class="do"><b>Your task.</b> Tap each card to see what the step means.</p>
+
+      <div class="saa-kit" data-kit="reveal" data-required>
+        <div class="saa-cards">
+          <button class="saa-card" type="button"><span class="saa-front"><img class="g12-ic g12-card-ic" src="assets/icons/dark/icon-mark.webp" alt="" aria-hidden="true">Mark</span><span class="saa-back">Mark every fact, figure, date, name and source.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="g12-ic g12-card-ic" src="assets/icons/dark/icon-separate.webp" alt="" aria-hidden="true">Separate</span><span class="saa-back">Decide if a record supports each mark.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="g12-ic g12-card-ic" src="assets/icons/dark/icon-correct.webp" alt="" aria-hidden="true">Correct</span><span class="saa-back">Verify, replace, qualify or remove what is not supported.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="g12-ic g12-card-ic" src="assets/icons/dark/icon-pause.webp" alt="" aria-hidden="true">Pause</span><span class="saa-back">Stop if you cannot show where a mark came from.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="g12-ic g12-card-ic" src="assets/icons/dark/icon-send.webp" alt="" aria-hidden="true">Send</span><span class="saa-back">Send the answer only after you check it.</span></button>
+        </div>
+      </div>
+
+      <div class="transfer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <p><strong>Try it now.</strong> Pick your last AI answer. Run the 30-second routine on it before you use it again.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 14: Closing -->
+  <section class="page" data-name="Keep this close">
+    <div class="hero">
+      <div class="hero-kicker">You are done</div>
+      <h1>Keep this card close to you.</h1>
+      <p>On every AI task, run Mark, Separate, Correct and Pause before send. It takes 30 seconds, and it turns a guess into a checked answer.</p>
+      <div class="print-row">
+        <p class="do"><b>Your task.</b> Tap Print the card, then pin the paper where you work.</p>
+        <button type="button" class="flip-btn print-btn" onclick="printCard()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+          Print the card
+        </button>
+        <button type="button" class="flip-btn print-btn g12-pdf-btn" onclick="openCardPdf()" title="Opens the A4 card (two sides to cut out and laminate)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>
+          Download the printable card (PDF)
+        </button>
+      </div>
+    </div>
+    <div class="card card-meta">
+      <p class="kicker">Card metadata</p>
+      <p>Schema: <b>AAI-E-MC1-S03-CARD01</b> · Mapped PC: <b>4.1–4.5, 5.1–5.4</b> · Non-compensatory: <b>Yes, Element 4</b></p>
+      <p class="meta-foot">Swift AI Academy · PC 4.1–4.5 · PC 5.1–5.4 · English</p>
+    </div>
+  </section>
+
+  </main>
+
+  <nav class="deck-foot" aria-label="Slide navigation">
+    <button type="button" class="nav-btn" id="backBtn" onclick="changePage(-1)">Back</button>
+    <div class="deck-progress">
+      <div class="page-label"><span id="pageName">The Marking Card</span><span id="pageNum">1 / 14</span></div>
+      <div class="progress-track" id="progressDots" role="progressbar" aria-label="Card progress" aria-valuemin="1" aria-valuemax="14" aria-valuenow="1"></div>
+    </div>
+    <button type="button" class="nav-btn primary" id="nextBtn" onclick="changePage(1)">Next</button>
+  </nav>
+
+</div>
+
+<!-- Print-only copy of the card (side 1 and side 2). script.js fills the two slots from the flip card on screen 3. -->
+<div class="print-card" id="printCard" aria-hidden="true">
+  <div class="pc-head">
+    <div class="pc-title">The Marking Card</div>
+    <div class="pc-code">Swift AI Academy · AAI-E-MC1-S03-CARD01</div>
+  </div>
+  <div class="pc-slot" data-print-side="front"></div>
+  <div class="pc-fold">Cut or fold on this line. Laminate both sides together.</div>
+  <div class="pc-slot" data-print-side="back"></div>
+</div>
+
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

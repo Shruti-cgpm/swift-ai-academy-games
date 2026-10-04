@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find the Planted Errors — Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="saa-header">
+    <div class="saa-brand">
+      <img src="assets/logo-mark.webp" alt="">
+      <span>SWIFT&nbsp;AI&nbsp;ACADEMY</span>
+    </div>
+  </header>
+
+  <div class="topbar">
+    <span class="schema">AAI-E-MC1-S03-LAB01 · MC1 / 1.3 Check Before You Use <span class="pc-meta">· PC 4.1–4.5 · PC 5.1–5.4 · English</span></span>
+    <span class="gate-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      Gates the unit · Element 4
+    </span>
+  </div>
+
+  <main class="slides" id="slides">
+
+    <!-- ===== STAGE 0: Brief ===== -->
+    <section class="slide" data-stage="0">
+      <div class="hero">
+        <div class="hero-kicker saa-eyebrow">Practical Lab · 1.5 hours · Timed</div>
+        <h1>Find the Planted Errors</h1>
+        <p>An AI tool wrote a short document, and some details in it are wrong on purpose. You find these errors and say what goes wrong if nobody catches them.</p>
+        <span class="fpe-hero-art"><img src="assets/scene-case-file.webp" alt="A workshop note on a clipboard with some phrases circled and flagged, a magnifying glass and a stopwatch, on an ITI workshop bench." width="1200" height="700"></span>
+      </div>
+    </section>
+
+    <section class="slide" data-stage="0">
+      <div class="card">
+        <p class="kicker">Brief</p>
+        <h2>You follow three rules in this lab.</h2>
+        <p>The rules tell you how to search the document. Learn them before the timer starts.</p>
+        <p class="do"><b>Your task.</b> Tap each card to see the rule.</p>
+        <div class="saa-kit" data-kit="reveal" data-required>
+          <div class="saa-cards">
+            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-timer.webp" alt="" aria-hidden="true">Watch the timer</span><span class="saa-back">A timer runs while you search the document.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-flag.webp" alt="" aria-hidden="true">Flag with care</span><span class="saa-back">Tap only the phrases that you really think are wrong. Do not guess.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-breaks.webp" alt="" aria-hidden="true">Say what breaks</span><span class="saa-back">Finding an error is not enough. You also say what it breaks.</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-stage="0">
+      <div class="card never-card">
+        <p class="kicker">Brief</p>
+        <h2 class="never-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9L2.5 17a1.8 1.8 0 0 0 1.5 2.7h16a1.8 1.8 0 0 0 1.5-2.7L13.7 3.9a1.6 1.6 0 0 0-2.8 0z"/></svg>
+          Never type private details into an AI tool.
+        </h2>
+        <p>Everything in this lab's document is made up. Keep it that way in your own answers too.</p>
+        <p class="do"><b>Your task.</b> Sort each item into the right box.</p>
+        <div class="saa-kit" data-kit="sort" data-style="deck" data-required data-shuffle data-done-text="All sorted. Private details never go into an AI tool.">
+          <div class="saa-bins">
+            <div class="saa-bin" data-bin="a" data-label="Never type it"></div>
+            <div class="saa-bin" data-bin="b" data-label="Safe to type"></div>
+          </div>
+          <div class="saa-pool">
+            <button class="saa-chip" type="button" data-bin="a" data-why="Yes. A password must stay private." data-hint="Not quite. Could someone use this to get into your account?"><img class="fpe-ic fpe-chip-ic" src="assets/icons/dark/icon-private-password.webp" alt="" aria-hidden="true">Password</button>
+            <button class="saa-chip" type="button" data-bin="a" data-why="Yes. An Aadhaar or ID number belongs only to you." data-hint="Not quite. This number identifies you as a real person."><img class="fpe-ic fpe-chip-ic" src="assets/icons/dark/icon-private-aadhaar.webp" alt="" aria-hidden="true">Aadhaar or ID number</button>
+            <button class="saa-chip" type="button" data-bin="a" data-why="Yes. A phone number is a private detail." data-hint="Not quite. A stranger could call you with this."><img class="fpe-ic fpe-chip-ic" src="assets/icons/dark/icon-private-phone.webp" alt="" aria-hidden="true">Phone number</button>
+            <button class="saa-chip" type="button" data-bin="a" data-why="Yes. An address shows where you live." data-hint="Not quite. This tells people where to find you."><img class="fpe-ic fpe-chip-ic" src="assets/icons/dark/icon-private-address.webp" alt="" aria-hidden="true">Address</button>
+            <button class="saa-chip" type="button" data-bin="a" data-why="Yes. Health details are private." data-hint="Not quite. Would you share this with a stranger?"><img class="fpe-ic fpe-chip-ic" src="assets/icons/dark/icon-private-health.webp" alt="" aria-hidden="true">Health details</button>
+            <button class="saa-chip" type="button" data-bin="a" data-why="Yes. Marks and grades are private records." data-hint="Not quite. These are your own private records."><img class="fpe-ic fpe-chip-ic" src="assets/icons/dark/icon-private-marks.webp" alt="" aria-hidden="true">Marks and grades</button>
+            <button class="saa-chip" type="button" data-bin="b" data-why="Yes. The names in this lab are made up, so they are safe." data-hint="Not quite. Everything in this lab's document is made up."><img class="fpe-ic fpe-chip-ic" src="assets/icons/dark/icon-madeup-person.webp" alt="" aria-hidden="true">A made-up name from the lab</button>
+          </div>
+          <p class="saa-k-why"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STAGE 1: Why it matters ===== -->
+    <section class="slide" data-stage="1">
+      <div class="card">
+        <p class="kicker">Real life check</p>
+        <h2>Small mistakes cause real problems.</h2>
+        <p>The same mistakes happen at work and in class. They are easy to miss when you are in a hurry.</p>
+        <p class="do"><b>Your task.</b> Tap each card to see what can go wrong.</p>
+        <div class="saa-kit" data-kit="reveal" data-required>
+          <div class="saa-cards">
+            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-scene" src="assets/scene-work-consequence.webp" alt="" aria-hidden="true" width="480" height="320">At work</span><span class="saa-back">A wrong figure in a note can mean the wrong stock is ordered. A client can also get wrong information.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-scene" src="assets/scene-study-consequence.webp" alt="" aria-hidden="true" width="480" height="320">In your studies</span><span class="saa-back">A wrong date or name in an assignment can cost marks, even when the main idea is right.</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-stage="1">
+      <div class="card">
+        <p class="kicker">Real life check</p>
+        <h2>Your name is on everything you send.</h2>
+        <p class="lead">When you send or submit work, it is yours, even if the AI wrote the wrong part. That is why this lab is a <b>mandatory, gated step</b> in the course.</p>
+        <p class="do"><b>Your task.</b> Answer the question below.</p>
+        <div class="saa-kit" data-kit="quick" data-required>
+          <p class="saa-q">The AI tool put a wrong date in your assignment. Who is responsible for it?</p>
+          <div class="saa-k-opts">
+            <button class="saa-k-opt" type="button" data-ok data-why="Yes. Your name is on the work, and people remember careless work.">I am, because I submitted it.</button>
+            <button class="saa-k-opt" type="button" data-why="Not quite. Once you submit the work, it is yours.">The AI tool, because it wrote the date.</button>
+          </div>
+          <p class="saa-k-why"></p>
+        </div>
+        <figure class="fpe-sign"><img src="assets/scene-student-signing.webp" alt="A student hands in her assignment. Her name and signature are on it, next to a note from an AI tool and a wrong date." width="800" height="600"></figure>
+      </div>
+    </section>
+
+    <!-- ===== STAGE 2: Prep ===== -->
+    <section class="slide" data-stage="2">
+      <div class="card">
+        <p class="kicker">Before you start</p>
+        <h2>A planted error can hide in five kinds of detail.</h2>
+        <p>These are the same five kinds of detail from the Marking Card.</p>
+        <p class="do"><b>Your task.</b> Tap each card to see what it means.</p>
+        <div class="saa-kit" data-kit="reveal" data-required>
+          <div class="saa-cards">
+            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-fact.webp" alt="" aria-hidden="true">Facts</span><span class="saa-back">A fact is a claim that is stated as true.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-figure.webp" alt="" aria-hidden="true">Figures</span><span class="saa-back">A figure is a number, a count or a percent.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-date.webp" alt="" aria-hidden="true">Dates</span><span class="saa-back">A date is a day, a month, a year or a length of time.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-name.webp" alt="" aria-hidden="true">Names</span><span class="saa-back">A name is a person, a place or an organisation.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-source.webp" alt="" aria-hidden="true">Sources</span><span class="saa-back">A source is where the document says the claim came from.</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-stage="2">
+      <div class="card">
+        <p class="kicker">Before you start</p>
+        <h2>Choose the document that you want to check.</h2>
+        <p>Five details in this note are wrong on purpose. Some other details are correct, so do not flag those.</p>
+        <p class="do"><b>Your task.</b> Choose a document setting, then press Next.</p>
+        <div class="lane-row">
+          <label for="laneSelect" id="laneLabel">Document setting:</label>
+          <div class="fpe-lanes" role="radiogroup" aria-labelledby="laneLabel">
+            <button type="button" class="fpe-lane" role="radio" aria-checked="true" data-lane="iti" onclick="pickLane('iti')"><img src="assets/icons/dark/icon-lane-iti.webp" alt="" aria-hidden="true"><span>ITI · Workshop equipment note</span></button>
+            <button type="button" class="fpe-lane" role="radio" aria-checked="false" data-lane="higher" onclick="pickLane('higher')"><img src="assets/icons/dark/icon-lane-college-cap.webp" alt="" aria-hidden="true"><span>Higher education · Campus event report</span></button>
+          </div>
+          <select class="lane-select fpe-lane-native" id="laneSelect" onchange="switchLane()" tabindex="-1" aria-hidden="true">
+            <option value="iti">ITI · Workshop equipment note</option>
+            <option value="higher">Higher education · Campus event report</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STAGE 3: Investigate (case file paginated) ===== -->
+    <section class="slide" data-stage="3" data-slide-id="investigate">
+      <div class="card">
+        <p class="kicker">Investigate · Part 1 of 3</p>
+        <h2>Tap every phrase that you think is wrong.</h2>
+        <p>Start the timer first. The records show the true details. Your flags stay when you move between the 3 parts.</p>
+        <p class="do"><b>Your task.</b> Open the records, then tap each phrase that does not match them.</p>
+        <div class="timer-row">
+          <div class="timer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="14" r="8"/><path d="M8 2h8M12 2v4m6 2 2-2M12 10v5l3 2"/></svg>
+            <span class="timerDisplay">05:00</span>
+          </div>
+          <button type="button" class="timer-btn timerBtn" onclick="toggleTimer()">Start timer</button>
+          <span class="flag-count">Flagged: <b class="flagCount">0</b></span>
+        </div>
+        <div class="doc-frame">
+          <div class="doc-title docTitle">Workshop Equipment Note</div>
+          <div class="doc-text" data-part="0"></div>
+          <div class="doc-more">The note continues on the next slide.</div>
+        </div>
+        <button type="button" class="records-btn" onclick="openRecords(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>
+          Open the records
+        </button>
+      </div>
+    </section>
+
+    <section class="slide" data-stage="3">
+      <div class="card">
+        <p class="kicker">Investigate · Part 2 of 3</p>
+        <h2>Tap every phrase that you think is wrong.</h2>
+        <p class="do"><b>Your task.</b> Open the records, then tap each phrase that does not match them.</p>
+        <div class="timer-row">
+          <div class="timer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="14" r="8"/><path d="M8 2h8M12 2v4m6 2 2-2M12 10v5l3 2"/></svg>
+            <span class="timerDisplay">05:00</span>
+          </div>
+          <button type="button" class="timer-btn timerBtn" onclick="toggleTimer()">Start timer</button>
+          <span class="flag-count">Flagged: <b class="flagCount">0</b></span>
+        </div>
+        <div class="doc-frame">
+          <div class="doc-title docTitle">Workshop Equipment Note</div>
+          <div class="doc-text" data-part="1"></div>
+          <div class="doc-more">The note continues on the next slide.</div>
+        </div>
+        <button type="button" class="records-btn" onclick="openRecords(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>
+          Open the records
+        </button>
+      </div>
+    </section>
+
+    <section class="slide" data-stage="3">
+      <div class="card">
+        <p class="kicker">Investigate · Part 3 of 3</p>
+        <h2>Tap every phrase that you think is wrong.</h2>
+        <p class="do"><b>Your task.</b> Open the records, then tap each phrase that does not match them.</p>
+        <div class="timer-row">
+          <div class="timer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="14" r="8"/><path d="M8 2h8M12 2v4m6 2 2-2M12 10v5l3 2"/></svg>
+            <span class="timerDisplay">05:00</span>
+          </div>
+          <button type="button" class="timer-btn timerBtn" onclick="toggleTimer()">Start timer</button>
+          <span class="flag-count">Flagged: <b class="flagCount">0</b></span>
+        </div>
+        <div class="doc-frame">
+          <div class="doc-title docTitle">Workshop Equipment Note</div>
+          <div class="doc-text" data-part="2"></div>
+        </div>
+        <button type="button" class="records-btn" onclick="openRecords(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>
+          Open the records
+        </button>
+      </div>
+    </section>
+
+    <section class="slide" data-stage="3">
+      <div class="card">
+        <p class="kicker">Investigate</p>
+        <h2>Are you ready to submit your findings?</h2>
+        <p class="review-lead">These are your flagged phrases. Go Back to change them.</p>
+        <p class="do"><b>Your task.</b> Check your list, then tap Submit my findings.</p>
+        <div class="timer-row">
+          <div class="timer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="14" r="8"/><path d="M8 2h8M12 2v4m6 2 2-2M12 10v5l3 2"/></svg>
+            <span class="timerDisplay">05:00</span>
+          </div>
+          <button type="button" class="timer-btn timerBtn" onclick="toggleTimer()">Start timer</button>
+          <span class="flag-count">Flagged: <b class="flagCount">0</b></span>
+        </div>
+        <div class="flag-review" id="flagReview"></div>
+        <button type="button" class="submit-btn" id="submitFindingsBtn" onclick="submitFindings()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Submit my findings
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== STAGE 4: Findings ===== -->
+    <section class="slide" data-stage="4" data-slide-id="findings">
+      <div class="card">
+        <p class="kicker">Results</p>
+        <h2>Here is what you found.</h2>
+        <div class="score-hero">
+          <div class="score-ring" id="scoreRing"><div class="score-ring-inner" id="scoreRingText">0/5</div></div>
+          <div>
+            <p style="margin:0;font-weight:700;font-size:14.5px;" id="scoreHeadline">Submit your findings on the previous page first.</p>
+            <p style="margin:0;font-size:13.5px;">The next two slides show each error you found, each false flag and each error you missed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-stage="4">
+      <div class="card">
+        <p class="kicker">Results · 1 of 2</p>
+        <h2>Here is each finding, one by one.</h2>
+        <div class="findings-list" data-chunk="0"><p class="empty-note">Submit your findings first to see each result here.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" data-stage="4">
+      <div class="card">
+        <p class="kicker">Results · 2 of 2</p>
+        <h2>Here are the rest of your findings.</h2>
+        <div class="findings-list" data-chunk="1"><p class="empty-note">Submit your findings first to see each result here.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== STAGE 5: Consequences ===== -->
+    <section class="slide" data-stage="5">
+      <div class="card">
+        <p class="kicker">State the consequence</p>
+        <h2>Each planted error breaks something real.</h2>
+        <p>Finding the error is half of the task. Next, you answer 5 questions, one for each planted error.</p>
+        <p class="do"><b>Your task.</b> Answer the question about this gate.</p>
+        <div class="saa-kit" data-kit="quick" data-required>
+          <p class="saa-q">What do you need to clear this gate?</p>
+          <div class="saa-k-opts">
+            <button class="saa-k-opt" type="button" data-why="Not quite. Finding the errors is only half of the task.">At least 4 of 5 errors found.</button>
+            <button class="saa-k-opt" type="button" data-ok data-why="Yes. You must find the errors and also say what they break.">At least 4 of 5 errors found and 4 of 5 consequences correct.</button>
+          </div>
+          <p class="saa-k-why"></p>
+          <figure class="fpe-gate" role="img" aria-label="Errors found: 4 of 5, and consequences correct: 4 of 5. Both together clear the gate.">
+            <div class="fpe-meters">
+              <div class="fpe-meter"><b>Errors found: 4 of 5</b><span class="fpe-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div>
+              <div class="fpe-meter"><b>Consequences correct: 4 of 5</b><span class="fpe-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div>
+            </div>
+            <div class="fpe-gate-out"><svg viewBox="270 166 60 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M273 204v-35h54v35M282 204v-27h14v27m8 0v-27h14v27M277 183h46"/></svg><b>Gate cleared</b></div>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-stage="5"><div class="card cq-slot" data-q="0"></div></section>
+    <section class="slide" data-stage="5"><div class="card cq-slot" data-q="1"></div></section>
+    <section class="slide" data-stage="5"><div class="card cq-slot" data-q="2"></div></section>
+    <section class="slide" data-stage="5"><div class="card cq-slot" data-q="3"></div></section>
+    <section class="slide" data-stage="5"><div class="card cq-slot" data-q="4"></div></section>
+
+    <!-- ===== STAGE 6: Result ===== -->
+    <section class="slide" data-stage="6">
+      <div class="card">
+        <p class="kicker">Case closed</p>
+        <div class="gate-result" id="gateResult">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <h2 id="gateHeadline">Finish the investigation and the consequence questions first.</h2>
+          <p id="gateSub">Your combined result will appear here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-stage="6">
+      <div class="card">
+        <p class="kicker">Case closed</p>
+        <h2>Use this checking routine every time.</h2>
+        <p>These are the 4 steps from the Marking Card. You just did them in this lab.</p>
+        <div class="recap-grid routine-grid">
+          <div class="recap-chip"><img class="fpe-ic fpe-routine-ic" src="assets/icons/dark/icon-mark.webp" alt="" aria-hidden="true"><span>Mark</span><small>Mark every fact, figure, date, name and source.</small></div>
+          <div class="recap-chip"><img class="fpe-ic fpe-routine-ic" src="assets/icons/dark/icon-separate.webp" alt="" aria-hidden="true"><span>Separate</span><small>Separate what a record supports from what it does not.</small></div>
+          <div class="recap-chip"><img class="fpe-ic fpe-routine-ic" src="assets/icons/dark/icon-correct.webp" alt="" aria-hidden="true"><span>Correct</span><small>Correct anything that is not clearly supported.</small></div>
+          <div class="recap-chip"><img class="fpe-ic fpe-routine-ic" src="assets/icons/dark/icon-pause.webp" alt="" aria-hidden="true"><span>Pause before send</span><small>Pause before you send the answer.</small></div>
+        </div>
+        <div class="transfer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <p><strong>Try it now.</strong> Use these 4 steps on the next AI note before you use it.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="slide-footer">
+    <nav class="stage-track" id="stageTrack" aria-label="Lab stages"></nav>
+    <div class="nav-row">
+      <button type="button" class="nav-btn" id="backBtn" onclick="changePage(-1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
+      </button>
+      <div class="page-meta">
+        <span class="stage-name" id="stageName">Brief</span>
+        <span class="page-count" id="pageCount">1 / 21</span>
+      </div>
+      <button type="button" class="nav-btn primary" id="nextBtn" onclick="nextAction()">
+        <span id="nextLabel">Next</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Reference records for the Investigate slides (filled by renderRecords in script.js) -->
+<div class="rec-overlay" id="recOverlay" hidden onclick="if(event.target===this)closeRecords()">
+  <div class="rec-panel" role="dialog" aria-modal="true" aria-labelledby="recHeading">
+    <div class="rec-head">
+      <h3 id="recHeading">The records</h3>
+      <button type="button" class="rec-close" id="recClose" onclick="closeRecords()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        Close
+      </button>
+    </div>
+    <p class="rec-lead">These records are correct. Check each detail in the note against them.</p>
+    <div class="rec-tabs" id="recTabs" role="tablist" aria-label="Records"></div>
+    <div class="rec-body" id="recBody" role="tabpanel"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

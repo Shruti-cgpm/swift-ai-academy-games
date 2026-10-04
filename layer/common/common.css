@@ -1,0 +1,70 @@
+
+/* ==========================================================================
+   COMMON (all games): start screen, "Your task" line, one-amber guard
+   ========================================================================== */
+/* ---- start screen (handoff: Module Opening Premium) ---- */
+.saa-start{position:fixed;inset:0;z-index:9999;overflow:hidden;background:#020306;color:#FAFAF8;
+  font-family:'Instrument Sans',system-ui,sans-serif;
+  background-image:radial-gradient(ellipse 55% 60% at 22% 8%,rgba(91,118,255,.22) 0,rgba(91,118,255,0) 60%),radial-gradient(ellipse 48% 55% at 82% 96%,rgba(243,171,49,.09) 0,rgba(243,171,49,0) 60%);
+  transition:opacity .5s,visibility .5s;-webkit-user-select:none;user-select:none}
+.saa-start.gone{opacity:0;visibility:hidden}
+.saa-start .saa-ghost{position:absolute;left:50%;top:-30vh;transform:translateX(-50%);font-size:min(46vw,58vh);font-weight:600;color:#fff;opacity:.035;letter-spacing:-.05em;line-height:1;pointer-events:none}
+.saa-start .saa-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:clamp(24px,7vh,60px) clamp(20px,6vw,72px)}
+.saa-start .saa-brand{display:flex;align-items:center;gap:14px}
+.saa-start .saa-brand img,.saa-start .saa-brand .brand-mark{width:40px;height:36px;object-fit:contain;background-size:contain}
+.saa-start .saa-brand span{font-size:clamp(16px,2.6vh,22px);letter-spacing:.24em;color:#AEB6D4;font-weight:600}
+.saa-start .saa-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(14px,3.6vh,30px);text-align:center}
+.saa-start .saa-eb{font-size:clamp(13px,2vh,17px);letter-spacing:.36em;color:#6B7396;font-weight:500;text-transform:uppercase}
+.saa-start h1{margin:0;font-size:clamp(30px,min(6vw,11vh),76px);font-weight:700;line-height:1.06;letter-spacing:-.01em;max-width:14em;color:#FAFAF8}
+.saa-start .saa-tag{margin:0;font-size:clamp(15px,2.4vh,20px);font-weight:400;color:#7C86AE;max-width:40em;line-height:1.5}
+.saa-start .saa-go{display:flex;align-items:center;gap:10px;margin-top:clamp(4px,1.6vh,14px);padding:17px 40px;border-radius:999px;border:none;cursor:pointer;font:inherit;font-size:16px;font-weight:700;color:#241300;
+  background:linear-gradient(135deg,#FFC168,#F3AB31);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 14px 34px rgba(243,171,49,.35);transition:transform .15s}
+.saa-start .saa-go:hover{transform:translateY(-2px)}
+.saa-start .saa-go:focus-visible{outline:2px solid #FFC168;outline-offset:3px}
+@media print{.saa-start{display:none}}
+
+/* ---- "Your task" line: the game's own instruction, shown the same way everywhere ---- */
+.saa-do{display:block!important;margin:10px 0!important;padding:12px 16px!important;border-radius:14px!important;background:rgba(91,118,255,.16)!important;border:1px solid rgba(91,118,255,.6)!important;
+  color:#F6F4EF!important;font-weight:600!important;line-height:1.45!important;text-align:left!important}
+.saa-do .saa-do-label{color:#8FA0FF;font-weight:700;margin-right:.3em}
+
+/* ---- one amber action per screen: Next turns blue while the screen has its own amber action ---- */
+.saa-demote{background:transparent!important;background-image:none!important;color:#F6F4EF!important;border:1.5px solid rgba(143,160,255,.6)!important;box-shadow:none!important}
+.saa-demote svg{stroke:currentColor}
+
+/* ---- one progress indicator everywhere: thin bar + "N / T" in the bottom bar ---- */
+:is(footer, .deck-foot, .nav-row, .foot, .slide-footer, .chat-footer) :is(.dashes, #deck-dots, .deck-dots, #progressDots, .progress-track, #segBar, .seg-bar, .page-dots, #pageDots, #progress-dots, #progress.progress, .progress, .deck-count, #deck-count, #pageNum, #pageName, #pageCount, .page-count, #counter, .counter, .count, #stepCount, .step-count, #stageName, .stage-name, #sectionName, .section-name, .page-label, .deck-meta):not(.saa-prog):not(.saa-prog *) { display: none !important; }
+footer.bar > .track { display: none !important; }
+.saa-prog { display: flex !important; align-items: center; gap: 12px; flex: 1 1 auto; min-width: 140px; max-width: 380px; margin: 0 auto; }
+.saa-prog-bar { flex: 1; height: 4px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
+.saa-prog-fill { display: block; height: 100%; width: 0; border-radius: 999px; background: #5B76FF; transition: width .3s ease; }
+.saa-prog-n { font-size: 12px; font-weight: 600; letter-spacing: .12em; color: #AEB6D4; white-space: nowrap; font-variant-numeric: tabular-nums; }
+:is(.deck-progress, .footer-progress, .bar-mid, .page-meta, .foot-left, .progress-wrap) { display: flex !important; align-items: center; justify-content: center; flex: 1 1 auto; min-width: 0; }
+/* same bottom-bar order everywhere: Back | progress | Next */
+footer.foot { display: flex !important; align-items: center; }
+footer.foot > .nav { display: contents !important; }
+footer.foot #back { order: 0; }
+footer.foot > .foot-left { order: 1; flex: 1 1 auto; justify-content: center !important; }
+footer.foot #primary { order: 2; }
+/* same bar length everywhere */
+.saa-prog { min-width: min(260px, 42vw); }
+.saa-prog-bar { min-width: 120px; }
+/* Back is a pill everywhere */
+#navBack.back-link { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.05); color: #F6F4EF; text-decoration: none; }
+/* progress always centred on the bottom bar, whatever the button widths */
+:is(footer, .deck-foot, .nav-row, .foot, .slide-footer, .chat-footer):has(.saa-prog) { position: relative !important; }
+:is(footer, .deck-foot, .nav-row, .foot, .slide-footer, .chat-footer) :is(.deck-progress, .footer-progress, .bar-mid, .page-meta, .foot-left, .progress-wrap, .foot-row):has(.saa-prog) { position: static !important; }
+.saa-prog { position: absolute !important; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(380px, 40vw); max-width: none; margin: 0 !important; }
+@media (max-width: 600px) { .saa-prog { width: min(170px, 38vw); min-width: 0; } .saa-prog-bar { min-width: 50px; } }
+/* phones: the progress gets its own centred line above Back / Next, in every game */
+@media (max-width: 600px) {
+  :is(footer, .deck-foot, .nav-row, .foot, .slide-footer, .chat-footer):has(.saa-prog) { flex-wrap: wrap !important; row-gap: 8px; }
+  :is(.deck-progress, .footer-progress, .bar-mid, .page-meta, .foot-left, .progress-wrap, .foot-row):has(.saa-prog) { order: -1 !important; flex: 1 1 100% !important; }
+  .saa-prog { position: static !important; transform: none !important; width: 100% !important; order: -1; flex: 1 1 100%; }
+  footer.foot > .foot-left { flex: 1 1 100% !important; }
+  footer.foot #back { margin-right: auto; }
+}
+@media (max-width: 600px) {
+  :is(.bar-row, .foot-row):has(.saa-prog) { display: flex !important; flex-wrap: wrap !important; row-gap: 8px; justify-content: space-between; }
+  :is(.bar-row, .foot-row) > :is(.bar-mid, .saa-prog) { order: -1 !important; flex: 1 1 100% !important; }
+}

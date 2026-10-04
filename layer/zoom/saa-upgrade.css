@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Swift AI Academy - activity frame upgrade layer (families B/C and one-offs)
+   Loaded AFTER style.css. Non-destructive: remove the two tags to roll back.
+   - Proportional scale (zoom) on big screens, wider column, never smaller than designed
+   - One option look, text lock, idle nudge glow, phone single column
+   ========================================================================== */
+:root { --z: 1; }
+
+/* ---- 1. scale up on big screens, widen the column ---- */
+.app {
+  zoom: var(--z);
+  height: calc(100dvh / var(--z)) !important;
+  max-width: calc(1280px / var(--z)) !important;
+  width: 100%;
+}
+.app > .stage, .app > main { max-width: none; }
+
+/* ---- 2. one option look ---- */
+button.opt, .opt, .choice, .answer-btn, .option {
+  min-height: 46px;
+  border: 1.5px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  transition: transform 0.12s, border-color 0.12s, background 0.12s, box-shadow 0.12s;
+}
+.opt:hover:not([disabled]), .choice:hover:not([disabled]), .option:hover:not([disabled]) { transform: translateY(-1px); border-color: #5B76FF; }
+.opt:active:not([disabled]), .choice:active:not([disabled]), .option:active:not([disabled]) { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.28); }
+
+/* ---- 3. text lock ---- */
+html, body, body * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+input, textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; }
+img { -webkit-user-drag: none; }
+
+/* ---- 4. idle nudge ---- */
+@keyframes saaGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(143, 160, 255, 0), 0 0 0 rgba(143, 160, 255, 0); }
+  50%      { box-shadow: 0 0 0 5px rgba(143, 160, 255, 0.5), 0 0 26px rgba(143, 160, 255, 0.6); border-color: #8FA0FF; }
+}
+@keyframes saaGlowAmber {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 193, 104, 0); }
+  50%      { box-shadow: 0 0 0 7px rgba(255, 193, 104, 0.55), 0 0 34px rgba(255, 193, 104, 0.85); }
+}
+.saa-nudge { animation: saaGlow 1.3s ease-in-out infinite !important; position: relative; z-index: 1; }
+.nav-btn.primary.saa-nudge, .primary.saa-nudge, .cta.saa-nudge { animation: saaGlowAmber 1.3s ease-in-out infinite !important; }
+@media (prefers-reduced-motion: reduce) { .saa-nudge { animation: none !important; outline: 2px solid #8FA0FF; } }
+
+/* ---- 5. phones: no scale, single column ---- */
+@media (max-width: 700px) { :root { --z: 1 !important; } .app { zoom: 1; height: 100dvh !important; max-width: 100% !important; } }

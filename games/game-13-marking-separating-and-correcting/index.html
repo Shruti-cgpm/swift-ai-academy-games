@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marking, Separating and Correcting — Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="saa-header">
+    <div class="saa-brand">
+      <img src="assets/logo-mark.webp" alt="">
+      <span>SWIFT&nbsp;AI&nbsp;ACADEMY</span>
+    </div>
+  </header>
+
+  <!-- Section stepper (wide + tall screens only; phones use the footer counter + bar) -->
+  <div class="stepper" id="stepper" aria-label="Reading sections"></div>
+
+  <main class="slides" id="slides">
+
+  <!-- ===== START ===== -->
+  <section class="page active" data-section="0">
+    <div class="schema-row">
+      <span>AAI-E-MC1-S03-READ01 · MC1 / 1.3 Check Before You Use</span>
+      <span class="badge-mandatory">Mandatory step · Element 4</span>
+    </div>
+    <div class="card">
+      <p class="kicker">Reading · 0.75 hours</p>
+      <h1>Marking, Separating and Correcting</h1>
+      <p class="lede">Learn how to check an AI answer before you use it, even when it sounds very sure.</p>
+      <div class="hook">"A sure tone is not proof."</div>
+      <figure class="g13-scene"><img src="assets/scenes/scene-confident-ai-vs-register.webp" alt="An AI chat bubble says 32 students visited on 14 August, with a big confident tick. Next to it, an open register shows 30. A question mark sits between them." width="1200" height="700"></figure>
+    </div>
+  </section>
+
+  <section class="page" data-section="0">
+    <div class="card">
+      <p class="kicker">Start</p>
+      <h2>Do three things before you use an AI answer.</h2>
+      <p>AI tools sound sure, even when they are wrong. A sure tone tells you nothing about the facts.</p>
+      <p class="do"><b>Your task.</b> Put the three steps in the right order.</p>
+      <div class="saa-kit" data-kit="order" data-required>
+        <ol class="saa-steps">
+          <li data-n="1"><img class="ic g13-step-ic" src="assets/icons/icon-mark.webp" alt="" aria-hidden="true">Mark the parts you can check.</li>
+          <li data-n="2"><img class="ic g13-step-ic" src="assets/icons/icon-separate.webp" alt="" aria-hidden="true">Separate what is supported from what is not.</li>
+          <li data-n="3"><img class="ic g13-step-ic" src="assets/icons/icon-correct.webp" alt="" aria-hidden="true">Correct or qualify what does not hold up.</li>
+        </ol>
+        <p class="saa-k-why" data-right="Yes. First mark, then separate, then correct." data-wrong="Not yet. You cannot separate parts before you mark them."></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STEP 1: MARK ===== -->
+  <section class="page" data-section="1">
+    <div class="card">
+      <p class="kicker">Step 1</p>
+      <h2>Step 1 is to mark the parts you can check.</h2>
+      <p>Some parts of an AI answer can be right or wrong. Mark these five kinds every time.</p>
+      <p class="do"><b>Your task.</b> Tap each card to see what it means.</p>
+      <div class="saa-kit" data-kit="reveal" data-required>
+        <div class="saa-cards">
+          <button class="saa-card" type="button"><span class="saa-front"><img class="ic g13-card-ic" src="assets/icons/icon-fact.webp" alt="" aria-hidden="true">Fact</span><span class="saa-back">A fact is a claim that is stated as true.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="ic g13-card-ic" src="assets/icons/icon-figure.webp" alt="" aria-hidden="true">Figure</span><span class="saa-back">A figure is a number, a count or a percent.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="ic g13-card-ic" src="assets/icons/icon-date.webp" alt="" aria-hidden="true">Date</span><span class="saa-back">A date is a day, a month, a year or a length of time.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="ic g13-card-ic" src="assets/icons/icon-name.webp" alt="" aria-hidden="true">Name</span><span class="saa-back">A name is a person, a place or an organisation.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="ic g13-card-ic" src="assets/icons/icon-source.webp" alt="" aria-hidden="true">Source</span><span class="saa-back">A source is where the answer says the claim came from.</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-section="1" data-name="Mark · Example">
+    <div class="card">
+      <p class="kicker">Step 1 · Example</p>
+      <h2>Here is one AI sentence with its parts marked.</h2>
+      <p class="do"><b>Your task.</b> Tap each coloured phrase to see what kind of part it is.</p>
+      <div class="example-box g13-chat">
+        <div class="example-label">Sentence from an AI tool</div>
+        <span class="mk" onclick="revealTag(this)" role="button" tabindex="0">14 August<span class="mk-tag"><img class="ic g13-tag-ic" src="assets/icons/icon-date.webp" alt="" aria-hidden="true">Date</span></span>,
+        <span class="mk" onclick="revealTag(this)" role="button" tabindex="0">32 students<span class="mk-tag"><img class="ic g13-tag-ic" src="assets/icons/icon-figure.webp" alt="" aria-hidden="true">Figure</span></span> from
+        <span class="mk" onclick="revealTag(this)" role="button" tabindex="0">Batch 4B<span class="mk-tag"><img class="ic g13-tag-ic" src="assets/icons/icon-name.webp" alt="" aria-hidden="true">Name</span></span> visited the facility, which
+        <span class="mk" onclick="revealTag(this)" role="button" tabindex="0">exports components to five countries<span class="mk-tag"><img class="ic g13-tag-ic" src="assets/icons/icon-fact.webp" alt="" aria-hidden="true">Fact</span></span>, as noted in
+        <span class="mk" onclick="revealTag(this)" role="button" tabindex="0">the visit register<span class="mk-tag"><img class="ic g13-tag-ic" src="assets/icons/icon-source.webp" alt="" aria-hidden="true">Source</span></span>.
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- ===== STEP 2: SEPARATE =====
+       Wide screens: all three lanes on one slide. Phones (≤720px): each .sort-col becomes
+       its own slide (script.js expands data-split-narrow into sub-slides). -->
+  <section class="page" data-section="2" data-split-narrow=".sort-col">
+    <div class="card">
+      <p class="kicker">Step 2</p>
+      <h2>Step 2 is to sort each part into one of three groups.</h2>
+      <p>Supported means a record you can check agrees. Uncertain means it may be true, but nothing confirms it. Unsupported means a record disagrees, or there is no source.</p>
+      <p class="do"><b>Your task.</b> Use the visit register to sort each part of the Step 1 sentence.</p>
+      <div class="rec-box" data-record="visit"></div>
+      <div class="saa-kit" data-kit="sort" data-style="deck" data-required data-shuffle data-done-text="All sorted. You used the visit register to decide.">
+        <div class="saa-bins">
+          <div class="saa-bin" data-bin="a" data-label="Supported"><p class="saa-bin-h"><img class="ic g13-bin-ic" src="assets/icons/icon-supported.webp" alt="" aria-hidden="true">Supported</p></div>
+          <div class="saa-bin" data-bin="b" data-label="Uncertain"><p class="saa-bin-h"><img class="ic g13-bin-ic" src="assets/icons/icon-uncertain-circle.webp" alt="" aria-hidden="true">Uncertain</p></div>
+          <div class="saa-bin" data-bin="c" data-label="Unsupported"><p class="saa-bin-h"><img class="ic g13-bin-ic" src="assets/icons/icon-unsupported.webp" alt="" aria-hidden="true">Unsupported</p></div>
+        </div>
+        <div class="saa-pool">
+          <button class="saa-chip" type="button" data-bin="a" data-why="Yes. The visit register shows 14 August." data-hint="Not quite. Look at the date in the visit register.">14 August</button>
+          <button class="saa-chip" type="button" data-bin="a" data-why="Yes. The register lists Batch 4B." data-hint="Not quite. Is Batch 4B in the register?">Batch 4B</button>
+          <button class="saa-chip" type="button" data-bin="b" data-why="Yes. The register exists, but it says nothing about exports." data-hint="Not quite. The register is real, but does it support every claim?">The visit register as the source</button>
+          <button class="saa-chip" type="button" data-bin="c" data-why="Yes. The register shows 30 students, not 32." data-hint="Not quite. Check the number in the register.">32 students</button>
+          <button class="saa-chip" type="button" data-bin="c" data-why="Yes. No record and no source shows this." data-hint="Not quite. Does any record mention exports?">Exports to five countries</button>
+        </div>
+        <p class="saa-k-why"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STEP 3: CORRECT ===== -->
+  <section class="page" data-section="3">
+    <div class="card">
+      <p class="kicker">Step 3</p>
+      <h2>Step 3 is to correct or qualify each problem.</h2>
+      <p>Each uncertain or unsupported part needs one of four actions.</p>
+      <p class="do"><b>Your task.</b> Tap each card to see the action.</p>
+      <div class="saa-kit" data-kit="reveal" data-required>
+        <div class="saa-cards">
+          <button class="saa-card" type="button"><span class="saa-front"><img class="ic g13-card-ic" src="assets/icons/icon-verify.webp" alt="" aria-hidden="true">1. Verify</span><span class="saa-back">Check the part against a record you trust.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="ic g13-card-ic" src="assets/icons/icon-replace.webp" alt="" aria-hidden="true">2. Replace</span><span class="saa-back">Put in the correct value when the part is wrong.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="ic g13-card-ic" src="assets/icons/icon-qualify.webp" alt="" aria-hidden="true">3. Qualify</span><span class="saa-back">Say clearly that the part is not confirmed.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="ic g13-card-ic" src="assets/icons/icon-remove.webp" alt="" aria-hidden="true">4. Remove</span><span class="saa-back">Take the part out when nobody can check it.</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-section="3" data-name="Correct · Before and after">
+    <div class="card">
+      <p class="kicker">Step 3 · Before and after</p>
+      <h2>This is the sentence after the check.</h2>
+      <p class="do"><b>Your task.</b> Compare the two versions, then answer the question.</p>
+      <p class="caution-note"><span class="g13-priv"><img class="ic g13-priv-ic" src="assets/icons/icon-private-password.webp" alt="" aria-hidden="true"><img class="ic g13-priv-ic" src="assets/icons/icon-private-aadhaar.webp" alt="" aria-hidden="true"><img class="ic g13-priv-ic" src="assets/icons/icon-private-phone.webp" alt="" aria-hidden="true"><img class="ic g13-priv-ic" src="assets/icons/icon-private-address.webp" alt="" aria-hidden="true"><img class="ic g13-priv-ic" src="assets/icons/icon-private-health.webp" alt="" aria-hidden="true"><img class="ic g13-priv-ic" src="assets/icons/icon-private-marks.webp" alt="" aria-hidden="true"></span>Only add details from your own record. Never type passwords, Aadhaar numbers, phone numbers, addresses, health details, marks or employer secrets.</p>
+      <div class="ba-grid">
+        <div class="ba-col before">
+          <div class="ba-head">AI draft</div>
+          <p>On 14 August, <span class="strike">32 students</span> from Batch 4B visited the facility, which <span class="strike">exports components to five countries</span>, as noted in the visit register.</p>
+        </div>
+        <div class="ba-col after">
+          <div class="ba-head">Corrected</div>
+          <p>On 14 August, <span class="fixed">30 students</span> from Batch 4B visited the facility, as noted in the visit register. <span class="fixed">(The trainer mentioned the unit also exports components, but this is not confirmed in the register.)</span></p>
+        </div>
+      </div>
+
+      <div class="saa-kit" data-kit="quick" data-required>
+        <p class="saa-q">What changed in the corrected sentence?</p>
+        <div class="saa-k-opts">
+          <button class="saa-k-opt" type="button" data-ok data-why="Yes. The number was replaced, and the export claim was qualified.">The number of students and the export claim.</button>
+          <button class="saa-k-opt" type="button" data-why="Not quite. The date matches the register, so it stayed the same.">The date of the visit.</button>
+        </div>
+        <p class="saa-k-why"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WORKED EXAMPLE ===== -->
+  <section class="page" data-section="4" data-name="Example · ITI">
+    <div class="card">
+      <p class="kicker">Worked example · 1 of 2</p>
+      <h2>The same method works for an ITI visit note.</h2>
+      <span class="lane-tag">ITI · Industrial visit</span>
+      <p>An AI tool wrote a note about a plant visit. The training officer keeps the register with the real numbers.</p>
+      <p class="do"><b>Your task.</b> Read both versions, then answer the question.</p>
+      <div class="ba-grid">
+        <div class="ba-col before">
+          <div class="ba-head">AI draft</div>
+          <p>On 14 August, <span class="strike">32 students</span> from Batch 4B visited the facility, which <span class="strike">exports components to five countries</span>, as noted in the visit register.</p>
+        </div>
+        <div class="ba-col after">
+          <div class="ba-head">Corrected</div>
+          <p>On 14 August, <span class="fixed">30 students</span> from Batch 4B visited the facility, as noted in the visit register. The export claim was not confirmed, so it was qualified.</p>
+        </div>
+      </div>
+      <div class="rec-box rec-strip" data-record="visit" data-hl="Students present"></div>
+      <div class="saa-kit" data-kit="quick" data-required>
+        <p class="saa-q">Why did 32 students become 30 students?</p>
+        <div class="saa-k-opts">
+          <button class="saa-k-opt" type="button" data-why="Not quite. Nobody guessed. The number came from a record.">The checker made a guess.</button>
+          <button class="saa-k-opt" type="button" data-ok data-why="Yes. The register is the record, and it shows 30.">The register shows 30 students.</button>
+          <button class="saa-k-opt" type="button" data-why="Not quite. A round number is not a reason to change a fact.">30 is a rounder number.</button>
+        </div>
+        <p class="saa-k-why"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-section="4" data-name="Example · Higher ed">
+    <div class="card">
+      <p class="kicker">Worked example · 2 of 2</p>
+      <h2>The same method works for a campus event report.</h2>
+      <span class="lane-tag">Higher ed · Campus event report</span>
+      <p>An AI tool summarised a workshop for a campus notice. Someone checked the event register before it was published.</p>
+      <p class="do"><b>Your task.</b> Read both versions, then answer the question.</p>
+      <div class="ba-grid">
+        <div class="ba-col before">
+          <div class="ba-head">AI draft</div>
+          <p>The workshop on 3 March was <span class="strike">the first of its kind in the state</span> and drew <span class="strike">150 participants</span>, according to the event register.</p>
+        </div>
+        <div class="ba-col after">
+          <div class="ba-head">Corrected</div>
+          <p>The workshop on 3 March drew <span class="fixed">about 140 participants</span>, according to the event register. Nobody could confirm that it was the first of its kind, so that claim was removed.</p>
+        </div>
+      </div>
+      <div class="rec-box rec-strip" data-record="event"></div>
+      <div class="saa-kit" data-kit="quick" data-required>
+        <p class="saa-q">Why was "the first of its kind in the state" removed?</p>
+        <div class="saa-k-opts">
+          <button class="saa-k-opt" type="button" data-ok data-why="Yes. A claim that nobody can check should be removed.">Nobody could confirm it.</button>
+          <button class="saa-k-opt" type="button" data-why="Not quite. The register did not show the claim at all.">The register showed it was wrong.</button>
+        </div>
+        <p class="saa-k-why"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRY THIS: one phrase per slide ===== -->
+  <section class="page" data-section="5" data-name="Try this · 1 of 4">
+    <div class="card">
+      <p class="kicker">Try this · 1 of 4</p>
+      <h2>Now you tag the phrase yourself.</h2>
+      <p>An AI tool wrote this note about a practical session. The record book is the only record you can trust.</p>
+      <p class="do"><b>Your task.</b> Use the record book to choose a tag for the bold phrase.</p>
+      <div class="rec-box" data-record="book"></div>
+      <div class="try-item">
+        <p class="try-phrase">"The record book shows the session shifted to <b>9 October</b>."</p>
+        <div class="try-choices">
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'supported','9oct')"><img class="ic g13-choice-ic" src="assets/icons/icon-supported.webp" alt="" aria-hidden="true">Supported</button>
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'uncertain','9oct')"><img class="ic g13-choice-ic" src="assets/icons/icon-uncertain-circle.webp" alt="" aria-hidden="true">Uncertain</button>
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'unsupported','9oct')"><img class="ic g13-choice-ic" src="assets/icons/icon-unsupported.webp" alt="" aria-hidden="true">Unsupported</button>
+        </div>
+        <div class="try-feedback" id="fb-9oct" data-correct="supported" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-section="5" data-name="Try this · 2 of 4">
+    <div class="card">
+      <p class="kicker">Try this · 2 of 4</p>
+      <h2>Now you tag the next phrase.</h2>
+      <p class="do"><b>Your task.</b> Use the record book to choose a tag for the bold phrase.</p>
+      <div class="rec-box" data-record="book"></div>
+      <div class="try-item">
+        <p class="try-phrase">"...and <b>all 28 trainees</b> from Batch 2 completed it."</p>
+        <div class="try-choices">
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'supported','28t')"><img class="ic g13-choice-ic" src="assets/icons/icon-supported.webp" alt="" aria-hidden="true">Supported</button>
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'uncertain','28t')"><img class="ic g13-choice-ic" src="assets/icons/icon-uncertain-circle.webp" alt="" aria-hidden="true">Uncertain</button>
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'unsupported','28t')"><img class="ic g13-choice-ic" src="assets/icons/icon-unsupported.webp" alt="" aria-hidden="true">Unsupported</button>
+        </div>
+        <div class="try-feedback" id="fb-28t" data-correct="unsupported" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-section="5" data-name="Try this · 3 of 4">
+    <div class="card">
+      <p class="kicker">Try this · 3 of 4</p>
+      <h2>Now you tag the next phrase.</h2>
+      <p class="do"><b>Your task.</b> Use the record book to choose a tag for the bold phrase.</p>
+      <div class="rec-box" data-record="book"></div>
+      <div class="try-item">
+        <p class="try-phrase">"...making this <b>the best-attended session this term</b>."</p>
+        <div class="try-choices">
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'supported','best')"><img class="ic g13-choice-ic" src="assets/icons/icon-supported.webp" alt="" aria-hidden="true">Supported</button>
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'uncertain','best')"><img class="ic g13-choice-ic" src="assets/icons/icon-uncertain-circle.webp" alt="" aria-hidden="true">Uncertain</button>
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'unsupported','best')"><img class="ic g13-choice-ic" src="assets/icons/icon-unsupported.webp" alt="" aria-hidden="true">Unsupported</button>
+        </div>
+        <div class="try-feedback" id="fb-best" data-correct="unsupported" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-section="5" data-name="Try this · 4 of 4">
+    <div class="card">
+      <p class="kicker">Try this · 4 of 4</p>
+      <h2>Now you tag the next phrase.</h2>
+      <p class="do"><b>Your task.</b> Use the record book to choose a tag for the bold phrase.</p>
+      <div class="rec-box" data-record="book"></div>
+      <div class="try-item">
+        <p class="try-phrase">Citing <b>"the record book"</b> as the source for the whole sentence.</p>
+        <div class="try-choices">
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'supported','src')"><img class="ic g13-choice-ic" src="assets/icons/icon-supported.webp" alt="" aria-hidden="true">Supported</button>
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'uncertain','src')"><img class="ic g13-choice-ic" src="assets/icons/icon-uncertain-circle.webp" alt="" aria-hidden="true">Uncertain</button>
+          <button type="button" class="choice-btn" onclick="checkAnswer(this,'unsupported','src')"><img class="ic g13-choice-ic" src="assets/icons/icon-unsupported.webp" alt="" aria-hidden="true">Unsupported</button>
+        </div>
+        <div class="try-feedback" id="fb-src" data-correct="uncertain" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RECAP ===== -->
+  <section class="page" data-section="6">
+    <div class="card">
+      <p class="kicker">Check before you use</p>
+      <h2>Remember these five lines.</h2>
+      <ul class="recap-list">
+        <li><span class="rn">1</span>A sure tone is not proof.</li>
+        <li><span class="rn">2</span>Mark every fact, figure, date, name and source.</li>
+        <li><span class="rn">3</span>Separate each mark into supported, uncertain or unsupported.</li>
+        <li><span class="rn">4</span>Correct each problem. Verify, replace, qualify or remove it.</li>
+        <li><span class="rn">5</span>Pause before send. Send only what you can defend.</li>
+      </ul>
+      <p class="do"><b>Your task.</b> Answer one last question.</p>
+      <div class="saa-kit" data-kit="quick" data-required>
+        <p class="saa-q">An AI answer gives a number with no source. What do you do?</p>
+        <div class="saa-k-opts">
+          <button class="saa-k-opt" type="button" data-why="Not quite. A number without a source still needs a check.">Use it, because it looks exact.</button>
+          <button class="saa-k-opt" type="button" data-ok data-why="Yes. Verify it against a record, or qualify or remove it.">Check it against a record first.</button>
+        </div>
+        <p class="saa-k-why"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-section="6" data-name="Recap · At a glance">
+    <div class="card">
+      <p class="kicker">Check before you use</p>
+      <h2>Here is the whole method on one card.</h2>
+      <p>On every AI task, run Mark, Separate, Correct and Pause before send.</p>
+      <div class="quick-ref routine-ref">
+        <div class="qr">
+          <img class="ic g13-qr-ic" src="assets/icons/icon-mark.webp" alt="" aria-hidden="true">
+          <span>1. Mark</span>
+          <small>Underline every fact, figure, date, name and source in the answer.</small>
+        </div>
+        <div class="qr">
+          <img class="ic g13-qr-ic" src="assets/icons/icon-separate.webp" alt="" aria-hidden="true">
+          <span>2. Separate</span>
+          <small>Decide if a record supports, cannot confirm or goes against each mark.</small>
+        </div>
+        <div class="qr">
+          <img class="ic g13-qr-ic" src="assets/icons/icon-correct.webp" alt="" aria-hidden="true">
+          <span>3. Correct</span>
+          <small>Verify, replace, qualify or remove what is not clearly supported.</small>
+        </div>
+        <div class="qr">
+          <img class="ic g13-qr-ic" src="assets/icons/icon-send.webp" alt="" aria-hidden="true">
+          <span>Pause before send</span>
+          <small>If you cannot show where a mark came from, do not send it yet.</small>
+        </div>
+      </div>
+
+      <div class="transfer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <p><strong>Try it now.</strong> Before you use your next AI answer, run this routine on it.</p>
+      </div>
+
+      <div class="done-banner" id="doneBanner" aria-live="polite">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>You have finished Marking, Separating and Correcting.</span>
+      </div>
+      <p class="meta-foot">Swift AI Academy · PC 4.1–4.5 · PC 5.1–5.4 · English</p>
+    </div>
+  </section>
+
+  </main>
+
+  <nav class="deck-foot" aria-label="Slide navigation">
+    <button type="button" class="nav-btn" id="backBtn" onclick="changePage(-1)">Back</button>
+    <div class="deck-progress">
+      <div class="deck-meta"><span id="pageName">Start</span><span class="page-count" id="pageCount">1 / 15</span></div>
+      <div class="seg-bar" id="segBar" role="progressbar" aria-label="Reading progress" aria-valuemin="1" aria-valuemax="15" aria-valuenow="1"></div>
+    </div>
+    <button type="button" class="nav-btn primary" id="nextBtn" onclick="handleNext()">Next</button>
+  </nav>
+
+</div>
+
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

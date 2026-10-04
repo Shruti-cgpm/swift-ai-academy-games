@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+/* ==========================================================================
+   Swift AI Academy - activity frame upgrade layer (families B/C and one-offs)
+   Loaded AFTER style.css. Non-destructive: remove the two tags to roll back.
+   - Proportional scale (zoom) on big screens, wider column, never smaller than designed
+   - One option look, text lock, idle nudge glow, phone single column
+   ========================================================================== */
+:root { --z: 1; }
+
+/* ---- 1. scale up on big screens, widen the column ---- */
+.app {
+  zoom: var(--z);
+  height: calc(100dvh / var(--z)) !important;
+  max-width: calc(1280px / var(--z)) !important;
+  width: 100%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.app > .stage, .app > main { max-width: none; }
+
+/* ---- 1b. left / right ---- */
+.saa-split { display: grid !important; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(24px, 4vw, 56px); align-items: center; }
+.saa-split > .saa-lead, .saa-split > .saa-work { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.saa-split > .saa-lead > *, .saa-split > .saa-work > * { margin-left: 0; margin-right: 0; max-width: none; }
+@media (max-width: 700px) { .saa-split { display: block !important; } .saa-split > .saa-work { margin-top: 12px; } }
+
+/* ---- 2. one option look ---- */
+button.opt, .opt, .choice, .answer-btn, .option {
+  min-height: 46px;
+  border: 1.5px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  transition: transform 0.12s, border-color 0.12s, background 0.12s, box-shadow 0.12s;
+}
+.opt:hover:not([disabled]), .choice:hover:not([disabled]), .option:hover:not([disabled]) { transform: translateY(-1px); border-color: #5B76FF; }
+.opt:active:not([disabled]), .choice:active:not([disabled]), .option:active:not([disabled]) { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.28); }
+
+/* ---- 3. text lock ---- */
+html, body, body * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+input, textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; }
+img { -webkit-user-drag: none; }
+
+/* ---- 4. idle nudge ---- */
+@keyframes saaGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(143, 160, 255, 0), 0 0 0 rgba(143, 160, 255, 0); }
+  50%      { box-shadow: 0 0 0 5px rgba(143, 160, 255, 0.5), 0 0 26px rgba(143, 160, 255, 0.6); border-color: #8FA0FF; }
+}
+@keyframes saaGlowAmber {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 193, 104, 0); }
+  50%      { box-shadow: 0 0 0 7px rgba(255, 193, 104, 0.55), 0 0 34px rgba(255, 193, 104, 0.85); }
+}
+.saa-nudge { animation: saaGlow 1.3s ease-in-out infinite !important; position: relative; z-index: 1; }
+.nav-btn.primary.saa-nudge, .primary.saa-nudge, .cta.saa-nudge { animation: saaGlowAmber 1.3s ease-in-out infinite !important; }
+@media (prefers-reduced-motion: reduce) { .saa-nudge { animation: none !important; outline: 2px solid #8FA0FF; } }
+
+/* ---- 5. phones: no scale, single column ---- */
+@media (max-width: 700px) { :root { --z: 1 !important; } .app { zoom: 1; height: 100dvh !important; max-width: 100% !important; } }
+
+/* ---- 6. one font everywhere (keeps Indic fallbacks) ---- */
+body, button, input, textarea, select { font-family: 'Instrument Sans', 'Noto Sans Gujarati', 'Noto Sans Devanagari', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+.saa-inner { display: contents; }
+.saa-inner.saa-split { display: grid !important; width: 100%; }
+/* phones: one column (this must come after the rule above, which is more specific than the one at the top) */
+@media (max-width: 700px) { .saa-inner.saa-split { display: block !important; } }
+
+/* ---- phones: scroll the area between header and footer (set by zoom.js) ---- */
+@media (max-width: 700px) {
+  .app.saa-phone { display: flex !important; flex-direction: column !important; }
+  .app.saa-phone > :is(header, footer, nav, .saa-header, .deck-foot, .foot, .nav-row, .bar, .topbar) { flex: 0 0 auto !important; }
+  .saa-scrollzone { flex: 1 1 auto !important; min-height: 0 !important; height: auto !important; max-height: none !important;
+    overflow-y: auto !important; overflow-x: hidden !important; justify-content: flex-start !important; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+  .saa-scrollzone .saa-scrollpath, .saa-scrollzone.saa-cur, .saa-scrollzone .saa-surface, .saa-scrollzone .saa-split {
+    height: auto !important; min-height: 0 !important; max-height: none !important; overflow: visible !important; flex: 0 0 auto !important; justify-content: flex-start !important; }
+}

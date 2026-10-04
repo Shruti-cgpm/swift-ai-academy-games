@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Request Builder and Refinement Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="saa-header">
+    <div class="saa-brand">
+      <img src="assets/logo-mark.webp" alt="">
+      <span>SWIFT&nbsp;AI&nbsp;ACADEMY</span>
+    </div>
+  </div>
+
+  <main class="card saa-card">
+
+    <!-- persistent strip: which side of the card the current slide belongs to -->
+    <div class="card-strip">
+      <div class="side-tabs" role="tablist" aria-label="Card side">
+        <button type="button" class="side-tab active" role="tab" aria-selected="true" data-tab="1">Side 1 &middot; Build</button>
+        <button type="button" class="side-tab" role="tab" aria-selected="false" data-tab="2">Side 2 &middot; Fix</button>
+      </div>
+    </div>
+
+    <div class="stage">
+
+      <!-- ============ SIDE 1 — request builder ============ -->
+
+      <!-- Slide 1 — intro (the start screen covers it; Back can return to it) -->
+      <section class="slide slide-intro active" data-side="1" aria-label="Build your request">
+        <header>
+          <div class="saa-eyebrow">Prompt Card &middot; 0.5 hrs &middot; Theory</div>
+          <h1>Request Builder and Refinement Card</h1>
+          <p class="subtitle">You build a clear request for an AI tool. Then you learn quick ways to fix a weak answer.</p>
+          <span class="schema">AAI-E-MC1-S02-CARD01</span>
+        </header>
+        <hr class="saa-divider">
+        <div>
+          <h2>You build your request in 4 parts.</h2>
+          <p class="build-lead">The 4 parts are Role, Context, Task and Format. You fill in one blank for each part.</p>
+          <figure class="g6-template" aria-label="Four-part request template">
+            <div class="g6-template-line">You are <span class="g6-pill"><img class="g6-ico" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">[ROLE]</span>. For <span class="g6-pill"><img class="g6-ico" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">[CONTEXT]</span>, <span class="g6-pill"><img class="g6-ico" src="assets/icons/icon-task.webp" alt="" aria-hidden="true">[TASK]</span>. Format it as <span class="g6-pill"><img class="g6-ico" src="assets/icons/icon-format.webp" alt="" aria-hidden="true">[FORMAT]</span>.</div>
+            <p class="g6-example-label">Filled example</p>
+            <p class="g6-example">You are a workshop teacher. For new trainees, before the practical, write a short safety reminder. Format it as 3 points for the noticeboard.</p>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Slide 2 — Role + Context -->
+      <section class="slide" data-side="1" hidden aria-label="Role and context">
+        <div class="saa-eyebrow">Build &middot; Part 1</div>
+        <h2>Who is the AI, and who is the answer for?</h2>
+        <p class="build-lead">The role tells the AI who to be. The context says why you need the answer and who reads it.</p>
+        <p class="do saa-do"><b class="saa-do-label">Your task.</b> Type a role and a context, or tap an example.</p>
+        <div class="chip-row">
+          <button type="button" class="chip-btn" data-example="workshop"><img class="g6-ico" src="assets/icons/icon-workshop.webp" alt="" aria-hidden="true">Try the workshop example</button>
+          <button type="button" class="chip-btn" data-example="campus"><img class="g6-ico" src="assets/icons/icon-campus.webp" alt="" aria-hidden="true">Try the campus example</button>
+        </div>
+        <div class="builder">
+          <div class="field">
+            <label for="b-role"><img class="g6-ico" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">Role <span class="opt-hint">Who should the AI act as?</span></label>
+            <input type="text" id="b-role" placeholder="Example: a workshop teacher">
+          </div>
+          <div class="field">
+            <label for="b-context"><img class="g6-ico" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">Context <span class="opt-hint">Why do you need it, and who is it for?</span></label>
+            <input type="text" id="b-context" placeholder="Example: new trainees, before the practical">
+          </div>
+        </div>
+        <div class="preview-col">
+          <p class="hint preview-label">Your request</p>
+          <div class="prompt-preview mini" aria-hidden="true">You are ___. For ___, ___. Format it as ___.</div>
+        </div>
+      </section>
+
+      <!-- Slide 3 — Task + Format -->
+      <section class="slide" data-side="1" hidden aria-label="Task and format">
+        <div class="saa-eyebrow">Build &middot; Part 2</div>
+        <h2>What should the AI make, and how should it look?</h2>
+        <p class="build-lead">The task is the job for the AI. The format is the shape of the answer.</p>
+        <p class="do saa-do"><b class="saa-do-label">Your task.</b> Type a task and a format, then read your request.</p>
+        <div class="builder">
+          <div class="field">
+            <label for="b-task"><img class="g6-ico" src="assets/icons/icon-task.webp" alt="" aria-hidden="true">Task <span class="opt-hint">What should the AI make?</span></label>
+            <input type="text" id="b-task" placeholder="Example: write a short safety reminder">
+          </div>
+          <div class="field">
+            <label for="b-format"><img class="g6-ico" src="assets/icons/icon-format.webp" alt="" aria-hidden="true">Format <span class="opt-hint">How should it look?</span></label>
+            <input type="text" id="b-format" placeholder="Example: 3 points for the noticeboard">
+          </div>
+        </div>
+        <figure class="g6-shapes"><img src="assets/diagrams/diag-format-shapes.webp" width="480" height="160" alt="Three shapes an answer can take: bullet points, a short message, or a table."></figure>
+        <div class="preview-col">
+          <p class="hint preview-label">Your request</p>
+          <div class="prompt-preview mini" aria-hidden="true">You are ___. For ___, ___. Format it as ___.</div>
+        </div>
+      </section>
+
+      <!-- Slide 4 — assembled request + Copy -->
+      <section class="slide" data-side="1" hidden aria-label="Your request">
+        <div class="final-col">
+          <div class="saa-eyebrow">Build &middot; Your request</div>
+          <h2>Your full request is ready to copy.</h2>
+          <p class="build-lead">Read it once. Every blank should now show your own words.</p>
+          <p class="do saa-do"><b class="saa-do-label">Your task.</b> Check your request, then tap Copy request.</p>
+          <div class="prompt-preview" id="prompt-preview" aria-live="polite">You are ___. For ___, ___. Format it as ___.</div>
+          <div class="preview-actions">
+            <button type="button" class="btn-copy saa-btn-secondary" id="copy-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy request
+            </button>
+          </div>
+          <figure class="g6-paste">
+            <img src="assets/diagrams/tool-paste-guide.webp" width="800" height="250" alt="After you copy your request, paste it into an AI tool such as ChatGPT, Gemini or Claude.">
+            <button type="button" class="g6-paste-copy" tabindex="-1" aria-hidden="true"></button>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ============ SIDE 2 — five refinement moves ============ -->
+
+      <!-- Slide 5 — moves 1–3 -->
+      <section class="slide" data-side="2" hidden aria-label="Fix it fast">
+        <div>
+          <div class="saa-eyebrow">Fix &middot; Moves 1 to 3</div>
+          <h2>The first AI answer is not always right.</h2>
+          <p class="build-lead">You can fix a weak answer with 5 moves. Here are moves 1 to 3.</p>
+          <p class="do saa-do"><b class="saa-do-label">Your task.</b> Turn the dial to each move and read the new answer.</p>
+          <div class="saa-kit g6-dial" data-kit="dial" data-required data-label="Move dial">
+            <div class="saa-dial-stop" data-start data-why="This is the first answer. Now try each of the 3 moves.">
+              <span class="saa-d-name">First answer</span>
+              <p class="saa-d-you">Write a safety reminder for new trainees.</p>
+              <p class="saa-d-ans">Safety equipment must be worn at all times. Work areas must be kept clear. Machines must be switched off before cleaning.</p>
+            </div>
+            <div class="saa-dial-stop" data-why="Use Narrow when the answer covers too much. Now it talks about one part only.">
+              <span class="saa-d-name"><img src="assets/icons/icon-move-1.webp" alt="" aria-hidden="true">1. Narrow</span>
+              <p class="saa-d-you">Only tell me about <mark>safety equipment</mark>.</p>
+              <p class="saa-d-ans">Safety glasses and gloves must be worn for every job in the workshop.</p>
+            </div>
+            <div class="saa-dial-stop" data-why="Use Expand when the answer is too short. Now it gives more detail.">
+              <span class="saa-d-name"><img src="assets/icons/icon-move-2.webp" alt="" aria-hidden="true">2. Expand</span>
+              <p class="saa-d-you">Tell me more about <mark>keeping work areas clear</mark>.</p>
+              <p class="saa-d-ans">Safety equipment must be worn at all times. Work areas must be kept clear. Tools must go back on the rack after use. Spills must be cleaned at once. Bags must stay outside the workshop.</p>
+            </div>
+            <div class="saa-dial-stop" data-why="Use Change register when the tone or the words are wrong. Now it sounds friendly and simple.">
+              <span class="saa-d-name"><img src="assets/icons/icon-move-3.webp" alt="" aria-hidden="true">3. Change register</span>
+              <p class="saa-d-you">Say this simply for <mark>new trainees</mark>.</p>
+              <p class="saa-d-ans">Always wear your safety glasses and gloves. Keep your work area clear. Switch off the machine before you clean it.</p>
+            </div>
+            <p class="saa-k-why"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 6 — moves 4–5 + stop rule -->
+      <section class="slide" data-side="2" hidden aria-label="Check, combine, stop">
+        <div>
+          <div class="saa-eyebrow">Fix &middot; Moves 4 and 5</div>
+          <h2>Moves 4 and 5 help you check and combine answers.</h2>
+          <p class="stop-note"><img class="g6-stop" src="assets/icons/icon-stop.webp" alt="" aria-hidden="true"><b>Stop rule.</b> If you can fix it faster yourself, fix it yourself. Always check the answer before you use it.</p>
+          <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap each card to see when you use the move.</p>
+          <div class="saa-kit" data-kit="reveal" data-required>
+            <div class="saa-cards">
+              <button class="saa-card" type="button"><span class="saa-front">4. Check it<img class="g6-move" src="assets/icons/icon-move-4.webp" alt="" aria-hidden="true"></span><span class="saa-back">Use Check it when the answer sounds too sure. Ask &ldquo;What might be wrong here?&rdquo;</span></button>
+              <button class="saa-card" type="button"><span class="saa-front">5. Combine<img class="g6-move" src="assets/icons/icon-move-5.webp" alt="" aria-hidden="true"></span><span class="saa-back">Use Combine when you have 2 good answers. Say &ldquo;Combine the best of both.&rdquo;</span></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- footer: progress + Back / Next -->
+  <footer class="deck-foot">
+    <button type="button" class="btn-back saa-btn-secondary" id="deck-back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      Back
+    </button>
+    <div class="deck-progress">
+      <div class="deck-dots" id="deck-dots" aria-hidden="true"></div>
+      <span class="deck-count" id="deck-count" aria-live="polite">1 / 6</span>
+    </div>
+    <button type="button" class="btn-next saa-btn-primary" id="deck-next">
+      <span class="btn-label">Next</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </button>
+    <button type="button" class="btn-restart saa-btn-secondary" id="deck-restart" hidden>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"></path><polyline points="21 3 21 9 15 9"></polyline></svg>
+      Back to Build
+    </button>
+  </footer>
+
+</div>
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<!--
+  AAI-E-MC1-S01-READ01 — Understanding What Is an AI Tool?
+  Swift AI Academy · A ConveGenius company
+  Keep index.html, style.css and script.js in the same folder.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Understanding What Is an AI Tool? — AAI-E-MC1-S01-READ01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="wrap" id="app" inert>
+
+<div class="top">
+<header class="masthead">
+  <div class="lockup" aria-label="Swift AI Academy">
+    <img src="assets/logo-mark.webp" alt="" width="30" style="height:auto;display:block">
+    <span class="wordmark">
+      <span class="name">Swift AI</span>
+      <span class="sub">Academy</span>
+    </span>
+  </div>
+</header>
+<div class="ttl">
+  <p class="eyebrow">First contact</p>
+  <h1>Understanding What Is an AI Tool?</h1>
+</div>
+<div class="narr">
+  <button type="button" id="listen" class="nb" aria-label="Play narration">
+    <svg class="i-play" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="i-pause" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+    <span>Replay</span>
+  </button>
+  <button type="button" id="voice" class="nb icon" aria-pressed="true" aria-label="Auto-narration on. Tap to turn off">
+    <svg class="i-on" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+    <svg class="i-off" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>
+  </button>
+</div>
+</div>
+<p class="standfirst print-only">AI tools like ChatGPT, Gemini and Claude can write things for you in seconds. This page shows you what they are, how to try one safely, and how to check what they give you.</p>
+
+<main id="steps">
+
+<!-- 1 -->
+<section class="step on" aria-label="Before you start" data-pc="" data-gate="text" data-gate-msg="Tap or type an answer to continue">
+<div class="lead">
+  <p class="eyebrow">Before you start</p>
+  <h2>Have you used an AI tool before?</h2>
+  <p class="do"><b>Your task.</b> Tap the answer that fits you, or type your own.</p>
+</div>
+<div class="work">
+  <div class="choices" id="chips" role="group" aria-label="Quick answers">
+    <button type="button" class="choice"><img class="ic" src="assets/icons/dark/icon-first-time.webp" alt="" aria-hidden="true">No, this is my first time</button>
+    <button type="button" class="choice"><span class="ic-logo"><img src="assets/chatgpt.webp" alt="" aria-hidden="true"></span>Yes, ChatGPT</button>
+    <button type="button" class="choice"><span class="ic-logo"><img src="assets/gemini.webp" alt="" aria-hidden="true"></span>Yes, Gemini</button>
+    <button type="button" class="choice"><span class="ic-logo"><img src="assets/claude.webp" alt="" aria-hidden="true"></span>Yes, Claude</button>
+  </div>
+  <label for="pred" class="flabel">Or type your own answer</label>
+  <input id="pred" class="field" type="text" placeholder="e.g. Yes, another tool" autocomplete="off">
+  <p class="hint">There is no wrong answer.</p>
+</div>
+</section>
+
+<!-- 2 -->
+<section class="step" aria-label="Meet the tools" hidden data-pc="" data-nudge=".seg-b[aria-pressed=false]">
+<div class="lead">
+  <p class="eyebrow">Meet the tools</p>
+  <h2>You can try these three AI tools.</h2>
+  <p>You type what you want. The tool writes an answer for you.</p>
+  <p class="do"><b>Your task.</b> Look at the three tools. Then tap how you would get one.</p>
+</div>
+<div class="work">
+  <div class="tools">
+    <div class="tool"><span class="mono"><img src="assets/chatgpt.webp" alt=""></span><b>ChatGPT</b><span>by OpenAI</span></div>
+    <div class="tool"><span class="mono"><img src="assets/gemini.webp" alt=""></span><b>Gemini</b><span>by Google</span></div>
+    <div class="tool"><span class="mono"><img src="assets/claude.webp" alt=""></span><b>Claude</b><span>by Anthropic</span></div>
+  </div>
+  <div class="how">
+    <div class="seg" role="group" aria-label="Where to get it">
+      <button type="button" class="seg-b" aria-pressed="true" data-t="pc">On a computer</button>
+      <button type="button" class="seg-b" aria-pressed="false" data-t="ph">On an Android phone</button>
+    </div>
+    <ol class="steps3" data-for="pc"><li><i>1</i><img class="ic-step" src="assets/icons/dark/icon-get-browser.webp" alt="" aria-hidden="true"><span>Open your browser</span></li><li><i>2</i><img class="ic-step" src="assets/icons/dark/icon-get-search.webp" alt="" aria-hidden="true"><span>Search the tool&rsquo;s name</span></li><li><i>3</i><img class="ic-step" src="assets/icons/dark/icon-get-signin.webp" alt="" aria-hidden="true"><span>Sign in or make a free account</span></li></ol>
+    <ol class="steps3" data-for="ph" hidden><li><i>1</i><img class="ic-step" src="assets/icons/dark/icon-get-store.webp" alt="" aria-hidden="true"><span>Open the Play Store</span></li><li><i>2</i><img class="ic-step" src="assets/icons/dark/icon-get-install.webp" alt="" aria-hidden="true"><span>Search the name, tap Install</span></li><li><i>3</i><img class="ic-step" src="assets/icons/dark/icon-get-openapp.webp" alt="" aria-hidden="true"><span>Open the app and sign in</span></li></ol>
+  </div>
+  <p class="safe"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4-3.4 7.4-8 9-4.6-1.6-8-5-8-9V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg><span>Use only your school-approved tool and account.</span></p>
+</div>
+</section>
+
+<!-- 3 -->
+<section class="step" aria-label="Try one" hidden data-pc="" data-gate="text" data-gate-msg="Paste the AI's answer to continue">
+<div class="lead">
+  <p class="eyebrow">Your first prompt</p>
+  <h2>Try the prompt in your AI tool.</h2>
+  <ol class="todo">
+    <li>Open your AI tool.</li>
+    <li>Type or paste this exact prompt.</li>
+    <li>Copy the answer it gives you.</li>
+    <li>Paste the answer in the box on the right.</li>
+  </ol>
+  <div class="promptbox nr">
+    <p class="typed nr" id="promptText">write a four-line reminder for tomorrow's workshop practical, ask everyone to bring their record book</p>
+    <button type="button" class="copybtn" id="copyPrompt">Copy prompt</button>
+  </div>
+</div>
+<div class="work">
+  <figure class="howto">
+    <video class="howto-v" src="assets/anim-copy-paste-loop.mp4" poster="assets/anim-copy-paste-loop-poster.webp" muted loop playsinline autoplay preload="auto" aria-label="Silent example: paste the prompt into the AI tool, then copy the answer."></video>
+    <figcaption>Watch: paste the prompt, then copy the answer.</figcaption>
+  </figure>
+  <label for="resp1" class="flabel">Step 4. Paste the AI&rsquo;s answer here</label>
+  <textarea id="resp1" class="field" rows="4" placeholder="Paste the answer from your AI tool"></textarea>
+  <p class="hint">Use your school-approved tool.</p>
+</div>
+</section>
+
+<!-- 4 -->
+<section class="step" aria-label="Look at what it gave you" hidden data-pc="" data-gate="any" data-gate-msg="Tap at least one statement to continue">
+<div class="lead">
+  <p class="eyebrow">Look closely</p>
+  <h2>It sounds good. Can you trust it?</h2>
+  <p class="do"><b>Your task.</b> Read the answer you pasted. Then tap every statement that is true.</p>
+</div>
+<div class="work">
+  <p class="flabel">The answer you pasted</p>
+  <button type="button" class="quote" id="quote" aria-haspopup="dialog"><span class="q-text" id="quoteText">Your answer will appear here.</span><span class="q-more">Tap to read the full answer <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span></button>
+  <ul class="chk">
+    <li><label class="choice box"><input type="checkbox">It followed my instructions</label></li>
+    <li><label class="choice box"><input type="checkbox">It sounds clear and confident</label></li>
+    <li><label class="choice box"><input type="checkbox">It added something I didn&rsquo;t ask for</label></li>
+    <li><label class="choice box"><input type="checkbox">I would check the details before using it</label></li>
+  </ul>
+</div>
+</section>
+
+<!-- 5 -->
+<section class="step" aria-label="One important rule" hidden data-pc="" data-nudge=".saa-steps > li">
+<div class="lead">
+  <p class="eyebrow">One important rule</p>
+  <h2>You have an answer. What do you do now?</h2>
+  <p>An AI answer is a draft, not a promise. You check it, and then you decide.</p>
+  <p class="do"><b>Your task.</b> Put the four steps in the right order.</p>
+</div>
+<div class="work">
+  <div class="saa-kit" data-kit="order" data-required>
+    <ol class="saa-steps">
+      <li data-n="1"><img class="ic" src="assets/icons/dark/icon-loop-ask.webp" alt="" aria-hidden="true">You give the AI tool an instruction.</li>
+      <li data-n="2"><img class="ic" src="assets/icons/dark/icon-loop-draft.webp" alt="" aria-hidden="true">The AI tool writes a draft.</li>
+      <li data-n="3"><img class="ic" src="assets/icons/dark/icon-loop-check.webp" alt="" aria-hidden="true">You check the draft.</li>
+      <li data-n="4"><img class="ic" src="assets/icons/dark/icon-loop-use.webp" alt="" aria-hidden="true">You use it, or you change it.</li>
+    </ol>
+    <p class="saa-k-why" data-right="Yes. The draft becomes your work only after you check it." data-wrong="Not yet. You cannot check a draft before the tool writes it."></p>
+  </div>
+  <p class="rule">The AI gives the draft. You give the check.</p>
+</div>
+</section>
+
+<!-- 6 -->
+<section class="step" aria-label="Why it can get things wrong" hidden data-pc="" data-follow="s6_prompt" data-gate="done" data-gate-msg="Pick a word to continue">
+<div class="lead">
+  <p class="eyebrow">Why it can get things wrong</p>
+  <h2>An AI tool guesses the most likely next words.</h2>
+  <p>It learned patterns from a lot of text. It picks the words that usually come next.</p>
+  <p class="do"><b>Your task.</b> The tool must guess the time. Tap the one you think it will pick.</p>
+</div>
+<div class="work">
+<div class="pred" id="pred6">
+  <div class="hearrow"><button type="button" class="hear" id="hear6" aria-label="Hear the question"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><span>Hear it</span></button></div>
+  <p class="pred-prompt">“The buses leave the ITI gate at <span class="blank" id="blank">&nbsp;&nbsp;?&nbsp;&nbsp;</span>”</p>
+  <div class="opts" role="group" aria-label="Possible next words">
+    <button type="button" class="opt" data-p="38"><span class="lbl">8 am</span><span class="bar"><i></i></span><span class="pct">38%</span></button>
+    <button type="button" class="opt" data-p="31"><span class="lbl">9 am</span><span class="bar"><i></i></span><span class="pct">31%</span></button>
+    <button type="button" class="opt" data-p="17"><span class="lbl">7 am</span><span class="bar"><i></i></span><span class="pct">17%</span></button>
+    <button type="button" class="opt" data-p="9"><span class="lbl">10 am</span><span class="bar"><i></i></span><span class="pct">9%</span></button>
+    <button type="button" class="opt" data-p="5"><span class="lbl">noon</span><span class="bar"><i></i></span><span class="pct">5%</span></button>
+  </div>
+  <p class="pred-out" id="predOut" aria-live="polite"></p>
+</div>
+</div>
+</section>
+
+<!-- 7 -->
+<section class="step" aria-label="Not the same as other tools" hidden data-pc="" data-follow="q" data-gate="done" data-gate-msg="Match all three tasks to continue">
+<div class="lead">
+  <p class="eyebrow">Not the same as other tools</p>
+  <h2>An AI tool is not a search engine or a calculator.</h2>
+  <p>Some AI tools can also search the web. You still check the answer.</p>
+  <p class="do"><b>Your task.</b> Read the task on the right. Tap the tool that does it.</p>
+</div>
+<div class="work">
+<div class="quiz">
+  <div class="qrow"><p class="q-label" id="qlabel">Task 1 of 3</p><button type="button" class="hear" id="hear7" aria-label="Hear the task"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><span>Hear it</span></button></div>
+  <p class="q-task" id="qtask"></p>
+  <div class="tri" role="group" aria-label="Choose the right tool for the task">
+    <button type="button" class="tcard" data-k="search"><div class="glyph">
+          <svg viewBox="0 0 120 92" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="88" height="64" rx="11" stroke="rgba(255,255,255,0.22)" stroke-width="1.75"/>
+            <path d="M19 21h46M19 34h56M19 47h34" stroke="#DCE1F2" stroke-width="1.75" stroke-linecap="round"/>
+            <circle cx="74" cy="54" r="15" stroke="#DCE1F2" stroke-width="1.75"/>
+            <path d="M85 65l12 12" stroke="#DCE1F2" stroke-width="1.75" stroke-linecap="round"/>
+          </svg>
+        </div><p class="cap-t">Search engine</p><p class="cap-b">Finds existing information.</p></button>
+    <button type="button" class="tcard" data-k="calc"><div class="glyph">
+          <svg viewBox="0 0 120 92" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="78" height="64" rx="11" stroke="rgba(255,255,255,0.22)" stroke-width="1.75"/>
+            <rect x="15" y="13" width="52" height="12" rx="4" stroke="#DCE1F2" stroke-width="1.75"/>
+            <g stroke="#DCE1F2" stroke-width="1.75">
+              <rect x="15" y="34" width="11" height="9" rx="3"/><rect x="36" y="34" width="11" height="9" rx="3"/><rect x="57" y="34" width="11" height="9" rx="3"/>
+              <rect x="15" y="49" width="11" height="9" rx="3"/><rect x="36" y="49" width="11" height="9" rx="3"/><rect x="57" y="49" width="11" height="9" rx="3"/>
+            </g>
+          </svg>
+        </div><p class="cap-t">Calculator</p><p class="cap-b">Applies fixed rules.</p></button>
+    <button type="button" class="tcard" data-k="ai"><div class="glyph">
+          <svg viewBox="0 0 120 92" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="56" height="22" rx="9" stroke="rgba(255,255,255,0.22)" stroke-width="1.75" fill="none"/>
+            <rect x="2" y="35" width="56" height="22" rx="9" stroke="rgba(255,255,255,0.22)" stroke-width="1.75" fill="none"/>
+            <rect x="2" y="68" width="56" height="22" rx="9" stroke="rgba(255,255,255,0.22)" stroke-width="1.75" fill="none"/>
+            <path d="M58 13h18a10 10 0 0 1 10 10v13a10 10 0 0 1-10 10H58" stroke="#DCE1F2" stroke-width="1.75" stroke-linecap="round"/>
+            <path d="M58 46h18a10 10 0 0 1 10 10v13a10 10 0 0 1-10 10H58" stroke="#DCE1F2" stroke-width="1.75" stroke-linecap="round"/>
+            <g font-family="'Instrument Sans',sans-serif" font-size="10.5" fill="#AEB6D4">
+              <text x="13" y="17">the</text><text x="13" y="50">next</text><text x="13" y="83">word</text>
+            </g>
+          </svg>
+        </div><p class="cap-t">AI tool</p><p class="cap-b">Generates a response from learned patterns.</p></button>
+  </div>
+  <p class="q-fb" id="qfb" aria-live="polite">Tap the tool that fits the task.</p>
+</div>
+</div>
+</section>
+
+<!-- 8 -->
+<section class="step wide" aria-label="Where it helps and where to be careful" hidden data-pc="" data-gate="done" data-gate-msg="Sort all six tasks to continue">
+<div class="lead">
+  <p class="eyebrow">Where it helps, where to be careful</p>
+  <h2>Know when you can rely on an AI tool.</h2>
+  <p class="do"><b>Your task.</b> Tap a task, then tap the box where it belongs.</p>
+</div>
+<div class="work">
+<div class="sort">
+  <div class="pool" id="pool"><button type="button" class="chip task" data-b="use" data-why="Yes. Drafting is what it does well.">Draft a class notice</button><button type="button" class="chip task" data-b="check" data-why="It can sound sure and still be wrong. Check it.">An exact date or price</button><button type="button" class="chip task" data-b="use" data-why="Yes. Reshaping your own words is a good fit.">Turn rough notes into clean sentences</button><button type="button" class="chip task" data-b="check" data-why="It cannot know your local details. Check them.">Your batch timings and syllabus</button><button type="button" class="chip task" data-b="use" data-why="Yes. Explaining is a good fit.">Explain a hard paragraph simply</button><button type="button" class="chip task" data-b="check" data-why="Big decisions stay with a person.">Deciding a student's marks</button></div>
+  <div class="duo">
+    <div class="bucket" data-b="use" tabindex="0" role="button" aria-label="Useful for"><h3><img class="ic-h" src="assets/icons/dark/icon-supported.webp" alt="" aria-hidden="true">Useful for</h3><div class="slot"></div></div>
+    <div class="bucket warn" data-b="check" tabindex="0" role="button" aria-label="Check carefully"><h3><img class="ic-h" src="assets/icons/dark/icon-uncertain.webp" alt="" aria-hidden="true">Check carefully</h3><div class="slot"></div></div>
+  </div>
+  <p class="hint" id="sortfb" aria-live="polite">Tap a task to begin.</p>
+</div>
+</div>
+</section>
+
+<!-- 9 -->
+<section class="step judge" aria-label="Spot the problems" hidden data-pc="" data-gate="done" data-gate-msg="Tap the lines, then press Check my choices">
+<div class="lead">
+  <p class="eyebrow">Your turn</p>
+  <h2>Find the problems in this notice.</h2>
+  <p>An AI wrote this notice from a short prompt.</p>
+  <ol class="todo">
+    <li>Read the notice.</li>
+    <li>Tap the parts you would check before using it.</li>
+    <li>Press Check my choices.</li>
+  </ol>
+  <section class="ai-chat-frame nr" data-theme="dark" aria-label="The prompt that was typed into the AI tool"><header>AI tool</header><div class="body"><p class="label">Your prompt</p><p class="prompt typed nr">write a five-line noticeboard announcement for a plant visit for final-year trainees, buses leave from the ITI gate at 8 am next Friday</p><div class="output-cue">The AI wrote this <svg width="48" height="16" viewBox="0 0 48 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M1 8h44m-6-6 6 6-6 6"/></svg></div></div></section>
+</div>
+<div class="work">
+  <p class="flabel">The AI&rsquo;s notice. Tap the parts you would check</p>
+  <div class="paper" id="draft" role="group" aria-label="AI notice. Tap the parts you would check.">
+    <p class="paper-tag">NOTICE</p>
+    <p class="paper-h"><button type="button" class="nseg" data-flaw="0" data-why="Fine. A clear heading.">Plant Visit for Final-Year Trainees</button></p>
+    <p class="paper-p"><button type="button" class="nseg" data-flaw="0" data-why="Fine. This matches the prompt.">Final-year trainees will visit the plant next Friday.</button></p>
+    <p class="paper-p"><button type="button" class="nseg" data-flaw="0" data-why="Fine. The gate matches the prompt.">Buses leave from the ITI gate</button> <button type="button" class="nseg" data-flaw="1" data-why="Wrong. The prompt said 8 am, not 9 am.">at 9 am sharp.</button></p>
+    <p class="paper-p"><button type="button" class="nseg" data-flaw="1" data-why="Invented. The prompt never mentioned lunch.">Lunch will be provided by the plant canteen.</button></p>
+    <p class="paper-p"><button type="button" class="nseg" data-flaw="1" data-why="Missing. No contact person or batch to ask.">Please be on time.</button></p>
+  </div>
+  <p class="segfb" id="segfb" aria-live="polite">Tap any part of the notice to mark it.</p>
+  <button type="button" class="soft" id="reveal" disabled>Check my choices</button>
+</div>
+</section>
+
+<!-- 10 -->
+<section class="step" aria-label="Run the five checks" hidden data-pc="" data-gate="all" data-gate-msg="Tick all five checks to continue">
+<div class="lead">
+  <p class="eyebrow">Before you use it</p>
+  <h2>Run the five checks on every AI answer.</h2>
+  <p>Every AI answer needs these checks before it becomes your work.</p>
+  <p class="do"><b>Your task.</b> Think of the notice you just saw. Tick each check as you do it.</p>
+</div>
+<div class="work">
+  <div class="callout verify">
+    <ul class="chk">
+      <li><label class="choice box"><input type="checkbox"><img class="ic" src="assets/icons/dark/icon-fact.webp" alt="" aria-hidden="true">Are the facts, dates and numbers right?</label></li>
+      <li><label class="choice box"><input type="checkbox"><img class="ic" src="assets/icons/dark/icon-context.webp" alt="" aria-hidden="true">Does it match my class, batch or workshop?</label></li>
+      <li><label class="choice box"><input type="checkbox"><img class="ic" src="assets/icons/dark/icon-missing.webp" alt="" aria-hidden="true">Is anything missing that I know should be there?</label></li>
+      <li><label class="choice box"><input type="checkbox"><img class="ic" src="assets/icons/dark/icon-private-password.webp" alt="" aria-hidden="true">Did I keep private information out?</label></li>
+      <li><label class="choice box"><input type="checkbox"><img class="ic" src="assets/icons/dark/icon-sign.webp" alt="" aria-hidden="true">Would I put my name on it?</label></li>
+    </ul>
+    <p class="tally" data-tally data-done-label="— this is your work now">0 of 5 checked</p>
+  </div>
+</div>
+</section>
+
+<!-- 11 -->
+<section class="step" aria-label="Recap" hidden data-pc="">
+<div class="lead">
+  <p class="eyebrow">Keep this rule</p>
+  <h2>An AI answer is a draft until you check it.</h2>
+  <p class="rule">Use AI for the draft. Always check it yourself.</p>
+</div>
+<div class="work">
+  <div class="recap">
+    <div><span class="ri"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h7"/></svg></span><p>Generates likely text</p></div>
+    <div><span class="ri"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11a2.1 2.1 0 0 0-3-3L5 16l-1 4z"/></svg></span><p>Good for drafting, reshaping, explaining</p></div>
+    <div><span class="ri"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4-3.4 7.4-8 9-4.6-1.6-8-5-8-9V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></span><p>You check facts, local details, big decisions</p></div>
+    <div><span class="ri"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><p>Approved tool. No private data</p></div>
+  </div>
+</div>
+</section>
+
+</main>
+
+
+<nav class="nav" aria-label="Reading navigation">
+  <button type="button" id="prev">Back</button>
+  <div class="progress">
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div class="count" id="count">1 / 11</div>
+  </div>
+  <span class="gatemsg" id="gatemsg" aria-live="polite"></span>
+  <button type="button" id="next" class="primary">Next</button>
+</nav>
+
+</div>
+
+<div class="start" id="start" role="dialog" aria-modal="true" aria-labelledby="startTitle">
+  <span class="ghost" aria-hidden="true">01</span>
+  <div class="start-in">
+    <div class="start-brand"><img src="assets/logo-mark.webp" alt="" width="40"><span>SWIFT&nbsp;AI&nbsp;ACADEMY</span></div>
+    <div class="start-mid">
+      <span class="start-eyebrow">FIRST&nbsp;CONTACT</span>
+      <h1 id="startTitle">Understanding What Is an AI Tool?</h1>
+      <p class="start-tag">Useful draft, human check.</p>
+      <button type="button" id="startBtn" class="start-btn">Start
+        <svg viewBox="0 0 24 24" fill="none" stroke="#241300" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+<script src="audio/synced.js"></script>
+<script src="audio/timings.js"></script>
+<div class="modal" id="ansModal" role="dialog" aria-modal="true" aria-labelledby="ansTitle" hidden>
+  <div class="modal-card">
+    <div class="modal-hd"><h3 id="ansTitle">The answer you pasted</h3><button type="button" id="ansClose" class="modal-x" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="modal-body" id="ansFull"></div>
+    <div class="modal-ft"><button type="button" id="ansDone" class="copybtn">Done reading</button></div>
+  </div>
+</div>
+<audio id="narration" preload="auto"></audio>
+<script src="script.js"></script>
+<script src="saa-kit.js"></script>
+<script src="saa-sfx.js"></script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Bot — Check Before You Use — Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="app">
+  <header class="saa-header">
+    <div class="saa-brand">
+      <img src="assets/logo-mark.webp" alt="">
+      <span>SWIFT&nbsp;AI&nbsp;ACADEMY</span>
+    </div>
+  </header>
+
+  <div class="journey-wrap">
+    <div class="journey-nav" id="journeyNav"></div>
+  </div>
+
+  <main class="stage">
+
+  <!-- SLIDE 1: Brief -->
+  <section class="page page-center" data-page="0">
+    <div class="topbar">
+      <span class="schema">AAI-E-MC1-S03-BOT01 · MC1 / 1.3 Check Before You Use</span>
+      <span class="gate-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Gates the unit · Element 4
+      </span>
+    </div>
+    <div class="intro-panel">
+      <div class="intro-icon g16-intro-avatar"><img src="assets/logo-swiftchat.webp" width="96" height="96" alt="SwiftChat practice bot"></div>
+      <div class="intro-text">
+        <div class="hero-kicker saa-eyebrow">Practice Bot · 30 minutes</div>
+        <h1>Practice Bot — Check Before You Use</h1>
+        <p>You practise with SwiftChat, a practice bot. It shows you AI answers, asks what to check and tells you why at once.</p>
+      </div>
+    </div>
+    <div class="meta-line">
+      <span>Swift AI Academy</span>
+      <span>PC 4.1–4.5 · PC 5.1–5.4 · English</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: How this bot works -->
+  <section class="page" data-page="1">
+    <p class="kicker">Brief</p>
+    <h2>This is how the practice bot works.</h2>
+    <p class="lead">The bot follows three simple rules. They help you learn by doing.</p>
+    <p class="do"><b>Your task.</b> Tap each card to see a rule.</p>
+    <div class="saa-kit" data-kit="reveal" data-required>
+      <div class="saa-cards">
+        <button class="saa-card" type="button"><span class="saa-front"><img class="g16-ic" src="assets/icons/icon-answer-first.webp" alt="" aria-hidden="true"><span class="g16-front-t">Answer first</span></span><span class="saa-back">The bot does not show the answer until you try first.</span></button>
+        <button class="saa-card" type="button"><span class="saa-front"><img class="g16-ic" src="assets/icons/icon-help.webp" alt="" aria-hidden="true"><span class="g16-front-t">Use Help</span></span><span class="saa-back">Tap Help at the bottom of the chat to get a small hint.</span></button>
+        <button class="saa-card" type="button"><span class="saa-front"><img class="g16-ic" src="assets/icons/icon-retry.webp" alt="" aria-hidden="true"><span class="g16-front-t">Retry</span></span><span class="saa-back">If you are wrong, the bot gives you a new example, not the same one.</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Never type these -->
+  <section class="page" data-page="2">
+    <p class="kicker">Brief</p>
+    <h2>Never type these details into an AI tool.</h2>
+    <p class="lead">All examples in this bot are made up. Keep your answers made up too.</p>
+    <p class="do"><b>Your task.</b> Sort each item into the right box.</p>
+    <div class="saa-kit" data-kit="sort" data-style="deck" data-required data-shuffle data-done-text="All sorted. Never type real private details into an AI tool.">
+      <div class="saa-bins">
+        <div class="saa-bin" data-bin="a" data-label="Never type"></div>
+        <div class="saa-bin" data-bin="b" data-label="Safe to type"></div>
+      </div>
+      <div class="saa-pool">
+        <button class="saa-chip" type="button" data-bin="a" data-why="Yes. A password is private, so never type it." data-hint="Not quite. Who should know your password?"><img class="g16-ic" src="assets/icons/icon-private-password.webp" alt="" aria-hidden="true">Password</button>
+        <button class="saa-chip" type="button" data-bin="a" data-why="Yes. An Aadhaar or ID number is private." data-hint="Not quite. An ID number belongs to a real person."><img class="g16-ic" src="assets/icons/icon-private-aadhaar.webp" alt="" aria-hidden="true">Aadhaar or ID number</button>
+        <button class="saa-chip" type="button" data-bin="a" data-why="Yes. A phone number is private." data-hint="Not quite. A phone number can reach a real person."><img class="g16-ic" src="assets/icons/icon-private-phone.webp" alt="" aria-hidden="true">Phone number</button>
+        <button class="saa-chip" type="button" data-bin="a" data-why="Yes. A home address is private." data-hint="Not quite. An address shows where a real person lives."><img class="g16-ic" src="assets/icons/icon-private-address.webp" alt="" aria-hidden="true">Address</button>
+        <button class="saa-chip" type="button" data-bin="a" data-why="Yes. Health details are private." data-hint="Not quite. Health details are about a real person."><img class="g16-ic" src="assets/icons/icon-private-health.webp" alt="" aria-hidden="true">Health details</button>
+        <button class="saa-chip" type="button" data-bin="a" data-why="Yes. Marks and grades are private." data-hint="Not quite. Marks belong to a real student."><img class="g16-ic" src="assets/icons/icon-private-marks.webp" alt="" aria-hidden="true">Marks or grades</button>
+        <button class="saa-chip" type="button" data-bin="b" data-why="Yes. A made-up count is not about a real person." data-hint="Not quite. Is a made-up count private?"><img class="g16-ic" src="assets/icons/icon-figure.webp" alt="" aria-hidden="true">A made-up tool count</button>
+        <button class="saa-chip" type="button" data-bin="b" data-why="Yes. A made-up date is safe in this practice." data-hint="Not quite. Is a made-up date about a real person?"><img class="g16-ic" src="assets/icons/icon-date.webp" alt="" aria-hidden="true">A made-up seminar date</button>
+      </div>
+      <p class="saa-k-why"></p>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Why this matters -->
+  <section class="page" data-page="3">
+    <p class="kicker">Real life check</p>
+    <h2>Why should you practise before the real thing?</h2>
+    <p class="lead">A short practice now can stop a real mistake later. Here are three reasons.</p>
+    <p class="do"><b>Your task.</b> Tap each card to see a reason.</p>
+    <div class="saa-kit" data-kit="reveal" data-required>
+      <div class="saa-cards">
+        <button class="saa-card" type="button"><span class="saa-front"><img class="g16-ic" src="assets/icons/icon-target.webp" alt="" aria-hidden="true"><span class="g16-front-t">Practise now</span></span><span class="saa-back">A wrong answer here costs nothing. On a real note, it can cost trust or marks.</span></button>
+        <button class="saa-card" type="button"><span class="saa-front"><img class="g16-ic" src="assets/icons/icon-uncertain-document.webp" alt="" aria-hidden="true"><span class="g16-front-t">Unsupported is not false</span></span><span class="saa-back">Many people mix up these two ideas. The bot helps you practise the difference.</span></button>
+        <button class="saa-card" type="button"><span class="saa-front"><img class="g16-ic" src="assets/icons/icon-unlock.webp" alt="" aria-hidden="true"><span class="g16-front-t">Mastery opens the next section</span></span><span class="saa-back">This bot is a checkpoint. When you clear it, you are ready to move on.</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: A gated step -->
+  <section class="page page-center" data-page="4">
+    <p class="kicker">Real life check</p>
+    <h2>Why is this bot a gated step?</h2>
+    <p class="lead">This bot is a <b>mandatory, gated step</b>. You must clear it, not just try it once.</p>
+    <p class="do"><b>Your task.</b> Answer the question about the gate.</p>
+    <div class="saa-kit" data-kit="quick" data-required>
+      <p class="saa-q">What must you do with this bot?</p>
+      <div class="saa-k-opts">
+        <button class="saa-k-opt" type="button" data-why="Not quite. One try is not enough for a gated step.">Try it once, then move on.</button>
+        <button class="saa-k-opt" type="button" data-ok data-why="Yes. A gated step must be cleared before you move ahead.">Clear it before you move ahead.</button>
+      </div>
+      <p class="saa-k-why"></p>
+    </div>
+    <figure class="g16-gate"><img src="assets/diag-gate.webp" width="600" height="200" alt="SwiftChat, then a locked gate: clear all 4 rounds, not try once. Then the next section opens."></figure>
+  </section>
+
+  <!-- SLIDE 6: Meet the bot -->
+  <section class="page" data-page="5">
+    <p class="kicker">Before you begin</p>
+    <h2 class="g16-h-av"><img class="g16-h-avatar" src="assets/logo-swiftchat.webp" width="48" height="48" alt="" aria-hidden="true">Meet SwiftChat, your practice bot.</h2>
+    <p class="lead">SwiftChat gives you 4 short rounds. Each round has one example and one question.</p>
+    <p class="do"><b>Your task.</b> Tap each round to see what you will do.</p>
+    <div class="saa-kit" data-kit="reveal" data-required>
+      <div class="saa-cards">
+        <button class="saa-card" type="button"><span class="saa-front"><img class="g16-ic" src="assets/icons/icon-mark.webp" alt="" aria-hidden="true"><span class="g16-front-t">Round 1 · Spot what to check</span></span><span class="saa-back">You find the part of an AI answer that you need to check.</span></button>
+        <button class="saa-card" type="button"><span class="saa-front"><img class="g16-ic" src="assets/icons/icon-supported.webp" alt="" aria-hidden="true"><span class="g16-front-t">Round 2 · Supported or not</span></span><span class="saa-back">You decide if a record supports a claim or not.</span></button>
+        <button class="saa-card" type="button"><span class="saa-front"><img class="g16-ic" src="assets/icons/icon-unsupported.webp" alt="" aria-hidden="true"><span class="g16-front-t">Round 3 · Unsupported or false</span></span><span class="saa-back">You decide if a claim is unsupported or definitely false.</span></button>
+        <button class="saa-card" type="button"><span class="saa-front"><img class="g16-ic" src="assets/icons/icon-correct.webp" alt="" aria-hidden="true"><span class="g16-front-t">Round 4 · Choose the action</span></span><span class="saa-back">You choose what to do with a claim that you cannot check.</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Pick your setting -->
+  <section class="page page-center" data-page="6">
+    <p class="kicker">Before you begin</p>
+    <h2><label for="laneSelect">Which setting do you want to practise in?</label></h2>
+    <p class="lead">You get examples from a workshop or from a college campus.</p>
+    <p class="do"><b>Your task.</b> Choose your setting, then tap Start chatting with SwiftChat.</p>
+    <div class="lane-row">
+      <img class="g16-lane-ico" id="g16LaneIco" src="assets/icons/icon-lane-iti.webp" alt="" aria-hidden="true" hidden>
+      <select class="lane-select" id="laneSelect">
+        <option value="">Choose…</option>
+        <option value="iti">ITI · Workshop examples</option>
+        <option value="higher">Higher education · Campus examples</option>
+      </select>
+    </div>
+    <div>
+      <button type="button" class="start-btn" id="startBotBtn" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        Start chatting with SwiftChat
+      </button>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: The bot (one exchange at a time) -->
+  <section class="page page-chat" data-page="7">
+    <div class="chat-side">
+      <p class="kicker">Practice Bot</p>
+      <h2>Answer 4 short rounds with SwiftChat.</h2>
+      <p class="lead">Tap the question mark for a hint. If you are wrong, you get a new example.</p>
+      <p class="do"><b>Your task.</b> Read the bot's message, then tap your answer in the chat.</p>
+      <div class="cluster-progress" id="clusterProgress"></div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone-frame-outer">
+        <div class="phone">
+          <div class="phone-toast" id="phoneToast">Connecting to SwiftChat…</div>
+          <div class="phone-header">
+            <div class="phone-avatar g16-phone-avatar"><img src="assets/logo-swiftchat-64.webp" width="40" height="40" alt=""></div>
+            <div>
+              <div class="phone-title">SwiftChat · Practice Bot</div>
+              <div class="phone-status"><span class="status-dot"></span> Active now</div>
+            </div>
+          </div>
+          <div class="phone-body" id="phoneBody"></div>
+          <div class="phone-footer">
+            <div class="fake-input">Choose an option above…</div>
+            <button type="button" class="footer-icon-btn" id="helpBtn" title="Help" aria-label="Help">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5M12 17h.01"/></svg>
+            </button>
+            <button type="button" class="footer-icon-btn" id="skipBtn" title="Skip" aria-label="Skip this round">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4l10 8-10 8V4zM19 5v14"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="skip-panel" id="skipPanel">
+          <div class="skip-box">
+            <h4>Skip this round?</h4>
+            <select class="skip-select" id="skipReason" aria-label="Reason for skipping">
+              <option value="">Please choose a reason…</option>
+              <option value="unsure">I am not sure about this one</option>
+              <option value="time">I am short on time right now</option>
+              <option value="revisit">I want to revisit this later</option>
+            </select>
+            <div class="skip-actions">
+              <button type="button" onclick="closeSkipPanel()">Cancel</button>
+              <button type="button" class="confirm" onclick="confirmSkip()">Skip round</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: Result -->
+  <section class="page" data-page="8">
+    <p class="kicker">Practice complete</p>
+    <div class="result-card" id="gateResult">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      <h2 id="gateHeadline">Finish all 4 rounds first.</h2>
+      <p id="gateSub">Your result appears here when you finish the chat.</p>
+      <div class="cluster-status-list" id="clusterStatusList"></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: Take it with you -->
+  <section class="page page-center" data-page="9">
+    <p class="kicker">Practice complete</p>
+    <h2>Use this 4-step check every time.</h2>
+    <p class="do"><b>Your task.</b> Put the 4 steps in the right order.</p>
+    <div class="saa-kit" data-kit="order" data-required>
+      <ol class="saa-steps">
+        <li data-n="1"><img class="g16-ic" src="assets/icons/icon-mark.webp" alt="" aria-hidden="true">Spot the parts you need to check.</li>
+        <li data-n="2"><img class="g16-ic" src="assets/icons/icon-separate.webp" alt="" aria-hidden="true">Separate what a record supports from what it does not.</li>
+        <li data-n="3"><img class="g16-ic" src="assets/icons/icon-unsupported.webp" alt="" aria-hidden="true">Judge if a part is unsupported or definitely false.</li>
+        <li data-n="4"><img class="g16-ic" src="assets/icons/icon-correct.webp" alt="" aria-hidden="true">Act on it. Verify, replace, qualify or remove it.</li>
+      </ol>
+      <p class="saa-k-why" data-right="Yes. Spot, separate, judge, then act." data-wrong="Not yet. You cannot judge a part before you spot it."></p>
+    </div>
+    <div class="transfer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      <p><strong>Try it now.</strong> Before your next real AI task, use these 4 steps in your head.</p>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="nav-row">
+    <button type="button" class="nav-btn" id="backBtn" onclick="changePage(-1)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <div class="footer-progress">
+      <div class="page-dots" id="pageDots" aria-hidden="true"></div>
+      <span class="page-count" id="pageCount">1 / 10</span>
+    </div>
+    <button type="button" class="nav-btn primary" id="nextBtn" onclick="changePage(1)">
+      Next
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

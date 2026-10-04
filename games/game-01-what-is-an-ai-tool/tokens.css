@@ -1,0 +1,60 @@
+/* ============================================================
+   Swift AI Academy — Design Tokens
+   Source of truth: reference/Color-Reference.html (visual version)
+   This file is the same values, structured for direct use in code.
+   ============================================================ */
+
+:root {
+  /* ---- Typography ---- */
+  /* One family throughout — no serif, no italic. Load via:
+     https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap */
+  --font-family: 'Instrument Sans', sans-serif;
+
+  /* ---- Light theme: Platform + non-video screens ----
+     Dashboard, course list, nav, profile, Module Opening, Reading */
+  --light-bg-page: #FBFBFE;
+  --light-bg-card: #FFFFFF;
+  --light-text-heading: #0E1A4F;
+  --light-text-body: #5C6690;
+  --light-text-muted: #8089AC;
+  --light-border: #E4E8F5;
+
+  /* ---- Dark theme: Video screens only ----
+     Video Player, Video End/Next, Checkpoint, Prompt Demo (phone/tablet/laptop) */
+  --dark-bg: #080D24;
+  --dark-text: #F6F4EF;
+  --dark-text-dim: #7C86AE;
+
+  /* ---- Shared brand colors (both themes) ---- */
+  --color-amber: #F3AB31;       /* PRIMARY ACTION ONLY — one per screen, ever */
+  --color-amber-2: #FFC168;     /* amber gradient partner, lighter stop */
+  --color-blue: #3C59F6;        /* light-theme links / secondary actions */
+  --color-blue-dark: #5B76FF;   /* dark-theme informational markers */
+  --color-blue-tonal-bg: rgba(91, 118, 255, 0.16);   /* toggle "on" state background */
+  --color-blue-tonal-border: rgba(91, 118, 255, 0.5); /* toggle "on" state border */
+  --color-success-tonal: #4FE0A8;   /* routine segment-complete tick */
+  --color-success-solid-start: #4FE0A8; /* section-complete milestone gradient */
+  --color-success-solid-end: #1C9A6B;
+
+  /* ---- Spacing scale (8px base) ---- */
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 40px;
+  --space-7: 64px;
+}
+
+/* ============================================================
+   THE ONE RULE THAT GOVERNS ALL COLOR USE:
+   - Amber = the single primary action on any given screen
+     (Continue, Start, Enroll, Submit). Never more than one
+     amber element per screen.
+   - Blue = everything else that's clickable, in-progress,
+     or informational (toggles, links, progress markers,
+     checkpoint dots).
+   - Theme is decided by video-vs-not-video, not by
+     platform-vs-module. Any screen showing active video
+     content uses the dark theme; everything else is light.
+   ============================================================ */

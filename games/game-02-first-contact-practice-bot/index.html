@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" data-saa-themes data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Practice Bot: First Contact | Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="app" id="app">
+  <div class="hd">
+    <header class="top saa-header">
+      <div class="brand">
+        <img class="brand-mark" src="data:image/png;base64,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" alt="Swift AI Academy">
+        <div style="min-width:0">
+          <span class="t">Practice Bot: First Contact</span>
+          <span class="mono">AAI-E-MC1-S01-BOT01</span>
+        </div>
+      </div>
+      <button class="icon-btn" id="helpBtn" aria-label="Help and options">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.1-2.4 3.6"/><path d="M12 17h.01"/></svg>
+      </button>
+    </header>
+    <div class="progress" aria-label="Your progress">
+      <div class="segs" id="segs"></div>
+      <div class="warm" id="warm"></div>
+    </div>
+  </div>
+  <main id="stage" tabindex="-1"></main>
+  <footer class="bottom">
+    <button class="back" id="backBtn" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Back</span>
+    </button>
+    <div class="mid"><button class="link" id="skipBtn" hidden>Skip with a reason</button></div>
+    <button class="cta" id="primary">Continue</button>
+  </footer>
+</div>
+<div id="overlay"></div>
+<div id="buildTag" class="buildtag mono" hidden></div>
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

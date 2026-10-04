@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-saa-themes data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>/* dark by default; the header switch remembers light (same key as the layer) */try{var v=localStorage.getItem("saa-theme");if(v==="light"||v==="dark")document.documentElement.setAttribute("data-theme",v);}catch(e){}</script>
+<title>Set Up and Send Ten Prompts — Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500&family=Noto+Sans+Gujarati:wght@400;500;600&display=swap" rel="stylesheet">
+<!--
+  AAI-E-MC1-S01-LAB01 · Practical Lab Task (LAB) · Source cells P8 (task brief), Q8 (rubric)
+  Mapped performance criteria: PC 1.1 to 1.5 (workbook mapping; no PC definitions are stated here)
+  Non-compensatory status: not flagged in workbook
+  Languages: English and Gujarati (user-directed override of Hindi)
+  Ten prompts: verbatim from AAI-E-MC1-S01-CARD01 (trial1-eta-five.vercel.app)
+  Type: Cabinet Grotesk / JetBrains Mono are not servable here; approved fallbacks Rubik / Source Code Pro used.
+-->
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <img class="brand-mark" alt="" src="data:image/png;base64,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">
+      <div class="t"><b id="hTitle"></b><code>AAI-E-MC1-S01-LAB01</code></div>
+    </div>
+    <div class="ctrls">
+      <div class="seg" role="group" id="laneSeg"></div>
+      <div class="seg" role="group" aria-label="Language / ભાષા" id="langSeg">
+        <button data-lang="en">English</button><button data-lang="gu" lang="gu">ગુજરાતી</button>
+      </div>
+      <button class="ghost" id="helpBtn"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></svg><span class="lbl" id="helpLbl"></span></button>
+    </div>
+  </header>
+  <div class="mbar" id="mbar"></div>
+  <div class="main">
+    <nav class="rail" aria-label="Lab steps">
+      <ol id="rail"></ol>
+      <div class="foot" id="railFoot"></div>
+    </nav>
+    <main class="stage" id="stage" tabindex="-1" data-saa-page></main>
+  </div>
+  <footer class="bar">
+    <button class="back" id="backBtn"><svg class="i" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg><span id="backLbl"></span></button>
+    <div class="msg" id="msg" aria-live="polite"></div>
+    <span id="extraBtns" style="display:flex;gap:8px"></span>
+    <button class="primary" id="nextBtn"></button>
+  </footer>
+</div>
+
+<div class="scrim" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpH"><div class="modal" id="helpBody"></div></div>
+<div class="scrim" id="asModal" role="dialog" aria-modal="true" aria-labelledby="asH"><div class="modal" id="asBody"></div></div>
+<div class="scrim" id="animModal" role="dialog" aria-modal="true" aria-label="Copy and paste: how it works"><div class="modal ga-animmodal" id="animBody"></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

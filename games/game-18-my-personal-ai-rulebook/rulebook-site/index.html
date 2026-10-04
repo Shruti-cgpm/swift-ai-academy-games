@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>My Personal AI Rulebook · Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span>Swift&nbsp;AI&nbsp;Academy</div>
+    <div class="top-meta">Section 1.3 · Check Before You Use</div>
+  </header>
+
+  <main class="stage">
+
+    <!-- 1 · Brief -->
+    <section class="slide" id="brief" data-next="Start">
+      <div class="card narrow">
+        <div class="head">
+          <div class="row"><div class="eyebrow">Rulebook Section · 15 min</div><span class="tag blue"><span data-i="lock"></span>Required step</span></div>
+          <h1 class="title">My Personal AI Rulebook</h1>
+          <p class="lede">You write one short page about how you use AI tools. Write it about yourself, in your own words.</p>
+          <figure class="rb-scene"><img src="assets/art/scene-rulebook-in-hand.webp" width="800" height="600" alt="A trainee holds one short page called My Personal AI Rulebook, with a signature line at the bottom. A phone lies on the table."></figure>
+        </div>
+        <div class="rule"></div>
+        <div class="grid g2">
+          <div class="tile"><span class="dot-ic">R1</span><h3>The tools I am approved to use</h3><p>You name your AI tool, your account, your device and your helper.</p></div>
+          <div class="tile"><span class="dot-ic">R2</span><h3>How I check</h3><p>You say what you mark and what you check it against.</p></div>
+        </div>
+        <div class="callout"><span data-i="lock"></span><span>Never add passwords, ID numbers, phone numbers, addresses, health details or marks. Nothing is saved, so download your page at the end.</span></div>
+        <p class="code">AAI-E-MC1-S03-RULE01 · Element 4</p>
+      </div>
+    </section>
+
+    <!-- 2 · Why it matters -->
+    <section class="slide" id="why">
+      <div class="card">
+        <div class="head">
+          <div class="eyebrow">Why it matters</div>
+          <h2 class="title">Why should you keep a rulebook?</h2>
+          <p class="lede">A rulebook is not extra paperwork. It is one page that shows how you work.</p>
+          <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap each card to see one reason.</p>
+        </div>
+        <div class="saa-kit" data-kit="reveal" data-required>
+          <div class="saa-cards">
+            <button class="saa-card" type="button"><span class="saa-front"><img class="rb-card-ic" src="assets/icons/icon-travels.webp" alt="" aria-hidden="true">It travels with you</span><span class="saa-back">You will add to this same page in MC3. Nothing here is thrown away.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="rb-card-ic" src="assets/icons/icon-understand.webp" alt="" aria-hidden="true">It shows you understand</span><span class="saa-back">You write your habits in your own words and explain them to a peer. That shows real understanding.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="rb-card-ic" src="assets/icons/icon-consistent.webp" alt="" aria-hidden="true">It keeps you consistent</span><span class="saa-back">You follow the same routine every time, on every real task.</span></button>
+          </div>
+        </div>
+        <div class="callout info"><span data-i="lock"></span><span>This is a <strong>required step</strong>. You must complete your rulebook page, and you cannot skip it.</span></div>
+      </div>
+    </section>
+
+    <!-- 3 · Worked example -->
+    <section class="slide" id="example" data-next="Start my page">
+      <div class="card">
+        <div class="head">
+          <div class="eyebrow">Before you start</div>
+          <h2 class="title">Here is a finished rulebook page.</h2>
+          <p class="lede">This person is made up. Copy the shape of the answers, not the details.</p>
+          <div class="seg" id="lane" role="group" aria-label="Show example for">
+            <button type="button" aria-pressed="true" data-lane="iti"><span data-i="flask"></span>ITI trainee</button>
+            <button type="button" aria-pressed="false" data-lane="higher"><span data-i="book"></span>College student</button>
+          </div>
+          <p class="do saa-do"><b class="saa-do-label">Your task.</b> Look at both examples, then answer the question.</p>
+          <div class="saa-kit" data-kit="quick" data-required>
+            <p class="saa-q">What do you copy from this example?</p>
+            <div class="saa-k-opts">
+              <button class="saa-k-opt" type="button" data-why="Not quite. This person is made up, and your page must be about you.">The same tools and names.</button>
+              <button class="saa-k-opt" type="button" data-ok data-why="Yes. You copy the shape, but every answer is about you.">The shape of the answers.</button>
+            </div>
+            <p class="saa-k-why"></p>
+          </div>
+        </div>
+        <div id="example-page"></div>
+      </div>
+    </section>
+
+    <!-- 4 · R1: assistant and account -->
+    <section class="slide" id="r1-tool">
+      <div class="card">
+        <div class="two-col">
+          <div class="col">
+            <div class="head">
+              <div class="eyebrow">Section R1 · My tools · 1 of 2</div>
+              <h2 class="title">Which AI tool are you approved to use?</h2>
+              <p class="do saa-do"><b class="saa-do-label">Your task.</b> Type the name of your AI tool, then tap your type of account.</p>
+            </div>
+            <div class="field">
+              <label class="label" for="f-assistant">1. My approved AI assistant</label>
+              <div class="rb-picks" id="rb-picks" role="group" aria-label="Tool name shortcuts">
+                <button type="button" class="rb-pick" data-tool="SwiftChat" aria-pressed="false"><span class="rb-mat"><img src="assets/logos/logo-swiftchat-64.webp" alt=""></span><span>SwiftChat</span></button>
+                <button type="button" class="rb-pick" data-tool="ChatGPT" aria-pressed="false"><span class="rb-mat"><img src="assets/logos/chatgpt-64.webp" alt=""></span><span>ChatGPT</span></button>
+                <button type="button" class="rb-pick" data-tool="Gemini" aria-pressed="false"><span class="rb-mat"><img src="assets/logos/gemini-64.webp" alt=""></span><span>Gemini</span></button>
+                <button type="button" class="rb-pick" data-tool="Claude" aria-pressed="false"><span class="rb-mat"><img src="assets/logos/claude-64.webp" alt=""></span><span>Claude</span></button>
+                <button type="button" class="rb-pick" data-tool="" aria-pressed="false"><span class="rb-mat rb-mat-other" aria-hidden="true">+</span><span>Other</span></button>
+              </div>
+              <input class="input" type="text" id="f-assistant" data-field placeholder="Type the tool name here">
+              <p class="small"><strong>Example:</strong> “SwiftChat, approved by my facilitator”</p>
+            </div>
+            <div class="field">
+              <span class="label" id="l-account">2. What kind of account is it?</span>
+              <div class="chips" data-single="account" role="group" aria-labelledby="l-account">
+                <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-account-institute.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-account-institute.webp" alt="" aria-hidden="true">Account from my institute</button>
+                <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-account-own.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-account-own.webp" alt="" aria-hidden="true">My own account, approved for coursework</button>
+                <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-account-shared.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-account-shared.webp" alt="" aria-hidden="true">Shared lab account</button>
+                <button type="button" class="chip" aria-pressed="false">Other</button>
+              </div>
+            </div>
+          </div>
+          <div class="hide-sm" data-mini></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · R1: device and help -->
+    <section class="slide" id="r1-help">
+      <div class="card">
+        <div class="two-col">
+          <div class="col">
+            <div class="head">
+              <div class="eyebrow">Section R1 · My tools · 2 of 2</div>
+              <h2 class="title">Which device do you use, and who helps you?</h2>
+              <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap your device, then type who you ask for help.</p>
+            </div>
+            <div class="field">
+              <span class="label" id="l-device">3. Which device do I use?</span>
+              <div class="chips" data-single="device" role="group" aria-labelledby="l-device">
+                <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-device-lab-pc.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-device-lab-pc.webp" alt="" aria-hidden="true">Shared lab computer</button>
+                <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-device-phone.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-device-phone.webp" alt="" aria-hidden="true">My own phone</button>
+                <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-device-laptop.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-device-laptop.webp" alt="" aria-hidden="true">My own laptop</button>
+                <button type="button" class="chip" aria-pressed="false">Other</button>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="f-help">4. Who do I ask when I am stuck? <span class="help">Name or role only.</span></label>
+              <input class="input" type="text" id="f-help" data-field placeholder="Type a name or role here">
+              <p class="small"><strong>Example:</strong> “My facilitator”. Never type a phone number or an ID.</p>
+            </div>
+          </div>
+          <div class="hide-sm" data-mini></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · R2: what I mark and my method -->
+    <section class="slide" id="r3-mark">
+      <div class="card">
+        <div class="two-col">
+          <div class="col">
+            <div class="head">
+              <div class="eyebrow">Section R2 · How I check · 1 of 3</div>
+              <h2 class="title">What do you check before you trust an answer?</h2>
+              <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap what you mark, then tap each step of your method.</p>
+            </div>
+            <div class="field">
+              <span class="label" id="l-marks">5. I mark these in every AI answer <span class="help">Tap all that apply.</span></span>
+              <div class="chips" data-multi="marks" role="group" aria-labelledby="l-marks">
+                <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-fact.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-fact.webp" alt="" aria-hidden="true">Facts</button>
+                <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-figure.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-figure.webp" alt="" aria-hidden="true">Numbers</button>
+                <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-date.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-date.webp" alt="" aria-hidden="true">Dates</button>
+                <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-name.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-name.webp" alt="" aria-hidden="true">Names</button>
+                <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-source.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-source.webp" alt="" aria-hidden="true">Sources</button>
+              </div>
+            </div>
+            <div class="field">
+              <span class="label" id="l-method">6. My checking method <span class="help">Tap all that apply.</span></span>
+              <div class="checks" data-multi="method" role="group" aria-labelledby="l-method">
+                <button type="button" class="check" role="checkbox" aria-checked="false"><span class="box"></span><img class="rb-ic" src="assets/icons/icon-separate.webp" alt="" aria-hidden="true"><span>I separate what is supported from what is not</span></button>
+                <button type="button" class="check" role="checkbox" aria-checked="false"><span class="box"></span><img class="rb-ic" src="assets/icons/icon-correct.webp" alt="" aria-hidden="true"><span>I verify, then correct, qualify or remove</span></button>
+                <button type="button" class="check" role="checkbox" aria-checked="false"><span class="box"></span><img class="rb-ic" src="assets/icons/icon-pause.webp" alt="" aria-hidden="true"><span>I pause before I send</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="hide-sm" data-mini></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 · R2: sources and peer -->
+    <section class="slide" id="r3-source">
+      <div class="card">
+        <div class="two-col">
+          <div class="col">
+            <div class="head">
+              <div class="eyebrow">Section R2 · How I check · 2 of 3</div>
+              <h2 class="title">What do you check your AI answers against?</h2>
+              <p class="do saa-do"><b class="saa-do-label">Your task.</b> Type your sources, then tick the box and type your peer's name.</p>
+            </div>
+            <div class="field">
+              <label class="label" for="f-sources">7. I check my AI's answers against</label>
+              <input class="input" type="text" id="f-sources" data-field placeholder="Type your sources here">
+              <p class="small"><strong>Example:</strong> “the tool register, the notice board, my facilitator”</p>
+              <div class="rb-spots">
+                <figure><img src="assets/art/spot-tool-register.webp" width="240" height="180" alt="An open tool register book"><figcaption>Tool register</figcaption></figure>
+                <figure><img src="assets/art/spot-notice-board.webp" width="240" height="180" alt="A notice board with three notes pinned on it"><figcaption>Notice board</figcaption></figure>
+                <figure><img src="assets/art/spot-facilitator.webp" width="240" height="180" alt="A facilitator holding a clipboard"><figcaption>My facilitator</figcaption></figure>
+              </div>
+            </div>
+            <div class="field">
+              <span class="label" id="l-peer">8. Explain this page to a peer</span>
+              <div class="checks" role="group" aria-labelledby="l-peer">
+                <button type="button" class="check" role="checkbox" aria-checked="false" id="f-peer-done"><span class="box"></span><span>Yes, I have explained it to a peer</span></button>
+              </div>
+              <input class="input" type="text" id="f-peer-name" data-field placeholder="Type your peer's name or role">
+            </div>
+          </div>
+          <div class="hide-sm" data-mini></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 · R2: version, date and declaration -->
+    <section class="slide" id="r3-sign" data-next="See my rulebook page">
+      <div class="card">
+        <div class="two-col">
+          <div class="col">
+            <div class="head">
+              <div class="eyebrow">Section R2 · How I check · 3 of 3</div>
+              <h2 class="title">Now you sign and date your page.</h2>
+              <p class="do saa-do"><b class="saa-do-label">Your task.</b> Check the version and the date, then tap the declaration.</p>
+            </div>
+            <div class="grid g2 keep">
+              <div class="field">
+                <label class="label" for="f-version">9. Version</label>
+                <input class="input" type="text" id="f-version" data-field value="v1">
+              </div>
+              <div class="field">
+                <label class="label" for="f-date">Date</label>
+                <input class="input" type="date" id="f-date" data-field>
+              </div>
+            </div>
+            <button type="button" class="declare" id="f-declare" role="checkbox" aria-checked="false">
+              <span class="box"></span>
+              <span class="declare-text"><strong>My declaration</strong><span>These are my own rules, written in my own words.</span></span>
+            </button>
+          </div>
+          <div class="hide-sm" data-mini></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 · My rulebook page -->
+    <section class="slide" id="page" data-next="Download my page" data-icon="download">
+      <div class="card">
+        <div class="head">
+          <div class="eyebrow">Your rulebook page</div>
+          <h2 class="title">Here is your rulebook page 1.3.</h2>
+          <p class="do saa-do"><b class="saa-do-label">Your task.</b> Check that every part is filled in, then tap Download my page.</p>
+        </div>
+        <div class="two-col">
+          <div id="final-page"></div>
+          <div class="col">
+            <div id="page-status"></div>
+            <div class="callout info"><span data-i="arrow-right"></span><span><strong>Keep this safe.</strong> You will open this page again in MC3 and add to your checking routine.</span></div>
+            <div class="row no-print">
+              <button type="button" class="btn btn-ghost btn-sm" id="print-page"><span data-i="file"></span>Print</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <div class="foot-left" id="progress" role="status"></div>
+    <div class="nav">
+      <button type="button" class="btn btn-ghost" id="back"><span data-i="arrow-left"></span><span class="btn-back-label">Back</span></button>
+      <button type="button" class="btn btn-primary" id="primary">Continue</button>
+    </div>
+  </footer>
+
+</div>
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

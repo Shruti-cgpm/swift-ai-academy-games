@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swift AI Academy Games</title>
+<meta name="description" content="Applied AI, Module 1: twenty short games for ITI trainees and college students.">
+<link rel="icon" href="assets/logo-mark.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-1: #080D24; --bg-2: #0E1A4F; --ink: #F6F4EF; --ink-2: #AEB6D4; --ink-3: #7C86AE;
+    --blue: #5B76FF; --blue-2: #8FA0FF; --amber: #F3AB31; --amber-2: #FFC168;
+    --card: rgba(255,255,255,.05); --card-hi: rgba(255,255,255,.09); --line: rgba(255,255,255,.12);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; min-height: 100vh; color: var(--ink);
+    font: 500 16px/1.55 "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: radial-gradient(circle at 88% 4%, rgba(60,89,246,.22) 0, rgba(60,89,246,0) 40%),
+                linear-gradient(150deg, var(--bg-1) 0%, var(--bg-2) 52%, #0B1440 100%) fixed;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 28px clamp(16px, 4vw, 48px) 64px; }
+
+  header.top { display: flex; align-items: center; gap: 12px; }
+  .top img { width: 34px; height: auto; display: block; }
+  .wm .n { display: block; font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1; }
+  .wm .s { display: block; font-size: 9.5px; font-weight: 600; letter-spacing: .34em; text-transform: uppercase; color: var(--ink-3); margin-top: 4px; }
+
+  .hero { margin: clamp(32px, 6vw, 64px) 0 clamp(24px, 4vw, 40px); max-width: 760px; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--blue-2); margin: 0 0 10px; }
+  h1 { font-size: clamp(30px, 5vw, 48px); line-height: 1.08; letter-spacing: -.02em; margin: 0 0 14px; }
+  .lede { color: var(--ink-2); font-size: clamp(16px, 1.6vw, 18px); margin: 0; }
+
+  nav.jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; }
+  nav.jump a { color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); }
+  nav.jump a:hover { border-color: var(--blue); background: rgba(91,118,255,.16); }
+
+  section.sec { margin-top: clamp(36px, 5vw, 56px); scroll-margin-top: 16px; }
+  .sec-h { display: flex; align-items: baseline; gap: 12px; margin: 0 0 16px; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+  .sec-h h2 { font-size: clamp(20px, 2.4vw, 26px); margin: 0; letter-spacing: -.01em; }
+  .sec-h span { color: var(--ink-3); font-size: 14px; font-weight: 600; }
+
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+  .game a {
+    display: flex; flex-direction: column; height: 100%; color: inherit; text-decoration: none;
+    border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: var(--card);
+    box-shadow: 0 10px 30px rgba(0,0,0,.25); transition: transform .18s ease, border-color .18s ease, background .18s ease;
+  }
+  .game a:hover { transform: translateY(-3px); border-color: rgba(143,160,255,.6); background: var(--card-hi); }
+  .game a:focus-visible { outline: 2px solid var(--amber-2); outline-offset: 3px; }
+  .thumb { position: relative; aspect-ratio: 16 / 9; background: #0B1440; border-bottom: 1px solid var(--line); }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .num { position: absolute; top: 10px; left: 10px; min-width: 34px; height: 34px; padding: 0 10px; border-radius: 999px;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;
+    background: rgba(8,13,36,.82); border: 1px solid rgba(143,160,255,.55); color: var(--ink); backdrop-filter: blur(4px); }
+  .body { display: flex; flex-direction: column; gap: 10px; padding: 16px 18px 18px; flex: 1; }
+  .body h3 { font-size: 18px; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+  .body p { margin: 0; color: var(--ink-2); font-size: 14.5px; }
+  .play { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14.5px;
+    padding: 9px 18px; border-radius: 999px; color: #241300; background: linear-gradient(135deg, var(--amber-2), var(--amber)); }
+  .play svg { width: 14px; height: 14px; }
+
+  footer.foot { margin-top: 56px; color: var(--ink-3); font-size: 13.5px; border-top: 1px solid var(--line); padding-top: 18px; }
+  @media (prefers-reduced-motion: reduce) { .game a { transition: none; } .game a:hover { transform: none; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <img src="assets/logo-mark.webp" alt="" width="34" height="31">
+    <span class="wm"><span class="n">Swift AI</span><span class="s">Academy</span></span>
+  </header>
+
+  <div class="hero">
+    <p class="eyebrow">Applied AI · Module 1</p>
+    <h1>Twenty short games about using AI well</h1>
+    <p class="lede">For ITI trainees and college students. Each game has narration, works on a phone or a laptop, and uses made-up examples only. Tap a card to play.</p>
+    <nav class="jump" aria-label="Sections">
+      <a href="#first-contact">1 · First Contact</a>
+      <a href="#framing-and-refining">2 · Framing and Refining</a>
+      <a href="#check-before-you-use">3 · Check Before You Use</a>
+    </nav>
+  </div>
+
+  <main id="games"></main>
+
+  <footer class="foot">Swift AI Academy · Applied AI, Module 1 · All people, records and numbers in these games are made up.</footer>
+</div>
+
+<script>
+  var SECTIONS = [
+    { id: 'first-contact', name: 'First Contact', games: [
+      ['game-01-what-is-an-ai-tool', 'Understanding What Is an AI Tool?', 'Meet AI tools and learn what they can and cannot do.'],
+      ['game-02-first-contact-practice-bot', 'Practice Bot: First Contact', 'Pick an approved tool, set it up safely and ask clearly.'],
+      ['game-03-set-up-and-send-ten-prompts', 'Set Up and Send Ten Prompts', 'A guided lab: set up your tool and send ten prompts.'],
+      ['game-04-ten-starter-prompts', 'Ten Starter Prompts', 'Ten ready prompts you can fill in and use.']
+    ]},
+    { id: 'framing-and-refining', name: 'Framing and Refining', games: [
+      ['game-05-framing-and-five-refinement-moves', 'Framing and the Five Refinement Moves', 'Role, context, task, format, and five moves to improve an answer.'],
+      ['game-06-request-builder-and-refinement-card', 'Request Builder and Refinement Card', 'Build a full request, then fix a weak answer.'],
+      ['game-07-rewrite-five-weak-requests', 'Rewrite Five Weak Requests', 'Spot the missing part and rewrite each request.'],
+      ['game-08-your-own-task-framed-and-refined', 'Your Own Task, Framed and Refined', 'Frame a real task of your own and refine the answer.'],
+      ['game-09-practice-bot-framing-and-refining', 'Practice Bot: Framing and Refining', 'Five short drills with a practice bot.'],
+      ['game-10-peer-exchange-framing-and-refining', 'Peer Exchange: Framing and Refining', 'Swap requests with a partner and give feedback.'],
+      ['game-11-section-check-framing-and-refining', 'Section Check: Framing and Refining', 'A short check on framing and refining.']
+    ]},
+    { id: 'check-before-you-use', name: 'Check Before You Use', games: [
+      ['game-12-marking-card', 'The Marking Card', 'A pocket routine: mark, separate, correct, pause.'],
+      ['game-13-marking-separating-and-correcting', 'Marking, Separating and Correcting', 'Check an AI answer against a real record.'],
+      ['game-14-correct-it-then-finish-it', 'Correct It, Then Finish It', 'Fix a half-correct AI draft and finish it well.'],
+      ['game-15-find-the-planted-errors', 'Find the Planted Errors', 'A timed lab: find the mistakes hidden in a note.'],
+      ['game-16-practice-bot-check-before-you-use', 'Practice Bot: Check Before You Use', 'Four checking rounds with a practice bot.'],
+      ['game-17-peer-exchange-check-before-you-use', 'Peer Exchange: Check Before You Use', 'Review a partner’s checked note with a rubric.'],
+      ['game-18-my-personal-ai-rulebook', 'My Personal AI Rulebook', 'Write your own one-page rules for using AI.'],
+      ['game-19-section-check-check-before-you-use', 'Section Check: Check Before You Use', 'Twenty questions across five checking stations.'],
+      ['game-20-facilitator-kit-check-before-you-use', 'Facilitator Kit: Check Before You Use', 'For facilitators: run sheet, demos and answer bank.']
+    ]}
+  ];
+  var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  var main = document.getElementById('games'), n = 0;
+  function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+  SECTIONS.forEach(function (s, si) {
+    var html = '<section class="sec" id="' + s.id + '" aria-labelledby="h-' + s.id + '"><div class="sec-h"><h2 id="h-' + s.id + '">' + (si + 1) + ' · ' + esc(s.name) + '</h2><span>' + s.games.length + ' games</span></div><ul class="grid">';
+    s.games.forEach(function (g) {
+      n++;
+      html += '<li class="game"><a href="games/' + g[0] + '/index.html">' +
+        '<div class="thumb"><img src="thumbs/' + g[0] + '.webp" alt="" loading="lazy" width="640" height="360"><span class="num">' + n + '</span></div>' +
+        '<div class="body"><h3>' + esc(g[1]) + '</h3><p>' + esc(g[2]) + '</p><span class="play">Play ' + ARROW + '</span></div></a></li>';
+    });
+    main.insertAdjacentHTML('beforeend', html + '</ul></section>');
+  });
+</script>
+</body>
+</html>
