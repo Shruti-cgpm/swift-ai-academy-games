@@ -129,3 +129,9 @@ html.saa-skin .app > :is(.saa-header, header.top) { min-height: calc(41px / var(
 html.saa-skin .saa-prog { gap: calc(12px / var(--zz)); width: calc(min(380px, 40vw) / var(--zz)); }
 html.saa-skin .saa-prog-n { font-size: calc(12px / var(--zz)); }
 html.saa-skin .saa-prog-bar { height: calc(4px / var(--zz)); }
+
+/* Back keeps its word when a game hides both label and icon on phones */
+html.saa-skin button.saa-back.saa-back-blank::after { content: "Back"; }
+
+/* very narrow phones: the logo alone, so the header keeps room for its tools */
+@media (max-width: 400px) { html.saa-skin .saa-hd-brand .saa-wm { display: none; } }

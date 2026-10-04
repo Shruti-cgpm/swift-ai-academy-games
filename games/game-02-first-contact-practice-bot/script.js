@@ -59,7 +59,7 @@ function markMet(k,node){ var c=S.clusters[k]; if(!c) return; if(!c.met){c.met=t
 /* ---------- Shared view pieces ---------- */
 function coach(t,reply){return '<div class="coach'+(reply?' reply':'')+'"><div class="av"><img src="'+LOGO+'" alt=""></div><div class="bub">'+t+'</div></div>';}
 function head(t){return '<h1 tabindex="-1" id="h">'+t+'</h1>';}
-function scen(t){return '<div class="card scenario"><span class="tag">Fictional example</span>'+t+'</div>';}
+function scen(t){return '<div class="card scenario"><span class="tag">Example</span>'+t+'</div>';}
 /* ESL upgrade: one "Your task." line per activity screen, and the kit helpers (light theme) */
 function task(t){return '<p class="do"><b>Your task.</b> '+t+'</p>';}
 /* designer assets (Game 2 pack): icons in assets/icons/, mock screens and scenes in assets/ */
@@ -84,6 +84,8 @@ function fbox(kind,title,body){
   var icon = kind==="c"?I.check:kind==="x"?I.x:kind==="p"?I.half:I.info;
   return '<div class="fb '+kind+'" role="status">'+icon+'<div><b>'+title+'</b>'+body+'</div></div>';
 }
+/* right / wrong sounds: the stage is redrawn on every answer, so the game plays them itself */
+function sfx(ok){ try{ if(window.SAA_SFX){ if(ok) SAA_SFX.correct(); else SAA_SFX.wrong(); } }catch(e){} }
 function pick(arr,seed){return arr[Math.abs(seed||0)%arr.length];}
 
 /* ======================================================================
@@ -137,6 +139,7 @@ function makeItem(cfg){
           S.clusters[cfg.cluster].tries++;
           log("answer_submitted",{node:cfg.id+"_"+(r.res==="c"?"CORRECT":r.res==="p"?"PARTIAL":"INCORRECT"),attempt:L.attempt,variant:L.v});
           if(r.res==="c") markMet(cfg.cluster,cfg.id);
+          sfx(r.res==="c");
           draw(true);
         }};
       }
@@ -255,7 +258,7 @@ var KINDS = {
   text:{
     reset:function(L){L.text="";L.showChoices=false;L.sel=null;},
     view:function(L,v){
-      var h='<div class="tool"><div class="tool-h"><span class="live"></span>Approved assistant · simulation</div><div class="tool-b"><div class="msg me">'+v.stem+' <span class="blank">'+(L.phase==="feedback"&&L.answerShown?esc(L.answerShown):"&nbsp;")+'</span></div></div></div>';
+      var h='<div class="tool"><div class="tool-h"><span class="live"></span>Approved assistant · practice</div><div class="tool-b"><div class="msg me">'+v.stem+' <span class="blank">'+(L.phase==="feedback"&&L.answerShown?esc(L.answerShown):"&nbsp;")+'</span></div></div></div>';
       if(L.phase==="answer"){
         if(!L.showChoices){
           h+='<label class="sr" for="ta">Type the last part of the request</label><textarea id="ta" data-k="ta" placeholder="Type the last part here" maxlength="160">'+esc(L.text)+'</textarea>';
@@ -274,12 +277,14 @@ var KINDS = {
       var reveal=v.choices.filter(function(c){return c.r==="c";})[0].t;
       if(L.showChoices){ var o=v.choices[L.sel]; L.answerShown=o.t; return {res:o.r,body:'<p>'+o.fb+'</p>',reveal:reveal}; }
       var t=(L.text||"").trim(); L.answerShown=t;
-      if(t.length<2) return {res:"empty",html:fbox("n","Take your time.","<p>Type how the answer should look. Say how long it is, or ask for a list. You can also tap Show choices instead.</p>")};
+      if(t.length<2||!/[A-Za-z\u0900-\u097F\u0A80-\u0AFF]/.test(t)) return {res:"empty",html:fbox("n","Take your time.","<p>Type how the answer should look. Say how long it is, or ask for a list. You can also tap Show choices instead.</p>")};
       var low=t.toLowerCase();
-      if(/\b\d{10}\b|\b\d{4}\s?\d{4}\s?\d{4}\b|password|passcode|aadhaar|aadhar|\botp\b|\bpin\b|address|phone|mobile no|roll no|roll number|\bmarks\b/.test(low))
+      if(/\b\d{10}\b|\b\d{4}\s?\d{4}\s?\d{4}\b|password|passcode|aadhaar|aadhar|\botp\b|\bpin\b|(home|my|house|your|residential|email|e-mail) address|phone|mobile no|roll no|roll number|\bmarks\b/.test(low))
         return {res:"x",body:"<p>That adds personal information. The tool does not need it for this task, so keep it out.</p>",reveal:reveal};
       var shape=/\b(list|lines?|points?|steps?|table|bullets?|numbered|checklist|short|brief|sentences?|words?|paragraph|day[- ]?wise|daily|each day|per day|format|simple|under|within|max|maximum|limit|columns?|rows?|order|one page|half page)\b/;
-      if(shape.test(low)) return {res:"c",body:"<p>You told the tool what shape to send back. That makes the answer easier to use and easier to check.</p>"};
+      /* Hindi and Gujarati shape words: list, line, point, short, steps */
+      var shapeIn=/(सूची|लिस्ट|पंक्ति|पंक्तियाँ|लाइन|बिंदु|पॉइंट|छोटा|छोटी|संक्षेप|चरण|यादी|સૂચિ|યાદી|લીટી|લાઇન|મુદ્દા|ટૂંક|પગલાં)/;
+      if(shape.test(low)||shapeIn.test(t)) return {res:"c",body:"<p>You told the tool what shape to send back. That makes the answer easier to use and easier to check.</p>"};
       if(/\b(hi|hello|joke|song|movie|film|cricket|match|game|lol)\b/.test(low) && t.split(/\s+/).length<6)
         return {res:"off",html:fbox("n","That is not part of this task.","<p>Stay with the request above. Tell the tool the shape you want, like a short list or a few lines.</p>")};
       return {res:"p",body:"<p>You added to the request, but the shape is still missing. Say how long the answer is, or ask for a list.</p>",reveal:reveal};
@@ -323,7 +328,7 @@ var KINDS = {
     reset:function(L){L.sel=[];},
     view:function(L,v){
       var h='<section class="check-pair"><article class="source-note"><h2>Your notes (source)</h2><p>'+v.source+'</p></article>';
-      h+='<article class="answer-frame"><h2>'+aic("icon-compare-source",'af-ic')+'Approved assistant · simulation</h2><div class="answer-lines">';
+      h+='<article class="answer-frame"><h2>'+aic("icon-compare-source",'af-ic')+'Approved assistant · practice</h2><div class="answer-lines">';
       var fbk=L.phase==="feedback";
       v.lines.forEach(function(ln,i){
         var on=L.sel.indexOf(i)>=0, cls="line", note="";
@@ -367,7 +372,7 @@ function makeReflect(cfg){
       return h;
     },
     on:function(a,val,L){ if(!L.done&&a==="sel") L.sel=+val; },
-    primary:function(L){ var self=this; if(!L.done) return {label:"Check my thinking",enabled:L.sel!==null,act:function(){L.done=true;log("reflection",{node:cfg.id+"_ANSWERED",choice:L.sel});draw(true);}}; return {label:"Continue",enabled:true,act:function(){goNext(self);}}; }
+    primary:function(L){ var self=this; if(!L.done) return {label:"Check my thinking",enabled:L.sel!==null,act:function(){L.done=true;log("reflection",{node:cfg.id+"_ANSWERED",choice:L.sel});sfx(resolve(cfg.v).options[L.sel].r!=="x");draw(true);}}; return {label:"Continue",enabled:true,act:function(){goNext(self);}}; }
   };
 }
 
@@ -661,7 +666,7 @@ add({id:"ASK_WORKED",cluster:"ask",
     var w=WORKED[S.lane||"iti"], parts=[["Task",w.task],["Details",w.details],["Shape",w.shape]];
     var notes=["The task says what you want done, in one sentence.","The details give only what the task needs. Nothing personal goes in.","The shape says how long the answer is, or what form it takes. This makes it easy to check."];
     var h=coach("Here is a request that someone wrote. See how it is built.")+head("A good request has 3 parts.")+(L.n<3?task("Tap Show part to see each part of the request."):'')+
-      '<div class="tool"><div class="tool-h"><span class="live"></span>Approved assistant · simulation</div><div class="tool-b"><div class="msg me">';
+      '<div class="tool"><div class="tool-h"><span class="live"></span>Approved assistant · practice</div><div class="tool-b"><div class="msg me">';
     parts.forEach(function(p,i){h+='<span class="part"><span class="pl">'+aic(PART_IC[p[0]],'pl-ic')+p[0]+'</span>'+(i<L.n?p[1]:'<span class="skel" aria-label="Hidden until revealed"></span>')+'</span>';});
     h+='</div></div></div>';
     h+='<div class="card" style="min-height:58px"><p style="color:var(--ink);font-size:15.5px">'+(L.n===0?"There are 3 parts. You see them one at a time.":notes[L.n-1])+'</p></div>';
@@ -726,12 +731,12 @@ add({id:"ASK_SEND",cluster:"ask",
     var w=WORKED[S.lane||"iti"];
     var req = parts ? parts.join(" ") : (w.task+" "+w.details+" "+w.shape);
     var h=coach(L.stage<2?"Now send a request and see the answer.":"It answered in seconds. A fast answer is not always right.")+head(L.stage<2?"Send your request to the tool.":"Is this answer right?")+(L.stage===0?task("Tap Send request."):'')+
-      '<div class="tool"><div class="tool-h"><span class="live"></span>Approved assistant · simulation</div><div class="tool-b">';
+      '<div class="tool"><div class="tool-h"><span class="live"></span>Approved assistant · practice</div><div class="tool-b">';
     if(L.stage>=1) h+='<div class="msg me">'+esc(req)+'</div>';
     if(L.stage===1) h+='<div class="msg ai"><span class="typing" aria-label="Tool is typing"><i></i><i></i><i></i></span></div>';
     if(L.stage>=2) h+='<div class="msg ai">Here is your answer. I kept it short and in the shape you asked for.</div>';
     h+='</div></div>';
-    if(L.stage===0) h+='<p style="font-size:14px;color:var(--muted)">This is a simulation. Nothing is sent anywhere.</p>';
+    if(L.stage===0) h+='<p style="font-size:14px;color:var(--muted)">This is only practice. Nothing is sent anywhere.</p>';
     if(L.stage>=2) h+='<p class="lead">Next, you will check an answer like this, line by line.</p>';
     return h;},
   primary:function(L){var self=this;
@@ -829,7 +834,7 @@ function makeMix(id,cluster,v){
         h+=fbox(o.r,o.r==="c"?"Yes.":"Not quite.",'<p>'+o.fb+'</p>'+(o.r!=="c"?'<p class="clue">The best answer is this: '+best.t+'</p>':"")); }
       return h;},
     on:function(a,val,L){if(!L.done&&a==="sel")L.sel=+val;},
-    primary:function(L){var self=this,x=resolve(v); if(!L.done) return {label:"Check",enabled:L.sel!==null,act:function(){L.done=true;var r=x.options[L.sel].r;if(r==="c")markMet(cluster,id);log("answer_submitted",{node:id+"_"+(r==="c"?"CORRECT":"INCORRECT"),attempt:1});draw(true);}}; return {label:"Continue",enabled:true,act:function(){goNext(self);}};}
+    primary:function(L){var self=this,x=resolve(v); if(!L.done) return {label:"Check",enabled:L.sel!==null,act:function(){L.done=true;var r=x.options[L.sel].r;if(r==="c")markMet(cluster,id);sfx(r==="c");log("answer_submitted",{node:id+"_"+(r==="c"?"CORRECT":"INCORRECT"),attempt:1});draw(true);}}; return {label:"Continue",enabled:true,act:function(){goNext(self);}};}
   };
 }
 add({id:"MIX_INTRO",
@@ -943,6 +948,8 @@ function draw(focusFeedback,newScreen){
   if(newScreen){ var h=document.getElementById("h"); if(h) h.focus({preventScroll:true}); }
   else if(focusFeedback){ var f=stage.querySelector(".fb,.coach.reply"); if(f){f.setAttribute("tabindex","-1");f.focus({preventScroll:true});} else primaryBtn.focus(); }
   fitCheck();
+  clearTimeout(draw._f1); clearTimeout(draw._f2);
+  draw._f1=setTimeout(fitCheck,180); draw._f2=setTimeout(fitCheck,800);
 }
 /* ESL upgrade: coach line, heading, short text and the task line go LEFT; the activity and its feedback go RIGHT.
    Below 900px wide the two columns use display:contents, so the phone keeps the one-column order. */
@@ -962,11 +969,21 @@ function splitScreen(scr){
 function voMark(scr){
   if(!scr) return;
   var sc=SC[S.cur];
-  if(!(sc.scored && L.phase==="feedback")) scr.setAttribute("data-saa-page","");
+  scr.setAttribute("data-saa-page","");
   var l=scr.querySelector(":scope > .fc-l"), r=scr.querySelector(":scope > .fc-r");
-  if(l) l.setAttribute("data-saa-lead","");
+  var fb=scr.querySelector(".fb");
+  if(fb && ((sc.scored && L.phase==="feedback") || L.done)) fbSay(fb);
+  else if(l) l.setAttribute("data-saa-lead","");
   if(r) r.classList.add("saa-work");
   Array.prototype.forEach.call(scr.querySelectorAll(".coach.soft"),function(c){c.classList.add("saa-work");});
+}
+/* after Check the feedback is read aloud: its title and its first line (counts and the clue box are only shown) */
+function fbSay(fb){
+  fb.setAttribute("data-saa-lead","");
+  var box=fb.querySelector(":scope > div"); if(!box) return;
+  var t=box.querySelector(":scope > b"); if(t) t.setAttribute("data-saa-say","");
+  var ps=box.querySelectorAll(":scope > p");
+  Array.prototype.forEach.call(ps,function(p,i){ if(i===0&&!p.classList.contains("clue")) p.setAttribute("data-saa-say",""); });
 }
 function chrome(){
   var sc=SC[S.cur];
@@ -1016,12 +1033,23 @@ document.getElementById("helpBtn").addEventListener("click",openHelp);
 /* ---------- Overlays ---------- */
 function openSheet(html,onBind){
   ov.innerHTML='<div class="ov" role="dialog" aria-modal="true"><div class="sheet">'+html+'</div></div>';
+  var appEl=document.getElementById("app"); if(appEl) appEl.setAttribute("inert","");
   var first=ov.querySelector("button,textarea"); if(first) first.focus();
   ov.querySelector(".ov").addEventListener("click",function(e){ if(e.target.classList.contains("ov")) closeSheet(); });
   if(onBind) onBind(ov);
 }
-function closeSheet(){ ov.innerHTML=""; primaryBtn.focus(); }
-document.addEventListener("keydown",function(e){ if(e.key==="Escape"&&ov.innerHTML) closeSheet(); });
+function closeSheet(){ ov.innerHTML=""; var appEl=document.getElementById("app"); if(appEl) appEl.removeAttribute("inert"); primaryBtn.focus(); }
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape"&&ov.innerHTML) closeSheet();
+  if(e.key==="Tab"&&ov.innerHTML){   /* keep Tab inside the open sheet */
+    var f=Array.prototype.filter.call(ov.querySelectorAll("button,textarea,input,a[href]"),function(x){return !x.disabled&&x.getClientRects().length;});
+    if(!f.length) return;
+    var a=f[0], z=f[f.length-1];
+    if(!ov.contains(document.activeElement)){ e.preventDefault(); a.focus(); }
+    else if(e.shiftKey&&document.activeElement===a){ e.preventDefault(); z.focus(); }
+    else if(!e.shiftKey&&document.activeElement===z){ e.preventDefault(); a.focus(); }
+  }
+});
 
 function openSkip(){
   var sc=SC[S.cur], reasons=["I already know this well","I can't use a device right now","Something isn't working","I'll come back to it later"], sel=null;
@@ -1094,6 +1122,8 @@ function updateBuild(){
 }
 
 /* ---------- Start / resume ---------- */
+/* Help is drawn last in the header, so it comes last when you press Tab */
+setTimeout(function(){ var hb=document.getElementById("helpBtn"); if(hb&&hb.parentNode) hb.parentNode.appendChild(hb); },400);
 (function start(){
   var saved=store.get();
   if(saved && saved.cur && saved.cur!=="ENTRY_WELCOME" && SC[saved.cur]){

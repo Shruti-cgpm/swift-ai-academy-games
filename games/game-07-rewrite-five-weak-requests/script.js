@@ -224,7 +224,9 @@
         var head = s.querySelector('h1, h2');
         if (head) {
           head.setAttribute('tabindex', '-1');
-          try { head.focus({ preventScroll: true }); } catch (e) { head.focus(); }
+          // the layer frees the new screen for focus a moment later: focus its heading then
+          var focusHead = function () { if (Deck.current() === s) { try { head.focus({ preventScroll: true }); } catch (e) { head.focus(); } } };
+          focusHead(); setTimeout(focusHead, 120);
         }
       }
     },
@@ -391,15 +393,15 @@
     return '' +
       // 1 · Spot the gap
       '<section class="slide" id="ex' + n + '-spot" data-next="Check answer" data-icon="check">' +
-        '<div class="card narrow">' +
+        '<div class="card narrow" data-saa-lead>' +
           '<div class="head"><div class="eyebrow">Exercise ' + n + ' of 5 · Spot the gap' + (ex.mixed ? ' · Mixed' : '') + '</div>' +
           '<h2 class="title">What is missing from this request?</h2>' +
           '<p class="lede">' + (ex.mixed ? 'More than one part may be missing from this request.' : 'This request is missing 1 of the 4 parts.') + '</p>' +
           '<p class="do saa-do"><b class="saa-do-label">Your task.</b> ' +
             (ex.mixed ? 'Tap every part that is missing, then press Check answer.' : 'Tap the part that is missing, then press Check answer.') + '</p></div>' +
-          '<div class="doc weak"><div class="doc-head">' + ic('chat') + 'Weak request</div><p class="weak-text">“' + esc(ex.weak) + '”</p></div>' +
-          '<div class="field"><span class="label" id="ex' + n + '-lbl">The 4 parts of a request</span><div class="chips parts" role="group" aria-labelledby="ex' + n + '-lbl" data-ex="' + k + '">' + chips + '</div></div>' +
-          '<div class="spot-fb" id="ex' + n + '-fb" aria-live="polite"></div>' +
+          '<div class="doc weak" data-saa-say><div class="doc-head">' + ic('chat') + 'Weak request</div><p class="weak-text">“' + esc(ex.weak) + '”</p></div>' +
+          '<div class="field"><span class="label saa-vo-skip" id="ex' + n + '-lbl">The 4 parts of a request</span><div class="chips parts" role="group" aria-labelledby="ex' + n + '-lbl" data-ex="' + k + '">' + chips + '</div></div>' +
+          '<div class="spot-fb saa-k-why" id="ex' + n + '-fb" aria-live="polite"></div>' +
         '</div>' +
       '</section>' +
       // 2 · Rewrite it
@@ -416,6 +418,7 @@
             '<button type="button" class="btn btn-ghost btn-sm" data-copy-new="' + k + '">' + ic('copy') + 'Copy my rewrite</button>' +
           '</div>' +
           '<p class="small">Next, you try both requests in your AI tool.</p>' +
+          '<p class="ga-gate saa-k-why" data-saa-locked data-gate="write" data-ex="' + k + '" aria-live="polite"></p>' +
         '</div>' +
       '</section>' +
       // 3 · Compare
@@ -440,7 +443,8 @@
             '<div class="field grow"><label class="label" for="ex' + n + '-why">Why is it better? <span class="help">One line is enough.</span></label>' +
             '<input class="input" type="text" id="ex' + n + '-why" placeholder="' + esc(ex.whyHint) + '"></div>' +
           '</div>' +
-          '<div id="ex' + n + '-better-fb"></div>' +
+          '<div id="ex' + n + '-better-fb" class="saa-k-why"></div>' +
+          '<p class="ga-gate saa-k-why" data-saa-locked data-gate="compare" data-ex="' + k + '" aria-live="polite"></p>' +
           (n === 1 ? '<button type="button" class="btn-link see-ex" data-see-example aria-haspopup="dialog"><img class="see-ic" src="assets/icons/icon-compare.webp" alt="" aria-hidden="true">See example</button>' : '') +
         '</div>' +
       '</section>';
@@ -468,13 +472,15 @@
       var p = c.getAttribute('data-part');
       c.disabled = true;
       c.setAttribute('aria-pressed', 'false');
-      if (ex.missing.indexOf(p) > -1) c.classList.add('right');
-      else if (s.picked.indexOf(p) > -1) c.classList.add('wrong');
+      var miss = ex.missing.indexOf(p) > -1, pick = s.picked.indexOf(p) > -1;
+      if (miss && pick) c.classList.add('right');
+      else if (miss) c.classList.add('miss');        /* a missing part the learner did not tap */
+      else if (pick) c.classList.add('wrong');
     });
     var meaning = ex.missing.map(function (p) { return MEANS[p]; }).join(' ');
     $('ex' + n + '-fb').innerHTML = ok
-      ? '<div class="fb ok">' + ic('check') + '<div class="fb-body"><span class="fb-title">Yes. ' + names(ex.missing) + (ex.missing.length > 1 ? ' are' : ' is') + ' missing.</span><span>' + esc(ex.why) + ' ' + esc(meaning) + '</span></div></div>'
-      : '<div class="fb no">' + ic('alert') + '<div class="fb-body"><span class="fb-title">Not quite. The missing part' + (ex.missing.length > 1 ? 's are ' : ' is ') + names(ex.missing) + '.</span><span>' + esc(ex.why) + ' ' + esc(meaning) + '</span></div></div>';
+      ? '<div class="fb ok">' + ic('check') + '<div class="fb-body"><span class="fb-title">Yes. ' + names(ex.missing) + (ex.missing.length > 1 ? ' are' : ' is') + ' missing.</span> <span>' + esc(ex.why) + ' ' + esc(meaning) + '</span></div></div>'
+      : '<div class="fb no">' + ic('alert') + '<div class="fb-body"><span class="fb-title">Not quite. The missing part' + (ex.missing.length > 1 ? 's are ' : ' is ') + names(ex.missing) + '.</span> <span>' + esc(ex.why) + ' ' + esc(meaning) + '</span></div></div>';
   }
 
   /* ---------- rewrite ---------- */
@@ -485,6 +491,7 @@
     var weak = b.hasAttribute('data-copy-weak');
     var text = weak ? EXERCISES[k].weak : $('ex' + (k + 1) + '-rewrite').value.trim();
     if (!text) { SAA.toast('Write your rewrite first.'); return; }
+    if (!weak && text === EXERCISES[k].weak) { SAA.toast('Add the missing part first.'); return; }
     SAA.copyText(text, function () { SAA.toast(weak ? 'The weak request is copied.' : 'Your rewrite is copied.'); });
   });
 
@@ -567,15 +574,36 @@
     });
     return lines.join('\n');
   }
-  function save() {
+  function allGaps() { var n = 0; EXERCISES.forEach(function (ex, k) { n += gaps(k).length ? 1 : 0; }); return n; }
+  function save(quiet) {
     SAA.download('rewrite-five-weak-requests-answers.txt', buildFile());
-    SAA.toast('Your answers are downloaded.');
+    var open = allGaps();
+    $('done-status').textContent = open ? 'Your answers are downloaded, but ' + open + (open > 1 ? ' exercises are' : ' exercise is') + ' not finished.' : 'Your answers are downloaded.';
+    $('done-status').className = 'status saa-vo-skip ' + (open ? 'bad' : 'ok');
+    $('done-lede').textContent = open ? 'Go back, finish every exercise and download again. Then share your file with your facilitator.' : 'You found the gaps, fixed 5 requests and compared the answers. Share your file with your facilitator.';
+    if (!quiet) SAA.toast('Your answers are downloaded.');
   }
-  $('download-again').addEventListener('click', save);
+  $('download-again').addEventListener('click', function () { save(true); });   /* the status line says it; a toast would cover the rule line */
+  // Start over: a clean reload clears every answer
+  $('start-over').addEventListener('click', function () { window.__g7Leaving = true; location.reload(); });
+  var warned = false;
 
   /* ---------- hooks ---------- */
   var hooks = {
-    evidence: { enter: drawEvidence, primary: function () { save(); } }
+    evidence: {
+      enter: function () { warned = false; $('evidence-warn').hidden = true; drawEvidence(); },
+      primary: function () {
+        // unfinished work: say so once, then the learner may still download
+        if (allGaps() && !warned) {
+          warned = true; $('evidence-warn').hidden = false;
+          var wt = $('evidence-warn').lastElementChild; wt.textContent = wt.textContent;   /* new text: the layer reads it */
+          Deck.setPrimary('Download anyway', { icon: 'download' });
+          Deck.fit();
+          return false;
+        }
+        save(true);
+      }
+    }
   };
   EXERCISES.forEach(function (ex, k) {
     var n = k + 1;
@@ -602,5 +630,65 @@
     };
   });
 
+  /* ---------- gates: Continue on the rewrite and compare screens waits for the work ----------
+     Each gate line carries data-saa-locked until its task is done, so the shared kit dims
+     Continue the same way as on the kit screens; this script blocks the click itself. Pressing it early shows what is still needed. */
+  var MIN_NEW = 3, MIN_PASTE = 15, MIN_WHY = 3;
+  function wordList(v) { return (v.toLowerCase().match(/[a-z0-9\u0900-\u097f]+/g) || []); }
+  function words(v) { return v.split(/\s+/).filter(function (w) { return /\w/.test(w); }).length; }
+  function gateMsg(g) {
+    var k = +g.getAttribute('data-ex'), n = k + 1, ex = EXERCISES[k];
+    if (g.getAttribute('data-gate') === 'write') {
+      // at least MIN_NEW words that are not in the weak request (retyping or cutting it does not count)
+      var old = {}; wordList(ex.weak).forEach(function (w) { old[w] = 1; });
+      var added = {}; wordList(val('ex' + n + '-rewrite')).forEach(function (w) { if (!old[w]) added[w] = 1; });
+      return Object.keys(added).length >= MIN_NEW ? '' : 'Add what is missing to the request first.';
+    }
+    if (val('ex' + n + '-out-weak').length < MIN_PASTE || val('ex' + n + '-out-new').length < MIN_PASTE) return 'Paste both answers first.';
+    if (!state[k].better) return 'Choose the better answer first.';
+    if (words(val('ex' + n + '-why')) < MIN_WHY) return 'Say why it is better first.';
+    return '';
+  }
+  var gates = Array.prototype.slice.call(document.querySelectorAll('.ga-gate'));
+  function refreshGates() {
+    gates.forEach(function (g) {
+      var d = !gateMsg(g);
+      if (d !== g.classList.contains('is-done')) {
+        g.classList.toggle('is-done', d);
+        if (d) { g.removeAttribute('data-saa-locked'); } else { g.setAttribute('data-saa-locked', ''); }
+        if (d) { g.textContent = ''; try { g.dispatchEvent(new CustomEvent('saa:done', { bubbles: true })); } catch (e) {} }
+      }
+    });
+  }
+  document.addEventListener('input', refreshGates);
+  document.addEventListener('click', function () { setTimeout(refreshGates, 0); });
+  // registered before saa-kit.js loads
+  document.addEventListener('click', function (e) {
+    if (!(e.target.closest && e.target.closest('#primary'))) return;
+    var s = Deck.current(), g = s && s.querySelector('.ga-gate');
+    if (!g) return;
+    var m = gateMsg(g);
+    if (!m) { refreshGates(); return; }
+    e.preventDefault(); e.stopImmediatePropagation();
+    refreshGates();
+    g.textContent = m;
+    g.classList.remove('ga-shake'); void g.offsetWidth; g.classList.add('ga-shake');
+    var f = s.querySelector('textarea, input');
+    if (g.getAttribute('data-gate') === 'compare') {
+      f = [].filter.call(s.querySelectorAll('textarea, input'), function (x) { return x.tagName === 'TEXTAREA' ? x.value.trim().length < MIN_PASTE : words(x.value) < MIN_WHY; })[0];
+      if (m.indexOf('Choose') === 0) f = s.querySelector('.seg button');
+    }
+    if (f) { try { f.focus({ preventScroll: false }); } catch (x) { f.focus(); } }
+    Deck.fit();
+  }, true);
+
+  // typed or pasted work is lost on a refresh: ask first
+  window.addEventListener('beforeunload', function (e) {
+    if (window.__g7Leaving) return;
+    var typed = EXERCISES.some(function (ex, k) { var n = k + 1; return rewriteDone(k) || val('ex' + n + '-out-weak') || val('ex' + n + '-out-new') || val('ex' + n + '-why'); });
+    if (typed) { e.preventDefault(); e.returnValue = ''; }
+  });
+
   Deck.init(hooks);
+  refreshGates();
 })();

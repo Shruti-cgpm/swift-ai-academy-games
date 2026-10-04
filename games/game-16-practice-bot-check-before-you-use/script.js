@@ -30,7 +30,7 @@ function buildPills(){
     p.className = 'journey-node';
     p.setAttribute('data-i', i);
     p.setAttribute('title', pillLabels[i]);
-    p.onclick = (function(idx){ return function(){ current = pillSlides[idx][0]; render(); }; })(i);
+    p.onclick = (function(idx){ return function(){ goTo(pillSlides[idx][0]); }; })(i);
     p.innerHTML = '<div class="journey-circle">'+pillIcons[i]+'</div><span class="journey-label">' + pillLabels[i] + '</span>';
     bar.appendChild(p);
   }
@@ -56,13 +56,52 @@ function render(){
   document.getElementById('nextBtn').disabled = (current === TOTAL-1);
   // Only one amber action per slide: the Pick-your-setting slide owns its Start button, and the last slide has no Next.
   document.getElementById('nextBtn').classList.toggle('is-quiet', current === PICK_SLIDE || current === TOTAL-1);
+  paintGates();
+  if(gateOpen(current)){ ['pickGateMsg','chatGateMsg'].forEach(function(id){ var m = document.getElementById(id); if(m) m.hidden = true; }); }
   if(current === CHAT_SLIDE && !chatStarted && currentLane){ launchChat(); }
 }
 
 function changePage(delta){
   var next = current + delta;
   if(next < 0 || next > TOTAL-1) return;
+  if(delta > 0 && !gateOpen(current)){ showGateMsg(current); return; }
   current = next;
+  render();
+}
+
+/* ---- gates (QA fix, Oct 2026): the same check for Next and for the journey bar ---- */
+function pageEl(i){ return document.querySelector('.page[data-page="'+i+'"]'); }
+function gateOpen(i){
+  var pg = pageEl(i);
+  if(pg && pg.querySelector('.saa-kit[data-required]:not(.is-done)')) return false;
+  if(i === PICK_SLIDE && !currentLane) return false;
+  if(i === CHAT_SLIDE && !chatDone) return false;
+  return true;
+}
+/* the shared kit dims Next while the screen carries data-saa-locked */
+function paintGates(){
+  var pick = pageEl(PICK_SLIDE), chat = pageEl(CHAT_SLIDE);
+  if(pick) pick.toggleAttribute('data-saa-locked', !currentLane);
+  if(chat) chat.toggleAttribute('data-saa-locked', !chatDone);
+}
+function showGateMsg(i){
+  var m = null;
+  if(i === PICK_SLIDE) m = document.getElementById('pickGateMsg');
+  if(i === CHAT_SLIDE) m = document.getElementById('chatGateMsg');
+  if(m){ m.hidden = false; clearTimeout(m._t); m._t = setTimeout(function(){ m.hidden = true; }, 4000); }
+}
+/* Jump from the journey bar: back is always fine; forward stops at the first slide that is still locked. */
+function goTo(target){
+  if(target <= current){ current = target; render(); return; }
+  while(current < target){
+    if(!gateOpen(current)){
+      render();
+      if(current === PICK_SLIDE || current === CHAT_SLIDE){ showGateMsg(current); }
+      else { var nb = document.getElementById('nextBtn'); if(nb) nb.click(); }   /* the kit lock shows what is left */
+      return;
+    }
+    current++;
+  }
   render();
 }
 
@@ -202,9 +241,50 @@ var idleTimer = null;
 var hintEl = null;
 var transcript = [];         // full conversation, kept in memory (the screen shows one exchange)
 var body = document.getElementById('phoneBody');
+var chatGen = 0;             // bumps when the chat restarts, so old timers do nothing
+var roundStart = [0,0,0,0];  // which example each round starts with (a Retry starts with the next one)
+var tries = 0;               // wrong answers in the current round
+var introWait = false;       // the first turn waits for the slide's intro narration to finish
+/* setTimeout that is cancelled when the chat restarts (setting changed) */
+function later(fn, ms){ var g = chatGen; return setTimeout(function(){ if(g === chatGen) fn(); }, ms); }
+
+/* keep the newest message and its answer buttons in view */
+function scrollLatest(){
+  requestAnimationFrame(function(){
+    if(current !== CHAT_SLIDE) return;
+    /* small screens: the slide scrolls so the whole phone (chat, answers, help and skip) is on screen */
+    var ph = body.closest('.phone');
+    if(ph && body.childElementCount){ try { ph.scrollIntoView({block:'nearest', behavior:'smooth'}); } catch(e){ ph.scrollIntoView(false); } }
+    var max = body.scrollHeight - body.clientHeight;
+    if(max <= 0) return;
+    try { body.scrollTo({top: max, behavior: 'smooth'}); } catch(e){ body.scrollTop = max; }
+  });
+}
+if(window.MutationObserver){ new MutationObserver(scrollLatest).observe(body, {childList:true}); }
+window.addEventListener('resize', scrollLatest);
+
+/* Narration (QA fix): when a turn is complete, its bot lines become the text that is read.
+   The first turn waits until the slide intro has been read. */
+function markTurn(){
+  var g = chatGen, until = Date.now() + 20000;   /* never wait more than 20 seconds */
+  function apply(){
+    if(g !== chatGen) return;
+    if(introWait){
+      var playing = document.querySelector('.saa-vo-listen.playing');
+      if(playing && current === CHAT_SLIDE && Date.now() < until){ setTimeout(apply, 300); return; }
+      introWait = false;
+    }
+    body.querySelectorAll('.pmsg.bot .pbubble:not(.k-help)').forEach(function(b){ b.setAttribute('data-saa-say', ''); });
+    body.setAttribute('data-saa-lead', '');
+  }
+  apply();
+}
 
 document.getElementById('laneSelect').addEventListener('change', function(){
   currentLane = this.value;
+  // QA fix: changing the setting after the chat started restarts the chat in the new setting.
+  if(chatStarted){ resetChat(); }
+  paintGates();
   document.getElementById('startBotBtn').disabled = !currentLane;
   // Game 16 designer assets: show the picture of the chosen setting beside the dropdown.
   var laneIco = document.getElementById('g16LaneIco');
@@ -253,6 +333,7 @@ window.getPracticeBotTranscript = function(){ return transcript.slice(); };
 /* One exchange on screen at a time: each new turn replaces the last. */
 function newTurn(){
   body.innerHTML = '';
+  body.scrollTop = 0;
   hintEl = null;
   currentChipRow = null;
 }
@@ -305,6 +386,7 @@ function addChips(options, onPick, extraClass){
   });
   body.appendChild(row);
   currentChipRow = row;
+  markTurn();
   return row;
 }
 
@@ -315,37 +397,56 @@ function addContinue(onGo){
 }
 
 /* ================= LAUNCH / CLUSTER FLOW ================= */
+function resetChat(){
+  chatGen++;
+  chatStarted = false;
+  chatDone = false;
+  awaiting = false;
+  transcript = [];
+  clearTimeout(idleTimer);
+  closeSkipPanel();
+  newTurn();
+  body.removeAttribute('data-saa-lead');
+  updateGateResultEmpty();
+}
+
 function launchChat(){
+  chatGen++;
   chatStarted = true;
   chatDone = false;
   clusterIndex = 0;
   attemptIndex = 0;
+  tries = 0;
+  roundStart = [0,0,0,0];
   clusterResults = [null,null,null,null];
+  introWait = true;
   newTurn();
+  body.removeAttribute('data-saa-lead');
   setInputText('Choose an option above…');
   updateClusterProgress();
 
   var toast = document.getElementById('phoneToast');
   toast.style.display = '';
   toast.textContent = 'Connecting to SwiftChat…';
-  setTimeout(function(){
+  later(function(){
     toast.textContent = 'Connected';
-    setTimeout(function(){ toast.style.display='none'; }, 1200);
+    later(function(){ toast.style.display='none'; }, 1200);
   }, 900);
 
-  setTimeout(function(){
+  later(function(){
     addPBot("Hi! I am SwiftChat. We will do 4 short rounds together. Read each example, then tap your answer below.", 'info');
-    setTimeout(function(){ presentCluster(); }, 700);
+    later(function(){ presentCluster(); }, 700);
   }, 1000);
 
   resetIdle();
 }
 
 function presentCluster(){
-  attemptIndex = 0;
+  tries = 0;
+  attemptIndex = roundStart[clusterIndex] % 2;
   updateClusterProgress();
   addTyping();
-  setTimeout(function(){
+  later(function(){
     removeTyping();
     presentScenario(true);
   }, 700);
@@ -356,10 +457,10 @@ function presentScenario(withTitle){
   var cluster = laneData[currentLane].clusters[clusterIndex];
   var sc = cluster.scenarios[attemptIndex];
   addTyping();
-  setTimeout(function(){
+  later(function(){
     removeTyping();
     addPBot((withTitle ? '<b>'+cluster.title+'</b>' : '') + sc.text);
-    setTimeout(function(){
+    later(function(){
       addPBot(sc.q);
       addChips(sc.options, function(pickedIdx){ handleAnswer(pickedIdx); });
       awaiting = true;
@@ -376,7 +477,7 @@ function handleAnswer(pickedIdx){
 
   var isRight = (pickedIdx === sc.correct);
   addTyping();
-  setTimeout(function(){
+  later(function(){
     removeTyping();
     if(isRight){
       addPBot(ICON_CHECK+' '+sc.feedback[0], 'good');
@@ -384,20 +485,23 @@ function handleAnswer(pickedIdx){
       updateClusterProgress();
       addContinue(advanceCluster);
     } else {
-      addPBot(ICON_X+' '+sc.feedback[1], 'soft');
-      if(attemptIndex < cluster.scenarios.length-1){
-        setTimeout(function(){
+      var wb = addPBot(ICON_X+' '+sc.feedback[1], 'soft').querySelector('.pbubble');
+      wb.classList.add('is-wrong');   /* QA fix: the soft "wrong" sound plays (a right answer already chimes via the round dot) */
+      tries++;
+      if(tries < cluster.scenarios.length){
+        later(function(){
           addPBot("Here is a new example like the last one. Try again.", 'info');
           addContinue(function(){
-            attemptIndex++;
+            attemptIndex = (attemptIndex + 1) % cluster.scenarios.length;
             newTurn();
             presentScenario(false);
           });
         }, 800);
       } else {
         clusterResults[clusterIndex] = 'fail';
+        roundStart[clusterIndex] = attemptIndex + 1;   /* a Retry starts with the other example */
         updateClusterProgress();
-        setTimeout(function(){
+        later(function(){
           addPBot("That is okay. This round needs more practice. We will move on now, and you can come back to it later.", 'soft');
           addContinue(advanceCluster);
         }, 800);
@@ -428,13 +532,15 @@ function finishChat(){
   clearTimeout(idleTimer);
   updateClusterProgress();
   addTyping();
-  setTimeout(function(){
+  later(function(){
     removeTyping();
     var passed = clusterResults.filter(function(r){return r==='pass';}).length;
     addPBot("You have finished all 4 rounds. You cleared "+passed+" of 4 rounds. Tap Next to see your full result.", 'info');
     setInputText('Chat complete');
+    markTurn();
   }, 700);
   updateGateResult();
+  render();
 }
 
 /* ================= HELP / SKIP ================= */
@@ -446,11 +552,14 @@ function showHint(){
   if(!hintEl){
     hintEl = document.createElement('div');
     hintEl.className = 'pmsg bot';
-    hintEl.innerHTML = '<div class="pavatar">'+BOT_AVATAR+'</div><div class="pbubble k-help"></div>';
+    hintEl.innerHTML = '<div class="pavatar">'+BOT_AVATAR+'</div><div class="pbubble k-help" data-saa-say-open hidden></div>';
     body.insertBefore(hintEl, currentChipRow);
+    hintEl.querySelector('.pbubble').innerHTML = html;
+    log('SwiftChat', html);
+    /* shown one moment later, so the narration reads it as something the learner opened */
+    var hb = hintEl.querySelector('.pbubble');
+    setTimeout(function(){ hb.hidden = false; scrollLatest(); }, 30);
   }
-  hintEl.querySelector('.pbubble').innerHTML = html;
-  log('SwiftChat', html);
 }
 
 function openSkipPanel(){
@@ -471,6 +580,7 @@ function confirmSkip(){
   newTurn();
   addPrevReply('Skip this round: '+reasonLabel);
   clusterResults[clusterIndex] = 'fail';
+  roundStart[clusterIndex] = attemptIndex + 1;
   updateClusterProgress();
   addPBot("No problem. You can come back to this round later from your result page.", 'info');
   addContinue(advanceCluster);
@@ -483,12 +593,11 @@ function resetIdle(){
   var toast = document.getElementById('phoneToast');
   if(toast.classList.contains('is-idle')){ toast.classList.remove('is-idle'); toast.style.display = 'none'; }
   if(chatDone || !chatStarted) return;
-  idleTimer = setTimeout(function(){
+  idleTimer = later(function(){
     var msg = "Are you still there? Take your time. Tap an option when you are ready.";
     toast.textContent = msg;
     toast.classList.add('is-idle');
     toast.style.display = '';
-    log('SwiftChat', msg);
   }, 20000);
 }
 
@@ -518,18 +627,27 @@ function updateGateResult(){
   });
 }
 
+function updateGateResultEmpty(){
+  document.getElementById('gateResult').className = 'result-card';
+  document.getElementById('gateHeadline').textContent = 'Finish all 4 rounds first.';
+  document.getElementById('gateSub').textContent = 'Your result appears here when you finish the chat.';
+  document.getElementById('clusterStatusList').innerHTML = '';
+}
+
 function retryCluster(i){
+  chatGen++;
   current = CHAT_SLIDE;
   clusterIndex = i;
   clusterResults[i] = null;
   chatDone = false;
+  tries = 0;
   // Bug fix: the input placeholder used to stay on "Chat complete" after Retry.
   setInputText('Choose an option above…');
   render();
   updateClusterProgress();
   newTurn();
   addPBot("We are going back to this round.<b>"+laneData[currentLane].clusters[i].title+"</b>", 'info');
-  setTimeout(function(){ attemptIndex = 0; presentScenario(false); }, 600);
+  later(function(){ attemptIndex = roundStart[i] % 2; presentScenario(false); }, 600);
   resetIdle();
 }
 

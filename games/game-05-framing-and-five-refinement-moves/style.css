@@ -476,3 +476,23 @@ section.page:not(.active){display:none}
   .ga5-selfcheck img{max-height:calc(28vh / var(--z,1))}
   .ga5-anim video{max-height:calc(16vh / var(--z,1))}
 }
+
+/* QA fixes (Oct 2026) */
+/* gates on the non-kit screens: the message shows when Next is pressed too early */
+.ga-gate{display:block;margin:0;min-height:0;color:#FFB3B3;font-size:15px;font-weight:600;line-height:1.45}
+.ga-gate:empty{position:absolute;width:1px;height:1px;margin:0;padding:0;overflow:hidden;pointer-events:none}
+.ga-gate.ga-shake{animation:saaShake .35s} /* not .saa-shake: a nudge, not a wrong answer (no wrong sound) */
+.ga5-skip{display:block;margin:2px 0 0;background:transparent;border:1px dashed var(--line-2);color:var(--muted);border-radius:10px;
+  padding:8px 12px;min-height:44px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer}
+.ga5-skip[aria-pressed="true"]{border-style:solid;border-color:var(--blue-line);background:var(--blue-tint);color:var(--blue-pale)}
+.ga5-skip[aria-pressed="true"]::before{content:"\2713  "}
+/* text fields: a clear focus ring */
+textarea:focus-visible,textarea:focus{outline:2px solid #FFC168;outline-offset:2px}
+@media (max-width:700px){
+  /* slide 7: the icon, the word and "Tap to open" fit inside each card */
+  .page .saa-kit .saa-card{min-height:100px}
+  /* pictures with words in them use the full width on phones */
+  .ga5-diag img,.ga5-tiles img,.ga5-selfcheck img{width:100%;max-height:none}
+  .ga5-see{min-height:44px}
+  .pasted-open{min-height:44px}
+}

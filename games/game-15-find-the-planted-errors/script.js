@@ -37,7 +37,7 @@ function buildTabs(){
     g.className = 'stg';
     g.setAttribute('data-stage', s);
     g.setAttribute('aria-label', label);
-    g.onclick = function(){ current = firstSlideOf(s); render(); };
+    g.onclick = function(){ goTo(firstSlideOf(s)); };
     var segs = '';
     for(var i=0;i<TOTAL;i++){ if(stageOf(i) === s) segs += '<i data-slide="'+i+'"></i>'; }
     g.innerHTML = '<span class="stg-head">' + stageIcons[s] + '<span>' + label + '</span></span><span class="stg-bar">' + segs + '</span>';
@@ -76,6 +76,13 @@ function render(){
   }
   document.getElementById('nextLabel').textContent = label;
   document.getElementById('nextBtn').classList.toggle('is-quiet', !!pending);
+  /* the shared kit dims Next while the screen carries data-saa-locked (Check stays active once an answer is picked) */
+  slides.forEach(function(sl){
+    var lock = false, sc = sl.querySelector('.cq-slot');
+    if(sl.querySelector('#submitFindingsBtn') && !findingsSubmitted) lock = true;
+    if(sc){ var id = sc.getAttribute('data-id'); lock = consequenceChoices[id] === undefined && !(id in consequenceResult); }
+    sl.toggleAttribute('data-saa-locked', lock);
+  });
 }
 
 function nextAction(){
@@ -90,8 +97,45 @@ function nextAction(){
 function changePage(delta){
   var next = current + delta;
   if(next < 0 || next > TOTAL-1) return;
+  if(delta > 0 && !gateOpen(current)){ showGate(current); return; }
   current = next;
   render();
+  save();
+}
+
+/* ---- gates (QA fix, Oct 2026): Next and the stage tabs use the same check ---- */
+function gateOpen(i){
+  var sl = slides[i];
+  if(sl.querySelector('.saa-kit[data-required]:not(.is-done)')) return false;
+  if(sl.querySelector('#submitFindingsBtn') && !findingsSubmitted) return false;
+  var slot = sl.querySelector('.cq-slot');
+  if(slot && !(slot.getAttribute('data-id') in consequenceResult)) return false;
+  return true;
+}
+function showGate(i){
+  var sl = slides[i];
+  var slot = sl.querySelector('.cq-slot');
+  if(slot){
+    var fb = document.getElementById('cqf-' + slot.getAttribute('data-id'));
+    if(fb){ fb.textContent = 'Choose one answer first. Then press Check.'; fb.classList.add('is-need'); }
+    return;
+  }
+  if(sl.querySelector('#submitFindingsBtn')){
+    var m = document.getElementById('submitNeed');
+    if(m){ m.hidden = false; clearTimeout(m._t); m._t = setTimeout(function(){ m.hidden = true; }, 4000); }
+    return;
+  }
+  var nb = document.getElementById('nextBtn');   /* a kit: the kit lock shows what is left */
+  if(nb) nb.click();
+}
+function goTo(target){
+  if(target <= current){ current = target; render(); save(); return; }
+  while(current < target){
+    if(!gateOpen(current)){ render(); showGate(current); save(); return; }
+    current++;
+  }
+  render();
+  save();
 }
 
 /* ================= LANE DATA ================= */
@@ -111,7 +155,7 @@ var laneDocs = {
       {id:'date', cat:'Date', color:'var(--blue)', phrase:'"12 September"', options:["The machines stop working after that date.","The store in-charge is replaced.","Anyone who checks the ledger against this note will think an entry is missing or wrong.","The invoice is no longer legally valid."], correct:2, explain:"The ledger entry date is 14 September. A wrong date breaks the link between this note and the real record."},
       {id:'fact', cat:'Fact', color:'var(--blue)', phrase:'"never require servicing"', options:["The claim has no effect, because it is only a note.","The training centre gets extra money.","The machines go back to the supplier.","Someone could use a machine unsafely, because nobody plans a service check."], correct:3, explain:"Never accept a servicing claim without a check. Servicing plans come from the manufacturer, not from a note that an AI tool wrote."},
       {id:'name', cat:'Name', color:'var(--blue)', phrase:'"Mr. Verma"', options:["The equipment ledger is no longer valid.","Questions or complaints about the delivery go to the wrong person.","Mr. Verma is asked to resign.","The delivery is cancelled."], correct:1, explain:"The roster lists Mr. Solanki as the store in-charge. Anyone with a question will contact the wrong person."},
-      {id:'source', cat:'Source', color:'var(--blue)', phrase:'"completes the annual equipment target"', options:["The ledger entry is deleted.","The system checks the claim by itself.","People think the order is complete and stop ordering what is still needed.","The store in-charge loses the job."], correct:2, explain:"The note does not name any target document. If people believe the claim, they may wrongly stop asking for more equipment."}
+      {id:'source', cat:'Source', color:'var(--blue)', phrase:'"completes the annual equipment target"', options:["The ledger entry is deleted.","The system checks the claim by itself.","People think the order is complete and stop ordering what is still needed.","The store in-charge loses the job."], correct:2, explain:"The equipment plan shows only 15 of 30 drill machines received, so the target is not complete. If people believe the claim, they may wrongly stop asking for more equipment."}
     ]
   },
   higher: {
@@ -201,7 +245,7 @@ function renderRecords(){
   });
   document.getElementById('recTabs').innerHTML = tabs;
   var r = recs[recordTab];
-  var html = '<div class="fpe-rec-head"><p class="rec-title">' + r.title + '</p><span class="fpe-made-up">MADE-UP RECORD</span></div><table class="rec-table"><thead><tr>';
+  var html = '<div class="fpe-rec-head"><p class="rec-title">' + r.title + '</p><span class="fpe-made-up">MADE-UP RECORD</span></div><div class="rec-scroll" tabindex="0" role="region" aria-label="' + r.title + '"><table class="rec-table"><thead><tr>';
   r.cols.forEach(function(c){ html += '<th scope="col">' + c + '</th>'; });
   html += '</tr></thead><tbody>';
   r.rows.forEach(function(row){
@@ -209,7 +253,8 @@ function renderRecords(){
     row.forEach(function(cell){ html += '<td>' + cell + '</td>'; });
     html += '</tr>';
   });
-  html += '</tbody></table>';
+  html += '</tbody></table></div>';
+  if(r.cols.length > 3) html += '<p class="rec-swipe saa-vo-skip">Swipe the table sideways to see every column.</p>';
   if(r.foot) html += '<p class="rec-foot">' + r.foot + '</p>';
   document.getElementById('recBody').innerHTML = html;
 }
@@ -297,10 +342,12 @@ function flagKey(e, el){
 function switchLane(){
   currentLane = document.getElementById('laneSelect').value;
   recordTab = 0;
+  resetTimer();
   renderDoc();
   renderConsequenceList();
   updateGateResult();
   render();
+  save();
 }
 
 /* lane option cards (Game 15 designer assets): they set the existing select and call switchLane() */
@@ -313,11 +360,14 @@ function pickLane(lane){
 }
 
 function toggleFlag(el){
+  // the timer starts by itself with the first flag
+  if(!timerRunning && timerSeconds === 300) toggleTimer();
   el.classList.toggle('flagged');
   var id = el.getAttribute('data-id');
   flagState[id] = el.classList.contains('flagged');
   el.setAttribute('aria-pressed', flagState[id] ? 'true' : 'false');
   updateFlagUI();
+  save();
 }
 
 function updateFlagUI(){
@@ -345,6 +395,7 @@ function setTimerBtns(label, disabled){
 }
 
 function toggleTimer(){
+  if(timerSeconds <= 0) return;
   if(timerRunning){
     clearInterval(timerInterval);
     timerRunning = false;
@@ -359,10 +410,22 @@ function toggleTimer(){
         clearInterval(timerInterval);
         timerRunning = false;
         setTimerBtns("Time's up", true);
+        document.querySelectorAll('.timer-up').forEach(function(m){ m.hidden = false; });
       }
       updateTimerDisplay();
+      if(timerSeconds % 5 === 0) save();
     }, 1000);
   }
+}
+
+/* a new lane starts a fresh timer */
+function resetTimer(){
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerSeconds = 300;
+  document.querySelectorAll('.timerBtn').forEach(function(b){ b.textContent = 'Start timer'; b.disabled = false; });
+  document.querySelectorAll('.timer-up').forEach(function(m){ m.hidden = true; });
+  updateTimerDisplay();
 }
 
 function updateTimerDisplay(){
@@ -425,8 +488,10 @@ function submitFindings(){
   document.getElementById('submitFindingsBtn').classList.add('is-done');
 
   updateGateResult();
+  if(restoring) return;
   current = slideById('findings');
   render();
+  save();
 }
 
 /* ================= CONSEQUENCES (one question per slide) ================= */
@@ -450,7 +515,7 @@ function renderConsequenceList(){
             + '<span class="cq-letter">'+String.fromCharCode(65+oi)+'</span><span>'+opt+'</span></button>';
     });
     html += '</div>';
-    html += '<div class="cq-feedback" id="cqf-'+item.id+'" aria-live="polite">'+CQ_PROMPT+'</div>';
+    html += '<div class="cq-feedback saa-k-why" id="cqf-'+item.id+'" aria-live="polite">'+CQ_PROMPT+'</div>';
     html += '</div>';
     slot.setAttribute('data-id', item.id);
     slot.innerHTML = html;
@@ -458,6 +523,8 @@ function renderConsequenceList(){
 }
 
 function setConsequence(id, value){
+  // QA fix: the first checked answer counts. After Check, the answer is locked.
+  if(id in consequenceResult) return;
   consequenceChoices[id] = value;
   delete consequenceResult[id];
   var item = document.getElementById('cq-'+id);
@@ -469,10 +536,11 @@ function setConsequence(id, value){
     b.setAttribute('aria-checked', on ? 'true' : 'false');
   });
   var fb = document.getElementById('cqf-'+id);
-  fb.classList.remove('show');
+  fb.classList.remove('show','is-need');
   fb.textContent = CQ_PROMPT;
   updateGateResult();
   render();
+  save();
 }
 
 function checkConsequence(id){
@@ -488,12 +556,31 @@ function checkConsequence(id){
   }
   var isRight = (parseInt(chosen, 10) === item.correct);
   consequenceResult[id] = isRight;
-  el.classList.add(isRight ? 'right' : 'wrong');
-  el.querySelectorAll('.cq-opt.is-selected').forEach(function(b){ b.classList.add(isRight ? 'is-right' : 'is-wrong'); });
-  fb.classList.add('show');
-  fb.textContent = (isRight ? 'Yes. ' : 'Not quite. ') + item.explain;
+  paintConsequence(id);   /* the right / wrong class it adds plays the sound */
   checkConsequences();
   render();
+  save();
+}
+
+/* draw a checked answer: colours, the reason, and the options locked */
+function paintConsequence(id){
+  var lane = laneDocs[currentLane];
+  var item = lane.consequences.filter(function(c){ return c.id === id; })[0];
+  var el = document.getElementById('cq-'+id), fb = document.getElementById('cqf-'+id);
+  if(!item || !el || !(id in consequenceResult)) return;
+  var isRight = consequenceResult[id];
+  el.classList.remove('right','wrong');
+  el.classList.add(isRight ? 'right' : 'wrong', 'is-locked');
+  el.querySelectorAll('.cq-opt').forEach(function(b){
+    var on = parseInt(b.getAttribute('data-i'), 10) === consequenceChoices[id];
+    b.classList.toggle('is-selected', on);
+    b.setAttribute('aria-checked', on ? 'true' : 'false');
+    if(on) b.classList.add(isRight ? 'is-right' : 'is-wrong');
+    b.disabled = true;
+  });
+  fb.classList.remove('is-need');
+  fb.classList.add('show');
+  fb.textContent = (isRight ? 'Yes. ' : 'Not quite. ') + item.explain;
 }
 
 /* recompute the consequence score across all five slides */
@@ -516,20 +603,69 @@ function updateGateResult(){
     var done = Object.keys(consequenceResult).length;
     box.className = 'gate-result';
     document.getElementById('gateHeadline').textContent = 'Finish the investigation and the consequence questions first.';
-    document.getElementById('gateSub').textContent = 'Your full result will appear here.' +
-      ' Findings: ' + (findingsSubmitted ? 'submitted' : 'not submitted yet') + '. Consequences checked: ' + done + ' of ' + lane.consequences.length + '.';
+    document.getElementById('gateSub').textContent = 'Your full result will appear here.';
+    document.getElementById('gateScore').textContent =
+      'Findings: ' + (findingsSubmitted ? 'submitted' : 'not submitted yet') + '. Consequences checked: ' + done + ' of ' + lane.consequences.length + '.';
+    document.getElementById('restartBtn').hidden = true;
     return;
   }
-  var passed = (findScore >= 4 && consScore >= 4);
+  // QA fix: flagging every phrase must not clear the gate, so false flags count too.
+  var passed = (findScore >= 4 && falsePos <= MAX_FALSE && consScore >= 4);
   box.className = 'gate-result ' + (passed ? 'pass' : 'fail');
   document.getElementById('gateHeadline').textContent = passed
     ? 'You cleared the gate.'
     : 'You have not cleared the gate yet. Try this case again.';
-  document.getElementById('gateSub').textContent =
-    'Errors found: ' + findScore + '/5. False flags: ' + falsePos + '. Consequences correct: ' + consScore + '/5. ' +
-    (passed
-      ? 'You found at least 4 of 5 planted errors and chose at least 4 of 5 consequences correctly. This clears the gate.'
-      : 'To clear this gate, you need at least 4 of 5 errors found and 4 of 5 consequences correct. Go back, read the document again and try again.');
+  document.getElementById('gateSub').textContent = passed
+    ? 'You found at least 4 of 5 planted errors, with no more than 2 false flags. You chose at least 4 of 5 consequences correctly. This clears the gate.'
+    : 'To clear this gate, you need at least 4 of 5 errors found, no more than 2 false flags, and 4 of 5 consequences correct. Tap Start again, read the note again and try again.';
+  document.getElementById('gateScore').textContent =
+    'Errors found: ' + findScore + '/5. False flags: ' + falsePos + '. Consequences correct: ' + consScore + '/5.';
+  document.getElementById('restartBtn').hidden = passed;
+}
+var MAX_FALSE = 2;
+
+/* ================= SAVE / RESTORE (QA fix: a refresh keeps your work) ================= */
+var SAVE_KEY = 'saa-g15-find-planted-errors';
+var restoring = false;
+function save(){
+  if(restoring) return;
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify({
+      lane: currentLane, flags: flagState, submitted: findingsSubmitted,
+      choices: consequenceChoices, results: consequenceResult, current: current, timer: timerSeconds
+    }));
+  } catch(e){}
+}
+function restore(){
+  var d = null;
+  try { d = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); } catch(e){ d = null; }
+  if(!d || !laneDocs[d.lane]) return;
+  restoring = true;
+  try {
+    if(d.lane !== currentLane){ pickLane(d.lane); }
+    Object.keys(d.flags || {}).forEach(function(id){
+      if(!d.flags[id]) return;
+      var el = document.querySelector('.doc-text .flag[data-id="'+id+'"]');
+      if(el){ el.classList.add('flagged'); el.setAttribute('aria-pressed', 'true'); flagState[id] = true; }
+    });
+    updateFlagUI();
+    if(typeof d.timer === 'number' && d.timer < 300){
+      timerSeconds = Math.max(0, d.timer); updateTimerDisplay();
+      if(timerSeconds <= 0){ setTimerBtns("Time's up", true); document.querySelectorAll('.timer-up').forEach(function(m){ m.hidden = false; }); }
+      else { setTimerBtns('Resume timer'); }
+    }
+    if(d.submitted){ submitFindings(); }
+    Object.keys(d.results || {}).forEach(function(id){
+      if(d.choices && d.choices[id] !== undefined){ consequenceChoices[id] = d.choices[id]; consequenceResult[id] = d.results[id]; paintConsequence(id); }
+    });
+    checkConsequences();
+    if(typeof d.current === 'number' && d.current >= 0 && d.current < TOTAL){ current = d.current; }
+  } finally { restoring = false; }
+  render();
+}
+function startAgain(){
+  try { localStorage.removeItem(SAVE_KEY); } catch(e){}
+  location.reload();
 }
 
 /* ================= INIT ================= */
@@ -540,4 +676,5 @@ document.addEventListener('DOMContentLoaded', function(){
   updateTimerDisplay();
   updateGateResult();
   render();
+  restore();
 });

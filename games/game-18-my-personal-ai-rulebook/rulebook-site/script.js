@@ -354,16 +354,16 @@
   var EXAMPLES = {
     iti: {
       assistant: 'SwiftChat, approved by my ITI facilitator', account: 'Account from my institute', device: 'Shared lab computer',
-      help: 'My workshop facilitator, Mr. Deshmukh', marks: ['Facts', 'Numbers', 'Dates', 'Names', 'Sources'],
+      help: 'My workshop facilitator', marks: ['Facts', 'Numbers', 'Dates', 'Names', 'Sources'],
       method: ['I separate what is supported from what is not', 'I verify, then correct, qualify or remove', 'I pause before I send'],
-      sources: 'The tool register, the attendance sheet, my facilitator', peerDone: true, peerName: 'Rohit, my batchmate',
+      sources: 'The tool register, the attendance sheet, my facilitator', peerDone: true, peerName: 'My batchmate',
       version: 'v1', date: '2026-09-12', declared: true
     },
     higher: {
       assistant: 'Campus-approved AI writing assistant', account: 'My own account, approved for coursework', device: 'My own laptop',
-      help: 'My course coordinator, Ms. Iyer', marks: ['Facts', 'Numbers', 'Dates', 'Names', 'Sources'],
+      help: 'My course coordinator', marks: ['Facts', 'Numbers', 'Dates', 'Names', 'Sources'],
       method: ['I separate what is supported from what is not', 'I verify, then correct, qualify or remove', 'I pause before I send'],
-      sources: 'The submission portal, the course notice board, my coordinator', peerDone: true, peerName: 'Ananya, my classmate',
+      sources: 'The submission portal, the course notice board, my coordinator', peerDone: true, peerName: 'My classmate',
       version: 'v1', date: '2026-09-09', declared: true
     }
   };
@@ -433,15 +433,26 @@
     el.addEventListener('change', function () { data[FIELD[el.id]] = el.value.trim(); drawMini(); });
   });
 
-  // One choice only (account, device).
+  // One choice only (account, device). "Other" opens a short box to say what.
   document.querySelectorAll('[data-single]').forEach(function (group) {
     var key = group.getAttribute('data-single');
+    var other = $('f-' + key + '-other');
+    function otherValue() { return other.value.replace(/\s+/g, ' ').trim(); }
     group.addEventListener('click', function (e) {
       var chip = e.target.closest('.chip');
       if (!chip) return;
       group.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c === chip)); });
-      data[key] = chip.textContent.trim();
-      drawMini();
+      var isOther = chip.hasAttribute('data-other');
+      if (other) {
+        other.hidden = !isOther;
+        if (isOther) { try { other.focus({ preventScroll: true }); } catch (x) { other.focus(); } }
+      }
+      data[key] = isOther ? (other ? otherValue() : 'Other') : chip.textContent.trim();
+      drawMini(); Deck.fit();
+    });
+    if (other) other.addEventListener('input', function () {
+      var on = group.querySelector('[data-other][aria-pressed="true"]');
+      if (on) { data[key] = otherValue(); drawMini(); }
     });
   });
 
@@ -499,6 +510,84 @@
   toggle('f-peer-done', 'peerDone');
   toggle('f-declare', 'declared');
 
+  /* ---------- required inputs: Continue stays locked until each part is done ---------- */
+  function txt(v, min) { v = String(v || '').replace(/\s+/g, ' ').trim(); return v.length >= (min || 3) && /[^\s0-9.,!?;:'"()\-]/.test(v); }
+  var NEED = {
+    'r1-tool': function () {
+      var m = [];
+      if (!txt(data.assistant)) m.push('type the name of your AI tool');
+      if (!txt(data.account, 2)) m.push(document.querySelector('[data-single="account"] [data-other][aria-pressed="true"]') ? 'type your kind of account' : 'tap your type of account');
+      return m;
+    },
+    'r1-help': function () {
+      var m = [];
+      if (!txt(data.device, 2)) m.push(document.querySelector('[data-single="device"] [data-other][aria-pressed="true"]') ? 'type your device' : 'tap your device');
+      if (!txt(data.help)) m.push('type who you ask for help');
+      return m;
+    },
+    'r3-mark': function () {
+      var m = [];
+      if (!data.marks.length) m.push('tap at least one thing that you mark');
+      if (!data.method.length) m.push('tap at least one step of your method');
+      return m;
+    },
+    'r3-source': function () {
+      var m = [];
+      if (!txt(data.sources)) m.push('type what you check your answers against');
+      if (!data.peerDone) m.push('tick the box when you have explained it to a peer');
+      return m;
+    },
+    'r3-sign': function () {
+      var m = [];
+      if (!String(data.version || '').trim()) m.push('type a version, for example v1');
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(data.date || '')) m.push('choose the date');
+      if (!data.declared) m.push('tap the declaration');
+      return m;
+    }
+  };
+  function gateBox(s) {
+    var m = s.querySelector('.rb-gate');
+    if (!m) {
+      m = document.createElement('p');
+      m.className = 'rb-gate saa-vo-skip';
+      m.setAttribute('role', 'status');
+      m.setAttribute('aria-live', 'polite');
+      m.hidden = true;
+      (s.querySelector('.two-col > .col') || s.querySelector('.card')).appendChild(m);
+    }
+    return m;
+  }
+  function paintGate() {
+    var s = Deck.current(), b = $('primary');
+    if (!s || !b) return;
+    var f = NEED[s.id], on = !!f && f().length > 0;
+    var box = s.querySelector('.rb-gate');
+    if (box && !on && !box.hidden) { box.hidden = true; box.textContent = ''; Deck.fit(); }
+    if (b.classList.contains('rb-locked') === on) return;
+    b.classList.toggle('rb-locked', on);
+    if (on) b.setAttribute('aria-disabled', 'true');
+    else if (!b.classList.contains('saa-locked')) b.removeAttribute('aria-disabled');
+  }
+  function gatePrimary(deck) {
+    var s = deck.current(), m = NEED[s.id] ? NEED[s.id]() : [];
+    if (!m.length) return true;
+    var box = gateBox(s);
+    var t = m.length > 1 ? m.slice(0, -1).join(', ') + ' and ' + m[m.length - 1] : m[0];
+    box.textContent = 'Not yet. Please ' + t + '.';
+    box.hidden = false;
+    deck.fit();
+    return false;
+  }
+  document.addEventListener('input', paintGate);
+  document.addEventListener('click', function () { setTimeout(paintGate, 0); });
+
+  /* Nothing is saved: warn before a reload or close loses the page. */
+  window.addEventListener('beforeunload', function (e) {
+    var started = data.assistant || data.account || data.device || data.help || data.marks.length || data.method.length || data.sources || data.peerDone || data.peerName || data.declared;
+    if (!started) return;
+    e.preventDefault(); e.returnValue = ''; return '';
+  });
+
   /* ---------- the finished page ---------- */
   function missing() {
     return rows(data).filter(function (r) { return !r[2]; });
@@ -526,14 +615,23 @@
     example: { enter: function () { showExample('iti'); } },
     page: {
       enter: drawPage,
-      primary: function () {
+      primary: function (deck) {
+        var gaps = missing();
+        if (gaps.length) {
+          SAA.toast('Fill in every part before you download');
+          deck.go(gaps[0][3]);
+          return false;
+        }
         SAA.download('my-personal-ai-rulebook-1-3.txt', buildFile());
         SAA.toast('Your rulebook page is downloaded');
         return false;
       }
     }
   };
-  Object.keys(FOCUS).forEach(function (id) { hooks[id] = { enter: drawMini }; });
+  Object.keys(FOCUS).forEach(function (id) {
+    hooks[id] = { enter: function () { drawMini(); setTimeout(paintGate, 0); }, primary: gatePrimary };
+  });
+  hooks.page.leave = function () { setTimeout(paintGate, 0); };
 
   Deck.init(hooks);
 })();

@@ -55,3 +55,6 @@ img { -webkit-user-drag: none; }
 @media (max-width: 900px) {
   .card.saa-split { display: flex; flex-direction: column; align-items: stretch; }
 }
+
+/* phones: both columns use the card's full width (the desktop rule centres them, which squeezed the activity) */
+@media (max-width: 760px) { .card.saa-split > .saa-lead, .card.saa-split > .saa-work { align-self: stretch; width: auto; } }

@@ -19,7 +19,11 @@
     try { k.dispatchEvent(new CustomEvent('saa:done', { bubbles: true })); } catch (e) {}
   }
   function why(k) { var w = $('.saa-k-why', k); if (!w) { w = el('p', 'saa-k-why'); w.setAttribute('aria-live', 'polite'); k.appendChild(w); } return w; }
-  function say(k, text, ok) { var w = why(k); w.textContent = text || ''; w.className = 'saa-k-why' + (ok === true ? ' ok' : ok === false ? ' bad' : ''); }
+  function say(k, text, ok, quiet) {
+    var w = why(k); w.textContent = text || ''; w.className = 'saa-k-why' + (ok === true ? ' ok' : ok === false ? ' bad' : '');
+    /* a checked answer: right or wrong sound (explanations shown after checking stay quiet) */
+    if (!quiet && text && win.SAA_SFX) { if (ok === true) { win.SAA_SFX.correct(); } else if (ok === false) { win.SAA_SFX.wrong(); } }
+  }
   function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
 
   /* ---------- reveal: flip cards, or scratch cards (data-style="scratch") ---------- */
@@ -256,8 +260,8 @@
       var mvb = el('span', 'saa-mv');
       var u = el('button', '', '↑'), d = el('button', '', '↓'); u.type = d.type = 'button';
       u.setAttribute('aria-label', 'Move up'); d.setAttribute('aria-label', 'Move down');
-      u.addEventListener('click', function (e) { e.stopPropagation(); var p = li.previousElementSibling; if (p) { list.insertBefore(li, p); clear(); } });
-      d.addEventListener('click', function (e) { e.stopPropagation(); var n = li.nextElementSibling; if (n) { list.insertBefore(n, li); clear(); } });
+      u.addEventListener('click', function (e) { e.stopPropagation(); var p = li.previousElementSibling; if (p) { list.insertBefore(li, p); clear(); try { u.focus(); } catch (x) {} } });   /* keep focus on the moved step */
+      d.addEventListener('click', function (e) { e.stopPropagation(); var n = li.nextElementSibling; if (n) { list.insertBefore(n, li); clear(); try { d.focus(); } catch (x) {} } });
       mvb.appendChild(u); mvb.appendChild(d); li.appendChild(mvb);
     });
     do { shuffle(items).forEach(function (li) { list.appendChild(li); }); } while (items.length > 1 && isRight());
@@ -303,7 +307,7 @@
     parts.forEach(function (s) {
       s.setAttribute('role', 'button'); s.setAttribute('tabindex', '0'); s.setAttribute('aria-pressed', 'false');
       function tog() {
-        if (k.classList.contains('checked')) { var f = s.hasAttribute('data-ok'), on = s.classList.contains('on'); say(k, (f ? (on ? 'You found this. ' : 'You missed this. ') : (on ? 'This part was fine. ' : 'Fine. ')) + (s.getAttribute('data-why') || ''), f && on ? true : f ? false : null); return; }
+        if (k.classList.contains('checked')) { var f = s.hasAttribute('data-ok'), on = s.classList.contains('on'); say(k, (f ? (on ? 'You found this. ' : 'You missed this. ') : (on ? 'This part was fine. ' : 'Fine. ')) + (s.getAttribute('data-why') || ''), f && on ? true : f ? false : null, true); return; }
         s.classList.toggle('on'); s.setAttribute('aria-pressed', s.classList.contains('on') ? 'true' : 'false');
         btn.disabled = !$('.saa-s.on', k);
       }
@@ -320,8 +324,7 @@
       k.classList.add('checked');
       var all = found === need.length;
       say(k, 'You found ' + found + ' of ' + need.length + '. ' + (all ? (k.getAttribute('data-done-text') || 'Well done.') : 'Tap any coloured part to see why, or try again.'), all);
-      if (all) { btn.style.display = 'none'; } else { btn.textContent = 'Try again'; }
-      done(k);
+      if (all) { btn.style.display = 'none'; done(k); } else { btn.textContent = 'Try again'; }   /* Next unlocks only when every part is found */
     });
   }
 
@@ -636,7 +639,17 @@
     $$('.saa-card:not(.open), .saa-k-opt:not(:disabled), .saa-pool .saa-chip, .saa-steps > li, .saa-s, .saa-row:not(.done), .saa-m-item:not(:disabled), .saa-d-pos:not(.is-seen):not(.is-start)', open).slice(0, 8).forEach(function (x) { x.classList.add('saa-nudge'); });
     setTimeout(function () { $$('.saa-nudge', open).forEach(function (x) { x.classList.remove('saa-nudge'); }); }, 2600);
   }, true);
-  doc.addEventListener('saa:done', function () { $$('.saa-nudge').forEach(function (x) { x.classList.remove('saa-nudge'); }); });
+  doc.addEventListener('saa:done', function () { $$('.saa-nudge').forEach(function (x) { x.classList.remove('saa-nudge'); }); paintLock(); });
+  /* a locked Next looks locked (dimmed, aria-disabled) but can still be pressed, so the activity can show what is left */
+  function paintLock() {
+    /* kits that are not done, or anything a game marks with data-saa-locked (its own input gates) */
+    var open = $$('.saa-kit[data-required]:not(.is-done), [data-saa-locked]').filter(vis).length > 0;
+    $$(NAV).forEach(function (b) {
+      var on = open && vis(b);
+      if (b.classList.contains('saa-locked') !== on) { b.classList.toggle('saa-locked', on); if (on) { b.setAttribute('aria-disabled', 'true'); } else if (!b.disabled) { b.removeAttribute('aria-disabled'); } }
+    });
+  }
+  setInterval(paintLock, 400);
 
   win.SAAKit = { init: init };
   if (doc.readyState === 'loading') { doc.addEventListener('DOMContentLoaded', function () { init(); }); } else { init(); }

@@ -60,10 +60,12 @@
   // short spoken feedback for the right-hand activities (audio/fb/<id>.mp3)
   var fb = new Audio(), fbDone = null;
   function stopFb(){ fb.pause(); fb.onended = null; fbDone = null; }
-  function speak(id, then){
+  function speak(id, then, force){
     stopFb();
-    if (!started || !autoNarrate) { if (then) { setTimeout(then, 1600); } return; }
+    if (force) { started = true; }
+    if (!started || (!autoNarrate && !force)) { if (then) { setTimeout(then, 1600); } return; }
     stopAudio();
+    try { audio.currentTime = 0; } catch (e) {}   /* the screen clip restarts from the top: the header shows Replay, not Resume */
     fbDone = then || null;
     fb.onended = function(){ var f = fbDone; fbDone = null; if (f) { f(); } };
     fb.src = 'audio/fb/' + id + '.mp3';
@@ -194,7 +196,14 @@
   }
 
   prev.addEventListener('click', function(){ started = true; go(i - 1); });
-  next.addEventListener('click', function(){ if (next.disabled) return; started = true; go(i === steps.length - 1 ? 0 : i + 1); });
+  next.addEventListener('click', function(){
+    if (next.disabled) return;
+    started = true;
+    if (i === steps.length - 1) { restart(); return; }
+    go(i + 1);
+  });
+  // Start again: a clean slate for the next learner (nothing is stored, so a reload clears every answer and activity)
+  function restart(){ stopFb(); stopAudio(); try { location.reload(); } catch (e) { go(0); } }
 
   document.addEventListener('keydown', function(e){
     if (/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
@@ -247,9 +256,12 @@
       var caught = flaws.filter(function(x){ return x.getAttribute('aria-pressed') === 'true'; }).length;
       lns.forEach(function(x){
         var flaw = x.getAttribute('data-flaw') === '1', on = x.getAttribute('aria-pressed') === 'true';
-        x.classList.add(flaw ? (on ? 'hit' : 'miss') : (on ? 'wrongflag' : 'ok'));
+        x.classList.add(flaw ? (on ? 'caught' : 'missed') : (on ? 'wrongflag' : 'ok'));
       });
-      segfb.textContent = 'You caught ' + caught + ' of ' + flaws.length + ' problems. Tap any part to see why.';
+      var extra = lns.some(function(x){ return x.classList.contains('wrongflag'); }) ? ' Grey parts were fine.' : '';
+      segfb.textContent = 'You caught ' + caught + ' of ' + flaws.length + ' problems.' + extra + ' Tap any part to see why.';
+      // one sound for the whole check: right when all are caught, wrong only when none are
+      if (window.SAA_SFX) { if (caught === flaws.length) { SAA_SFX.correct(); } else if (caught === 0) { SAA_SFX.wrong(); } }
       reveal.setAttribute('hidden', '');
       setDone();
       speak('s9_reveal');
@@ -273,6 +285,16 @@
   });
 
   function setDone(){ steps[i].setAttribute('data-done', '1'); refresh(); }
+  // screen 5: the order kit tells us when it is solved
+  document.addEventListener('saa:done', function(e){
+    var st = e.target && e.target.closest ? e.target.closest('.step') : null;
+    if (st) { st.setAttribute('data-done', '1'); refresh(); }
+  });
+  // phones: keep the feedback line in view after a tap
+  function showFb(node){
+    if (window.innerWidth > 700 || !node.scrollIntoView) { return; }
+    setTimeout(function(){ try { node.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {} }, 60);
+  }
 
   // screen 1: quick answers
   var answerBtns = document.querySelectorAll('#chips .choice');
@@ -321,7 +343,7 @@
       setDone();
     });
   });
-  document.getElementById('hear6').addEventListener('click', function(){ speak('s6_prompt'); });
+  document.getElementById('hear6').addEventListener('click', function(){ speak('s6_prompt', null, true); });
 
   // screen 7: match tool to task
   var tasks = [
@@ -339,12 +361,13 @@
   }
   if (qtask) {
     showTask();
-    document.getElementById('hear7').addEventListener('click', function(){ speak('q' + qi); });
+    document.getElementById('hear7').addEventListener('click', function(){ speak('q' + qi, null, true); });
     Array.prototype.forEach.call(cards, function(c){
       c.addEventListener('click', function(){
         if (c.getAttribute('data-k') === tasks[qi][1]) {
           c.classList.add('right');
           qfb.textContent = '\u2713 ' + tasks[qi][2];
+          showFb(qfb);
           Array.prototype.forEach.call(cards, function(x){ x.disabled = true; });
           var done = qi;
           qi++;
@@ -357,6 +380,7 @@
         } else {
           c.classList.remove('wrong'); void c.offsetWidth; c.classList.add('wrong');
           qfb.textContent = 'Not quite. Think about what each tool actually does.';
+          showFb(qfb);
           speak('q_wrong');
         }
       });
@@ -375,10 +399,16 @@
       if (sel) { sel.setAttribute('aria-pressed', 'true'); }
       sortEl.classList.toggle('armed', !!sel);
     }
+    // a short right / wrong mark on the bucket (the shared sounds hear the class), then it clears
+    function flash(b, cls){
+      b.classList.remove('right', 'bad'); void b.offsetWidth; b.classList.add(cls);
+      clearTimeout(b._fx); b._fx = setTimeout(function(){ b.classList.remove(cls); }, 650);
+    }
     function dropOn(b){
       if (!sel) { sfb.textContent = 'Pick a task first.'; return; }
       if (sel.getAttribute('data-b') === b.getAttribute('data-b')) {
         sfb.textContent = '\u2713 ' + sel.getAttribute('data-why');
+        flash(b, 'right');
         var fid = sel.getAttribute('data-fb');
         sel.setAttribute('aria-pressed', 'false');
         sel.disabled = true;
@@ -390,7 +420,7 @@
           speak(fid, function(){ speak('sort_done'); });
         } else { speak(fid); }
       } else {
-        b.classList.remove('bad'); void b.offsetWidth; b.classList.add('bad');
+        b.classList.remove('bad', 'right'); void b.offsetWidth; flash(b, 'bad');
         sfb.textContent = 'Not that one. Ask: would it matter if this came out wrong?';
         speak('sort_wrong');
       }
@@ -474,6 +504,7 @@
   Array.prototype.forEach.call(segBtns, function(b){
     b.addEventListener('click', function(){
       Array.prototype.forEach.call(segBtns, function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      var st2 = b.closest('.step'); if (st2) { st2.setAttribute('data-done', '1'); refresh(); }
       Array.prototype.forEach.call(document.querySelectorAll('.steps3'), function(o){
         if (o.getAttribute('data-for') === b.getAttribute('data-t')) { o.removeAttribute('hidden'); } else { o.setAttribute('hidden', ''); }
       });
@@ -498,6 +529,8 @@
     if (next.disabled) {
       switch (i) {
         case 0: return el('#chips .choice');
+        case 1: return el('.seg-b');
+        case 4: return el('.saa-steps > li');
         case 2: return respEmpty ? el('#copyPrompt, #resp1') : el('#resp1');
         case 3: return el('.step.on .chk .choice');
         case 5: return el('.opt');

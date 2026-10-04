@@ -179,6 +179,7 @@ en:{
  probPh:"What was wrong or missing?",
  chFirst:"What did you notice in this first answer? Write 1 sentence.", ch:"What changed from the last answer? Write 1 sentence.",
  chPh:"Example: This answer was shorter and used my own topic.",
+ qNeed:"Write your question in at least 4 words.", sortNeed:"Mark every item Safe or Not safe first.", s4need:"Find the added line, pick a prompt, and write at least 3 words about why.", s5need:"Tick all 4 checks, then write at least 3 words for each question.",
  need:"To save, you need to:", nBr:"fill all brackets", nAns:"add the answer", nRead:"tick “I read the whole answer”", nCh:"write what changed", nPriv:"remove private data",
  saveNext:"Save and go to prompt {n}", saveLast:"Save and continue", toCheck:"Continue to checking",
  s4h:"Find the line that the prompt did not ask for.",
@@ -262,6 +263,15 @@ gu:{
  probPh:"શું ખોટું કે ખૂટતું હતું?",
  chFirst:"આ પહેલા જવાબમાં તમે શું જોયું? એક વાક્ય.", ch:"છેલ્લા જવાબની સરખામણીમાં શું બદલાયું? એક વાક્ય.",
  chPh:"ઉદાહરણ: આ જવાબ ટૂંકો હતો અને તેમાં મારો પોતાનો વિષય હતો.",
+ qNeed:"તમારો પ્રશ્ન ઓછામાં ઓછા 4 શબ્દોમાં લખો.", sortNeed:"પહેલાં દરેક વસ્તુને સલામત કે સલામત નથી તરીકે માર્ક કરો.", s4need:"ઉમેરાયેલી લીટી શોધો, એક પ્રોમ્પ્ટ પસંદ કરો, અને કેમ તે ઓછામાં ઓછા 3 શબ્દોમાં લખો.", s5need:"ચારેય બૉક્સ ટિક કરો, પછી દરેક પ્રશ્ન માટે ઓછામાં ઓછા 3 શબ્દો લખો.",
+ taskLbl:"તમારું કાર્ય.",
+ s0do:"તમારું કાર્ય. મદદના નિયમો જોવા દરેક કાર્ડ પર ટેપ કરો.",
+ s1do:"તમારું કાર્ય. દરેક પગલું પૂરું થાય ત્યારે તેનું બૉક્સ ટિક કરો.",
+ s2do:"તમારું કાર્ય. દરેક વસ્તુને સલામત કે સલામત નથી તરીકે માર્ક કરો, પછી તમારો પ્રશ્ન લખો.",
+ s3title:"પ્રોમ્પ્ટ {n} / 10 ભરો અને મોકલો.",
+ s3do:"તમારું કાર્ય. દરેક કૌંસ ભરો, પ્રોમ્પ્ટ મોકલો, પછી જવાબ લોગ કરો.",
+ s4do:"તમારું કાર્ય. ઉમેરાયેલી લીટી પર ટેપ કરો, પછી જે જવાબ પર સૌથી ઓછો વિશ્વાસ હોય તે પસંદ કરો અને કેમ તે લખો.",
+ s5do:"તમારું કાર્ય. જે લીટી સાચી હોય તે દરેક ટિક કરો, પછી 2 પ્રશ્નોના જવાબ આપો.",
  need:"સાચવવા માટે:", nBr:"બધા કૌંસ ભરો", nAns:"જવાબ ઉમેરો", nRead:"“મેં આખો જવાબ વાંચ્યો” ટિક કરો", nCh:"શું બદલાયું તે લખો", nPriv:"ખાનગી ડેટા કાઢી નાખો",
  saveNext:"સાચવો, પ્રોમ્પ્ટ {n} પર જાઓ", saveLast:"સાચવો અને આગળ વધો", toCheck:"તપાસ તરફ આગળ વધો",
  s4h:"તપાસવાની લીટી શોધો",
@@ -318,10 +328,11 @@ const f=(s,o)=>s.replace(/\{(\w+)\}/g,(_,k)=>o[k]);
 const L=()=>LANE[S.lane][S.lang];
 /* ESL upgrade: new English-only keys fall back to a matching key in the current language, then to English */
 const tx=(k,fb)=>T[S.lang][k]!==undefined?T[S.lang][k]:(fb&&T[S.lang][fb]!==undefined?T[S.lang][fb]:T.en[k]);
-function doLine(k){const s=tx(k),m=/^Your task\.\s*/.exec(s);return `<p class="do"><b>Your task.</b> ${m?s.slice(m[0].length):s}</p>`;}
+function doLine(k){const s=tx(k),lbl=tx("taskLbl")||"Your task.",m=/^(Your task\.|તમારું કાર્ય\.)\s*/.exec(s);return `<p class="do"><b>${lbl}</b> ${m?s.slice(m[0].length):s}</p>`;}
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const $=id=>document.getElementById(id);
-const words=s=>(s||"").trim().split(/\s+/).filter(Boolean).length;
+const words=s=>(s||"").trim().split(/\s+/).filter(w=>/[\p{L}\p{N}]/u.test(w)).length;
+const realChars=s=>((s||"").match(/[\p{L}\p{N}]/gu)||[]).length;
 const P=i=>PROMPTS[i][S.lang];
 const isM=()=>window.innerWidth<=760;
 const MP={0:1,2:1,3:1,4:1,5:1};
@@ -344,7 +355,7 @@ const sortDone=()=>L().sort.every((it,i)=>S.sort[i]!==undefined && (S.sort[i]?1:
 function entryMissing(i){
   const e=S.entries[i],m=[];
   if(!e.text.trim()||brackets(e.text)>0) m.push("nBr");
-  if(e.ans.trim().length<(S.offline?4:10)) m.push("nAns");
+  if(realChars(e.ans)<(S.offline?4:10)) m.push("nAns");
   if(!e.read && !S.offline) m.push("nRead");
   if(words(e.change)<3) m.push("nCh");
   if(scan(e.text).length) m.push("nPriv");
@@ -398,10 +409,17 @@ function footer(){
   }
   else if(S.step===6){
     nb.style.display="none";
-    ex.style.flex=isM()?"1":"";ex.innerHTML=DL?`<button class="primary" id="dlBtn" style="flex:1">${I.down}${t("download")}</button>`:`<button class="primary" id="cpBtn" style="flex:1">${I.copy}${t("copyText")}</button>`;
+    ex.style.flex=isM()?"1":"";ex.innerHTML=`<button class="secondary" id="cpBtn">${I.copy}${t("copyText")}</button><button class="primary" id="dlBtn" style="flex:1">${I.down}${t("download")}</button>`;
   }
   else nb.innerHTML=t("cont")+I.arrow;
   nb.disabled=!canNext();
+  /* say why Continue is locked */
+  if(nb.disabled&&!msg.textContent){
+    if(S.step===2) msg.textContent=!sortDone()?tx("sortNeed"):(words(S.question)<4?tx("qNeed"):"");
+    else if(S.step===4) msg.textContent=tx("s4need");
+    else if(S.step===5&&!logFlags().length) msg.textContent=tx("s5need");
+  }
+  if(S.step!==3){const nm=$("needM"); if(nm) nm.textContent=nb.disabled?msg.textContent:"";}
 }
 function nextOpen(){for(let k=1;k<=10;k++){const j=(S.cur+k)%10;if(!S.entries[j].saved&&j!==S.cur)return j;}return Math.min(S.cur+1,9);}
 
@@ -449,6 +467,7 @@ function vQuestion(){
     <textarea id="qIn" rows="3" placeholder="${t("qPh")}" style="flex:1;min-height:80px">${esc(S.question)}</textarea>
     <div id="qWarn" style="margin-top:8px">${pv.length?`<div class="banner warn">${I.lock}<span>${privMsg(pv)}</span></div>`:""}</div>
     <div class="ex">${t("qEx")} <q>${esc(Ln.q)}</q></div>
+    <div class="need mneed" id="needM"></div>
    </section>
   </div>`;
 }
@@ -496,6 +515,7 @@ function vCheck(){
    <section class="card c1" style="display:flex;flex-direction:column;gap:10px"><h2 style="margin:0">${t("trustH")}</h2><div class="chips">${chips}</div>
     ${S.trust!==null?`<div class="note">${f(t("s3h"),{n:S.trust+1})}: ${esc(S.entries[S.trust].text).slice(0,140)}${S.entries[S.trust].text.length>140?"…":""}</div>`:""}
     <div><label class="fl" for="twIn">${t("trustWhy")}</label><input type="text" id="twIn" placeholder="${t("trustPh")}" value="${esc(S.trustWhy)}"></div>
+    <div class="need mneed" id="needM"></div>
    </section>
   </div>`;
 }
@@ -511,6 +531,7 @@ function vPrivacy(){
    <section class="card c1" style="display:flex;flex-direction:column;gap:10px"><h2 style="margin:0">${t("reflH")}</h2>
     <div style="flex:1;display:flex;flex-direction:column;min-height:0"><label class="fl" for="r1">${t("r1")}</label><textarea id="r1" style="flex:1;min-height:60px">${esc(S.r1)}</textarea></div>
     <div style="flex:1;display:flex;flex-direction:column;min-height:0"><label class="fl" for="r2">${t("r2")}</label><textarea id="r2" style="flex:1;min-height:60px">${esc(S.r2)}</textarea></div>
+    <div class="need mneed" id="needM"></div>
    </section>
   </div>`;
 }
@@ -521,7 +542,7 @@ function vEvidence(){
   return `<div class="lead" data-saa-lead><h1>${t("s6h")}</h1><p class="lede">${t("s6p")}</p></div>
   <div class="tiles">${tiles.map(x=>`<div class="tile ${x[2]?"":"flag"}"><span>${x[0]}</span><b>${x[2]&&typeof x[1]==="string"&&x[1]!=="!"&&!/\d/.test(x[1])?I.check:""}${esc(x[1])}</b></div>`).join("")}</div>
   <section class="card grow" style="display:flex;flex-direction:column"><h2>${t("logH")}</h2><ol class="log" style="overflow:hidden">${log}</ol></section>
-  <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center"><button class="linkbtn" data-act="assessor">${I.eye}${t("assessor")}</button>${DL?`<button class="linkbtn" data-act="copyEv">${I.copy}${t("copyText")}</button>`:""}<button class="linkbtn" data-act="restart" style="color:var(--muted);font-size:13px;margin-left:auto">${t("restart")}</button></div>`;
+  <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center"><button class="linkbtn" data-act="assessor">${I.eye}${t("assessor")}</button><button class="linkbtn" data-act="copyEv">${I.copy}${t("copyText")}</button><button class="linkbtn" data-act="restart" style="color:var(--muted);font-size:13px;margin-left:auto">${t("restart")}</button></div>`;
 }
 
 const VIEWS=[vStart,vSetup,vQuestion,vPrompts,vCheck,vPrivacy,vEvidence];
@@ -563,6 +584,8 @@ $("backBtn").addEventListener("click",()=>{
   go(S.step-1);
 });
 
+/* right / wrong sounds: the screen is redrawn on each answer, so the game plays them itself */
+function sfx(ok){try{if(window.SAA_SFX){if(ok)SAA_SFX.correct();else SAA_SFX.wrong();}}catch(e){}}
 /* ---------- events ---------- */
 document.addEventListener("click",ev=>{
   const b=ev.target.closest("button");if(!b)return;
@@ -572,11 +595,11 @@ document.addEventListener("click",ev=>{
   if(d.go){go(+d.go);return;}
   if(d.rtab!==undefined){S.ruleTab=+d.rtab;persist();render();return;}
   if(d.setup!==undefined){S.setup[+d.setup]=S.setup[+d.setup]?0:1;persist();render();return;}
-  if(d.sort!==undefined){S.sort[+d.sort]=+d.v;persist();render();return;}
+  if(d.sort!==undefined){S.sort[+d.sort]=+d.v;sfx((+d.v)===L().sort[+d.sort][1]);persist();render();return;}
   if(d.pick!==undefined){S.cur=+d.pick;S.mp=0;persist();render();return;}
   if(d.mp!==undefined&&b.closest(".mtog")){if(+d.mp===1&&!pane0ok())return;S.mp=+d.mp;persist();render();return;}
   if(d.ck){const e=S.entries[S.cur];e[d.ck]=!e[d.ck];persist();b.setAttribute("aria-checked",e[d.ck]);if(d.ck==="prob")$("probIn").style.display=e.prob?"":"none";live();return;}
-  if(d.spot!==undefined){S.spot=+d.spot;persist();render();return;}
+  if(d.spot!==undefined){S.spot=+d.spot;sfx(S.spot===L().spot.hit);persist();render();return;}
   if(d.trust!==undefined){S.trust=+d.trust;persist();render();return;}
   if(d.priv!==undefined){S.privacy[+d.priv]=S.privacy[+d.priv]?0:1;persist();render();return;}
   if(d.fix!==undefined){S.cur=+d.fix;S.entries[S.cur].saved=false;S.privacy=[0,0,0,0];go(3);return;}
@@ -589,7 +612,7 @@ document.addEventListener("click",ev=>{
   if(d.act==="offline"){S.offline=true;persist();closeM("helpModal");if(S.step<1)go(1);else render();return;}
   if(d.act==="offlineOff"){S.offline=false;persist();render();return;}
   if(d.act==="copy"){copy(S.entries[S.cur].text,t("copied"));return;}
-  if(d.act==="restart"){if(confirm(t("restartQ"))){const lang=S.lang,lane=S.lane;S=blank();S.lang=lang;S.lane=lane;persist();render(true);}return;}
+  if(d.act==="restart"){if(confirm(t("restartQ"))){const lang=S.lang,lane=S.lane;S=blank();S.lang=lang;S.lane=lane;clearTimeout(saveTimer);try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}location.reload();}return;}
   if(d.close){closeM(d.close);return;}
   if(b.id==="helpBtn"){openHelp();return;}
   if(b.id==="asBtn"){openAssessor();return;}
@@ -662,12 +685,13 @@ function openAssessor(){
 document.querySelectorAll(".scrim").forEach(s=>s.addEventListener("click",ev=>{if(ev.target===s)closeM(s.id);}));
 
 /* ---------- evidence export ---------- */
+function when(iso){try{return new Date(iso).toLocaleString("en-IN",{day:"numeric",month:"short",year:"numeric",hour:"numeric",minute:"2-digit"});}catch(e){return iso;}}
 function evidenceText(){
   const E=T.en,lines=[];
   lines.push("# Evidence: Set Up and Send Ten Prompts","",
    "Schema: AAI-E-MC1-S01-LAB01 (Practical Lab Task)","Mapped performance criteria: PC 1.1 to 1.5",
    "Stream: "+(S.lane==="iti"?"ITI trade":"Higher education")+"  |  Language used: "+(S.lang==="en"?"English":"Gujarati"),
-   "Started: "+(S.started||"—")+"  |  Exported: "+new Date().toISOString(),
+   "Started: "+(S.started?when(S.started):"—")+"  |  Exported: "+when(new Date().toISOString()),
    "Route: "+(S.offline?"Offline route (answers added later)":"Online"),"",
    "## Setup","- Approved tool opened, permitted account signed in, language set, test message sent: "+(S.setup.every(Boolean)?"yes":"not all ticked"),"",
    "## My question",S.question||"—","",
@@ -688,8 +712,15 @@ async function copy(txt,okMsg){
   catch(e){try{const ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();const ok=document.execCommand("copy");ta.remove();toast(ok?okMsg:t("copyFail"));}catch(e2){toast(t("copyFail"));}}
 }
 let DL=null;
+const FNAME="AAI-E-MC1-S01-LAB01_evidence.md";
+function blobDownload(){
+  try{const url=URL.createObjectURL(new Blob([evidenceText()],{type:"text/markdown;charset=utf-8"}));
+    const a=document.createElement("a");a.href=url;a.download=FNAME;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);toast(t("saved"));}
+  catch(e){toast(t("copyFail"));}
+}
 async function doDownload(){
-  if(!DL)return;
+  if(!DL){blobDownload();return;}
   try{await DL.save({filename:"AAI-E-MC1-S01-LAB01_evidence.md",data:evidenceText()});toast(t("saved"));}
   catch(e){toast(e&&e.code==="declined"?t("declined"):t("copyFail"));}
 }

@@ -478,7 +478,8 @@ select.cluster-select{
   .qa-body-inner{padding:10px 12px 12px}
   .break-block{margin-top:10px}
   /* the section title repeats on all 11 answer-bank slides; the kicker keeps "Answer bank · n of 11" */
-  .qa-slide .page-head h2{display:none}
+  /* hidden visually but kept in the page, so the narration text (and its clip) is the same on every screen size */
+  .qa-slide .page-head h2{position:absolute!important;width:1px!important;height:1px!important;margin:0!important;padding:0!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}
 }
 @media (max-width:479px){
   .outline-btn{display:none}
@@ -572,3 +573,20 @@ select.cluster-select{
 }
 /* cover: keep the staff code line small and dim now that the cover is split around the scene */
 html.saa-skin #stage .cover-sheet .saa-lead p.meta{font-size:calc(12px / var(--zz,1)) !important;color:var(--dim) !important;font-weight:500 !important;line-height:1.5 !important;margin:0 !important}
+
+/* Fix pass (Oct 2026): icon-only audience badge on every phone (tall phones squeezed the section select and clipped the badge text) */
+@media (max-width:640px){
+  .audience-badge{padding:7px;font-size:0;gap:0}
+  html .topbar-tools > .audience-badge, html.saa-skin .topbar-tools > .audience-badge{flex:0 0 auto!important}
+}
+/* tall phones have room for a second header row: the section select gets the full width */
+@media (max-width:640px) and (min-height:741px){
+  html.saa-skin header.saa-header.chrome, html header.saa-header.chrome{flex-wrap:wrap!important;row-gap:8px!important}
+  html.saa-skin header.saa-header.chrome > .topbar-tools, html header.saa-header.chrome > .topbar-tools{flex:1 1 100%!important;order:5;justify-content:space-between!important;margin-left:0!important}
+  html.saa-skin header.saa-header.chrome > .topbar-tools > select.jump-select, html header.saa-header.chrome > .topbar-tools > select.jump-select{flex:1 1 auto!important;max-width:none!important}
+}
+/* short phones keep one header row: drop the icon-only badge so the section select keeps readable text */
+@media (max-width:640px) and (max-height:740px){
+  html .topbar-tools > .audience-badge, html.saa-skin .topbar-tools > .audience-badge{display:none!important}
+  html .topbar-tools > select.jump-select, html.saa-skin .topbar-tools > select.jump-select{flex:1 1 auto!important;min-width:84px!important}
+}

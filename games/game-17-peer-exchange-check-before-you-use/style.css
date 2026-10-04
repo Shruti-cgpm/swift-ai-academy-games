@@ -430,3 +430,9 @@ html.saa-skin .slide-cover .saa-lead p.pc-meta.pc-meta.pc-meta.pc-meta.pc-meta.p
   .g17-swap img{max-height:calc(27vh / var(--z,1))}
 }
 .saa-start .g17-start-hero{margin-top:10px}
+
+/* Fix pass (Oct 2026): message when Next is locked on a typed-answer screen */
+.g17-gate{margin:10px 0 0;padding:10px 14px;border-radius:12px;background:rgba(255,140,140,.12);border:1px solid rgba(255,140,140,.55);color:#ffb3b3;font-weight:600;font-size:15px;line-height:1.4}
+.g17-gate[hidden]{display:none}
+.g17-need{border-color:#ff8c8c !important;box-shadow:0 0 0 2px rgba(255,140,140,.35) !important}
+#navNext.g17-locked{opacity:.45 !important;filter:saturate(.35) !important;box-shadow:none !important;cursor:not-allowed !important}

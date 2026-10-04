@@ -602,3 +602,13 @@ table.g14-reg{width:100%;border-collapse:collapse;font-size:14px;}
   /* no room on very short phones: the prompt line and the tag step aside */
   .bubble .g14-draft p.g14-prompt,.g14-tag{display:none;}
 }
+
+/* ===== QA fixes (4 Oct 2026) ===== */
+/* A tall turn scrolls inside the chat instead of sliding under the title card or the footer.
+   "safe center" keeps short turns centred and starts tall ones at the top. */
+.chat{overflow-y:auto;overflow-x:hidden;justify-content:safe center;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding-bottom:4px}
+.chat > *{flex-shrink:0}
+/* short line under an input when the learner taps a button too early */
+.g14-need{margin:8px 0 0;padding:7px 12px;border-radius:10px;background:rgba(255,184,77,.12);border:1px solid rgba(255,184,77,.45);color:#FFD9A0;font-size:13.5px;font-weight:600;line-height:1.4}
+.g14-need[hidden]{display:none}
+.g14-count{display:block;text-align:right;font-size:12px;color:var(--muted);margin-top:4px}

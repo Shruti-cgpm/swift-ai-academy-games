@@ -68,17 +68,18 @@
         <div class="builder">
           <div class="field">
             <label for="b-role"><img class="g6-ico" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">Role <span class="opt-hint">Who should the AI act as?</span></label>
-            <input type="text" id="b-role" placeholder="Example: a workshop teacher">
+            <input type="text" id="b-role" maxlength="160" placeholder="Example: a workshop teacher">
           </div>
           <div class="field">
             <label for="b-context"><img class="g6-ico" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">Context <span class="opt-hint">Why do you need it, and who is it for?</span></label>
-            <input type="text" id="b-context" placeholder="Example: new trainees, before the practical">
+            <input type="text" id="b-context" maxlength="160" placeholder="Example: new trainees, before the practical">
           </div>
         </div>
         <div class="preview-col">
           <p class="hint preview-label">Your request</p>
           <div class="prompt-preview mini" aria-hidden="true">You are ___. For ___, ___. Format it as ___.</div>
         </div>
+        <p class="ga-gate saa-k-why" data-saa-locked data-gate="b-role,b-context" data-msg="Type a role and a context first, or tap an example." aria-live="polite"></p>
       </section>
 
       <!-- Slide 3 — Task + Format -->
@@ -90,11 +91,11 @@
         <div class="builder">
           <div class="field">
             <label for="b-task"><img class="g6-ico" src="assets/icons/icon-task.webp" alt="" aria-hidden="true">Task <span class="opt-hint">What should the AI make?</span></label>
-            <input type="text" id="b-task" placeholder="Example: write a short safety reminder">
+            <input type="text" id="b-task" maxlength="160" placeholder="Example: write a short safety reminder">
           </div>
           <div class="field">
             <label for="b-format"><img class="g6-ico" src="assets/icons/icon-format.webp" alt="" aria-hidden="true">Format <span class="opt-hint">How should it look?</span></label>
-            <input type="text" id="b-format" placeholder="Example: 3 points for the noticeboard">
+            <input type="text" id="b-format" maxlength="160" placeholder="Example: 3 points for the noticeboard">
           </div>
         </div>
         <figure class="g6-shapes"><img src="assets/diagrams/diag-format-shapes.webp" width="480" height="160" alt="Three shapes an answer can take: bullet points, a short message, or a table."></figure>
@@ -102,6 +103,7 @@
           <p class="hint preview-label">Your request</p>
           <div class="prompt-preview mini" aria-hidden="true">You are ___. For ___, ___. Format it as ___.</div>
         </div>
+        <p class="ga-gate saa-k-why" data-saa-locked data-gate="b-task,b-format" data-msg="Type a task and a format first." aria-live="polite"></p>
       </section>
 
       <!-- Slide 4 — assembled request + Copy -->
@@ -118,6 +120,7 @@
               Copy request
             </button>
           </div>
+          <p class="g6-copy-msg saa-k-why" id="copy-msg" aria-live="polite"></p>
           <figure class="g6-paste">
             <img src="assets/diagrams/tool-paste-guide.webp" width="800" height="250" alt="After you copy your request, paste it into an AI tool such as ChatGPT, Gemini or Claude.">
             <button type="button" class="g6-paste-copy" tabindex="-1" aria-hidden="true"></button>
@@ -173,6 +176,7 @@
               <button class="saa-card" type="button"><span class="saa-front">5. Combine<img class="g6-move" src="assets/icons/icon-move-5.webp" alt="" aria-hidden="true"></span><span class="saa-back">Use Combine when you have 2 good answers. Say &ldquo;Combine the best of both.&rdquo;</span></button>
             </div>
           </div>
+          <p class="g6-done saa-k-why" id="g6-done" hidden></p>
         </div>
       </section>
 
@@ -195,7 +199,7 @@
     </button>
     <button type="button" class="btn-restart saa-btn-secondary" id="deck-restart" hidden>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"></path><polyline points="21 3 21 9 15 9"></polyline></svg>
-      Back to Build
+      Start again
     </button>
   </footer>
 

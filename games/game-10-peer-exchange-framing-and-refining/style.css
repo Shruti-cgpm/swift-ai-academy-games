@@ -426,3 +426,12 @@ html.saa-skin .stage > .slide #download-btn{
 @media (max-height:640px) and (min-width:641px){
   .g10-disagree img{max-height:calc(19vh / var(--z,1))}
 }
+
+/* QA fixes (Oct 2026) */
+.g10-gate{margin:10px 0 0;font-size:13px;font-weight:600;color:var(--amber-2,#FFC168)}
+.g10-gate[hidden]{display:none}
+.g10-parts-h{margin:14px 0 6px;font-weight:700;font-size:13px;color:#EDEFF7}
+.g10-disagree img{cursor:zoom-in}
+.g10-disagree img.g10-zoom{position:fixed;z-index:9999;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(92vw,800px);max-width:92vw;max-height:86vh !important;height:auto;object-fit:contain;cursor:zoom-out;
+  box-shadow:0 0 0 100vmax rgba(4,8,24,.78),0 30px 80px rgba(0,0,0,.5)}

@@ -1182,3 +1182,24 @@ textarea.input { display: block; }
 .never-row img{width:24px;height:24px;display:block}
 @media (max-width:600px){.tile-top .step-ic{width:26px;height:26px;flex-basis:26px}}
 @media (max-width:760px){.flow .tile > .tile-top{grid-row:span 2;gap:.5rem}}
+
+/* QA fixes (Oct 2026) */
+/* gates on the typing screens: the message shows when Continue is pressed too early */
+.ga-gate{display:block;margin:0;min-height:0;color:var(--bad-ink);font-size:0.9375rem;font-weight:600;line-height:1.45}
+.ga-gate:empty{position:absolute;width:1px;height:1px;margin:0;padding:0;overflow:hidden;pointer-events:none}
+.ga-gate.ga-shake,.copy-msg.ga-shake{animation:saaShake .35s} /* not .saa-shake: a nudge, not a wrong answer (no wrong sound) */
+.copy-msg{margin:0;color:var(--bad-ink);font-size:0.9375rem;font-weight:600;line-height:1.45}
+.copy-msg:empty{display:none}
+.status.bad{color:var(--bad-ink)}
+/* done screen: the "never type" icons carry their words, as in Rewrite Five Weak Requests */
+.never-row li{display:flex;align-items:center;gap:.45rem;font-size:.8125rem;font-weight:600;color:var(--ink-3)}
+.never-row img{flex:0 0 24px}
+@media (max-width:760px){
+  .chip,.btn-sm,.see-ex,.list .btn-link{min-height:44px}
+  .list .btn-link{min-width:44px}
+  .input{min-height:44px}
+}
+/* phones: the activity column uses the full card width (answer boxes were squeezed to the width of their labels) */
+@media (max-width:760px){
+  .card.saa-split > .saa-work{align-self:stretch;width:100%}
+}

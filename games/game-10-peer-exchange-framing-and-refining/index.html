@@ -66,7 +66,7 @@
       </div>
       <div class="practice-box">
         <label for="partner-name">Your partner's name</label>
-        <input type="text" id="partner-name" placeholder="For example, Priya">
+        <input type="text" id="partner-name" maxlength="40" autocomplete="off" placeholder="For example, Priya">
       </div>
     </section>
 
@@ -75,8 +75,11 @@
       <p class="step-meta">Round 1 &middot; You review</p>
       <h2>Which parts are in your partner's request?</h2>
       <p>Ask your partner for the weak request, the improved request and both AI answers.</p>
-      <p class="do"><b>Your task.</b> Tap every part that you find in the improved request.</p>
+      <p class="do"><b>Your task.</b> Type your partner's improved request. Then tap every part that you find in it.</p>
       <div class="practice-box">
+        <label for="r1-request">Your partner's improved request</label>
+        <textarea id="r1-request" rows="2" maxlength="500" placeholder="Type or copy the improved request here."></textarea>
+        <p class="g10-parts-h">Parts you find in it</p>
         <div class="diag-row" data-missing="context,role,task,format">
           <button type="button" class="diag-chip" data-el="context"><img class="g10-ic" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">Context</button>
           <button type="button" class="diag-chip" data-el="role"><img class="g10-ic" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">Role</button>
@@ -113,13 +116,13 @@
       <p class="do"><b>Your task.</b> Type one strength, one risk and one suggested change.</p>
       <div class="practice-box">
         <label for="r1-strength"><img class="g10-ic" src="assets/icons/icon-strength.webp" alt="" aria-hidden="true">One strength</label>
-        <textarea id="r1-strength" rows="2" placeholder="For example, it said exactly who this was for."></textarea>
+        <textarea id="r1-strength" rows="2" maxlength="500" placeholder="For example, it said exactly who this was for."></textarea>
 
         <label for="r1-risk"><img class="g10-ic" src="assets/icons/icon-risk.webp" alt="" aria-hidden="true">One risk</label>
-        <textarea id="r1-risk" rows="2" placeholder="For example, the AI added a date that was not given."></textarea>
+        <textarea id="r1-risk" rows="2" maxlength="500" placeholder="For example, the AI added a date that was not given."></textarea>
 
         <label for="r1-change"><img class="g10-ic" src="assets/icons/icon-suggest.webp" alt="" aria-hidden="true">One suggested change</label>
-        <textarea id="r1-change" rows="2" placeholder="For example, ask the AI to make it shorter."></textarea>
+        <textarea id="r1-change" rows="2" maxlength="500" placeholder="For example, ask the AI to make it shorter."></textarea>
       </div>
     </section>
 
@@ -129,7 +132,7 @@
       <h2>You can disagree and still be respectful.</h2>
       <p>Talk about the work, not the person. If you disagree, say: &ldquo;I see it differently. I think ___ because ___. What do you think?&rdquo;</p>
       <p class="do"><b>Your task.</b> Stamp each comment Helpful or Not helpful.</p>
-      <figure class="g10-fig g10-lead-fig g10-disagree"><img src="assets/scene-respectful-disagreement.webp" width="800" height="600" alt="Two learners talk calmly at a desk. The trainee points at the paper, not at his partner, and says: I see it differently. I think ___ because ___. What do you think?"></figure>
+      <figure class="g10-fig g10-lead-fig g10-disagree"><img tabindex="0" role="button" title="Tap to make the picture bigger" src="assets/scene-respectful-disagreement.webp" width="800" height="600" alt="Two learners talk calmly at a desk. The trainee points at the paper, not at his partner, and says: I see it differently. I think ___ because ___. What do you think?"></figure>
       <div class="saa-kit" data-kit="stamp" data-required data-stamps="Helpful|Not helpful">
         <div class="saa-rows">
           <div class="saa-row" data-ans="0" data-why="Yes. It talks about the work and gives a reason." data-hint="Not quite. Does it give a reason and ask a question?">I see it differently. I think the format is missing because there is no word limit.</div>
@@ -148,13 +151,13 @@
       <p class="do"><b>Your task.</b> Type the strength, risk and change that your partner gave you.</p>
       <div class="practice-box">
         <label for="r2-strength"><img class="g10-ic" src="assets/icons/icon-strength.webp" alt="" aria-hidden="true">Strength your partner gave you</label>
-        <textarea id="r2-strength" rows="2" placeholder="What did they say worked well?"></textarea>
+        <textarea id="r2-strength" rows="2" maxlength="500" placeholder="What did they say worked well?"></textarea>
 
         <label for="r2-risk"><img class="g10-ic" src="assets/icons/icon-risk.webp" alt="" aria-hidden="true">Risk your partner gave you</label>
-        <textarea id="r2-risk" rows="2" placeholder="What did they say could go wrong?"></textarea>
+        <textarea id="r2-risk" rows="2" maxlength="500" placeholder="What did they say could go wrong?"></textarea>
 
         <label for="r2-change"><img class="g10-ic" src="assets/icons/icon-suggest.webp" alt="" aria-hidden="true">Change your partner suggested</label>
-        <textarea id="r2-change" rows="2" placeholder="What did they suggest you try?"></textarea>
+        <textarea id="r2-change" rows="2" maxlength="500" placeholder="What did they suggest you try?"></textarea>
       </div>
     </section>
 
@@ -166,12 +169,12 @@
       <p class="do"><b>Your task.</b> Type your revised request in the box.</p>
       <div class="practice-box">
         <label for="r2-revision">Your revised request</label>
-        <textarea id="r2-revision" rows="3" placeholder="Write your revised request here."></textarea>
+        <textarea id="r2-revision" rows="3" maxlength="800" placeholder="Write your revised request here."></textarea>
       </div>
     </section>
 
     <!-- SLIDE 10: round 2, did it help (old page 4) -->
-    <section class="slide" data-next="Finish">
+    <section class="slide">
       <p class="step-meta">Round 2 &middot; You get reviewed</p>
       <h2>Did the feedback help your request?</h2>
       <p>There is no wrong answer here. You decide if the change made your request more usable.</p>
@@ -196,7 +199,7 @@
       <p class="do"><b>Your task.</b> Tap each card to see one part of your record.</p>
       <div class="saa-kit" data-kit="reveal" data-required>
         <div class="saa-cards">
-          <button class="saa-card" type="button"><span class="saa-front"><img class="g10-ic g10-card-ic" src="assets/icons/icon-exchange.webp" alt="" aria-hidden="true">Requests</span><span class="saa-back">You have both requests, yours and your partner's.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="g10-ic g10-card-ic" src="assets/icons/icon-exchange.webp" alt="" aria-hidden="true">Requests</span><span class="saa-back">You have both requests: your partner's improved request and your revised request.</span></button>
           <button class="saa-card" type="button"><span class="saa-front"><img class="g10-ic g10-card-ic" src="assets/icons/icon-strength.webp" alt="" aria-hidden="true">Feedback</span><span class="saa-back">You have both sets of feedback.</span></button>
           <button class="saa-card" type="button"><span class="saa-front"><img class="g10-ic g10-card-ic" src="assets/icons/icon-revise.webp" alt="" aria-hidden="true">Revision</span><span class="saa-back">You have your one revised request.</span></button>
           <button class="saa-card" type="button"><span class="saa-front"><img class="g10-ic g10-card-ic" src="assets/icons/icon-supported.webp" alt="" aria-hidden="true">Did it help?</span><span class="saa-back">You say whether the feedback helped.</span></button>

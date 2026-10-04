@@ -98,6 +98,16 @@ function render(){
   document.getElementById('nextBtn').textContent = onLast ? (completed ? 'Completed' : 'Done') : 'Next';
   document.getElementById('nextBtn').disabled = onLast && completed;
   document.getElementById('doneBanner').classList.toggle('show', onLast && completed);
+  paintGates();
+}
+/* the shared kit dims Next while a screen carries data-saa-locked (its own taps: coloured phrases, Try this) */
+function paintGates(){
+  pages.forEach(function(pg){
+    var mks = pg.querySelectorAll('.mk'), lock = false;
+    if(mks.length && pg.querySelectorAll('.mk[data-seen]').length < mks.length) lock = true;
+    if(pg.querySelector('.try-feedback:not(.show)')) lock = true;
+    pg.toggleAttribute('data-saa-locked', lock);
+  });
 }
 
 function changePage(delta){
@@ -114,10 +124,46 @@ function goTo(i){
 }
 
 function goToSection(sec){
-  for(var i = 0; i < TOTAL; i++){ if(sectionOf(i) === sec){ goTo(i); return; } }
+  for(var i = 0; i < TOTAL; i++){ if(sectionOf(i) === sec){ walkTo(i); return; } }
+}
+
+/* ---- gates (QA fix, Oct 2026): Next, the Right-arrow key and the section stepper all use this ---- */
+function gateOpen(i){
+  var pg = slides[i].page;
+  if(pg.querySelector('.saa-kit[data-required]:not(.is-done)')) return false;
+  var mks = pg.querySelectorAll('.mk');
+  if(mks.length && pg.querySelectorAll('.mk[data-seen]').length < mks.length) return false;
+  var tries = pg.querySelectorAll('.try-feedback');
+  for(var k = 0; k < tries.length; k++){ if(!tries[k].classList.contains('show')) return false; }
+  return true;
+}
+function showGate(i){
+  var pg = slides[i].page;
+  if(pg.querySelector('.mk') && !pg.querySelector('.saa-kit[data-required]:not(.is-done)')){
+    var w = pg.querySelector('.g13-mk-why');
+    if(w){ w.textContent = 'Tap each coloured phrase first.'; w.classList.add('is-need'); }
+    return;
+  }
+  var t = pg.querySelector('.try-feedback:not(.show)');
+  if(t && !pg.querySelector('.saa-kit[data-required]:not(.is-done)')){
+    var n = pg.querySelector('.g13-need');
+    if(n){ n.hidden = false; clearTimeout(n._t); n._t = setTimeout(function(){ n.hidden = true; }, 4000); }
+    return;
+  }
+  /* a kit: a click on Next lets the kit lock show what is left */
+  var nb = document.getElementById('nextBtn'); if(nb) nb.click();
+}
+function walkTo(target){
+  if(target <= current){ goTo(target); return; }
+  while(current < target){
+    if(!gateOpen(current)){ render(); showGate(current); return; }
+    current++;
+  }
+  render();
 }
 
 function handleNext(){
+  if(!gateOpen(current)){ showGate(current); return; }
   if(current === TOTAL-1){
     completed = true;
     render();
@@ -141,7 +187,7 @@ else if(narrowMQ.addListener){ narrowMQ.addListener(onViewportChange); }
 document.addEventListener('keydown', function(e){
   var t = e.target && e.target.tagName;
   if(t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT') return;
-  if(e.key === 'ArrowRight') handleNext();
+  if(e.key === 'ArrowRight'){ var nb = document.getElementById('nextBtn'); if(nb && !nb.disabled) nb.click(); }   /* same lock as the Next button */
   if(e.key === 'ArrowLeft') changePage(-1);
 });
 
@@ -149,6 +195,17 @@ document.addEventListener('keydown', function(e){
 function revealTag(el){
   var tag = el.querySelector('.mk-tag');
   tag.classList.toggle('shown');
+  el.setAttribute('data-seen', '1');
+  paintGates();
+  /* say what kind of part it is (this line is read aloud) */
+  var pg = el.closest('.page'), w = pg && pg.querySelector('.g13-mk-why');
+  if(w && tag.classList.contains('shown')){
+    var kind = tag.textContent.trim().toLowerCase();
+    var left = pg.querySelectorAll('.mk').length - pg.querySelectorAll('.mk[data-seen]').length;
+    w.classList.remove('is-need');
+    w.textContent = (kind === 'date' ? 'This part is a date.' : kind === 'figure' ? 'This part is a figure.' : kind === 'name' ? 'This part is a name.' :
+      kind === 'fact' ? 'This part is a fact.' : 'This part is a source.') + (left === 0 ? ' You found all five kinds.' : '');
+  }
 }
 document.querySelectorAll('.mk').forEach(function(mk){
   mk.addEventListener('keydown', function(e){
@@ -216,9 +273,11 @@ function checkAnswer(btn, choice, key){
     '9oct': 'The date matches the record book exactly.',
     '28t': 'The record book shows that 26 trainees finished, not 28.',
     'best': 'The record book does not compare sessions, so nothing supports "best-attended".',
-    'src': 'The record book confirms the date and the number of trainees. It does not rank sessions, so it cannot support the whole sentence.'
+    'src': 'The record book confirms the date. It shows a different number of trainees, and it does not rank sessions. So it cannot support the whole sentence.'
   };
   fb.innerHTML = '<b>' + (isRight ? 'Yes. ' : 'Not quite. The answer is ' + correct.charAt(0).toUpperCase() + correct.slice(1) + '. ') + '</b>' + explanations[key];
+  var n = btn.closest('.page') && btn.closest('.page').querySelector('.g13-need'); if(n) n.hidden = true;
+  paintGates();
 }
 
 buildStepper();

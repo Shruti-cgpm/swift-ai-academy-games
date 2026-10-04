@@ -72,3 +72,17 @@ body, button, input, textarea, select { font-family: 'Instrument Sans', 'Noto Sa
   .saa-scrollzone .saa-scrollpath, .saa-scrollzone.saa-cur, .saa-scrollzone .saa-surface, .saa-scrollzone .saa-split {
     height: auto !important; min-height: 0 !important; max-height: none !important; overflow: visible !important; flex: 0 0 auto !important; justify-content: flex-start !important; }
 }
+
+/* phones: a card grows with its content inside the scroll area (beats the desktop skin's flex:1 / min-height:0) */
+@media (max-width: 700px) { html.saa-skin .saa-scrollzone .saa-surface, html.saa-skin .saa-scrollzone .saa-scrollpath { flex: 0 0 auto !important; height: auto !important; min-height: 0 !important; max-height: none !important; } }
+
+/* phone landscape (short and wide): the whole page scrolls as one column instead of overlapping; the footer stays at the bottom */
+@media (orientation: landscape) and (max-height: 480px) and (min-width: 701px) {
+  html { height: auto !important; overflow-y: auto !important; overflow-x: hidden !important; }
+  body { height: auto !important; overflow: visible !important; }
+  html body .app { height: auto !important; min-height: 100dvh; overflow: visible !important; }
+  html body .app > :is(main, .stage, .slides) { flex: none !important; height: auto !important; min-height: 0 !important; max-height: none !important; overflow: visible !important; padding-bottom: 84px !important; }
+  html body .app :is(.page.active, .slide.active, .slide.show, .saa-cur) { flex: none !important; height: auto !important; min-height: 0 !important; max-height: none !important; overflow: visible !important; }
+  html body .app :is(.card, .saa-surface, .saa-split, .saa-inner) { height: auto !important; max-height: none !important; }
+  html body .app > :is(footer, nav.deck-foot, .slide-footer, .nav-row, .saa-navrow) { position: sticky !important; bottom: 0 !important; z-index: 20 !important; background: linear-gradient(180deg, rgba(8,13,40,0) 0, rgba(8,13,40,.92) 14px, #080D28 100%); padding-top: 10px !important; }
+}

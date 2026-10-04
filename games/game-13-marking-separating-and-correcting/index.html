@@ -90,6 +90,7 @@
         <span class="mk" onclick="revealTag(this)" role="button" tabindex="0">exports components to five countries<span class="mk-tag"><img class="ic g13-tag-ic" src="assets/icons/icon-fact.webp" alt="" aria-hidden="true">Fact</span></span>, as noted in
         <span class="mk" onclick="revealTag(this)" role="button" tabindex="0">the visit register<span class="mk-tag"><img class="ic g13-tag-ic" src="assets/icons/icon-source.webp" alt="" aria-hidden="true">Source</span></span>.
       </div>
+      <p class="saa-k-why g13-mk-why" aria-live="polite"></p>
       
     </div>
   </section>
@@ -183,7 +184,7 @@
         </div>
         <div class="ba-col after">
           <div class="ba-head">Corrected</div>
-          <p>On 14 August, <span class="fixed">30 students</span> from Batch 4B visited the facility, as noted in the visit register. The export claim was not confirmed, so it was qualified.</p>
+          <p>On 14 August, <span class="fixed">30 students</span> from Batch 4B visited the facility, as noted in the visit register. Nobody could check the export claim, so it was removed.</p>
         </div>
       </div>
       <div class="rec-box rec-strip" data-record="visit" data-hl="Students present"></div>
@@ -243,7 +244,8 @@
           <button type="button" class="choice-btn" onclick="checkAnswer(this,'uncertain','9oct')"><img class="ic g13-choice-ic" src="assets/icons/icon-uncertain-circle.webp" alt="" aria-hidden="true">Uncertain</button>
           <button type="button" class="choice-btn" onclick="checkAnswer(this,'unsupported','9oct')"><img class="ic g13-choice-ic" src="assets/icons/icon-unsupported.webp" alt="" aria-hidden="true">Unsupported</button>
         </div>
-        <div class="try-feedback" id="fb-9oct" data-correct="supported" aria-live="polite"></div>
+        <div class="try-feedback saa-k-why" id="fb-9oct" data-correct="supported" aria-live="polite"></div>
+        <p class="g13-need saa-vo-skip" role="status" hidden>Choose a tag first.</p>
       </div>
     </div>
   </section>
@@ -261,7 +263,8 @@
           <button type="button" class="choice-btn" onclick="checkAnswer(this,'uncertain','28t')"><img class="ic g13-choice-ic" src="assets/icons/icon-uncertain-circle.webp" alt="" aria-hidden="true">Uncertain</button>
           <button type="button" class="choice-btn" onclick="checkAnswer(this,'unsupported','28t')"><img class="ic g13-choice-ic" src="assets/icons/icon-unsupported.webp" alt="" aria-hidden="true">Unsupported</button>
         </div>
-        <div class="try-feedback" id="fb-28t" data-correct="unsupported" aria-live="polite"></div>
+        <div class="try-feedback saa-k-why" id="fb-28t" data-correct="unsupported" aria-live="polite"></div>
+        <p class="g13-need saa-vo-skip" role="status" hidden>Choose a tag first.</p>
       </div>
     </div>
   </section>
@@ -279,7 +282,8 @@
           <button type="button" class="choice-btn" onclick="checkAnswer(this,'uncertain','best')"><img class="ic g13-choice-ic" src="assets/icons/icon-uncertain-circle.webp" alt="" aria-hidden="true">Uncertain</button>
           <button type="button" class="choice-btn" onclick="checkAnswer(this,'unsupported','best')"><img class="ic g13-choice-ic" src="assets/icons/icon-unsupported.webp" alt="" aria-hidden="true">Unsupported</button>
         </div>
-        <div class="try-feedback" id="fb-best" data-correct="unsupported" aria-live="polite"></div>
+        <div class="try-feedback saa-k-why" id="fb-best" data-correct="unsupported" aria-live="polite"></div>
+        <p class="g13-need saa-vo-skip" role="status" hidden>Choose a tag first.</p>
       </div>
     </div>
   </section>
@@ -291,13 +295,15 @@
       <p class="do"><b>Your task.</b> Use the record book to choose a tag for the bold phrase.</p>
       <div class="rec-box" data-record="book"></div>
       <div class="try-item">
-        <p class="try-phrase">Citing <b>"the record book"</b> as the source for the whole sentence.</p>
+        <p class="try-phrase g13-whole">The whole sentence: "<b>The record book</b> shows the session shifted to 9 October, and all 28 trainees from Batch 2 completed it, making this the best-attended session this term."</p>
+        <p class="try-phrase">Tag <b>"the record book"</b> as the source for the whole sentence.</p>
         <div class="try-choices">
           <button type="button" class="choice-btn" onclick="checkAnswer(this,'supported','src')"><img class="ic g13-choice-ic" src="assets/icons/icon-supported.webp" alt="" aria-hidden="true">Supported</button>
           <button type="button" class="choice-btn" onclick="checkAnswer(this,'uncertain','src')"><img class="ic g13-choice-ic" src="assets/icons/icon-uncertain-circle.webp" alt="" aria-hidden="true">Uncertain</button>
           <button type="button" class="choice-btn" onclick="checkAnswer(this,'unsupported','src')"><img class="ic g13-choice-ic" src="assets/icons/icon-unsupported.webp" alt="" aria-hidden="true">Unsupported</button>
         </div>
-        <div class="try-feedback" id="fb-src" data-correct="uncertain" aria-live="polite"></div>
+        <div class="try-feedback saa-k-why" id="fb-src" data-correct="uncertain" aria-live="polite"></div>
+        <p class="g13-need saa-vo-skip" role="status" hidden>Choose a tag first.</p>
       </div>
     </div>
   </section>
@@ -307,6 +313,7 @@
     <div class="card">
       <p class="kicker">Check before you use</p>
       <h2>Remember these five lines.</h2>
+      <p class="do"><b>Your task.</b> Read the five lines, then answer one last question.</p>
       <ul class="recap-list">
         <li><span class="rn">1</span>A sure tone is not proof.</li>
         <li><span class="rn">2</span>Mark every fact, figure, date, name and source.</li>
@@ -314,7 +321,6 @@
         <li><span class="rn">4</span>Correct each problem. Verify, replace, qualify or remove it.</li>
         <li><span class="rn">5</span>Pause before send. Send only what you can defend.</li>
       </ul>
-      <p class="do"><b>Your task.</b> Answer one last question.</p>
       <div class="saa-kit" data-kit="quick" data-required>
         <p class="saa-q">An AI answer gives a number with no source. What do you do?</p>
         <div class="saa-k-opts">
@@ -335,7 +341,7 @@
         <div class="qr">
           <img class="ic g13-qr-ic" src="assets/icons/icon-mark.webp" alt="" aria-hidden="true">
           <span>1. Mark</span>
-          <small>Underline every fact, figure, date, name and source in the answer.</small>
+          <small>Mark every fact, figure, date, name and source in the answer.</small>
         </div>
         <div class="qr">
           <img class="ic g13-qr-ic" src="assets/icons/icon-separate.webp" alt="" aria-hidden="true">

@@ -1320,3 +1320,20 @@ html.saa-skin #example .saa-kit p.saa-q, html.saa-skin #example .saa-kit p.saa-k
   .rb-picks { gap: 0.35rem; }
   .rb-pick { font-size: 0.66rem; padding-left: 0.1rem; padding-right: 0.1rem; }
 }
+
+/* Fix pass (Oct 2026) */
+/* quick-check feedback inside .head keeps its right/wrong colour */
+html .slide .head .saa-k-why.ok { color: var(--k-ok, var(--ok-ink)) !important; }
+html .slide .head .saa-k-why.bad { color: var(--k-bad, var(--bad-ink)) !important; }
+/* "Other" box under the account and device chips */
+.rb-other { margin-top: 0.5rem; }
+.rb-other[hidden] { display: none !important; }
+/* message when Continue is locked on an input screen */
+.rb-gate { margin: 0.6rem 0 0; padding: 0.55rem 0.8rem; border-radius: 12px; background: var(--bad-t); border: 1px solid var(--bad-l); color: var(--bad-ink); font-weight: 600; font-size: 0.875rem; line-height: 1.4; }
+.rb-gate[hidden] { display: none !important; }
+#primary.rb-locked { opacity: .45 !important; filter: saturate(.35) !important; box-shadow: none !important; cursor: not-allowed !important; }
+/* bigger tap targets for the game's own chips and lane switch on touch phones */
+@media (max-width: 760px), (pointer: coarse) {
+  .chip { min-height: 44px; }
+  .seg button { min-height: 44px; }
+}

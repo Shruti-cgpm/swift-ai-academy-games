@@ -412,3 +412,22 @@ figure.g6-template,figure.g6-shapes,figure.g6-paste{margin:0}
   .g6-shapes img{width:min(100%,240px)}
   .g6-paste{width:min(100%,250px)}
 }
+
+/* QA fixes (Oct 2026) */
+/* Build gates: the message shows when Next is pressed too early */
+.ga-gate{display:block;margin:0;min-height:0;color:#FFB3B3;font-size:15px;font-weight:600;line-height:1.45}
+.ga-gate:empty{position:absolute;width:1px;height:1px;margin:0;padding:0;overflow:hidden;pointer-events:none}
+.ga-gate.ga-shake,.g6-copy-msg.ga-shake{animation:saaShake .35s} /* not .saa-shake: a nudge, not a wrong answer (no wrong sound) */
+.g6-copy-msg{margin:8px 0 0;color:#FFB3B3;font-size:15px;font-weight:600;line-height:1.45}
+.g6-copy-msg:empty{display:none}
+.g6-done{margin:12px 0 0;color:#7FE5B8;font-size:16px;font-weight:600;line-height:1.45}
+.g6-done[hidden]{display:none}
+input:focus-visible,input:focus{outline:2px solid #FFC168;outline-offset:2px}
+@media (max-width:640px){
+  .side-tab{min-height:44px}
+  .chip-btn{min-height:44px}
+  /* screen 4: on phones show only the tools part of the paste guide, as wide as the card, so its words can be read */
+  .g6-paste{width:100%;aspect-ratio:2.55;overflow:hidden;border-radius:12px}
+  .g6-paste img{width:149.5%;max-width:none;margin:-1.9% 0 0 -46.7%;border-radius:0}
+  .g6-paste-copy{display:none}
+}

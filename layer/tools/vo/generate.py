@@ -98,6 +98,11 @@ def main():
     for k, o in texts.items():
         if key(o['text']) != k:
             sys.exit('hash mismatch for %s - narrate.js and generate.py disagree' % k)
+    try:   # texts.json is rewritten by extract.js: keep earlier entries (playthrough texts) too
+        for k, o in json.loads((vo / 'texts.json').read_text()).items():
+            texts.setdefault(k, o)
+    except Exception:
+        pass
     (vo / 'texts.json').write_text(json.dumps(texts, indent=1, ensure_ascii=False) + '\n')
     todo = [(k, o) for k, o in texts.items() if not (vo / (k + '.mp3')).exists() and (not only or o['kind'] == only)]
     words = sum(len(o['text'].split()) for _, o in todo)
@@ -135,6 +140,15 @@ def write_manifest(vo, texts):
         except Exception:
             segs, total = [], 0
         clips[k] = {'segs': segs if len(segs) == n else None, 'dur': round(total, 2)}
+    # keep clips already listed whose audio still exists (texts collected by an earlier playthrough, e.g. shuffled quiz
+    # questions or chat turns, are not always in this run's texts.json - never drop them)
+    old = vo / 'vo.js'
+    if old.exists():
+        m = re.search(r'=\s*(\{.*\})\s*;?\s*$', old.read_text(), re.S)
+        if m:
+            for k, v in json.loads(m.group(1)).items():
+                if k not in clips and (vo / (k + '.mp3')).exists():
+                    clips[k] = v
     (vo / 'vo.js').write_text('window.SAA_VO_CLIPS = %s;\n' % json.dumps(clips, separators=(',', ':')))
     print('wrote audio/vo/vo.js with %d clips' % len(clips))
 

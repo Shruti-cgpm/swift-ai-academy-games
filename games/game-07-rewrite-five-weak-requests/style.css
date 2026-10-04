@@ -1305,3 +1305,29 @@ input[type="date"].input { min-height: 2.6rem; }
 /* the example tags follow the text size, so they stay in proportion when the layer zooms */
 .preview .slot-ic{width:.8em;height:.8em}
 .ex-pop-close{align-self:flex-end}
+
+/* QA fixes (Oct 2026) */
+/* gates on the rewrite and compare screens: the message shows when Continue is pressed too early */
+.ga-gate{display:block;margin:0;min-height:0;color:var(--bad-ink);font-size:0.9375rem;font-weight:600;line-height:1.45}
+.ga-gate:empty{position:absolute;width:1px;height:1px;margin:0;padding:0;overflow:hidden;pointer-events:none}
+.ga-gate.ga-shake{animation:saaShake .35s} /* not .saa-shake: a nudge, not a wrong answer (no wrong sound) */
+/* spot the gap: a missing part the learner did not tap */
+.chip.miss{background:transparent;border:1.5px dashed var(--bad-l);color:var(--bad-ink)}
+.chip.miss::after{content:"missed";font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-left:.35rem;opacity:.85}
+.status.bad{color:var(--bad-ink)}
+/* screen 2: the 4 cards in 2 rows of 2 (not 3 + 1) */
+@media (min-width:761px){ #parts .saa-cards{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:760px){
+  .chip,.seg button,.btn-sm,.list .btn-link,.see-ex{min-height:44px}
+  .input{min-height:44px}
+}
+/* compare screens: the choice above a full-width "Why" box, so its example is not cut off */
+.compare-row{grid-template-columns:minmax(0,1fr);gap:0.9rem}
+/* screen 2 cards: the icon sits beside the word, so the icon, the word and "Tap to open" fit inside each card */
+#parts .saa-kit .saa-front{flex-direction:row;flex-wrap:wrap;align-items:center;align-content:center;column-gap:8px;row-gap:2px}
+#parts .saa-kit .saa-front::after{flex-basis:100%}
+#parts .saa-kit .saa-front .part-ic{width:22px;height:22px;flex:0 0 22px;margin:0}
+/* phones: the activity column uses the full card width (answer boxes were squeezed to the width of their labels) */
+@media (max-width:760px){
+  .card.saa-split > .saa-work{align-self:stretch;width:100%}
+}

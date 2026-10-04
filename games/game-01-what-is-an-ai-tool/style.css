@@ -620,3 +620,45 @@ img{-webkit-user-drag:none;user-drag:none}
 .ai-chat-frame .output-cue svg{flex-shrink:0}
 @media(max-width:900px){.ai-chat-frame .output-cue svg{transform:rotate(90deg)}}
 @media(max-height:660px){.judge .ai-chat-frame{display:block}.judge .ai-chat-frame .typed{display:block}}
+
+/* ===== QA fixes (Oct 2026) ===== */
+/* screen 8: a short green mark on a right drop (the red one clears too) */
+.bucket.right{border-color:var(--color-success-tonal,#4FE0A8);background:rgba(79,224,168,.10)}
+/* screen 9: renamed result classes (caught / missed) */
+.paper.revealed .nseg.caught{background:rgba(79,224,168,.55);box-shadow:0 0 0 2px rgba(79,224,168,.55)}
+.paper.revealed .nseg.missed{background:rgba(255,138,138,.28);box-shadow:0 0 0 2px #FF8A8A;animation:missPulse 1.2s ease-in-out 3}
+.paper.revealed .nseg.caught::after{content:" \2713";font-weight:700;color:#0B7A55}
+.paper.revealed .nseg.missed::after{content:" \2717";font-weight:700;color:#C0392B}
+.paper.revealed .nseg.wrongflag::after{content:" \2022 fine";font-size:.8em;font-weight:700;color:#5C6690}
+/* phones: big enough to tap */
+@media(max-width:700px){
+  .nb{min-height:44px}
+  .nb.icon{width:44px}
+  .hear{min-height:44px}
+  .modal-x{width:44px;height:44px}
+  .seg-b{min-height:44px}
+  /* screen 9: each part of the notice is its own tap row */
+  .paper-p{line-height:1.5}
+  .paper .nseg{display:block;width:100%;min-height:44px;padding:8px 8px;margin:3px 0}
+  /* screen 7: compact rows, so the task and the feedback stay on screen */
+  .tri{gap:8px}
+  .tri>button{display:grid;grid-template-columns:60px 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;align-content:center;padding:8px 12px;min-height:64px}
+  .tri>button .glyph,.tri>button .glyph svg{height:46px}
+  .tri>button .glyph{grid-row:1 / span 2;width:60px;align-items:center}
+  .tri>button .cap-t{align-self:end}
+  .tri>button .cap-b{align-self:start}
+  .copybtn,#reveal{min-height:44px}
+  .tri>button .cap-t{font-size:16px}
+  .tri>button .cap-b{font-size:13px;margin-top:2px}
+  .q-task{min-height:0}
+  /* screen 8: two columns of tasks, buckets side by side */
+  .pool{grid-template-columns:1fr 1fr}
+  .pool .chip.task{font-size:13px;padding:6px 8px;min-height:52px}
+  .sort .duo{grid-template-columns:1fr 1fr;gap:8px}
+  .sort .bucket{min-height:96px;padding:10px}
+  .sort .bucket h3{font-size:14px;gap:6px}
+  .sort .bucket h3 .ic-h{width:18px;height:18px;flex-basis:18px}
+  .slot .chip{font-size:12.5px;padding:6px 8px}
+}
+/* very large screens: scale the whole lesson up so it fills the screen */
+@media(min-width:2200px) and (min-height:1200px){.wrap{zoom:1.4;height:calc(100vh / 1.4);height:calc(100dvh / 1.4)}}

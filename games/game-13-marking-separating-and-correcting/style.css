@@ -611,3 +611,53 @@ p{margin:0 0 12px;font-size:15px;color:var(--text);line-height:1.6;}
   .rec-box.rec-strip{margin:8px 0 0;}
   .g13-priv{gap:8px;margin-bottom:6px;}
 }
+
+/* ===== QA fixes (4 Oct 2026) ===== */
+/* phones: the record is short, so it shows inline (no overlay that can open off-screen) */
+@media (max-width:720px){
+  .rec-box .rec-open{display:none !important;}
+  .rec-box .rec-panel{display:block;}
+  .rec-box.is-open{position:static;inset:auto;display:block;padding:0;background:none;}
+  .rec-box .rec-close{display:none !important;}
+  .rec-panel{padding:8px 12px;}
+}
+/* Separate: the three box headings fit inside their boxes */
+@media (min-width:721px) and (max-width:1180px){
+  .page .saa-kit .saa-bin-h{white-space:normal;flex-wrap:wrap;font-size:14px;line-height:1.25;overflow-wrap:anywhere;min-width:0;}
+}
+@media (max-width:720px){
+  .page .saa-kit .saa-bins{grid-template-columns:1fr !important;gap:8px;}
+  .page .saa-kit .saa-bin-h{white-space:normal;}
+  .page .saa-kit .saa-bin .saa-chip{white-space:normal;}
+}
+.page .saa-kit .saa-bin .saa-chip{overflow-wrap:normal;word-break:normal;hyphens:none;}
+/* Step 1 example: what kind of part the learner tapped */
+.g13-mk-why{margin:8px 0 0;min-height:1.4em;font-weight:600;color:var(--blue-pale);line-height:1.45;}
+.g13-mk-why.is-need{color:#FFD9A0;}
+.g13-need{margin:8px 0 0;padding:7px 12px;border-radius:10px;background:rgba(255,184,77,.12);border:1px solid rgba(255,184,77,.45);color:#FFD9A0;font-size:13.5px;font-weight:600;line-height:1.4;}
+.g13-need[hidden]{display:none;}
+.try-phrase b{white-space:nowrap;}
+.try-phrase.g13-whole{font-size:14.5px;color:var(--muted);margin-bottom:6px;}
+.try-phrase.g13-whole b{white-space:normal;}
+/* phones: bigger tap targets for the coloured phrases */
+@media (max-width:720px){
+  .example-box{line-height:2.4;}
+  .mk{padding:6px 4px;}
+}
+
+/* the "unsupported" icon reads as a cross (it was a plus sign) */
+img[src$="icon-unsupported.webp"]{transform:rotate(45deg);}
+
+/* phone landscape (QA fix): the whole page scrolls as one column instead of overlapping; the footer stays at the bottom */
+@media (orientation:landscape) and (max-height:480px) and (min-width:701px){
+  html{height:auto !important;overflow-y:auto !important;overflow-x:hidden !important}
+  body{height:auto !important;overflow:visible !important}
+  html body .app{height:auto !important;min-height:100dvh;overflow:visible !important}
+  html.saa-skin body .app > :is(main,.stage,.slides), html body .app > :is(main,.stage,.slides){flex:none !important;height:auto !important;min-height:0 !important;max-height:none !important;overflow:visible !important;padding-bottom:84px !important}
+  html body .app :is(.page.active,.slide.active,.saa-cur){flex:none !important;height:auto !important;min-height:0 !important;max-height:none !important;overflow:visible !important}
+  html body .app :is(.card,.saa-surface,.saa-split,.saa-inner){height:auto !important;max-height:none !important}
+  html body .app > :is(footer,nav.deck-foot,.slide-footer,.nav-row){position:sticky !important;bottom:0 !important;z-index:20 !important;background:linear-gradient(180deg,rgba(8,13,40,0) 0,rgba(8,13,40,.92) 14px,#080D28 100%);padding-top:10px}
+}
+.try-phrase.g13-whole{font-size:13.5px;line-height:1.45;}
+.try-item:has(.g13-whole) .try-phrase:not(.g13-whole){margin-bottom:8px;}
+.try-item:has(.g13-whole) .try-feedback{min-height:72px;margin-top:8px;}

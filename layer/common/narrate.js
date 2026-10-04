@@ -134,7 +134,8 @@
   }
   var seen = {};
   var reveals = {};
-  win.SAA_VO = { pages: pages, current: current, info: screenInfo, key: key, fbTexts: fbTexts, seen: seen, reveals: reveals, revealText: revealText };
+  win.SAA_VO = { pages: pages, current: current, info: screenInfo, key: key, fbTexts: fbTexts, seen: seen, reveals: reveals, revealText: revealText,
+    playing: function () { return !!((audio && !audio.paused && !audio.ended) || (fb && !fb.paused && !fb.ended)); } };
 
   /* ---- player ---- */
   var CLIPS = null, audio = new Audio(), fb = new Audio(), started = false, auto = true, cur = null, timeline = null, raf = 0, lastWord = -2;
@@ -175,7 +176,7 @@
   function label(t) { if (listen) { listen.querySelector('span').textContent = t; } }
   audio.addEventListener('play', function () { if (listen) { listen.classList.add('playing'); listen.setAttribute('aria-label', 'Pause narration'); } label('Pause'); });
   audio.addEventListener('pause', function () { if (listen) { listen.classList.remove('playing'); listen.setAttribute('aria-label', 'Play narration'); } label(audio.ended || audio.currentTime < 0.05 ? 'Replay' : 'Resume'); cancelAnimationFrame(raf); });
-  audio.addEventListener('ended', function () { label('Replay'); clearHi(); });
+  audio.addEventListener('ended', function () { label('Replay'); clearHi(); try { win.dispatchEvent(new CustomEvent('saa:vo-ended', { detail: cur && cur.key })); } catch (e) {} });
   audio.addEventListener('playing', function () { startHi(); });
   function play() { var p = audio.play(); if (p && p.catch) { p.catch(function () { label('Replay'); }); } }
 
@@ -227,7 +228,7 @@
     if (!s || !started || !auto || !CLIPS) { return; }
     if (Date.now() - revealAt < 600) { return; }               /* the card's own text is being read */
     var k = key(s); if (!CLIPS[k]) { return; }
-    audio.pause(); fb.pause(); fb.src = 'audio/vo/' + k + '.mp3';
+    audio.pause(); clearHi(); fb.pause(); fb.src = 'audio/vo/' + k + '.mp3';
     var p = fb.play(); if (p && p.catch) { p.catch(function () {}); }
   }
 

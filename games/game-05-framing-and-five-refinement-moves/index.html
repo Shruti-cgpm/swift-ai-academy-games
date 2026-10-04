@@ -108,14 +108,16 @@
       <textarea id="out-1" rows="3" placeholder="Paste the AI tool's answer here"></textarea>
       <label for="out-2">Answer from Prompt 2</label>
       <textarea id="out-2" rows="3" placeholder="Paste the AI tool's answer here"></textarea>
+      <button type="button" class="ga5-skip" id="ga5-skip" aria-pressed="false">I cannot use an AI tool now</button>
     </div>
+    <p class="ga-gate saa-k-why" data-saa-locked data-gate="paste" data-msg="Paste an answer into each box first." aria-live="polite"></p>
   </section>
 
   <!-- Slide 6 — (old page 2, part 3) MCQ -->
   <section class="page" hidden>
     <div class="saa-eyebrow">Part 2 &middot; Two prompts</div>
     <h2 class="mcq-question">Which answer do you like more?</h2>
-    <p>Your 2 pasted answers are on the right. Think about which one you could use.</p>
+    <p>Your 2 pasted answers are shown here. Think about which one you could use.</p>
     <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap the prompt that gave the better answer.</p>
     <div class="mcq-group">
       <div class="pasted-pair">
@@ -134,8 +136,9 @@
         <button type="button" class="mcq-option" data-feedback="The answer to Prompt 1 is often too general. The AI tool had to guess who it is for.">Prompt 1</button>
         <button type="button" class="mcq-option" data-feedback="Prompt 2 usually works better. It tells the AI tool who it is for, what to write and how it should look.">Prompt 2</button>
       </div>
-      <p class="mcq-feedback" hidden></p>
+      <p class="mcq-feedback saa-k-why" hidden></p>
     </div>
+    <p class="ga-gate saa-k-why" data-saa-locked data-gate="mcq" data-msg="Tap Prompt 1 or Prompt 2 first." aria-live="polite"></p>
   </section>
 
   <!-- Slide 7 — (old page 3) the four elements -->
@@ -158,7 +161,7 @@
   <section class="page" hidden>
     <div class="saa-eyebrow">Part 4 &middot; Fix moves</div>
     <h2>The first answer is not always right.</h2>
-    <p>The 5 moves are Narrow, Expand, Change register, Check it and Combine.</p>
+    <p>The 5 moves are Narrow, Expand, Change register, Check it and Combine. Change register means change the tone.</p>
     <p class="do saa-do"><b class="saa-do-label">Your task.</b> Put the 3 steps in the right order.</p>
     <div class="saa-kit" data-kit="order" data-required>
       <ol class="saa-steps">
@@ -237,6 +240,7 @@
         <p>Is it faster to fix the answer yourself than to ask again? Then stop and fix it yourself.</p>
       </div>
     </div>
+    <p class="ga-gate saa-k-why" data-saa-locked data-gate="acc" data-msg="Tap move 4 and move 5 first." aria-live="polite"></p>
   </section>
 
   <!-- Slide 11 — (old page 5, part 1) write the message -->
@@ -255,6 +259,7 @@
       <label for="practice-message">Your message</label>
       <textarea id="practice-message" rows="3" placeholder="You are ... Write ... for ... Format it as ..."></textarea>
     </div>
+    <p class="ga-gate saa-k-why" data-saa-locked data-gate="msg" data-msg="Write your message first. Use at least 8 words." aria-live="polite"></p>
   </section>
 
   <!-- Slide 12 — (old page 5, part 2) MCQ -->
@@ -270,8 +275,9 @@
         <button type="button" class="mcq-option" data-feedback="That is exactly why we check. Always confirm anything that the AI tool was not sure about.">Yes</button>
         <button type="button" class="mcq-option" data-feedback="That is fine too, but keep checking anyway. An AI tool can be wrong without saying so.">No</button>
       </div>
-      <p class="mcq-feedback" hidden></p>
+      <p class="mcq-feedback saa-k-why" hidden></p>
     </div>
+    <p class="ga-gate saa-k-why" data-saa-locked data-gate="mcq" data-msg="Tap Yes or No first." aria-live="polite"></p>
   </section>
 
   <!-- Slide 13 — (old page 6, part 1) recap 1–3 -->
@@ -280,7 +286,7 @@
     <h2>Each problem has its own fix.</h2>
     <p>Each card shows a problem. Think of the fix before you tap.</p>
     <p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap a problem, then tap its fix.</p>
-    <div class="saa-kit" data-kit="match" data-required data-shuffle>
+    <div class="saa-kit" data-kit="match" data-required data-shuffle data-done-text="All matched. Each problem has its own fix.">
       <div class="saa-m-board">
         <div class="saa-m-left">
           <button class="saa-m-item" type="button" data-pair="frame" data-why="Tell the AI tool the 4 things.">Before you ask</button>
@@ -308,7 +314,7 @@
     <p>Do you have 2 good answers? Use Combine. Always check an answer before you use it.</p>
     <p class="do saa-do"><b class="saa-do-label">Your task.</b> Answer one last question.</p>
     <figure class="ga5-fig ga5-lead-fig ga5-diag"><img src="assets/diagram-combine-check.webp" alt="Answer A and Answer B join into one answer. Then you check it with a magnifier before you give it a tick."></figure>
-    <div class="saa-kit" data-kit="quick" data-required>
+    <div class="saa-kit ga5-last" data-kit="quick" data-required>
       <p class="saa-q">It is faster to fix the answer yourself than to ask again. What do you do?</p>
       <div class="saa-k-opts">
         <button class="saa-k-opt" type="button" data-ok data-why="Yes. When your own fix is faster, stop asking and fix it.">I stop asking and fix it myself.</button>

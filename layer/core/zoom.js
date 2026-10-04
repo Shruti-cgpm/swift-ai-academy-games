@@ -109,7 +109,8 @@
   function targets() {
     var page = doc.querySelector('.page.active, .slide.active, .slide.show, section.active') || doc.body;
     var prim = doc.querySelector('.nav-btn.primary, .btn-primary, button.primary, #primary, .cta');
-    if (prim && !prim.disabled && visible(prim)) { return [prim]; }
+    var locked = prim && (prim.disabled || prim.getAttribute('aria-disabled') === 'true' || prim.classList.contains('saa-locked'));
+    if (prim && !locked && visible(prim)) { return [prim]; }   /* never glow a locked Next */
     var opts = Array.prototype.slice.call(page.querySelectorAll('.opt:not(.picked):not(.locked):not([disabled]), .choice:not(.picked), textarea, input[type=text]'));
     return opts.filter(function (e) { return visible(e) && !e.value; }).slice(0, 8);
   }

@@ -76,6 +76,7 @@
           <p class="do saa-do"><b class="saa-do-label">Your task.</b> Open any exercise that is not done, then download your answers.</p>
         </div>
         <ul class="list" id="evidence-list"></ul>
+        <div class="callout bad saa-k-why" id="evidence-warn" hidden><span data-i="warn"></span><span>Some exercises are not finished. Tap Open to finish them, or tap Download anyway.</span></div>
         <div class="callout info"><span data-i="info"></span><span>This page does not save your work. Download it or show it to your facilitator before you close this tab.</span></div>
       </div>
     </section>
@@ -91,11 +92,11 @@
         </div>
         <span class="kicker">Lab task complete</span>
         <h1 class="title">Rewrite Five Weak Requests</h1>
-        <p class="status ok">Your answers are downloaded.</p>
-        <p class="lede">You found the gaps, fixed 5 requests and compared the answers. Share your file with your facilitator.</p>
+        <p class="status ok saa-vo-skip" id="done-status" aria-live="polite">Your answers are downloaded.</p>
+        <p class="lede" id="done-lede">You found the gaps, fixed 5 requests and compared the answers. Share your file with your facilitator.</p>
         <div class="row mid">
           <button type="button" class="btn btn-ghost btn-sm" id="download-again"><span data-i="download"></span>Download again</button>
-          <button type="button" class="btn-link" data-go="intro"><span data-i="refresh"></span>Start over</button>
+          <button type="button" class="btn-link" id="start-over"><span data-i="refresh"></span>Start over</button>
         </div>
         <ul class="never-row" aria-hidden="true"><li><img src="assets/icons/icon-private-name-never.webp" alt=""><span>Names</span></li><li><img src="assets/icons/icon-private-marks-never.webp" alt=""><span>Marks</span></li><li><img src="assets/icons/icon-private-phone-never.webp" alt=""><span>Phone numbers</span></li><li><img src="assets/icons/icon-private-id-never.webp" alt=""><span>ID numbers</span></li></ul>
         <p class="small">Remember this rule. Never type real names, marks, phone numbers or ID numbers into an AI tool.</p>

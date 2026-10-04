@@ -33,7 +33,7 @@
     var o = doc.createElement('div');
     o.className = 'saa-start'; o.id = 'saa-start';
     o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); o.setAttribute('aria-labelledby', 'saa-start-title');
-    o.innerHTML = '<span class="saa-ghost" aria-hidden="true">01</span><div class="saa-in"><div class="saa-brand"></div>' +
+    o.innerHTML = '<div class="saa-in"><div class="saa-brand"></div>' +
       '<div class="saa-mid">' + (eb ? '<span class="saa-eb"></span>' : '') + '<h1 id="saa-start-title"></h1>' + (tag ? '<p class="saa-tag"></p>' : '') +
       '<button type="button" class="saa-go">Start <svg viewBox="0 0 24 24" fill="none" stroke="#241300" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>';
     var brand = o.querySelector('.saa-brand');
@@ -55,6 +55,8 @@
          a cover with other choices or links stays so nothing is lost */
       var first = pages()[0];
       if (first && !visible(first)) { return; }                 /* already past the cover */
+      /* a first screen with real content (lists, a template, an activity, a long text) is not a cover: show it */
+      if (first && (first.querySelector('ul, ol, table, .saa-kit, textarea, input') || (first.innerText || '').replace(/\s+/g, ' ').length > 320)) { return; }
       var scope = first || doc.querySelector('.app') || doc.body;
       var inCover = Array.prototype.filter.call(scope.querySelectorAll('button, a[href], input, select, textarea, [data-go], [role=button]'), function (e) {
         return visible(e) && !e.matches(NAV) && !e.closest('header, .top, .topbar, .saa-top, .foot, footer, .nav, .deck-nav, .slide-footer, .page-footer') && !/back|close|outline|help/i.test((e.id || '') + ' ' + (e.className || '') + ' ' + (e.getAttribute('aria-label') || ''));
@@ -125,6 +127,42 @@
     refresh();
     if (win.MutationObserver) { new MutationObserver(refresh).observe(doc.body, { attributes: true, attributeFilter: ['class', 'disabled', 'hidden'], subtree: true, childList: true }); }
     doc.addEventListener('click', refresh, true);
+  }
+  if (doc.readyState === 'loading') { doc.addEventListener('DOMContentLoaded', init); } else { init(); }
+})(window, document);
+
+/* ==========================================================================
+   STAFF CODES: master-sheet codes are for the programmes team, never for learners.
+   Any short line or tag that shows one (AAI-E-…, PC 4.1–4.5, Mapped PC, Schema, Element 4 …) is hidden.
+   ========================================================================== */
+(function (win, doc) {
+  'use strict';
+  var CODE = /AAI-E-MC\d|\bPC\s*\d+\.\d|Mapped:?\s*PC|Schema:|Non-compensatory|·\s*Element\s+\d|\bMC1\s*\/\s*\d/;
+  var CODES = /AAI-E-MC\d[-A-Z0-9]*|\bPC:?\s*\d+\.\d+(\s*(–|-|to)\s*\d+\.\d+)?|Mapped:?\s*(PC:?)?|Schema:|Non-compensatory:?\s*(Yes|No)?|\bElement\s+\d\b|\bMC1\s*\/\s*\d+(\.\d+)?/g;
+  var STAFF = /\b(English|Gujarati|Hindi|Mandatory( step)?|Not counted|Gates the unit|Swift AI Academy|Lab|Yes|No|and|to)\b/gi;
+  function txt(e) { return (e.textContent || '').replace(/\s+/g, ' ').trim(); }
+  function metaOnly(s) { return s.replace(CODES, '').replace(STAFF, '').replace(/[^A-Za-zऀ-૿]/g, '').length < 3; }
+  function hide() {
+    var w = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT, null), t, marks = [], strip = [];
+    while ((t = w.nextNode())) {
+      if (!CODE.test(t.nodeValue)) { continue; }
+      var e = t.parentElement;
+      if (!e || e.closest('script, style, .saa-staff, [data-saa-keep]')) { continue; }
+      if (!metaOnly(txt(e))) { strip.push(t); continue; }        /* a code inside a real sentence: take out just the code */
+      var box = e;                                                 /* the whole line is codes and staff labels: hide it */
+      while (box.parentElement && box.parentElement !== doc.body && metaOnly(txt(box.parentElement))) { box = box.parentElement; }
+      marks.push(box);
+    }
+    marks.forEach(function (b) { b.classList.add('saa-staff'); });
+    strip.forEach(function (n) {
+      n.nodeValue = n.nodeValue.replace(CODES, '').replace(/(\s*·\s*){2,}/g, ' · ').replace(/^\s*·\s*|\s*·\s*$/g, '').replace(/\(\s*\)/g, '');
+    });
+  }
+  var t = 0;
+  function soon() { clearTimeout(t); t = setTimeout(hide, 80); }
+  function init() {
+    hide();
+    if (win.MutationObserver) { new MutationObserver(soon).observe(doc.body, { childList: true, subtree: true, characterData: true }); }
   }
   if (doc.readyState === 'loading') { doc.addEventListener('DOMContentLoaded', init); } else { init(); }
 })(window, document);

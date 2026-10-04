@@ -299,3 +299,10 @@
 .saa-kit[data-theme="light"] .saa-d-chat { box-shadow:0 2px 0 rgba(14,26,79,.10), 0 0 0 1px rgba(14,26,79,.12); }
 .saa-kit[data-theme="light"] .saa-d-tick::before { background:rgba(60,89,246,.45); }
 .saa-kit[data-theme="light"] .saa-d-tick.is-on::before { background:#3C59F6; }
+
+/* locked Next: same button, clearly not ready yet */
+.saa-locked { opacity: .45 !important; filter: saturate(.35) !important; box-shadow: none !important; cursor: not-allowed !important; }
+/* phones: kit controls at least 44px to tap */
+@media (max-width: 700px), (pointer: coarse) {
+  .saa-kit .saa-steps button, .saa-kit .saa-row button, .saa-kit .saa-k-check, .saa-kit .saa-k-opt, .saa-kit .saa-stamp, .saa-kit .saa-st button { min-height: 44px; min-width: 44px; }
+}

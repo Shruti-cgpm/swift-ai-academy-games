@@ -664,6 +664,8 @@
   }
 
   function startQuiz() {
+    // A new run after any answered question is a new attempt (also via "Revisit the refresher").
+    if (Object.keys(resp).length) attempt++;
     buildSeq();
     idx = 0;
     resp = {};
@@ -834,6 +836,8 @@
       ok = cur.work.every(function (x, i) { return x.i === i; });
       given = cur.work.map(function (x) { return x.t; }).join(' / ');
       drawOrder(true, true);
+      // the list is redrawn, so the layer cannot see a right/wrong class change: play the sound here
+      if (window.SAA_SFX) { if (ok) SAA_SFX.correct(); else SAA_SFX.wrong(); }
       if (!ok) pickWhy = 'The right order is: ' + it.steps.map(function (t, i) { return (i + 1) + '. ' + t; }).join('  ');
     }
 
@@ -846,7 +850,8 @@
     }
     var task = $('qtask');
     if (task) { task.classList.add('uic-done'); task.setAttribute('aria-hidden', 'true'); }
-    resp[it.id] = { ok: ok, given: given, st: it.st, w: weight(it), stem: it.stem, expl: it.expl, pos: idx + 1 };
+    var rec = it.doc ? it.doc.title + ': ' + it.doc.lines.join(' ') : (it.evidence ? 'The source: ' + it.evidence : '');
+    resp[it.id] = { ok: ok, given: given, st: it.st, w: weight(it), stem: it.stem, expl: it.expl, pos: idx + 1, rec: rec };
     $('side').innerHTML = ok
       ? '<div class="fb ok" role="status">' + ic('check') + '<div class="fb-body"><span class="fb-title">Yes.</span><span>' + esc(it.expl) + '</span></div></div>'
       : '<div class="fb no" role="status">' + ic('alert') + '<div class="fb-body"><span class="fb-title">Not quite.</span>' +
@@ -932,7 +937,7 @@
       var g = rs.reduce(function (a, x) { return a + (x.ok ? x.w : 0); }, 0);
       var p = t ? Math.round(g / t * 100) : 0;
       return '<div class="bar-row"><div class="bar-top"><span>' + art(ST_ART[k], 'g19-ic st') + esc(ST[k].name) + (ST[k].gate ? ' <span class="tag">Must pass</span>' : '') + '</span>' +
-        '<em>' + rs.filter(function (x) { return x.ok; }).length + ' of ' + rs.length + ' right · ' + p + '%</em></div>' +
+        '<em>' + g + ' of ' + t + ' marks · ' + p + '%</em></div>' +
         '<div class="track2"><i class="' + (p >= 70 ? 'ok' : 'no') + '" data-w="' + p + '"></i></div></div>';
     }).join('');
     setTimeout(function () {
@@ -979,7 +984,7 @@
     if (d) showDetail(parseInt(d.getAttribute('data-q'), 10));
   });
 
-  $('retry-now').addEventListener('click', function () { attempt++; startQuiz(); });
+  $('retry-now').addEventListener('click', function () { startQuiz(); });
 
   $('save').addEventListener('click', function () {
     var r = totals();
@@ -995,6 +1000,7 @@
     ];
     r.all.sort(function (a, b) { return a.pos - b.pos; }).forEach(function (x) {
       lines.push(x.pos + '. [' + ST[x.st].name + '] ' + x.stem);
+      if (x.rec) lines.push('   ' + x.rec);
       lines.push('   Your answer: ' + x.given + (x.ok ? ' (correct)' : ' (not quite)'));
       lines.push('');
     });
@@ -1011,7 +1017,7 @@
     routine: { enter: function () { showStep(0); } },
     demo: { enter: function () { showDemo('draft'); } },
     route: {
-      enter: function () { $('attempt-no').textContent = attempt; },
+      enter: function () { $('attempt-no').textContent = attempt + (Object.keys(resp).length ? 1 : 0); },
       primary: function () { startQuiz(); return false; }
     },
     quiz: {
@@ -1030,7 +1036,7 @@
     stations: { enter: drawStations },
     review: {
       enter: drawReview,
-      primary: function () { attempt++; startQuiz(); return false; }
+      primary: function () { startQuiz(); return false; }
     }
   });
 })();

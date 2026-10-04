@@ -107,13 +107,34 @@
     if (vo) { vo.appendChild(b); } else { h.appendChild(b); }   /* narration builds its group later and takes the switch in */
   }
 
+  /* a Back button whose label and icon were both hidden on phones gets its word back */
+  function backLabels() {
+    Array.prototype.forEach.call(doc.querySelectorAll('button.saa-back'), function (b) {
+      var blank = b.offsetWidth > 0 && !(b.innerText || '').trim();
+      cl(b, 'saa-back-blank', blank); if (blank && !b.getAttribute('aria-label')) { b.setAttribute('aria-label', 'Back'); }
+    });
+  }
+  /* vertical centring that overflows would push the heading above the top, out of reach: centre only when it fits */
+  function safeCentre() {
+    /* walk up from every visible heading: any box that centres it vertically does so only while it fits */
+    Array.prototype.forEach.call(doc.querySelectorAll('h1, h2, h3, .saa-lead, .saa-work'), function (h) {
+      if (!h.offsetParent) { return; }
+      for (var e = h.parentElement; e && e !== doc.body; e = e.parentElement) {
+        var cs = getComputedStyle(e);
+        if (/flex/.test(cs.display) && /column/.test(cs.flexDirection) && cs.justifyContent === 'center') { e.style.setProperty('justify-content', 'safe center', 'important'); }
+        else if (/grid/.test(cs.display) && cs.alignContent === 'center') { e.style.setProperty('align-content', 'safe center', 'important'); }
+        else if (/flex/.test(cs.display) && !/column/.test(cs.flexDirection) && cs.alignItems === 'center' && e.scrollHeight > e.clientHeight + 2) { e.style.setProperty('align-items', 'safe center', 'important'); }
+      }
+    });
+  }
   var t = 0;
-  function apply() { clearTimeout(t); t = setTimeout(function () { surfaces(); navButtons(); if (THEMED) { themeButton(); } }, 40); }
+  function apply() { clearTimeout(t); t = setTimeout(function () { backLabels(); safeCentre(); surfaces(); navButtons(); if (THEMED) { themeButton(); } }, 40); }
   function init() {
     if (THEMED) { themeButton(); }
     if (!THEMED && !isDark()) { return; }
     if (!THEMED || root.getAttribute('data-theme') !== 'light') { root.classList.add('saa-skin'); }
-    header(); surfaces(); navButtons();
+    header(); surfaces(); navButtons(); backLabels(); safeCentre();
+    win.addEventListener('resize', function () { backLabels(); });
     if (win.MutationObserver) { new MutationObserver(apply).observe(doc.body, { attributes: true, attributeFilter: ['class', 'hidden'], subtree: true, childList: true }); }
   }
   if (doc.readyState === 'loading') { doc.addEventListener('DOMContentLoaded', function () { setTimeout(init, 0); }); } else { setTimeout(init, 0); }

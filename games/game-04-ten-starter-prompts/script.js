@@ -478,8 +478,86 @@
     return lines.join('\n');
   }
 
+  /* ---------- gates: Next stays locked until each screen's activity is done ---------- */
+  var copied = {};                      // copy screens: which category had a prompt copied
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-copy]'); if (!btn) return;
+    var box = btn.closest('[data-prompts]'); if (box) { copied[box.getAttribute('data-prompts')] = true; gate(); }
+  });
+  function realChars(t) { return ((t || '').match(/[A-Za-z0-9\u0900-\u0AFF]/g) || []).length; }
+  function privateBits(t) {
+    var out = [];
+    if (/(^|\D)(\+?91[\s-]?)?[6-9]\d{4}[\s-]?\d{5}(\D|$)/.test(t)) out.push('a phone number');
+    if (/(^|\D)\d{4}[\s-]?\d{4}[\s-]?\d{4}(\D|$)/.test(t) || /aadhaar|aadhar/i.test(t)) out.push('an Aadhaar number');
+    if (/[^\s@]+@[^\s@]+\.[a-z]{2,}/i.test(t)) out.push('an email address');
+    if (/\b(password|passcode|otp|pwd)\b/i.test(t)) out.push('a password');
+    return out;
+  }
+  function brackets(t) { return (t.match(/\[[^\]]*\]/g) || []).length + ((t.match(/[\[\]]/g) || []).length % 2); }
+  // what is still missing on this screen ('' = done)
+  function need(id) {
+    if (id === 'study' || id === 'work' || id === 'home') return copied[id] ? '' : 'Tap the copy button next to one prompt to continue.';
+    if (id === 'try-pick') {
+      var t = mine.value.trim();
+      if (realChars(t) < 10) return 'Tap a prompt number, or type your own prompt.';
+      var pv = privateBits(t);
+      if (pv.length) return 'Take out ' + pv.join(' and ') + '. Personal details never go into a prompt.';
+      var b = brackets(t);
+      if (b) return b === 1 ? 'Type your own words over the last [bracket].' : 'Type your own words over the ' + b + ' [brackets].';
+      return '';
+    }
+    if (id === 'try-run') {
+      if (realChars(document.getElementById('ai-answer').value) < 10) return 'Paste the AI answer in the box.';
+      if (!readChoice) return 'Tap Yes or Not yet.';
+      return '';
+    }
+    return '';
+  }
+  var shown = {};                       // the hint shows after the first press of Next, or at once for private data
+  function gate() {
+    var s = Deck.current(); if (!s) return;
+    var id = s.id, msg = need(id), card = s.querySelector('.card') || s;
+    if (msg) card.setAttribute('data-saa-locked', ''); else card.removeAttribute('data-saa-locked');
+    var hint = s.querySelector('.g4-need');
+    if (hint) {
+      var urgent = id === 'try-pick' && /^Take out/.test(msg);
+      var show = !!msg && (shown[id] || urgent);
+      hint.hidden = !show; hint.textContent = show ? msg : '';
+      hint.classList.toggle('warn', urgent);
+    }
+  }
+  function hideToast() { var t = document.getElementById('toast'); if (t) t.classList.remove('show'); }
+  mine.addEventListener('input', gate);
+  document.getElementById('ai-answer').addEventListener('input', gate);
+  seg.addEventListener('click', function () { setTimeout(gate, 0); });
+  chips.addEventListener('click', function () { hideToast(); setTimeout(gate, 0); });
+  function gated(id) {
+    return {
+      enter: function () { shown[id] = false; setTimeout(gate, 0); },
+      primary: function () {
+        if (!need(id)) return true;
+        shown[id] = true; gate();
+        var h = Deck.current().querySelector('.g4-need');
+        if (h && h.scrollIntoView) { try { h.scrollIntoView({ block: 'nearest' }); } catch (e) { /* ignore */ } }
+        return false;
+      }
+    };
+  }
+  // Start again: a clean slate (nothing is stored, so a reload clears the typed prompt, the answer and the activities)
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('[data-go="intro"]');
+    if (!t) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    try { location.reload(); } catch (x) { /* ignore */ }
+  }, true);
+  // a toast belongs to the screen it was shown on
+  var goRaw = Deck.go;
+  Deck.go = function () { hideToast(); return goRaw.apply(this, arguments); };
+
+  var tryRun = gated('try-run');
   Deck.init({
-    'try-run': { leave: function () { closePop(); } },
+    study: gated('study'), work: gated('work'), home: gated('home'), 'try-pick': gated('try-pick'),
+    'try-run': { enter: tryRun.enter, primary: tryRun.primary, leave: function () { closePop(); } },
     done: {
       primary: function () {
         SAA.download('ten-starter-prompts.txt', buildFile());

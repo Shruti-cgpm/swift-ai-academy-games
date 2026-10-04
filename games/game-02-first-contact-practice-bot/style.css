@@ -404,3 +404,14 @@ html:root.saa-skin .do b{color:#8FA0FF}
   .check-pair .answer-lines{gap:3px;padding:6px} .check-pair .line{padding-top:4px;padding-bottom:4px} .line .why{margin-top:0}
   .fc-r .fb{padding:10px 14px}
 }
+/* ===== QA fixes (Oct 2026) ===== */
+/* light theme on phones: the grid column must not grow to the header's one-line title (the page was 448px wide) */
+.app{grid-template-columns:minmax(0,1fr);width:100%;max-width:min(760px,100%)}
+.app > *{min-width:0}
+header.top .brand .t{min-width:0}
+/* phones: big enough to tap */
+@media (max-width:700px){
+  .chip{min-height:44px}
+  .line{min-height:44px}
+  #stage .link{min-height:44px;display:inline-flex;align-items:center}
+}

@@ -1171,3 +1171,21 @@ textarea.input { display: block; }
 @media (max-height: 640px) {
   .starter-chat .sc-input { display: none; }
 }
+
+/* ===== QA fixes (Oct 2026) ===== */
+/* what is still missing on a gated screen (shown after Next is pressed) */
+.g4-need { margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--blue-ink, #3C59F6); }
+.g4-need.warn { color: var(--bad-ink, #C0392B); }
+html[data-theme="dark"] .g4-need { color: #8FA0FF; }
+html[data-theme="dark"] .g4-need.warn { color: #FF8A8A; }
+.g4-need[hidden] { display: none; }
+/* phones: rule cards are full-width rows; big enough to tap */
+@media (max-width: 480px) {
+  #rules .saa-kit { width: 100%; align-self: stretch; }
+  #rules .saa-kit .saa-cards { grid-template-columns: 1fr !important; width: 100%; }
+  #rules .saa-kit .saa-card:has(.rule-ic) { min-height: 104px; }
+  .prompt .icon-btn, #how-close { width: 44px; height: 44px; min-width: 44px; }
+  #pick-chips .chip { min-height: 44px; }
+  #read-check button { min-height: 44px; }
+}
+@media (max-width: 480px) { #copy-mine, #see-how { min-height: 44px; } }

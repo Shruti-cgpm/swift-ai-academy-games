@@ -531,3 +531,32 @@ html.saa-skin .bar #extraBtns.saa-navrow{width:auto !important}
 
 /* frame like game 1: the main area fills the space between header and footer */
 html.saa-skin .app > .main { flex: 1 1 auto !important; min-height: 0 !important; }
+
+/* ===== QA fixes (Oct 2026) ===== */
+/* the header and the step bar keep their full height (they were squeezed, so the step bar sat on the lane pills) */
+.app > header.top,.app > .mbar{flex-shrink:0}
+@media (max-width:760px){
+  html[data-theme="dark"] .mbar{padding-top:2px}
+  /* lane and language switches: big enough to tap */
+  #laneSeg button,#langSeg button{min-height:44px;padding-top:0;padding-bottom:0}
+  .seg{align-items:center}
+  #helpBtn{min-height:44px;min-width:44px;justify-content:center}
+  /* answer and reflection boxes keep their size; the pane scrolls instead of squeezing them */
+  .pane > *,.cols > .card > *{flex-shrink:0}
+  .pane .ans,.ans .ta{flex:none}
+  #aIn{min-height:110px}
+  #r1,#r2{flex:none !important;min-height:90px !important}
+  #r1,#r2{height:90px}
+  .cols > .card > div:has(> #r1),.cols > .card > div:has(> #r2){flex:none !important}
+}
+/* the evidence log scrolls inside its card when it does not fit (rows were cut off) */
+.card > ol.log{overflow-y:auto !important;min-height:0}
+@media (max-width:760px){.mtog button{min-height:40px}}
+@media (max-width:760px){
+  /* a card grows with its content (the stage scrolls), so nothing spills over its edge */
+  .cols{grid-template-rows:auto !important;align-content:start}
+  .cols > .card{height:auto !important;min-height:0;align-self:start}
+  /* last step: the footer keeps Back and Download; Copy as text stays on the page */
+  .bar #cpBtn{display:none}
+}
+@media (max-width:760px){.stage > .card.grow{flex:none}.stage > .card.grow > ol.log{overflow:visible !important}}

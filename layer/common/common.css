@@ -68,3 +68,6 @@ footer.foot #primary { order: 2; }
   :is(.bar-row, .foot-row):has(.saa-prog) { display: flex !important; flex-wrap: wrap !important; row-gap: 8px; justify-content: space-between; }
   :is(.bar-row, .foot-row) > :is(.bar-mid, .saa-prog) { order: -1 !important; flex: 1 1 100% !important; }
 }
+
+/* staff codes are hidden from learners (see common.js) */
+.saa-staff { display: none !important; }

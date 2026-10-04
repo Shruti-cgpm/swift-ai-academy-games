@@ -506,12 +506,23 @@
       }).join('') + '</div>' +
       '<div class="quiz-side" id="side"><div class="hint">' + ic('info') + '<span>You see the reason here after you press <strong>Check answer</strong>.</span></div></div></div>';
     mountQuote(it);
-    qcard.querySelectorAll('.opt').forEach(function (b) {
-      b.addEventListener('click', function () {
-        if (checked) return;
-        picked = parseInt(b.getAttribute('data-opt'), 10);
-        qcard.querySelectorAll('.opt').forEach(function (x) { x.setAttribute('aria-checked', String(x === b)); });
-        Deck.enablePrimary(true);
+    var optBtns = Array.prototype.slice.call(qcard.querySelectorAll('.opt'));
+    function pick(b) {
+      if (checked) return;
+      picked = parseInt(b.getAttribute('data-opt'), 10);
+      optBtns.forEach(function (x) { x.setAttribute('aria-checked', String(x === b)); x.tabIndex = x === b ? 0 : -1; });
+      Deck.enablePrimary(true);
+    }
+    /* radio group: one tab stop; the arrow keys move between the answers and choose one */
+    optBtns.forEach(function (b, i) {
+      b.tabIndex = i === 0 ? 0 : -1;
+      b.addEventListener('click', function () { pick(b); });
+      b.addEventListener('keydown', function (e) {
+        var d = (e.key === 'ArrowDown' || e.key === 'ArrowRight') ? 1 : (e.key === 'ArrowUp' || e.key === 'ArrowLeft') ? -1 : 0;
+        if (!d || checked) return;
+        e.preventDefault(); e.stopPropagation();
+        var n = optBtns[(i + d + optBtns.length) % optBtns.length];
+        n.focus(); pick(n);
       });
     });
     Deck.setPrimary('Check answer', { disabled: true, icon: 'check' });
@@ -629,7 +640,7 @@
   function saveResults() {
     var s = score();
     var lines = [
-      'Section Check: Framing and Refining (AAI-E-MC1-S02-EVAL01)',
+      'Section Check: Framing and Refining',
       'Swift AI Academy',
       '',
       'Score: ' + s.pct + '% (' + s.right + ' of ' + answers.length + ' correct)',
@@ -650,7 +661,11 @@
 
   Deck.init({
     how: {
-      primary: function () { startQuiz(); return false; }
+      /* an attempt in progress (the learner came Back from question 1) is resumed, not thrown away */
+      primary: function () {
+        if (quiz.length && answers.length && answers.length < quiz.length) { Deck.go('quiz'); return false; }
+        startQuiz(); return false;
+      }
     },
     quiz: {
       enter: function () { if (!quiz.length) quiz = buildAttempt(); if (snaps[cur]) showSnap(cur); else renderQuestion(); },

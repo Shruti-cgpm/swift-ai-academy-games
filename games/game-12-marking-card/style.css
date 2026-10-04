@@ -654,3 +654,26 @@ select.quiz-select.g12-sel-hidden{display:none !important;}
   .nav-btn{padding:10px 16px;}
   .nav-btn.primary{padding:11px 20px;}
 }
+
+/* QA fixes (Oct 2026) */
+.g12-gate{margin:8px 0 0;font-size:13px;font-weight:600;color:var(--amber-2,#FFC168)}
+.g12-gate[hidden]{display:none}
+.flip-wrap .g12-gate{text-align:center;width:100%}
+@media (pointer: coarse), (max-width: 760px){
+  select.lane-select{min-height:44px}
+  .flip-btn{min-height:44px !important}
+}
+/* phones: the screen and its card grow with their content and the area between header and footer
+   scrolls (a card squeezed to the screen height let its answers and buttons spill out of the box) */
+@media (max-width: 700px){
+  html.saa-skin .app.saa-phone .saa-scrollzone .page.active,
+  html.saa-skin .app.saa-phone .saa-scrollzone .page.active > .card,
+  html.saa-skin .app.saa-phone .saa-scrollzone .page.active > .hero{
+    flex: 0 0 auto !important; height: auto !important; min-height: 0 !important; justify-content: flex-start !important;
+  }
+  .page .print-row{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+  .page .print-row > *{flex:0 0 auto !important;height:auto !important;min-height:0}
+  .page .print-row .flip-btn{max-width:100%;white-space:normal;justify-content:center;text-align:center}
+}
+/* the staff metadata card (schema code, mapped PCs) is not for learners */
+.page .card-meta{display:none !important}

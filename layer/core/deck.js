@@ -29,15 +29,18 @@
     var card = s.querySelector('.card') || s.firstElementChild;
     if (!card) { return; }
     var root = doc.documentElement, w = win.innerWidth, h = win.innerHeight;
-    var size = w <= 760 ? 15 : Math.max(14, Math.min(24, Math.min(h / 36, w / 62)));
-    var guard = 0;
     card.classList.remove('scroll');
+    /* phones: a readable 15px and the card scrolls - never shrink the text to fit */
+    if (w <= 760) { root.style.fontSize = '15px'; if (this.overflows(card)) { card.classList.add('scroll'); } return; }
+    var size = Math.max(14, Math.min(24, Math.min(h / 36, w / 62)));
     root.style.fontSize = size + 'px';
-    while (this.overflows(card) && size > 12 && guard++ < 60) {
-      size -= 0.5;
-      root.style.fontSize = size + 'px';
+    if (this.overflows(card)) {
+      /* find the largest size that fits in a few steps (12px floor), instead of 0.5px at a time */
+      var lo = 12, hi = size;
+      for (var i = 0; i < 6; i++) { var mid = (lo + hi) / 2; root.style.fontSize = mid + 'px'; if (this.overflows(card)) { hi = mid; } else { lo = mid; } }
+      root.style.fontSize = Math.floor(lo * 2) / 2 + 'px';
+      if (this.overflows(card)) { card.classList.add('scroll'); }
     }
-    if (this.overflows(card)) { card.classList.add('scroll'); }
   };
 
   /* 3. idle nudge: after 5 s of no activity, glow what the student should do next */
@@ -46,7 +49,7 @@
     var s = D.current(); if (!s) { return []; }
     var prim = doc.getElementById('primary');
     var list = [];
-    if (prim && !prim.disabled && prim.offsetParent) { list.push(prim); }
+    if (prim && !prim.disabled && prim.getAttribute('aria-disabled') !== 'true' && !prim.classList.contains('saa-locked') && prim.offsetParent) { list.push(prim); }
     if (prim && (prim.disabled || prim.getAttribute('aria-disabled') === 'true')) {
       list = Array.prototype.slice.call(s.querySelectorAll('.opt:not(.picked):not(.locked), .select, textarea, input[type=text]'));
       list = list.filter(function (e) { return e.offsetParent && !(e.value); });
@@ -61,7 +64,15 @@
   var go = D.go;
   /* screens that are not showing can never be tapped or focused, whatever a kit's CSS makes visible inside them */
   function inertOthers() { var c = D.current(); (D.slides || []).forEach(function (s) { if (s !== c) { s.setAttribute('inert', ''); } else { s.removeAttribute('inert'); } }); }
-  D.go = function () { var r = go.apply(this, arguments); splitCards(); arm(); D.fit(); inertOthers(); return r; };
+  /* focus follows the new screen: its heading, when focus was left behind on a hidden screen */
+  function focusNew() {
+    var c = D.current(), a = doc.activeElement;
+    if (!c || (a && a !== doc.body && c.contains(a))) { return; }
+    if (a && a !== doc.body && !a.closest('[inert]')) { return; }        /* focus is somewhere useful (e.g. the footer): leave it */
+    var h = c.querySelector('h1, h2, h3');
+    if (h) { if (!h.hasAttribute('tabindex')) { h.setAttribute('tabindex', '-1'); } try { h.focus({ preventScroll: true }); } catch (e) {} }
+  }
+  D.go = function () { var r = go.apply(this, arguments); splitCards(); arm(); D.fit(); inertOthers(); focusNew(); return r; };
   splitCards();
   D.fit();
   inertOthers();

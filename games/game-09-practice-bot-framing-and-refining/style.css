@@ -465,3 +465,12 @@ html.saa-skin #slide-chat .saa-work,html.saa-skin #slide-recap .saa-work{justify
   html.saa-skin #slide-recap .recap-list li{padding:5px 10px}
   html.saa-skin #slide-recap .saa-work{gap:8px}
 }
+
+/* QA fixes (Oct 2026) */
+.qr-btn.tried,.qr-btn.tried:hover{opacity:.45;text-decoration:line-through;cursor:not-allowed;background:transparent}
+.dl-msg{margin:8px 0 0;min-height:1em;color:var(--amber, #F5B544);font-weight:600}
+.dl-msg:empty{display:none}
+@media (max-width: 760px), (pointer: coarse){
+  .meta-btn{min-height:44px;padding:10px 4px}
+  .qr-btn{min-height:44px}
+}

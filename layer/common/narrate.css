@@ -2,8 +2,8 @@
    NARRATION controls + word highlight (same look as game 1's header buttons)
    ========================================================================== */
 .saa-vo { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; flex: 0 0 auto; }
-.saa-vo.none > .saa-vo-b:not(.saa-theme-b) { display: none !important; }
-.saa-vo.none:not(:has(.saa-theme-b)) { display: none !important; }
+/* a screen with no clip hides only Replay: the sound on/off (it also mutes the effects) and the theme switch stay */
+.saa-vo.none > .saa-vo-listen { display: none !important; }
 html .saa-vo + :is(.saa-header-actions, .topbar-tools, .top-actions, .header-actions, .actions), html.saa-skin .saa-vo + :is(.saa-header-actions, .topbar-tools, .top-actions, .header-actions, .actions) { margin-left: calc(8px / var(--zz, 1)) !important; }
 .saa-vo-b { display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 13px; font-weight: 600; line-height: 1;
   color: #F6F4EF; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); border-radius: 999px;
@@ -33,3 +33,6 @@ html:not(.saa-skin) .saa-vo-voice[aria-pressed="false"] { color: #5C6690; }
 html:not(.saa-skin) ::highlight(saa-vo-todo) { color: rgba(14,26,79,.45); }
 html:not(.saa-skin) ::highlight(saa-vo-on) { background-color: rgba(60,89,246,.18); color: #0E1A4F; }
 @media (max-width: 560px) { html.saa-skin .saa-vo-listen { padding: 0; width: calc(38px / var(--zz, 1)); justify-content: center; } }
+
+/* phones: header narration buttons at least 44px */
+@media (max-width: 700px), (pointer: coarse) { .saa-vo-b, html.saa-skin .saa-vo-b, html.saa-skin .saa-vo-b.icon { min-height: 44px !important; min-width: 44px !important; } }

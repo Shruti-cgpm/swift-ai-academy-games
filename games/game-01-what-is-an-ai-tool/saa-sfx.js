@@ -43,12 +43,14 @@
       o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.08);
     },
     correct: function () {
-      if (!on() || !ready()) { return; }
+      if (!on() || !ready() || Date.now() - lastFx < 350) { return; }
+      lastFx = Date.now();
       note(880.00, 0, 0.32, 0.11); note(1760.0, 0, 0.18, 0.02);        /* A5 */
       note(1318.5, 0.09, 0.45, 0.11); note(2637.0, 0.09, 0.22, 0.018); /* E6 */
     },
     wrong: function () {
-      if (!on() || !ready()) { return; }
+      if (!on() || !ready() || Date.now() - lastFx < 350) { return; }
+      lastFx = Date.now();
       note(329.63, 0, 0.20, 0.10, 'triangle', 1400);    /* E4 */
       note(261.63, 0.12, 0.30, 0.10, 'triangle', 1100); /* C4 */
     }
@@ -69,7 +71,7 @@
 
   /* right / wrong: a game or kit marks an answer just after the learner acted */
   var RIGHT = /(^|\s)(right|correct|is-correct|is-right|is-ok|good|hit|saa-bin-hit|pass|success|saa-match)(\s|$)/;
-  var WRONG = /(^|\s)(wrong|incorrect|is-incorrect|is-wrong|is-bad|bad|miss|fail|saa-shake)(\s|$)/;
+  var WRONG = /(^|\s)(wrong|incorrect|is-incorrect|is-wrong|is-bad|bad|miss|fail)(\s|$)/;   /* a shake is a nudge, not an answer: kits play their own wrong sound */
   function judge(el, old) {
     var now = (el.getAttribute && el.getAttribute('class')) || '';
     if (el.closest && el.closest('.saa-vo, header, nav.saa-navrow, footer')) { return 0; }
@@ -78,9 +80,8 @@
     return gainedW ? -1 : (gainedR ? 1 : 0);
   }
   function play(v) {
-    if (!v || Date.now() - lastFx < 350) { return; }
-    lastFx = Date.now();
-    if (v < 0) { SFX.wrong(); } else { SFX.correct(); }
+    if (!v) { return; }
+    if (v < 0) { SFX.wrong(); } else { SFX.correct(); }   /* the 350ms guard lives in correct()/wrong(), so direct calls from games are guarded too */
   }
   if (win.MutationObserver) {
     new MutationObserver(function (ms) {

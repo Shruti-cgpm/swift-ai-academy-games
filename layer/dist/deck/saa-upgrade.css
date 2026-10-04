@@ -56,6 +56,9 @@ img { -webkit-user-drag: none; }
   .card.saa-split { display: flex; flex-direction: column; align-items: stretch; }
 }
 
+/* phones: both columns use the card's full width (the desktop rule centres them, which squeezed the activity) */
+@media (max-width: 760px) { .card.saa-split > .saa-lead, .card.saa-split > .saa-work { align-self: stretch; width: auto; } }
+
 /* ==========================================================================
    COMMON (all games): start screen, "Your task" line, one-amber guard
    ========================================================================== */
@@ -125,6 +128,9 @@ footer.foot #primary { order: 2; }
   :is(.bar-row, .foot-row):has(.saa-prog) { display: flex !important; flex-wrap: wrap !important; row-gap: 8px; justify-content: space-between; }
   :is(.bar-row, .foot-row) > :is(.bar-mid, .saa-prog) { order: -1 !important; flex: 1 1 100% !important; }
 }
+
+/* staff codes are hidden from learners (see common.js) */
+.saa-staff { display: none !important; }
 
 /* ==========================================================================
    SKIN: make every dark game look like game 1 (reference: Applied-AI-MC1)
@@ -256,12 +262,18 @@ html.saa-skin .app > :is(.saa-header, header.top) { min-height: calc(41px / var(
 html.saa-skin .saa-prog { gap: calc(12px / var(--zz)); width: calc(min(380px, 40vw) / var(--zz)); }
 html.saa-skin .saa-prog-n { font-size: calc(12px / var(--zz)); }
 html.saa-skin .saa-prog-bar { height: calc(4px / var(--zz)); }
+
+/* Back keeps its word when a game hides both label and icon on phones */
+html.saa-skin button.saa-back.saa-back-blank::after { content: "Back"; }
+
+/* very narrow phones: the logo alone, so the header keeps room for its tools */
+@media (max-width: 400px) { html.saa-skin .saa-hd-brand .saa-wm { display: none; } }
 /* ==========================================================================
    NARRATION controls + word highlight (same look as game 1's header buttons)
    ========================================================================== */
 .saa-vo { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; flex: 0 0 auto; }
-.saa-vo.none > .saa-vo-b:not(.saa-theme-b) { display: none !important; }
-.saa-vo.none:not(:has(.saa-theme-b)) { display: none !important; }
+/* a screen with no clip hides only Replay: the sound on/off (it also mutes the effects) and the theme switch stay */
+.saa-vo.none > .saa-vo-listen { display: none !important; }
 html .saa-vo + :is(.saa-header-actions, .topbar-tools, .top-actions, .header-actions, .actions), html.saa-skin .saa-vo + :is(.saa-header-actions, .topbar-tools, .top-actions, .header-actions, .actions) { margin-left: calc(8px / var(--zz, 1)) !important; }
 .saa-vo-b { display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 13px; font-weight: 600; line-height: 1;
   color: #F6F4EF; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); border-radius: 999px;
@@ -291,3 +303,6 @@ html:not(.saa-skin) .saa-vo-voice[aria-pressed="false"] { color: #5C6690; }
 html:not(.saa-skin) ::highlight(saa-vo-todo) { color: rgba(14,26,79,.45); }
 html:not(.saa-skin) ::highlight(saa-vo-on) { background-color: rgba(60,89,246,.18); color: #0E1A4F; }
 @media (max-width: 560px) { html.saa-skin .saa-vo-listen { padding: 0; width: calc(38px / var(--zz, 1)); justify-content: center; } }
+
+/* phones: header narration buttons at least 44px */
+@media (max-width: 700px), (pointer: coarse) { .saa-vo-b, html.saa-skin .saa-vo-b, html.saa-skin .saa-vo-b.icon { min-height: 44px !important; min-width: 44px !important; } }

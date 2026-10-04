@@ -15,7 +15,7 @@ var CLUSTERS = [
     options: ['Context', 'Role', 'Task', 'Format'],
     correctIndex: 0,
     correctFeedback: 'Yes. The request does not say who it is for, or why they need it. Always add the context.',
-    nudge: 'Not quite. Read it again. Does it say who this is for, and why they need it?',
+    nudge: 'Not quite. Read it again. Check each part: who speaks, who it is for, what to make and how it should look.',
     reveal: 'The missing part was Context. The request does not say who it is for, or why.',
     help: 'Hint. Read the request out loud. Does it say who it is for, who speaks, what to make and how it should look?'
   },
@@ -28,7 +28,7 @@ var CLUSTERS = [
     options: ['Context', 'Role', 'Task', 'Format'],
     correctIndex: 1,
     correctFeedback: 'Yes. The request does not say who the AI should act as.',
-    nudge: 'Not quite. Read it again. Does it say who the AI should act as?',
+    nudge: 'Not quite. Read it again. Check each part: who speaks, who it is for, what to make and how it should look.',
     reveal: 'The missing part was Role. The request does not say who the AI should act as.',
     help: 'Hint. Read the request out loud. Does it say who it is for, who speaks, what to make and how it should look?'
   },
@@ -283,8 +283,10 @@ document.addEventListener('DOMContentLoaded', function () {
         hintSlot.appendChild(b);
         target.insertBefore(hintSlot, activeControls);
       }
-      hintSlot.lastChild.textContent = cluster.help;
-      log('Bot', cluster.help);
+      if (hintSlot.lastChild.textContent !== cluster.help) {
+        hintSlot.lastChild.textContent = cluster.help;
+        log('Bot', cluster.help);
+      }
     });
     row.appendChild(helpBtn);
 
@@ -303,12 +305,21 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function askQuestion(cluster) {
-    addQuickReplies(
+    var wrap = addQuickReplies(
       cluster.options.map(function (o) { return { label: o }; }),
       function (label) { handleAnswer(cluster, label); }
     );
+    // A wrong answer already tried cannot be picked again.
+    Array.prototype.forEach.call(wrap.querySelectorAll('.qr-btn'), function (b) {
+      if (state.chosen.indexOf(b.textContent.trim()) !== -1) {
+        b.disabled = true;
+        b.classList.add('tried');
+        b.setAttribute('aria-label', b.textContent.trim() + ' (already tried)');
+      }
+    });
     addMetaActions(cluster);
   }
+  function sfx(ok) { if (window.SAA_SFX) { if (ok) { SAA_SFX.correct(); } else { SAA_SFX.wrong(); } } }
 
   function handleAnswer(cluster, label) {
     state.attempts++;
@@ -319,16 +330,19 @@ document.addEventListener('DOMContentLoaded', function () {
     addPrevReply(label);
 
     if (label === correctLabel) {
+      sfx(true);
       addCorrectBubble(cluster.correctFeedback);
       recordResult(cluster, state.attempts === 1 ? 'mastered' : 'reviewed');
       resolveDrill();
     } else if (state.attempts >= 2) {
-      addIncorrectBubble(cluster.nudge);
+      sfx(false);
+      addIncorrectBubble('Not quite. That was your second try, so here is the answer.');
       addReveal(cluster.reveal);
       recordResult(cluster, 'reviewed');
       resolveDrill();
     } else {
       // Second try: nudge, the same request again (it was on screen before), and the options.
+      sfx(false);
       addIncorrectBubble(cluster.nudge);
       if (cluster.scenario) addScenario(cluster.scenario);
       askQuestion(cluster);
@@ -391,8 +405,10 @@ document.addEventListener('DOMContentLoaded', function () {
   function finish() {
     recapWindow.innerHTML = '';
     target = recapWindow;
-    addBot('Nice work! You have finished all 5 drills.');
     var masteredCount = state.results.filter(function (r) { return r.outcome === 'mastered'; }).length;
+    addBot(masteredCount >= 4 ? 'Nice work! You have finished all 5 drills.'
+      : masteredCount >= 2 ? 'Good effort. You have finished all 5 drills.'
+      : 'You have finished all 5 drills. Practise the ones that need review.');
     addBot('You got ' + masteredCount + ' of ' + CLUSTERS.length + ' right on your first try.');
 
     var card = document.createElement('div');
@@ -423,16 +439,42 @@ document.addEventListener('DOMContentLoaded', function () {
     render();
   }
 
+  function outcomeLabel(o) { return o === 'mastered' ? 'Mastered' : o === 'reviewed' ? 'Needs review' : 'Skipped'; }
   function downloadResults() {
+    var stampKit = sections.wrap.querySelector('.saa-kit[data-kit="stamp"]');
+    var dlMsg = document.getElementById('download-msg');
+    if (stampKit && !stampKit.classList.contains('is-done')) {
+      if (dlMsg) { dlMsg.textContent = 'Stamp each detail first. Then you can download your results.'; }
+      Array.prototype.forEach.call(stampKit.querySelectorAll('.saa-row:not(.done)'), function (x) { x.classList.add('saa-nudge'); });
+      setTimeout(function () { Array.prototype.forEach.call(stampKit.querySelectorAll('.saa-nudge'), function (x) { x.classList.remove('saa-nudge'); }); }, 2600);
+      return;
+    }
+    if (dlMsg) { dlMsg.textContent = ''; }
     var lines = ['Practice Bot — Framing and Refining — my results', ''];
     state.results.forEach(function (r, idx) {
       lines.push('Drill ' + (idx + 1) + ' (' + r.lane + ')');
       if (r.scenario) lines.push('Scenario: ' + r.scenario);
       lines.push('Question: ' + r.question);
       lines.push('My answer(s): ' + (r.chosen.length ? r.chosen.join(' then ') : '(skipped)'));
-      lines.push('Outcome: ' + r.outcome + (r.skipReason ? ' (' + r.skipReason + ')' : ''));
+      lines.push('Outcome: ' + outcomeLabel(r.outcome) + (r.skipReason ? ' (' + r.skipReason + ')' : ''));
       lines.push('');
     });
+    var quickKit = sections.recap.querySelector('.saa-kit[data-kit="quick"]');
+    if (quickKit) {
+      var q = quickKit.querySelector('.saa-q');
+      var tries = Array.prototype.filter.call(quickKit.querySelectorAll('.saa-k-opt'), function (o) { return o.classList.contains('wrong') || o.classList.contains('right'); });
+      lines.push('Recap question: ' + (q ? q.textContent.trim() : ''));
+      lines.push('My answer(s): ' + (tries.length ? tries.map(function (o) { return o.textContent.trim() + (o.classList.contains('right') ? ' (right)' : ' (not right)'); }).join(' then ') : '(not answered)'));
+      lines.push('');
+    }
+    if (stampKit) {
+      lines.push('Keep real details out of AI tools');
+      Array.prototype.forEach.call(stampKit.querySelectorAll('.saa-row'), function (row) {
+        var names = (stampKit.getAttribute('data-stamps') || 'Do not type|Safe to use').split('|');
+        lines.push('- ' + row.textContent.trim() + ': ' + (names[+row.getAttribute('data-ans')] || ''));
+      });
+      lines.push('');
+    }
     lines.push('Full conversation', '');
     state.transcript.forEach(function (m) { lines.push(m.who + ': ' + m.text); });
     var blob = new Blob([lines.join('\n')], { type: 'text/plain' });
@@ -463,6 +505,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function restart() {
+    // A clean start: the kits (recap quiz, stamps) are reset by reloading the page.
+    try { window.location.reload(); return; } catch (e) {}
     chatWindow.innerHTML = '';
     recapWindow.innerHTML = '';
     turns = {};
@@ -503,8 +547,14 @@ document.addEventListener('DOMContentLoaded', function () {
     render();
   }
 
+  var lastView = -1;
   function render() {
     var v = state.view;
+    if (v !== lastView) {
+      lastView = v;
+      var zones = document.querySelectorAll('.saa-scrollzone, #stage');
+      Array.prototype.forEach.call(zones, function (z) { z.scrollTop = 0; });
+    }
     sections.intro.classList.toggle('active', v === SLIDE_INTRO);
     sections.chat.classList.toggle('active', v === SLIDE_WELCOME || isDrill(v));
     sections.recap.classList.toggle('active', v === SLIDE_RECAP);

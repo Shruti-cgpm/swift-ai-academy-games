@@ -109,7 +109,8 @@
   function targets() {
     var page = doc.querySelector('.page.active, .slide.active, .slide.show, section.active') || doc.body;
     var prim = doc.querySelector('.nav-btn.primary, .btn-primary, button.primary, #primary, .cta');
-    if (prim && !prim.disabled && visible(prim)) { return [prim]; }
+    var locked = prim && (prim.disabled || prim.getAttribute('aria-disabled') === 'true' || prim.classList.contains('saa-locked'));
+    if (prim && !locked && visible(prim)) { return [prim]; }   /* never glow a locked Next */
     var opts = Array.prototype.slice.call(page.querySelectorAll('.opt:not(.picked):not(.locked):not([disabled]), .choice:not(.picked), textarea, input[type=text]'));
     return opts.filter(function (e) { return visible(e) && !e.value; }).slice(0, 8);
   }
@@ -153,7 +154,7 @@
     var o = doc.createElement('div');
     o.className = 'saa-start'; o.id = 'saa-start';
     o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); o.setAttribute('aria-labelledby', 'saa-start-title');
-    o.innerHTML = '<span class="saa-ghost" aria-hidden="true">01</span><div class="saa-in"><div class="saa-brand"></div>' +
+    o.innerHTML = '<div class="saa-in"><div class="saa-brand"></div>' +
       '<div class="saa-mid">' + (eb ? '<span class="saa-eb"></span>' : '') + '<h1 id="saa-start-title"></h1>' + (tag ? '<p class="saa-tag"></p>' : '') +
       '<button type="button" class="saa-go">Start <svg viewBox="0 0 24 24" fill="none" stroke="#241300" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>';
     var brand = o.querySelector('.saa-brand');
@@ -175,6 +176,8 @@
          a cover with other choices or links stays so nothing is lost */
       var first = pages()[0];
       if (first && !visible(first)) { return; }                 /* already past the cover */
+      /* a first screen with real content (lists, a template, an activity, a long text) is not a cover: show it */
+      if (first && (first.querySelector('ul, ol, table, .saa-kit, textarea, input') || (first.innerText || '').replace(/\s+/g, ' ').length > 320)) { return; }
       var scope = first || doc.querySelector('.app') || doc.body;
       var inCover = Array.prototype.filter.call(scope.querySelectorAll('button, a[href], input, select, textarea, [data-go], [role=button]'), function (e) {
         return visible(e) && !e.matches(NAV) && !e.closest('header, .top, .topbar, .saa-top, .foot, footer, .nav, .deck-nav, .slide-footer, .page-footer') && !/back|close|outline|help/i.test((e.id || '') + ' ' + (e.className || '') + ' ' + (e.getAttribute('aria-label') || ''));
@@ -245,6 +248,42 @@
     refresh();
     if (win.MutationObserver) { new MutationObserver(refresh).observe(doc.body, { attributes: true, attributeFilter: ['class', 'disabled', 'hidden'], subtree: true, childList: true }); }
     doc.addEventListener('click', refresh, true);
+  }
+  if (doc.readyState === 'loading') { doc.addEventListener('DOMContentLoaded', init); } else { init(); }
+})(window, document);
+
+/* ==========================================================================
+   STAFF CODES: master-sheet codes are for the programmes team, never for learners.
+   Any short line or tag that shows one (AAI-E-…, PC 4.1–4.5, Mapped PC, Schema, Element 4 …) is hidden.
+   ========================================================================== */
+(function (win, doc) {
+  'use strict';
+  var CODE = /AAI-E-MC\d|\bPC\s*\d+\.\d|Mapped:?\s*PC|Schema:|Non-compensatory|·\s*Element\s+\d|\bMC1\s*\/\s*\d/;
+  var CODES = /AAI-E-MC\d[-A-Z0-9]*|\bPC:?\s*\d+\.\d+(\s*(–|-|to)\s*\d+\.\d+)?|Mapped:?\s*(PC:?)?|Schema:|Non-compensatory:?\s*(Yes|No)?|\bElement\s+\d\b|\bMC1\s*\/\s*\d+(\.\d+)?/g;
+  var STAFF = /\b(English|Gujarati|Hindi|Mandatory( step)?|Not counted|Gates the unit|Swift AI Academy|Lab|Yes|No|and|to)\b/gi;
+  function txt(e) { return (e.textContent || '').replace(/\s+/g, ' ').trim(); }
+  function metaOnly(s) { return s.replace(CODES, '').replace(STAFF, '').replace(/[^A-Za-zऀ-૿]/g, '').length < 3; }
+  function hide() {
+    var w = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT, null), t, marks = [], strip = [];
+    while ((t = w.nextNode())) {
+      if (!CODE.test(t.nodeValue)) { continue; }
+      var e = t.parentElement;
+      if (!e || e.closest('script, style, .saa-staff, [data-saa-keep]')) { continue; }
+      if (!metaOnly(txt(e))) { strip.push(t); continue; }        /* a code inside a real sentence: take out just the code */
+      var box = e;                                                 /* the whole line is codes and staff labels: hide it */
+      while (box.parentElement && box.parentElement !== doc.body && metaOnly(txt(box.parentElement))) { box = box.parentElement; }
+      marks.push(box);
+    }
+    marks.forEach(function (b) { b.classList.add('saa-staff'); });
+    strip.forEach(function (n) {
+      n.nodeValue = n.nodeValue.replace(CODES, '').replace(/(\s*·\s*){2,}/g, ' · ').replace(/^\s*·\s*|\s*·\s*$/g, '').replace(/\(\s*\)/g, '');
+    });
+  }
+  var t = 0;
+  function soon() { clearTimeout(t); t = setTimeout(hide, 80); }
+  function init() {
+    hide();
+    if (win.MutationObserver) { new MutationObserver(soon).observe(doc.body, { childList: true, subtree: true, characterData: true }); }
   }
   if (doc.readyState === 'loading') { doc.addEventListener('DOMContentLoaded', init); } else { init(); }
 })(window, document);
@@ -357,13 +396,34 @@
     if (vo) { vo.appendChild(b); } else { h.appendChild(b); }   /* narration builds its group later and takes the switch in */
   }
 
+  /* a Back button whose label and icon were both hidden on phones gets its word back */
+  function backLabels() {
+    Array.prototype.forEach.call(doc.querySelectorAll('button.saa-back'), function (b) {
+      var blank = b.offsetWidth > 0 && !(b.innerText || '').trim();
+      cl(b, 'saa-back-blank', blank); if (blank && !b.getAttribute('aria-label')) { b.setAttribute('aria-label', 'Back'); }
+    });
+  }
+  /* vertical centring that overflows would push the heading above the top, out of reach: centre only when it fits */
+  function safeCentre() {
+    /* walk up from every visible heading: any box that centres it vertically does so only while it fits */
+    Array.prototype.forEach.call(doc.querySelectorAll('h1, h2, h3, .saa-lead, .saa-work'), function (h) {
+      if (!h.offsetParent) { return; }
+      for (var e = h.parentElement; e && e !== doc.body; e = e.parentElement) {
+        var cs = getComputedStyle(e);
+        if (/flex/.test(cs.display) && /column/.test(cs.flexDirection) && cs.justifyContent === 'center') { e.style.setProperty('justify-content', 'safe center', 'important'); }
+        else if (/grid/.test(cs.display) && cs.alignContent === 'center') { e.style.setProperty('align-content', 'safe center', 'important'); }
+        else if (/flex/.test(cs.display) && !/column/.test(cs.flexDirection) && cs.alignItems === 'center' && e.scrollHeight > e.clientHeight + 2) { e.style.setProperty('align-items', 'safe center', 'important'); }
+      }
+    });
+  }
   var t = 0;
-  function apply() { clearTimeout(t); t = setTimeout(function () { surfaces(); navButtons(); if (THEMED) { themeButton(); } }, 40); }
+  function apply() { clearTimeout(t); t = setTimeout(function () { backLabels(); safeCentre(); surfaces(); navButtons(); if (THEMED) { themeButton(); } }, 40); }
   function init() {
     if (THEMED) { themeButton(); }
     if (!THEMED && !isDark()) { return; }
     if (!THEMED || root.getAttribute('data-theme') !== 'light') { root.classList.add('saa-skin'); }
-    header(); surfaces(); navButtons();
+    header(); surfaces(); navButtons(); backLabels(); safeCentre();
+    win.addEventListener('resize', function () { backLabels(); });
     if (win.MutationObserver) { new MutationObserver(apply).observe(doc.body, { attributes: true, attributeFilter: ['class', 'hidden'], subtree: true, childList: true }); }
   }
   if (doc.readyState === 'loading') { doc.addEventListener('DOMContentLoaded', function () { setTimeout(init, 0); }); } else { setTimeout(init, 0); }
@@ -504,7 +564,8 @@
   }
   var seen = {};
   var reveals = {};
-  win.SAA_VO = { pages: pages, current: current, info: screenInfo, key: key, fbTexts: fbTexts, seen: seen, reveals: reveals, revealText: revealText };
+  win.SAA_VO = { pages: pages, current: current, info: screenInfo, key: key, fbTexts: fbTexts, seen: seen, reveals: reveals, revealText: revealText,
+    playing: function () { return !!((audio && !audio.paused && !audio.ended) || (fb && !fb.paused && !fb.ended)); } };
 
   /* ---- player ---- */
   var CLIPS = null, audio = new Audio(), fb = new Audio(), started = false, auto = true, cur = null, timeline = null, raf = 0, lastWord = -2;
@@ -545,7 +606,7 @@
   function label(t) { if (listen) { listen.querySelector('span').textContent = t; } }
   audio.addEventListener('play', function () { if (listen) { listen.classList.add('playing'); listen.setAttribute('aria-label', 'Pause narration'); } label('Pause'); });
   audio.addEventListener('pause', function () { if (listen) { listen.classList.remove('playing'); listen.setAttribute('aria-label', 'Play narration'); } label(audio.ended || audio.currentTime < 0.05 ? 'Replay' : 'Resume'); cancelAnimationFrame(raf); });
-  audio.addEventListener('ended', function () { label('Replay'); clearHi(); });
+  audio.addEventListener('ended', function () { label('Replay'); clearHi(); try { win.dispatchEvent(new CustomEvent('saa:vo-ended', { detail: cur && cur.key })); } catch (e) {} });
   audio.addEventListener('playing', function () { startHi(); });
   function play() { var p = audio.play(); if (p && p.catch) { p.catch(function () { label('Replay'); }); } }
 
@@ -597,7 +658,7 @@
     if (!s || !started || !auto || !CLIPS) { return; }
     if (Date.now() - revealAt < 600) { return; }               /* the card's own text is being read */
     var k = key(s); if (!CLIPS[k]) { return; }
-    audio.pause(); fb.pause(); fb.src = 'audio/vo/' + k + '.mp3';
+    audio.pause(); clearHi(); fb.pause(); fb.src = 'audio/vo/' + k + '.mp3';
     var p = fb.play(); if (p && p.catch) { p.catch(function () {}); }
   }
 
@@ -725,12 +786,14 @@
       o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.08);
     },
     correct: function () {
-      if (!on() || !ready()) { return; }
+      if (!on() || !ready() || Date.now() - lastFx < 350) { return; }
+      lastFx = Date.now();
       note(880.00, 0, 0.32, 0.11); note(1760.0, 0, 0.18, 0.02);        /* A5 */
       note(1318.5, 0.09, 0.45, 0.11); note(2637.0, 0.09, 0.22, 0.018); /* E6 */
     },
     wrong: function () {
-      if (!on() || !ready()) { return; }
+      if (!on() || !ready() || Date.now() - lastFx < 350) { return; }
+      lastFx = Date.now();
       note(329.63, 0, 0.20, 0.10, 'triangle', 1400);    /* E4 */
       note(261.63, 0.12, 0.30, 0.10, 'triangle', 1100); /* C4 */
     }
@@ -751,7 +814,7 @@
 
   /* right / wrong: a game or kit marks an answer just after the learner acted */
   var RIGHT = /(^|\s)(right|correct|is-correct|is-right|is-ok|good|hit|saa-bin-hit|pass|success|saa-match)(\s|$)/;
-  var WRONG = /(^|\s)(wrong|incorrect|is-incorrect|is-wrong|is-bad|bad|miss|fail|saa-shake)(\s|$)/;
+  var WRONG = /(^|\s)(wrong|incorrect|is-incorrect|is-wrong|is-bad|bad|miss|fail)(\s|$)/;   /* a shake is a nudge, not an answer: kits play their own wrong sound */
   function judge(el, old) {
     var now = (el.getAttribute && el.getAttribute('class')) || '';
     if (el.closest && el.closest('.saa-vo, header, nav.saa-navrow, footer')) { return 0; }
@@ -760,9 +823,8 @@
     return gainedW ? -1 : (gainedR ? 1 : 0);
   }
   function play(v) {
-    if (!v || Date.now() - lastFx < 350) { return; }
-    lastFx = Date.now();
-    if (v < 0) { SFX.wrong(); } else { SFX.correct(); }
+    if (!v) { return; }
+    if (v < 0) { SFX.wrong(); } else { SFX.correct(); }   /* the 350ms guard lives in correct()/wrong(), so direct calls from games are guarded too */
   }
   if (win.MutationObserver) {
     new MutationObserver(function (ms) {

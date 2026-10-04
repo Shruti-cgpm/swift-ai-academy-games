@@ -1,3 +1,6 @@
+// Registered now (before saa-kit.js loads) so the game's own gate message runs before the
+// kit's shared Next lock; the check itself is set up on DOMContentLoaded below.
+document.addEventListener('click', function (e) { if (window.__ga5Gate) { window.__ga5Gate(e); } }, true);
 // Slide deck: every .page is one slide (14 in total). The footer Back / Next
 // buttons move between slides and the progress bars + "n / 14" counter are
 // built from the slide count, so nothing is hard-coded. In-memory state only.
@@ -40,7 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   backBtn.addEventListener('click', function () { showPage(current - 1); });
   nextBtn.addEventListener('click', function () { showPage(current + 1); });
-  restartBtn.addEventListener('click', function () { showPage(0); });
+  // Start over: a clean reload clears every answer and every finished activity
+  restartBtn.addEventListener('click', function () { window.__ga5Leaving = true; location.reload(); });
 
   showPage(0);
 });
@@ -205,4 +209,78 @@ document.addEventListener('DOMContentLoaded', function () {
     var sync = function () { setTimeout(function () { if (page.hidden) { vid.pause(); } else if (!anim.hidden && !still) { tryPlay(); } }, 0); };
     ['deck-next', 'deck-back', 'deck-restart'].forEach(function (id) { var b = document.getElementById(id); if (b) { b.addEventListener('click', sync); } });
   }
+});
+
+// Gates for the screens that are not kits (slides 5, 6, 10, 11 and 12). Each gate is a
+// .saa-kit[data-required] line, so Next locks and looks locked the same way as on the kit
+// screens. Next shows the gate's short message until the task is done.
+document.addEventListener('DOMContentLoaded', function () {
+  var gates = Array.prototype.slice.call(document.querySelectorAll('.ga-gate'));
+  var skip = document.getElementById('ga5-skip');
+  var MIN_PASTE = 15, MIN_WORDS = 8;
+  function val(id) { var e = document.getElementById(id); return e ? e.value.trim() : ''; }
+  function ok(g) {
+    var page = g.closest('.page'), kind = g.getAttribute('data-gate');
+    if (kind === 'paste') {
+      return (skip && skip.getAttribute('aria-pressed') === 'true') || (val('out-1').length >= MIN_PASTE && val('out-2').length >= MIN_PASTE);
+    }
+    if (kind === 'mcq') { return !!page.querySelector('.mcq-option.selected'); }
+    if (kind === 'acc') {
+      return Array.prototype.every.call(page.querySelectorAll('.acc-item'), function (i) { return i.hasAttribute('data-seen'); });
+    }
+    if (kind === 'msg') { return val('practice-message').split(/\s+/).filter(function (w) { return /\w/.test(w); }).length >= MIN_WORDS; }
+    return true;
+  }
+  function refresh() {
+    gates.forEach(function (g) {
+      var d = ok(g);
+      if (d !== g.classList.contains('is-done')) {
+        g.classList.toggle('is-done', d);
+        if (d) { g.removeAttribute('data-saa-locked'); } else { g.setAttribute('data-saa-locked', ''); }
+        if (d) { g.textContent = ''; try { g.dispatchEvent(new CustomEvent('saa:done', { bubbles: true })); } catch (e) {} }
+      }
+    });
+  }
+  document.querySelectorAll('.acc-header').forEach(function (h) {
+    h.addEventListener('click', function () { h.closest('.acc-item').setAttribute('data-seen', '1'); refresh(); });
+  });
+  if (skip) {
+    skip.addEventListener('click', function () {
+      var on = skip.getAttribute('aria-pressed') !== 'true';
+      skip.setAttribute('aria-pressed', on ? 'true' : 'false');
+      refresh();
+    });
+  }
+  document.addEventListener('input', refresh);
+  document.addEventListener('click', function () { setTimeout(refresh, 0); });
+  // runs before the kit's own Next lock (registered at the top of this file)
+  window.__ga5Gate = function (e) {
+    var b = e.target.closest && e.target.closest('#deck-next');
+    if (!b) { return; }
+    refresh();
+    var g = gates.filter(function (x) { return !x.classList.contains('is-done') && x.offsetParent !== null; })[0];
+    if (!g) { return; }
+    e.preventDefault(); e.stopImmediatePropagation();
+    g.textContent = g.getAttribute('data-msg');
+    g.classList.remove('ga-shake'); void g.offsetWidth; g.classList.add('ga-shake');
+    var f = g.closest('.page').querySelector('textarea:placeholder-shown, .mcq-option, .acc-item:not([data-seen]) .acc-header, textarea');
+    if (f && g.getAttribute('data-gate') !== 'mcq') { try { f.focus({ preventScroll: false }); } catch (x) { f.focus(); } }
+  };
+  refresh();
+
+  // slide 14: when the last question is right, say that the reading is finished
+  var last = document.querySelector('.ga5-last');
+  if (last) {
+    last.addEventListener('saa:done', function () {
+      var w = last.querySelector('.saa-k-why');
+      if (w && w.textContent.indexOf('You have finished') < 0) { w.textContent = w.textContent + ' You have finished this reading. Well done.'; }
+    });
+  }
+
+  // typed or pasted work is lost on a refresh: ask first
+  window.addEventListener('beforeunload', function (e) {
+    if (window.__ga5Leaving) { return; }
+    var typed = Array.prototype.some.call(document.querySelectorAll('textarea'), function (t) { return t.value.trim(); });
+    if (typed) { e.preventDefault(); e.returnValue = ''; }
+  });
 });

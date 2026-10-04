@@ -24,9 +24,51 @@ function render(){
   });
   dots.setAttribute('aria-valuenow', current+1);
   document.getElementById('backBtn').disabled = (current === 0);
-  document.getElementById('nextBtn').disabled = (current === TOTAL-1);
   if(slide.hasAttribute('data-score')) checkQuiz();
   updatePrimary();
+  /* a new screen opens at its top (phones kept the scroll position) */
+  if(render.last !== current){
+    render.last = current;
+    Array.prototype.forEach.call(document.querySelectorAll('.saa-scrollzone, #slides, .page.active'), function(z){ z.scrollTop = 0; });
+  }
+}
+
+/* ---------- Gates (QA Oct 2026) ---------- */
+/* Next stays locked until the screen's task is done: the card flipped, the listed sections
+   opened, or the quick-check question answered correctly. '' = done, else a short message. */
+var seenFlip = false;
+var openedAcc = {};
+function gateOf(slide){
+  if(slide.querySelector('#flipInner')) return seenFlip ? '' : 'Flip the card to read both sides first.';
+  var acc = slide.querySelectorAll('.acc-item');
+  if(acc.length){
+    var todo = Array.prototype.filter.call(acc, function(it){ return !openedAcc[it.getAttribute('data-key')]; });
+    if(!todo.length) return '';
+    return 'Open ' + Array.prototype.map.call(acc, function(it){ return it.querySelector('.atitle').textContent; })
+      .join(', ').replace(/, ([^,]*)$/, ' and $1') + ' first.';
+  }
+  var qid = slide.getAttribute('data-quiz');
+  if(qid) return document.getElementById(qid).classList.contains('right') ? '' : 'Answer this question correctly to go on.';
+  return '';
+}
+/* A locked screen carries data-saa-locked: the shared kit then dims Next (aria-disabled).
+   Next can still be pressed; it then says what is left to do. */
+function updateGate(tried){
+  var slide = slides[current];
+  var msg = current === TOTAL-1 ? '' : gateOf(slide);
+  document.getElementById('nextBtn').disabled = (current === TOTAL-1);
+  if(msg) slide.setAttribute('data-saa-locked',''); else slide.removeAttribute('data-saa-locked');
+  if(tried && msg) slide.__gateTried = true;
+  var m = slide.querySelector('.g12-gate');
+  if(!m && msg && slide.__gateTried){
+    m = document.createElement('p');
+    m.className = 'g12-gate saa-vo-skip';
+    m.setAttribute('aria-live','polite');
+    var host = slide.querySelector('.saa-work') || slide.querySelector('.card') || slide;
+    if(slide.querySelector('.flip-wrap')) host = slide.querySelector('.flip-wrap');
+    host.appendChild(m);
+  }
+  if(m){ m.textContent = msg; m.hidden = !(msg && slide.__gateTried); }
 }
 
 /* One amber per slide: on a quiz slide, "Check my answer" is the primary until the
@@ -42,9 +84,11 @@ function updatePrimary(){
     quiet = !right;
   }
   document.getElementById('nextBtn').classList.toggle('is-quiet', quiet);
+  updateGate();
 }
 
 function changePage(delta){
+  if(delta > 0 && gateOf(slides[current])){ updateGate(true); return; }
   goTo(current + delta);
 }
 
@@ -54,16 +98,23 @@ function goTo(i){
   render();
 }
 
+/* Arrow keys = the footer buttons, so the same locks apply (the kit lock listens for clicks on Next).
+   Not inside an activity, a form field or the quiz chips, where the arrows belong to that control. */
 document.addEventListener('keydown', function(e){
-  var t = e.target && e.target.tagName;
+  var el = e.target;
+  var t = el && el.tagName;
   if(t === 'SELECT' || t === 'INPUT' || t === 'TEXTAREA') return;
-  if(e.key === 'ArrowRight') changePage(1);
-  if(e.key === 'ArrowLeft') changePage(-1);
+  if(el && el.closest && el.closest('.saa-kit, .g12-chips, .score-chips, [role="radiogroup"], [role="slider"]')) return;
+  if(e.altKey || e.ctrlKey || e.metaKey) return;
+  if(e.key === 'ArrowRight'){ var n = document.getElementById('nextBtn'); if(!n.disabled) n.click(); }
+  if(e.key === 'ArrowLeft'){ var b = document.getElementById('backBtn'); if(!b.disabled) b.click(); }
 });
 
 /* ---------- Flip card ---------- */
 function toggleFlip(){
   document.getElementById('flipInner').classList.toggle('flipped');
+  seenFlip = true;
+  updateGate();
 }
 
 /* ---------- Lane dropdown (accordion examples) ---------- */
@@ -107,7 +158,9 @@ function toggleAcc(headEl){
   if(willOpen){
     item.classList.add('open');
     headEl.setAttribute('aria-expanded', 'true');
+    openedAcc[item.getAttribute('data-key')] = true;
   }
+  updateGate();
 }
 
 /* ---------- Quiz ---------- */

@@ -33,14 +33,20 @@ var laneData = {
     draftHtml: 'All <span class="wrong">12 trainees</span> from Batch 3B gave back their tools today. The tool register shows every item is present, and <span class="wrong">no damage was reported</span>. This batch has <span class="wrong">finished all practical hours needed for this term</span>.',
     recordTitle: "The real store register (end of day)",
     recordItems: [
-      "Tools returned: 11 out of 12. One hand drill is still missing.",
+      "Trainees who returned tools: 11 out of 12. One hand drill is still missing.",
       "Condition note: one drill bit is worn. It is marked for replacement.",
       "Practical hours: this batch is 2 hours short for the term."
     ],
     fixes: [
-      {id:'figure', label:'Line 1: the number of trainees', phrase:'"12 trainees" gave back their tools', placeholder:'Type the correct number…', keywords:['11'], model:"11 trainees gave back their tools. One hand drill is still missing."},
-      {id:'fact', label:'Line 2: the damage report', phrase:'"no damage was reported"', placeholder:'Type what the register really says…', keywords:['worn','damage','drill bit'], model:"One drill bit is worn and marked for replacement."},
-      {id:'claim', label:'Line 3: the practical hours', phrase:'"finished all practical hours needed"', placeholder:'Type what is really true…', keywords:['short','not finish','2 hour','incomplete'], model:"This batch is 2 hours short of the required practical hours."}
+      {id:'figure', label:'Line 1: the number of trainees', phrase:'"12 trainees" gave back their tools', placeholder:'Type the correct number…', keywords:['11'],
+       num:['11','eleven'], model:"11 trainees gave back their tools. One hand drill is still missing."},
+      {id:'fact', label:'Line 2: the damage report', phrase:'"no damage was reported"', placeholder:'Type what the register really says…', keywords:['worn','damage','drill bit'],
+       pos:/\bworn\b|drill\s*bit|\bdamage|\breplace/i,
+       neg:[/\bno\s+(\w+\s+)?damage/i, /\bnot\s+(been\s+)?(damaged|worn)/i, /\bundamaged\b/i, /\bnothing\s+(\w+\s+)?(worn|damaged|broken)/i, /\bgood\s+condition/i, /\bno\s+(tool|drill|item)s?\s+(is|are|was|were)\s+(worn|damaged)/i], model:"One drill bit is worn and marked for replacement."},
+      {id:'claim', label:'Line 3: the practical hours', phrase:'"finished all practical hours needed"', placeholder:'Type what is really true…', keywords:['short','not finish','2 hour','incomplete'],
+       pos:/\bshort\b|\bnot\s+(yet\s+)?(finish|finished|complete|completed|done)\b|n't\s+(yet\s+)?(finish|finished|complete|completed)\b|\bincomplete\b|\bunfinished\b|\b(2|two)\s+(more\s+)?hours?\b|\bstill\s+needs?\b/i,
+       neg:[/\bnot\s+(\w+\s+)?short\b/i, /n't\s+(\w+\s+)?short\b/i, /\bno\s+hours?\s+(short|left|missing)/i],
+       claims:[/\bfinished\s+all\b/i, /\bcompleted?\s+all\b/i, /\ball\s+(the\s+)?(practical\s+)?hours\s+(are|were|is)\s+(done|complete|completed|finished)/i], model:"This batch is 2 hours short of the required practical hours."}
     ],
     finishQuestion: "The note stops here and does not say what to do next. What should the note add?",
     finishOptions: [
@@ -64,9 +70,15 @@ var laneData = {
       "Remaining coursework: one more assignment is still due next week."
     ],
     fixes: [
-      {id:'figure', label:'Line 1: the number of students', phrase:'"45 students" submitted', placeholder:'Type the correct number…', keywords:['42'], model:"42 students submitted. 3 students have not submitted yet."},
-      {id:'fact', label:'Line 2: the plagiarism check', phrase:'"no issues were found"', placeholder:'Type what was really found…', keywords:['flagged','review','issue'], model:"One submission was flagged for manual review."},
-      {id:'claim', label:'Line 3: the pending coursework', phrase:'"completes all pending coursework"', placeholder:'Type what is really true…', keywords:['due','next week','not complete','one more','1 more'], model:"One more assignment is still due next week. Coursework is not complete yet."}
+      {id:'figure', label:'Line 1: the number of students', phrase:'"45 students" submitted', placeholder:'Type the correct number…', keywords:['42'],
+       num:['42','forty-two','forty two'], model:"42 students submitted. 3 students have not submitted yet."},
+      {id:'fact', label:'Line 2: the plagiarism check', phrase:'"no issues were found"', placeholder:'Type what was really found…', keywords:['flagged','review','issue'],
+       pos:/\bflag|\breview|\bissues?\b|\bproblems?\b|\bcopied\b|\bcopy\b|\bsuspicious\b|\bcheck(ed)?\s+again/i,
+       neg:[/\bno\s+(\w+\s+)?(issues?|problems?|flags?)\b/i, /\bnot\s+(been\s+)?flagged/i, /\bnothing\s+(\w+\s+)?(found|flagged|wrong)/i, /\bclean\b/i, /\bwithout\s+(any\s+)?(issues?|problems?)/i, /\b(all|every)\s+(\w+\s+)?(passed|clear|fine)/i], model:"One submission was flagged for manual review."},
+      {id:'claim', label:'Line 3: the pending coursework', phrase:'"completes all pending coursework"', placeholder:'Type what is really true…', keywords:['due','next week','not complete','one more','1 more'],
+       pos:/\bdue\b|next\s+week|\bnot\s+(yet\s+)?(complete|completed|finished|done|over)\b|n't\s+(yet\s+)?(complete|completed|finished|done|over)\b|\bincomplete\b|\b(one|1)\s+more\b|\bpending\b|\bremaining\b|\bstill\b|\bleft\b/i,
+       neg:[/\bnothing\s+(\w+\s+)?(pending|due|left|remaining)/i, /\bno\s+(more\s+)?(assignments?|coursework|work)\s+(\w+\s+)?(due|pending|left|remaining)/i],
+       claims:[/\bcompletes?\s+all\b/i, /\bcompleted\s+all\b/i, /\ball\s+(\w+\s+)?coursework\s+(is\s+)?(complete|completed|done|finished)/i], model:"One more assignment is still due next week. Coursework is not complete yet."}
     ],
     finishQuestion: "The note stops here and does not say what to do next. What should the note add?",
     finishOptions: [
@@ -201,7 +213,8 @@ function recordCardHtml(lane){
     '<table class="g14-reg"><tbody>'+
     lane.recordItems.map(function(i){
       var c = i.indexOf(':');
-      return c > 0 ? '<tr><th scope="row">'+i.slice(0,c)+'</th><td>'+i.slice(c+1).trim()+'</td></tr>' : '<tr><td colspan="2">'+i+'</td></tr>';
+      var t = i.slice(c+1).trim(); t = t.charAt(0).toUpperCase() + t.slice(1);
+      return c > 0 ? '<tr><th scope="row">'+i.slice(0,c)+'</th><td>'+t+'</td></tr>' : '<tr><td colspan="2">'+i+'</td></tr>';
     }).join('') +
   '</tbody></table></div>';
 }
@@ -245,7 +258,7 @@ var TURN_FNS = {
       kickerRow(ICON_TARGET, 'Why this matters', 'var(--purple)') +
       '<p>This skill matters for 3 reasons.</p>'+
       '<p class="do saa-do"><b class="saa-do-label">Your task.</b> Tap each card to read one reason.</p>'+
-      '<div class="saa-kit stakes-kit" data-kit="reveal">'+
+      '<div class="saa-kit stakes-kit" data-kit="reveal" data-required>'+
         '<div class="saa-cards">'+
           '<button class="saa-card" type="button"><span class="saa-front">'+g14Icon('icon-half-fixed','g14-card-ic')+'<span class="g14-ft">Half-fixed is still wrong</span></span><span class="saa-back">A note with 1 fix and 2 mistakes can look safe. It is still not safe.</span></button>'+
           '<button class="saa-card" type="button"><span class="saa-front">'+g14Icon('icon-unfinished','g14-card-ic')+'<span class="g14-ft">An unfinished note can hurt</span></span><span class="saa-back">The note may forget to tell the right person about a problem. This causes the same harm as a wrong fact.</span></button>'+
@@ -254,7 +267,15 @@ var TURN_FNS = {
       '</div>',
       true, 'stakes'
     );
-    addContinue('Continue', function(){ advance('lane'); });
+    var go = addContinue('Continue', function(){
+      var kit = chat.querySelector('.stakes-kit');
+      if(kit && !kit.classList.contains('is-done')){
+        needMsg(go.querySelector('button'), 'Open all 3 cards first.');
+        kit.querySelectorAll('.saa-card:not(.open)').forEach(function(c){ c.classList.add('saa-nudge'); setTimeout(function(){ c.classList.remove('saa-nudge'); }, 2600); });
+        return;
+      }
+      advance('lane');
+    });
   },
 
   lane: function(){
@@ -282,7 +303,7 @@ var TURN_FNS = {
     });
     document.getElementById('laneGoBtn').onclick = function(){
       var val = picked;
-      if(!val) return;
+      if(!val){ needMsg(document.getElementById('laneGoBtn').parentNode, 'Choose a case first.'); return; }
       if(currentLane && val !== currentLane){
         // a different case means different answers: clear the old ones
         fixAnswers = {}; fixChecked = {}; finishChoice = null; finishChecked = false;
@@ -343,9 +364,10 @@ var TURN_FNS = {
     if(finishChoice !== null) document.getElementById('finishSelect').value = String(finishChoice);
     document.getElementById('finishGoBtn').onclick = function(){
       var val = document.getElementById('finishSelect').value;
-      if(val === '') return;
+      if(val === ''){ needMsg(document.getElementById('finishGoBtn').parentNode, 'Choose an ending first.'); return; }
       finishChoice = parseInt(val);
       finishChecked = true;
+      if(window.SAA_SFX){ if(finishChoice === lane.finishCorrect){ SAA_SFX.correct && SAA_SFX.correct(); } else { SAA_SFX.wrong && SAA_SFX.wrong(); } }
       advance('finishfb', lane.finishOptions[finishChoice]);
     };
   },
@@ -462,7 +484,7 @@ function fixTurn(fixIdx){
   chat.appendChild(ref);
 
   addWidget(
-    '<input class="chat-input" id="fixInput-'+f.id+'" maxlength="80" placeholder="'+f.placeholder+'" aria-label="'+f.label+'">'+
+    '<input class="chat-input" id="fixInput-'+f.id+'" maxlength="160" placeholder="'+f.placeholder+'" aria-label="'+f.label+'">'+
     '<div class="widget-row"><button type="button" class="go-btn" id="fixGoBtn-'+f.id+'">Check my answer '+ICON_CHECK+'</button></div>'
   );
   var input = document.getElementById('fixInput-'+f.id);
@@ -470,11 +492,54 @@ function fixTurn(fixIdx){
   input.addEventListener('keydown', function(e){ if(e.key === 'Enter') document.getElementById('fixGoBtn-'+f.id).click(); });
   document.getElementById('fixGoBtn-'+f.id).onclick = function(){
     var val = input.value.trim();
-    if(val === '') return;
+    if(val.length < 2){ needMsg(document.getElementById('fixGoBtn-'+f.id).parentNode, 'Type your answer first.'); input.focus(); return; }
     fixAnswers[f.id] = val;
-    fixChecked[f.id] = f.keywords.some(function(k){ return val.toLowerCase().indexOf(k.toLowerCase()) > -1; });
+    fixChecked[f.id] = checkFix(f, val);
+    if(window.SAA_SFX){ if(fixChecked[f.id]){ SAA_SFX.correct && SAA_SFX.correct(); } else { SAA_SFX.wrong && SAA_SFX.wrong(); } }
     advance('fb'+fixIdx, val);
   };
+}
+
+/* QA fix (Oct 2026): the answer must state the real fact, not repeat the AI's wrong claim.
+   - figure: the first number written must be the real one ("12 trainees, not 11" fails).
+   - fact / claim: it must use the record's fact and must not say the AI's wrong claim
+     (a claim only counts as repeated when no "not / no / never" stands just before it). */
+function negatedAt(v, idx){
+  var before = v.slice(Math.max(0, idx - 24), idx).toLowerCase();
+  return /\b(not|no|never|isn't|hasn't|doesn't|didn't|wasn't|haven't|cannot|can't)\b[^.]*$/.test(before);
+}
+function checkFix(f, val){
+  var v = ' ' + val.toLowerCase().replace(/\s+/g, ' ') + ' ';
+  if(f.num){
+    var m = v.match(/\d+|\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|forty[- ]two|forty[- ]five)\b/);
+    var first = m ? m[0] : '';
+    if(f.num.indexOf(first) < 0) return false;
+    if(new RegExp('\\b(not|no)\\s+(only\\s+)?' + f.num[0] + '\\b').test(v)) return false;
+    return true;
+  }
+  if(!f.pos.test(v)) return false;
+  if((f.neg || []).some(function(r){ return r.test(v); })) return false;
+  var claimed = (f.claims || []).some(function(r){
+    var g = new RegExp(r.source, 'gi'), mm;
+    while((mm = g.exec(v))){ if(!negatedAt(v, mm.index)) return true; }
+    return false;
+  });
+  return !claimed;
+}
+
+function needMsg(after, text){
+  var host = after.parentNode;
+  var el = host.querySelector('.g14-need');
+  if(!el){
+    el = document.createElement('p');
+    el.className = 'g14-need saa-vo-skip';
+    el.setAttribute('role', 'status');
+    after.insertAdjacentElement('afterend', el);
+  }
+  el.textContent = text;
+  el.hidden = false;
+  clearTimeout(el._t); el._t = setTimeout(function(){ el.hidden = true; }, 4000);
+  try { el.scrollIntoView({block:'nearest'}); } catch(e){}
 }
 
 function fixFeedbackTurn(fixIdx){

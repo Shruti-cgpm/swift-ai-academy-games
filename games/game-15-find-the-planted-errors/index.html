@@ -50,7 +50,7 @@
         <div class="saa-kit" data-kit="reveal" data-required>
           <div class="saa-cards">
             <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-timer.webp" alt="" aria-hidden="true">Watch the timer</span><span class="saa-back">A timer runs while you search the document.</span></button>
-            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-flag.webp" alt="" aria-hidden="true">Flag with care</span><span class="saa-back">Tap only the phrases that you really think are wrong. Do not guess.</span></button>
+            <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-flag.webp" alt="" aria-hidden="true">Flag with care</span><span class="saa-back">Tap only the phrases that you really think are wrong. Do not guess. With more than 2 false flags, you do not clear the gate.</span></button>
             <button class="saa-card" type="button"><span class="saa-front"><img class="fpe-ic fpe-card-ic" src="assets/icons/dark/icon-breaks.webp" alt="" aria-hidden="true">Say what breaks</span><span class="saa-back">Finding an error is not enough. You also say what it breaks.</span></button>
           </div>
         </div>
@@ -163,7 +163,7 @@
       <div class="card">
         <p class="kicker">Investigate · Part 1 of 3</p>
         <h2>Tap every phrase that you think is wrong.</h2>
-        <p>Start the timer first. The records show the true details. Your flags stay when you move between the 3 parts.</p>
+        <p>The timer starts when you flag your first phrase. The records show the true details. Your flags stay when you move between the 3 parts.</p>
         <p class="do"><b>Your task.</b> Open the records, then tap each phrase that does not match them.</p>
         <div class="timer-row">
           <div class="timer">
@@ -172,6 +172,7 @@
           </div>
           <button type="button" class="timer-btn timerBtn" onclick="toggleTimer()">Start timer</button>
           <span class="flag-count">Flagged: <b class="flagCount">0</b></span>
+          <span class="timer-up saa-vo-skip" role="status" hidden>Time is up. Submit your findings now.</span>
         </div>
         <div class="doc-frame">
           <div class="doc-title docTitle">Workshop Equipment Note</div>
@@ -197,6 +198,7 @@
           </div>
           <button type="button" class="timer-btn timerBtn" onclick="toggleTimer()">Start timer</button>
           <span class="flag-count">Flagged: <b class="flagCount">0</b></span>
+          <span class="timer-up saa-vo-skip" role="status" hidden>Time is up. Submit your findings now.</span>
         </div>
         <div class="doc-frame">
           <div class="doc-title docTitle">Workshop Equipment Note</div>
@@ -222,6 +224,7 @@
           </div>
           <button type="button" class="timer-btn timerBtn" onclick="toggleTimer()">Start timer</button>
           <span class="flag-count">Flagged: <b class="flagCount">0</b></span>
+          <span class="timer-up saa-vo-skip" role="status" hidden>Time is up. Submit your findings now.</span>
         </div>
         <div class="doc-frame">
           <div class="doc-title docTitle">Workshop Equipment Note</div>
@@ -247,12 +250,14 @@
           </div>
           <button type="button" class="timer-btn timerBtn" onclick="toggleTimer()">Start timer</button>
           <span class="flag-count">Flagged: <b class="flagCount">0</b></span>
+          <span class="timer-up saa-vo-skip" role="status" hidden>Time is up. Submit your findings now.</span>
         </div>
         <div class="flag-review" id="flagReview"></div>
         <button type="button" class="submit-btn" id="submitFindingsBtn" onclick="submitFindings()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           Submit my findings
         </button>
+        <p class="fpe-need saa-vo-skip" id="submitNeed" role="status" hidden>Tap Submit my findings first.</p>
       </div>
     </section>
 
@@ -298,12 +303,13 @@
           <p class="saa-q">What do you need to clear this gate?</p>
           <div class="saa-k-opts">
             <button class="saa-k-opt" type="button" data-why="Not quite. Finding the errors is only half of the task.">At least 4 of 5 errors found.</button>
-            <button class="saa-k-opt" type="button" data-ok data-why="Yes. You must find the errors and also say what they break.">At least 4 of 5 errors found and 4 of 5 consequences correct.</button>
+            <button class="saa-k-opt" type="button" data-ok data-why="Yes. You must find the errors without guessing, and also say what they break.">At least 4 of 5 errors found, no more than 2 false flags, and 4 of 5 consequences correct.</button>
           </div>
           <p class="saa-k-why"></p>
-          <figure class="fpe-gate" role="img" aria-label="Errors found: 4 of 5, and consequences correct: 4 of 5. Both together clear the gate.">
+          <figure class="fpe-gate" role="img" aria-label="Errors found: 4 of 5, no more than 2 false flags, and consequences correct: 4 of 5. Together they clear the gate.">
             <div class="fpe-meters">
               <div class="fpe-meter"><b>Errors found: 4 of 5</b><span class="fpe-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div>
+              <div class="fpe-meter"><b>False flags: 2 or fewer</b><span class="fpe-dots"><i class="on"></i><i class="on"></i></span></div>
               <div class="fpe-meter"><b>Consequences correct: 4 of 5</b><span class="fpe-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div>
             </div>
             <div class="fpe-gate-out"><svg viewBox="270 166 60 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M273 204v-35h54v35M282 204v-27h14v27m8 0v-27h14v27M277 183h46"/></svg><b>Gate cleared</b></div>
@@ -326,6 +332,8 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           <h2 id="gateHeadline">Finish the investigation and the consequence questions first.</h2>
           <p id="gateSub">Your combined result will appear here.</p>
+          <p class="gate-score saa-vo-skip" id="gateScore"></p>
+          <button type="button" class="restart-btn" id="restartBtn" onclick="startAgain()" hidden>Start again</button>
         </div>
       </div>
     </section>

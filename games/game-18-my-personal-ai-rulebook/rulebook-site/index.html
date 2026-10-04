@@ -104,7 +104,7 @@
                 <button type="button" class="rb-pick" data-tool="Claude" aria-pressed="false"><span class="rb-mat"><img src="assets/logos/claude-64.webp" alt=""></span><span>Claude</span></button>
                 <button type="button" class="rb-pick" data-tool="" aria-pressed="false"><span class="rb-mat rb-mat-other" aria-hidden="true">+</span><span>Other</span></button>
               </div>
-              <input class="input" type="text" id="f-assistant" data-field placeholder="Type the tool name here">
+              <input class="input" type="text" id="f-assistant" data-field maxlength="80" placeholder="Type the tool name here">
               <p class="small"><strong>Example:</strong> “SwiftChat, approved by my facilitator”</p>
             </div>
             <div class="field">
@@ -113,8 +113,9 @@
                 <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-account-institute.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-account-institute.webp" alt="" aria-hidden="true">Account from my institute</button>
                 <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-account-own.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-account-own.webp" alt="" aria-hidden="true">My own account, approved for coursework</button>
                 <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-account-shared.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-account-shared.webp" alt="" aria-hidden="true">Shared lab account</button>
-                <button type="button" class="chip" aria-pressed="false">Other</button>
+                <button type="button" class="chip" aria-pressed="false" data-other>Other</button>
               </div>
+              <input class="input rb-other" type="text" id="f-account-other" maxlength="60" aria-label="Type your kind of account" placeholder="Type your kind of account" hidden>
             </div>
           </div>
           <div class="hide-sm" data-mini></div>
@@ -138,12 +139,13 @@
                 <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-device-lab-pc.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-device-lab-pc.webp" alt="" aria-hidden="true">Shared lab computer</button>
                 <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-device-phone.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-device-phone.webp" alt="" aria-hidden="true">My own phone</button>
                 <button type="button" class="chip" aria-pressed="false"><img class="rb-ic rb-ic-off" src="assets/icons/sel/icon-device-laptop.webp" alt="" aria-hidden="true"><img class="rb-ic rb-ic-on" src="assets/icons/icon-device-laptop.webp" alt="" aria-hidden="true">My own laptop</button>
-                <button type="button" class="chip" aria-pressed="false">Other</button>
+                <button type="button" class="chip" aria-pressed="false" data-other>Other</button>
               </div>
+              <input class="input rb-other" type="text" id="f-device-other" maxlength="60" aria-label="Type your device" placeholder="Type your device" hidden>
             </div>
             <div class="field">
               <label class="label" for="f-help">4. Who do I ask when I am stuck? <span class="help">Name or role only.</span></label>
-              <input class="input" type="text" id="f-help" data-field placeholder="Type a name or role here">
+              <input class="input" type="text" id="f-help" data-field maxlength="80" placeholder="Type a name or role here">
               <p class="small"><strong>Example:</strong> “My facilitator”. Never type a phone number or an ID.</p>
             </div>
           </div>
@@ -198,7 +200,7 @@
             </div>
             <div class="field">
               <label class="label" for="f-sources">7. I check my AI's answers against</label>
-              <input class="input" type="text" id="f-sources" data-field placeholder="Type your sources here">
+              <input class="input" type="text" id="f-sources" data-field maxlength="120" placeholder="Type your sources here">
               <p class="small"><strong>Example:</strong> “the tool register, the notice board, my facilitator”</p>
               <div class="rb-spots">
                 <figure><img src="assets/art/spot-tool-register.webp" width="240" height="180" alt="An open tool register book"><figcaption>Tool register</figcaption></figure>
@@ -211,7 +213,7 @@
               <div class="checks" role="group" aria-labelledby="l-peer">
                 <button type="button" class="check" role="checkbox" aria-checked="false" id="f-peer-done"><span class="box"></span><span>Yes, I have explained it to a peer</span></button>
               </div>
-              <input class="input" type="text" id="f-peer-name" data-field placeholder="Type your peer's name or role">
+              <input class="input" type="text" id="f-peer-name" data-field maxlength="60" placeholder="Type your peer's name or role">
             </div>
           </div>
           <div class="hide-sm" data-mini></div>
@@ -232,7 +234,7 @@
             <div class="grid g2 keep">
               <div class="field">
                 <label class="label" for="f-version">9. Version</label>
-                <input class="input" type="text" id="f-version" data-field value="v1">
+                <input class="input" type="text" id="f-version" data-field maxlength="12" value="v1">
               </div>
               <div class="field">
                 <label class="label" for="f-date">Date</label>

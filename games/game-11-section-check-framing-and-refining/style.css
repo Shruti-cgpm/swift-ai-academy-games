@@ -1197,3 +1197,25 @@ html .foot #primary:disabled, html.saa-skin .foot #primary:disabled {
 @media (max-width: 760px) {
   html.saa-skin .uic-q2 .uic-left > .saa-do { font-size: 0.95rem !important; padding: 0.6rem 0.9rem !important; }
 }
+
+/* QA fixes (Oct 2026) */
+/* rule cards: in the one-column (phone / tablet) layout the activity takes the full width,
+   and two cards sit side by side so the longer rules fit inside their card */
+#how .card.saa-split > .saa-work, #how .saa-kit.g11-rules { align-self: stretch; width: 100%; max-width: 100%; }
+#how .saa-kit.g11-rules .saa-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#how .saa-kit.g11-rules .saa-card { min-height: clamp(96px, 15vh, 140px); }
+#how .saa-kit.g11-rules .saa-back { padding: 10px 14px; }
+@media (max-width: 480px) {
+  #how .saa-kit.g11-rules .saa-cards { grid-template-columns: minmax(0, 1fr); }
+  #how .saa-kit.g11-rules .saa-card { min-height: 88px; }
+}
+/* review: number buttons big enough to tap */
+@media (pointer: coarse), (max-width: 760px) {
+  .qgrid { grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)) !important; gap: 0.4rem !important; }
+  .qdot { min-width: 44px; min-height: 44px; font-size: 0.9rem !important; }
+}
+@media (min-width: 761px) {
+  #review .two-col.even { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 1.5rem; }
+  .qgrid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .qdot { min-height: 40px; font-size: 0.95rem; }
+}

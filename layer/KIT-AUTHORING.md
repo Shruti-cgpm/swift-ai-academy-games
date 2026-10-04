@@ -137,3 +137,6 @@ data-done-text, data-shuffle, data-required, icons inside the chips, the feedbac
 - Used in: Reading (Framing and the Five Refinement Moves) screen 9, Request Builder and Refinement Card screen 5,
   Your Own Task, Framed and Refined screen 6 (moves 1 to 3; moves 4 and 5 stay reveal cards).
 - QA: solve.js taps every .saa-d-pos label.
+
+## Locking Next from a game
+Put `data-saa-locked` on any element of the current screen while the screen is not finished (for example a form with empty required boxes). Next is then dimmed with `aria-disabled`, exactly like an unfinished required kit. Remove the attribute when the screen is done. The game still blocks the click itself.

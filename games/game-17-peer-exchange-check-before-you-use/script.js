@@ -20,6 +20,7 @@ function showIndex(i){
   next.hidden = isLast;
   next.textContent = sec.getAttribute("data-next") || "Next";
   document.getElementById("navRestart").hidden = !isLast;
+  setTimeout(paintGate, 0);
   document.querySelectorAll("#progress span").forEach(function(d, k){
     d.classList.toggle("active", k === current);
     d.classList.toggle("is-done", k < current);
@@ -30,7 +31,70 @@ function goTo(step){
   var i = steps.indexOf(step);
   if(i > -1) showIndex(i);
 }
-function goNext(){ showIndex(current + 1); }
+/* Required typed answers: Next stays locked on these screens until each
+   field has a real answer (at least a few words, not only spaces). */
+var REQUIRED_FIELDS = {
+  feedback: ["fStrength", "fRisk", "fChange"],
+  revise: ["fChanged"],
+  reflect: ["fReflect"]
+};
+function fieldOk(el){
+  var v = (el.value || "").replace(/\s+/g, " ").trim();
+  return v.length >= 5 && /[^\s0-9.,!?;:'"()\-]/.test(v);
+}
+function gateMsg(sec, text){
+  var m = sec.querySelector(".g17-gate");
+  if(!m){
+    m = document.createElement("p");
+    m.className = "g17-gate saa-vo-skip";
+    m.setAttribute("role", "status");
+    m.setAttribute("aria-live", "polite");
+    var ids = REQUIRED_FIELDS[sec.getAttribute("data-step")] || [];
+    var last = document.getElementById(ids[ids.length - 1]);
+    if(last && last.parentNode) last.parentNode.insertBefore(m, last.nextSibling); else sec.appendChild(m);
+  }
+  m.textContent = text;
+  m.hidden = !text;
+}
+function gateOpen(){
+  var ids = REQUIRED_FIELDS[steps[current]];
+  if(!ids) return true;
+  var sec = sections[current];
+  var bad = ids.map(function(id){ return document.getElementById(id); }).filter(function(el){ return el && !fieldOk(el); });
+  if(!bad.length){ gateMsg(sec, ""); return true; }
+  gateMsg(sec, ids.length > 1 ? "Type an answer in each box first. Use a few words." : "Type your answer in the box first. Use a few words.");
+  bad.forEach(function(el){ el.classList.add("g17-need"); });
+  try { bad[0].focus({preventScroll:false}); } catch(e){ bad[0].focus(); }
+  return false;
+}
+document.addEventListener("input", function(e){
+  var t = e.target;
+  if(t && t.classList && t.classList.contains("g17-need") && fieldOk(t)) t.classList.remove("g17-need");
+  if(t && (t.tagName === "TEXTAREA" || t.tagName === "INPUT")) dirty = true;
+  var ids = REQUIRED_FIELDS[steps[current]];
+  if(ids && ids.every(function(id){ return fieldOk(document.getElementById(id)); })) gateMsg(sections[current], "");
+  paintGate();
+});
+/* Next looks locked (dimmed, aria-disabled) while a typed answer is missing,
+   like the activity locks; it can still be pressed to show what is left. */
+function paintGate(){
+  var b = document.getElementById("navNext"); if(!b) return;
+  var ids = REQUIRED_FIELDS[steps[current]];
+  var on = !!ids && !ids.every(function(id){ return fieldOk(document.getElementById(id)); });
+  if(b.classList.contains("g17-locked") === on) return;
+  b.classList.toggle("g17-locked", on);
+  if(on) b.setAttribute("aria-disabled", "true");
+  else if(!b.classList.contains("saa-locked")) b.removeAttribute("aria-disabled");
+}
+function goNext(){ if(!gateOpen()) return; showIndex(current + 1); }
+
+/* Warn before a reload or close loses typed answers (nothing is saved). */
+var dirty = false, leaving = false;
+window.addEventListener("beforeunload", function(e){
+  if(!dirty || leaving) return;
+  e.preventDefault(); e.returnValue = "";
+  return "";
+});
 function goBack(){ showIndex(current - 1); }
 
 /* ================= ARTIFACT ================= */
@@ -41,7 +105,7 @@ var artifactData = {
   },
   higher: {
     ai:'The department survey received <span class="mark">210 responses</span>, showing that <span class="mark">95% of students prefer online submission</span>, <span class="mark">as reported by the survey coordinator</span>.',
-    fixed:'The department survey received <span class="mark">184 responses</span>, as logged in the survey portal. The <span class="mark">95% preference figure</span> could not be verified and <span class="mark">was qualified</span> as reported by a small sample, not confirmed for the full survey.'
+    fixed:'The department survey received <span class="mark">184 responses</span>, as logged in the survey portal. The <span class="mark">95% preference figure</span> could not be verified and <span class="mark">was qualified</span>. It came from a small sample, so the note now says it is not confirmed for the full survey.'
   }
 };
 
@@ -99,6 +163,8 @@ function updateTimerDisplay(){
   document.getElementById('timerDigits').textContent = (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
   document.getElementById('timerPhaseLabel').textContent = phases[phaseIndex].name;
   document.getElementById('timerInstruction').textContent = phases[phaseIndex].instruction;
+  var skip = document.getElementById('timerSkip');
+  if(skip) skip.style.display = phaseIndex >= phases.length - 1 ? "none" : "";
 }
 
 function toggleTimer(){
@@ -126,8 +192,7 @@ function nextPhase(){
     phaseIndex++;
     secondsLeft = phases[phaseIndex].seconds;
   } else {
-    phaseIndex = 0;
-    secondsLeft = phases[phaseIndex].seconds;
+    secondsLeft = 0; // Close-out is the last phase: stop here, do not wrap to Pairing
   }
   updateTimerDisplay();
 }
@@ -137,6 +202,14 @@ function downloadAnswers(){
   var lines = [];
   lines.push('PEER EXCHANGE — CHECK BEFORE YOU USE');
   lines.push('AAI-E-MC1-S03-COMM01');
+  lines.push('');
+  var lane = document.getElementById('laneSelect');
+  lines.push('Setting: ' + lane.options[lane.selectedIndex].text);
+  var own = document.querySelector('input[name=firstOwner]:checked');
+  lines.push('Owner first: ' + (own && own.value === 'buddy' ? 'My buddy' : 'Me'));
+  var rb = ['Every fact, figure, date, name and source is marked', 'Each correction comes from a record, is qualified, or is removed', 'The corrected version is clear', 'At least one real change happened because of this review'];
+  lines.push('Rubric points met:');
+  rb.forEach(function(t, i){ lines.push('  [' + (document.getElementById('rb' + (i + 1)).checked ? 'x' : ' ') + '] ' + t); });
   lines.push('');
   lines.push('One strength: ' + (document.getElementById('fStrength').value || '(not filled)'));
   lines.push('One risk: ' + (document.getElementById('fRisk').value || '(not filled)'));
@@ -155,6 +228,9 @@ function downloadAnswers(){
 }
 
 function startOver(){
+  /* A true fresh round: the activities, the setting and every answer reset. */
+  leaving = true;
+  try { location.reload(); return; } catch(e){}
   document.querySelectorAll('textarea, input[type=text]').forEach(function(el){ el.value = ''; });
   document.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.checked = false; });
   phaseIndex = 3;

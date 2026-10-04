@@ -157,6 +157,7 @@
         Start chatting with SwiftChat
       </button>
     </div>
+    <p class="g16-gatemsg saa-vo-skip" id="pickGateMsg" role="status" hidden>Choose your setting first.</p>
   </section>
 
   <!-- SLIDE 8: The bot (one exchange at a time) -->
@@ -167,6 +168,7 @@
       <p class="lead">Tap the question mark for a hint. If you are wrong, you get a new example.</p>
       <p class="do"><b>Your task.</b> Read the bot's message, then tap your answer in the chat.</p>
       <div class="cluster-progress" id="clusterProgress"></div>
+      <p class="g16-gatemsg saa-vo-skip" id="chatGateMsg" role="status" hidden>Finish all 4 rounds first. Then tap Next.</p>
     </div>
 
     <div class="phone-wrap">
@@ -217,7 +219,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
       <h2 id="gateHeadline">Finish all 4 rounds first.</h2>
       <p id="gateSub">Your result appears here when you finish the chat.</p>
-      <div class="cluster-status-list" id="clusterStatusList"></div>
+      <div class="cluster-status-list saa-vo-skip" id="clusterStatusList"></div>
     </div>
   </section>
 
