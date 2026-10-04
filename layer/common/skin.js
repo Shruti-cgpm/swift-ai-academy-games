@@ -104,7 +104,7 @@
     });
     paint();
     var vo = h.querySelector('.saa-vo');
-    if (vo && vo.parentNode) { vo.parentNode.insertBefore(b, vo.nextSibling); } else { h.appendChild(b); }
+    if (vo) { vo.appendChild(b); } else { h.appendChild(b); }   /* narration builds its group later and takes the switch in */
   }
 
   var t = 0;

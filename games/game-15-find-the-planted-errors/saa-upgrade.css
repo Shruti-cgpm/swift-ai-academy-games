@@ -277,7 +277,8 @@ html.saa-skin .saa-prog-bar { height: calc(4px / var(--zz)); }
    NARRATION controls + word highlight (same look as game 1's header buttons)
    ========================================================================== */
 .saa-vo { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; flex: 0 0 auto; }
-.saa-vo.none { display: none !important; }
+.saa-vo.none > .saa-vo-b:not(.saa-theme-b) { display: none !important; }
+.saa-vo.none:not(:has(.saa-theme-b)) { display: none !important; }
 html .saa-vo + :is(.saa-header-actions, .topbar-tools, .top-actions, .header-actions, .actions), html.saa-skin .saa-vo + :is(.saa-header-actions, .topbar-tools, .top-actions, .header-actions, .actions) { margin-left: calc(8px / var(--zz, 1)) !important; }
 .saa-vo-b { display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 13px; font-weight: 600; line-height: 1;
   color: #F6F4EF; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); border-radius: 999px;

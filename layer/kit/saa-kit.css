@@ -72,7 +72,7 @@
 .saa-kit.saa-deck .saa-pool > .saa-chip:hover { transform:none; }
 .saa-kit.saa-deck .saa-pool > .saa-chip:not(.is-top) { visibility:hidden; pointer-events:none; }
 .saa-kit.saa-deck .saa-pool > .saa-chip.is-top { z-index:2; }
-.saa-kit.saa-deck .saa-pool > .saa-chip.is-next { visibility:visible; z-index:1; transform:translateY(9px) scale(.95); opacity:.7; }
+.saa-kit.saa-deck .saa-pool > .saa-chip.is-next { visibility:inherit; z-index:1; transform:translateY(9px) scale(.95); opacity:.7; }
 .saa-kit.saa-deck .saa-pool > .saa-chip.is-next { color:transparent; }
 .saa-kit.saa-deck .saa-pool > .saa-chip.is-next > *, .saa-kit.saa-deck .saa-pool > .saa-chip.is-next::after { visibility:hidden; }
 .saa-kit.saa-deck .saa-pool > .saa-chip.is-drag { transition:none; cursor:grabbing; box-shadow:0 18px 40px rgba(0,0,0,.5); }
@@ -271,7 +271,7 @@
 /* the chat card: every position sits in the same cell, so the card keeps the height of the longest answer */
 .saa-kit .saa-d-chat { display:grid; padding:clamp(8px,1.6vh,12px) 12px; border-radius:14px; background:#F6F4EF; color:#0E1A4F; box-shadow:0 10px 26px rgba(0,0,0,.35); }
 .saa-kit .saa-dial-stop { grid-area:1/1; display:flex; flex-direction:column; gap:6px; min-width:0; visibility:hidden; opacity:0; transition:opacity .22s ease, visibility 0s .22s; }
-.saa-kit .saa-dial-stop.is-on { visibility:visible; opacity:1; transition:opacity .22s ease; }
+.saa-kit .saa-dial-stop.is-on { visibility:inherit; opacity:1; transition:opacity .22s ease; }
 .saa-kit .saa-d-you, .saa-kit .saa-d-ans { margin:0; padding:6px 11px 7px; font-size:clamp(13px,2vh,15.5px); line-height:1.4; font-weight:500; }
 .saa-kit .saa-d-you::before, .saa-kit .saa-d-ans::before { content:attr(data-who); display:block; font-size:10px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; opacity:.75; }
 .saa-kit .saa-d-chat .saa-d-you { align-self:flex-end; max-width:92%; background:#3C59F6; color:#fff; border-radius:12px 12px 4px 12px; }

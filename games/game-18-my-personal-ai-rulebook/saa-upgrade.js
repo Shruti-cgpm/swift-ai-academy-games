@@ -59,9 +59,17 @@
 
   /* re-run after every slide change */
   var go = D.go;
-  D.go = function () { var r = go.apply(this, arguments); splitCards(); arm(); D.fit(); return r; };
+  /* screens that are not showing can never be tapped or focused, whatever a kit's CSS makes visible inside them */
+  function inertOthers() { var c = D.current(); (D.slides || []).forEach(function (s) { if (s !== c) { s.setAttribute('inert', ''); } else { s.removeAttribute('inert'); } }); }
+  D.go = function () { var r = go.apply(this, arguments); splitCards(); arm(); D.fit(); inertOthers(); return r; };
   splitCards();
   D.fit();
+  inertOthers();
+  /* games that change screens without Deck.go: follow the slides' own classes too */
+  if (win.MutationObserver && D.slides && D.slides.length) {
+    var io = new MutationObserver(function () { inertOthers(); });
+    D.slides.forEach(function (s) { io.observe(s, { attributes: true, attributeFilter: ['class', 'hidden', 'aria-hidden'] }); });
+  }
   arm();
   win.addEventListener('resize', function () { D.fit(); });
   /* typing can grow a card (long answers, live previews): re-fit shortly after, only if it now overflows */
@@ -310,7 +318,7 @@
     });
     paint();
     var vo = h.querySelector('.saa-vo');
-    if (vo && vo.parentNode) { vo.parentNode.insertBefore(b, vo.nextSibling); } else { h.appendChild(b); }
+    if (vo) { vo.appendChild(b); } else { h.appendChild(b); }   /* narration builds its group later and takes the switch in */
   }
 
   var t = 0;
@@ -375,10 +383,16 @@
     }
     return root;
   }
-  function nodes(root) {
+  var RCTRL = CTRL + ', summary, .saa-vo-skip, .saa-k-status, .saa-k-why, [aria-live], [role="status"]';
+  function nodes(root, reveal) {
     var out = [], w = doc.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), t;
     while ((t = w.nextNode())) {
       var par = t.parentElement;
+      if (reveal) {
+        var rc = par && par.closest(RCTRL);   /* controls INSIDE the opened part only: the card itself is often a button */
+        if (!t.nodeValue.trim() || !par || (rc && rc !== root && root.contains(rc))) { continue; }
+        out.push({ node: t, block: blockOf(par, root) }); continue;
+      }
       var say = par && par.closest('[data-saa-say]');
       var skip = say && root.contains(say) ? par.closest(CTRL) : par && par.closest(SKIP);
       if (!t.nodeValue.trim() || !par || skip || !shown(par)) { continue; }
@@ -389,9 +403,9 @@
     return out;
   }
   /* words: [{node, start, end, block}] */
-  function words(root) {
+  function words(root, reveal) {
     var ws = [];
-    nodes(root).forEach(function (o) {
+    nodes(root, reveal).forEach(function (o) {
       var re = /\S+/g, m, v = o.node.nodeValue;
       while ((m = re.exec(v))) { ws.push({ node: o.node, start: m.index, end: m.index + m[0].length, block: o.block, text: m[0] }); }
     });
@@ -429,19 +443,32 @@
     return { root: root, words: ws, text: t, key: key(t) };
   }
   var FB = '.saa-k-why';
+  /* what is read when a learner opens something: a kit card's back, an expandable section, or any panel a game marks */
+  var REVEAL = '.saa-card .saa-back, details, [data-saa-say-open], [aria-expanded]:not(.saa-card):not([role="tab"]):not([aria-controls]) + *';
+  function panelOf(btn) {                                       /* an accordion: the panel the button opens */
+    var id = btn.getAttribute('aria-controls');
+    return id ? doc.getElementById(id) : btn.nextElementSibling;
+  }
+  function revealText(el) {
+    var ws = words(el, true); if (!ws.length) { return ''; }
+    var t = textOf(ws); return t.length > 700 ? '' : t;          /* long tables and records are read by the learner, not aloud */
+  }
   function fbTexts() {   /* every fixed kit message on every screen, for generation */
     var out = {};
-    if (!doc.querySelector('.saa-kit')) { return out; }
+    if (!doc.querySelector('.saa-kit, ' + REVEAL)) { return out; }
     function add(s) { s = (s || '').replace(/\s+/g, ' ').trim(); if (s.length > 2) { out[key(s)] = s; } }
     Array.prototype.forEach.call(doc.querySelectorAll('.saa-kit [data-why], .saa-kit [data-hint], .saa-kit[data-done-text], .saa-kit [data-right], .saa-kit [data-wrong]'), function (e) {
       ['data-why', 'data-hint', 'data-done-text', 'data-right', 'data-wrong'].forEach(function (a) { add(e.getAttribute(a)); });
     });
+    Array.prototype.forEach.call(doc.querySelectorAll(REVEAL), function (e) { var t = revealText(e); if (t) { out[key(t)] = t; } });
+    Array.prototype.forEach.call(doc.querySelectorAll('[aria-expanded][aria-controls]:not(.saa-card)'), function (b) { var pn = panelOf(b), t = pn && revealText(pn); if (t) { out[key(t)] = t; } });
     ['Yes, that is right.', 'Not quite. Try again.', 'All sorted. Well done.', 'Not that one. Read it again and try the other box.',
       'Yes. That is the right order.', 'Not yet. The red steps are in the wrong place.', 'All stamped. Well done.', 'Not quite. Read it again.', 'Yes.'].forEach(add);
     return out;
   }
   var seen = {};
-  win.SAA_VO = { pages: pages, current: current, info: screenInfo, key: key, fbTexts: fbTexts, seen: seen };
+  var reveals = {};
+  win.SAA_VO = { pages: pages, current: current, info: screenInfo, key: key, fbTexts: fbTexts, seen: seen, reveals: reveals, revealText: revealText };
 
   /* ---- player ---- */
   var CLIPS = null, audio = new Audio(), fb = new Audio(), started = false, auto = true, cur = null, timeline = null, raf = 0, lastWord = -2;
@@ -464,8 +491,8 @@
       '<button type="button" class="saa-vo-b icon saa-vo-voice" aria-pressed="true" aria-label="Auto-narration on. Tap to turn off">' + ICON_ON + ICON_OFF + '</button>';
     listen = box.firstChild; voice = box.lastChild;
     var right = head.querySelector('.saa-header-actions, .topbar-tools, .top-actions, .header-actions, .actions');
-    var th = head.querySelector('.saa-theme-b');   /* the light/dark switch sits right of the narration buttons */
-    if (th && th.parentNode) { th.parentNode.insertBefore(box, th); }
+    var th = head.querySelector('.saa-theme-b');   /* the light/dark switch joins the narration group, same spacing */
+    if (th && th.parentNode) { th.parentNode.insertBefore(box, th); box.appendChild(th); }
     else if (right && right.parentNode === head) { head.insertBefore(box, right); } else { head.appendChild(box); }
     listen.addEventListener('click', function () {
       started = true; stopFb();
@@ -532,17 +559,43 @@
   function feedback(el) {
     var s = (el.textContent || '').replace(/\s+/g, ' ').trim();
     if (!s || !started || !auto || !CLIPS) { return; }
+    if (Date.now() - revealAt < 600) { return; }               /* the card's own text is being read */
     var k = key(s); if (!CLIPS[k]) { return; }
     audio.pause(); fb.pause(); fb.src = 'audio/vo/' + k + '.mp3';
     var p = fb.play(); if (p && p.catch) { p.catch(function () {}); }
   }
 
+  var lastTap = 0, revealAt = 0;
+  function sayOpened(el) {
+    if (Date.now() - lastTap > 1500) { return; }                 /* only what the learner opened, not what a game shows by itself */
+    var s = revealText(el); if (!s) { return; }
+    var k = key(s); reveals[k] = s;
+    if (!started || !auto || !CLIPS || !CLIPS[k]) { return; }
+    revealAt = Date.now(); audio.pause(); clearHi(); fb.pause(); fb.src = 'audio/vo/' + k + '.mp3';
+    var p = fb.play(); if (p && p.catch) { p.catch(function () {}); }
+  }
+  function opened(m) {
+    var e = m.target; if (e.nodeType !== 1) { return null; }
+    var old = m.oldValue || '';
+    if (m.attributeName === 'class' && e.classList.contains('saa-card') && e.classList.contains('open') && !/(^|\s)open(\s|$)/.test(old)) { return e.querySelector('.saa-back'); }
+    if (m.attributeName === 'open' && e.tagName === 'DETAILS' && e.open) { return e; }
+    if (m.attributeName === 'aria-expanded' && old === 'false' && e.getAttribute('aria-expanded') === 'true' && !e.classList.contains('saa-card') && e.getAttribute('role') !== 'tab') { return panelOf(e); }
+    if (e.hasAttribute('data-saa-say-open') && shown(e) && (m.attributeName === 'hidden' ? old !== null : true) && !e.__saaShown) { return e; }
+    return null;
+  }
+
   /* ---- follow the game: a new screen (or new text on the same screen) loads its clip ---- */
   function sync() {
     var page = current(), info = page ? screenInfo(page) : null;
-    if (info && cur && info.key === cur.key && page === cur.page) { return; }
-    /* new screen or new question -> read it; same question with new state (answer checked, lane switched) -> wait for Replay */
-    var fresh = !info || !cur || page !== cur.page || first(info.text) !== first(cur.text);
+    if (info && cur && info.key === cur.key) {
+      /* the same words, maybe redrawn by the game after a tap: keep reading, just follow the new text for the highlight */
+      if (page !== cur.page || info.root !== cur.root) { cur.page = page; cur.root = info.root; cur.words = info.words; if (!audio.paused) { startHi(); } }
+      return;
+    }
+    /* new screen or new question -> read it; same question with new state (answer checked, lane switched) -> wait for Replay.
+       A screen the game redrew in place (the old one is gone from the page) is the same screen, not a new one. */
+    var moved = cur && page !== cur.page && cur.page && doc.contains(cur.page);
+    var fresh = !info || !cur || moved || first(info.text) !== first(cur.text);
     audio.pause(); clearHi(); if (fresh) { stopFb(); }
     if (!info) { cur = null; if (box) { box.classList.add('none'); } return; }
     info.page = page; info.clip = CLIPS && CLIPS[info.key] || null; cur = info;
@@ -565,15 +618,20 @@
       }, true);
     }
     /* any tap is a user gesture: from then on clips may autoplay */
-    doc.addEventListener('pointerdown', function () { if (!started && !doc.getElementById('saa-start')) { started = true; } }, true);
+    doc.addEventListener('pointerdown', function () { lastTap = Date.now(); if (!started && !doc.getElementById('saa-start')) { started = true; } }, true);
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { lastTap = Date.now(); } }, true);
     if (win.MutationObserver) {
       new MutationObserver(function (ms) {
+        for (var j = 0; j < ms.length; j++) {
+          if (ms[j].type === 'attributes') { var o = opened(ms[j]); if (o) { sayOpened(o); break; } }
+        }
+        Array.prototype.forEach.call(doc.querySelectorAll('[data-saa-say-open]'), function (e) { e.__saaShown = shown(e); });
         for (var i = 0; i < ms.length; i++) {
           var tg = ms[i].target.nodeType === 1 ? ms[i].target : ms[i].target.parentElement;
           if (tg && tg.closest && tg.closest(FB) && ms[i].type !== 'attributes') { feedback(tg.closest(FB)); break; }
         }
         later();
-      }).observe(doc.body, { attributes: true, attributeFilter: ['class', 'hidden', 'style'], subtree: true, childList: true, characterData: true });
+      }).observe(doc.body, { attributes: true, attributeFilter: ['class', 'hidden', 'style', 'open', 'aria-expanded'], attributeOldValue: true, subtree: true, childList: true, characterData: true });
     }
     later();
   }

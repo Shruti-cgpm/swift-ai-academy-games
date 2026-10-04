@@ -59,9 +59,17 @@
 
   /* re-run after every slide change */
   var go = D.go;
-  D.go = function () { var r = go.apply(this, arguments); splitCards(); arm(); D.fit(); return r; };
+  /* screens that are not showing can never be tapped or focused, whatever a kit's CSS makes visible inside them */
+  function inertOthers() { var c = D.current(); (D.slides || []).forEach(function (s) { if (s !== c) { s.setAttribute('inert', ''); } else { s.removeAttribute('inert'); } }); }
+  D.go = function () { var r = go.apply(this, arguments); splitCards(); arm(); D.fit(); inertOthers(); return r; };
   splitCards();
   D.fit();
+  inertOthers();
+  /* games that change screens without Deck.go: follow the slides' own classes too */
+  if (win.MutationObserver && D.slides && D.slides.length) {
+    var io = new MutationObserver(function () { inertOthers(); });
+    D.slides.forEach(function (s) { io.observe(s, { attributes: true, attributeFilter: ['class', 'hidden', 'aria-hidden'] }); });
+  }
   arm();
   win.addEventListener('resize', function () { D.fit(); });
   /* typing can grow a card (long answers, live previews): re-fit shortly after, only if it now overflows */

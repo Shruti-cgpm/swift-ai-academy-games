@@ -1,7 +1,10 @@
 /* ==========================================================================
    Swift AI Academy - interaction kit. Markup-driven: <div class="saa-kit" data-kit="..."> ... </div>
-   Kits: reveal | quick | sort | order | spot | stamp.   data-required on a kit = Next is locked until it is done.
+   Kits: reveal | quick | sort | order | spot | stamp | match | dial.   data-required on a kit = Next is locked until it is done.
    sort + data-style="deck": one card at a time (flick / drag / tap a box / arrow keys); same data, feedback and saa:done.
+   match: link each item to its partner with a band (tap-tap / drag / keyboard); data-style="wire" = cable look;
+   data-mode="pick" = one plug wired to the chosen option, the game checks it.
+   dial: turn a knob to each position (drag / tap / arrow keys); a sample AI answer swaps live, the caption explains it.
    Every kit: works with tap and keyboard; sort and order also drag (mouse + touch); one-sentence feedback.
    ========================================================================== */
 (function (win, doc) {
@@ -90,7 +93,7 @@
   function sortDeck(k) {
     var pool = $('.saa-pool', k), bins = $$('.saa-bin', k), wrap = bins.length ? bins[0].parentNode : null;
     var reduce = !!(win.matchMedia && win.matchMedia('(prefers-reduced-motion: reduce)').matches), dragged = false;
-    k.classList.add('saa-deck');
+    k.classList.add('saa-deck'); if (bins.length > 2) { k.classList.add('saa-deck-many'); }
     if (k.hasAttribute('data-shuffle')) { shuffle($$('.saa-chip', pool)).forEach(function (c) { pool.appendChild(c); }); }
     var total = $$('.saa-chip', pool).length;
     var st = el('p', 'saa-k-status'); st.setAttribute('aria-live', 'polite'); k.insertBefore(st, k.firstChild);
@@ -343,7 +346,267 @@
     });
   }
 
-  var KITS = { reveal: reveal, quick: quick, sort: sort, order: order, spot: spot, stamp: stamp };
+  /* ---------- match (Band Connect; data-style="wire" = Cause Circuit cable): link each left item to its partner.
+     Tap an item, then its partner (either side first) - or drag a band from one to the other - or Tab + Enter.
+     .saa-m-item and .saa-m-target share a data-pair. Right: the band stays, data-why shows. Wrong: the band snaps
+     back, data-hint (default "Not quite. Try again.") shows. All linked: data-done-text (if set), is-done, saa:done.
+     data-mode="pick": one plug and several .saa-m-target - a link only SELECTS (the target's own click handler runs);
+     the game checks it. The wire turns green / red when the game gives the target is-right / is-wrong. ---------- */
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function match(k) {
+    var pickMode = k.getAttribute('data-mode') === 'pick';
+    var reduce = !!(win.matchMedia && win.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var board = pickMode ? k : ($('.saa-m-board', k) || k);
+    var items = pickMode ? [] : $$('.saa-m-item', k), targets = $$('.saa-m-target', k);
+    var sel = null, dragged = false, links = [], plug = null, pickWire = null, st = null;
+    k.classList.add('saa-match'); if (pickMode) { k.classList.add('saa-m-pick'); }
+    if (k.getAttribute('data-style') === 'wire') { k.classList.add('saa-m-wire'); }
+    var svg = doc.createElementNS(SVGNS, 'svg'); svg.setAttribute('class', 'saa-m-lines'); svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('focusable', 'false');
+    board.insertBefore(svg, board.firstChild);
+    function mkLink(cls) {
+      var g = doc.createElementNS(SVGNS, 'g'); g.setAttribute('class', 'saa-m-link ' + (cls || ''));
+      ['saa-m-case', 'saa-m-core'].forEach(function (c) { var p = doc.createElementNS(SVGNS, 'path'); p.setAttribute('class', c); g.appendChild(p); });
+      svg.appendChild(g); return g;
+    }
+    function setD(g, d) { if (g.firstChild.getAttribute('d') !== d) { g.firstChild.setAttribute('d', d); g.lastChild.setAttribute('d', d); } }
+    function cls(g, c) { var v = 'saa-m-link ' + c; if (g.getAttribute('class') !== v) { g.setAttribute('class', v); } }
+    function drop(g) { if (g && g.parentNode) { g.parentNode.removeChild(g); } }
+    /* points are in the board's own (unzoomed) px, so lines stay on the dots at any --z */
+    function frame() { var r = board.getBoundingClientRect(); return { r: r, z: r.width ? board.offsetWidth / r.width : 1 }; }
+    function at(e, f) { var d = $('.saa-m-dot', e) || e, r = d.getBoundingClientRect(); f = f || frame(); return { x: (r.left + r.width / 2 - f.r.left) * f.z, y: (r.top + r.height / 2 - f.r.top) * f.z }; }
+    function ptr(ev, f) { f = f || frame(); return { x: (ev.clientX - f.r.left) * f.z, y: (ev.clientY - f.r.top) * f.z }; }
+    function n1(v) { return Math.round(v * 10) / 10; }
+    function curve(a, b) { var s = b.x >= a.x ? 1 : -1, dx = Math.max(24, Math.abs(b.x - a.x) / 2) * s;
+      return 'M' + n1(a.x) + ' ' + n1(a.y) + ' C' + n1(a.x + dx) + ' ' + n1(a.y) + ' ' + n1(b.x - dx) + ' ' + n1(b.y) + ' ' + n1(b.x) + ' ' + n1(b.y); }
+    function band(a, b) { return 'M' + n1(a.x) + ' ' + n1(a.y) + ' Q' + n1((a.x + b.x) / 2) + ' ' + n1((a.y + b.y) / 2 + 18) + ' ' + n1(b.x) + ' ' + n1(b.y); }
+    function elbow(a, b) {   /* pick mode: down the gutter, then a rounded turn into the socket */
+      var r = Math.max(0, Math.min(10, b.x - a.x, Math.abs(b.y - a.y))), s = b.y >= a.y ? 1 : -1;
+      if (r < 2) { return curve(a, b); }
+      return 'M' + n1(a.x) + ' ' + n1(a.y) + ' L' + n1(a.x) + ' ' + n1(b.y - r * s) + ' Q' + n1(a.x) + ' ' + n1(b.y) + ' ' + n1(a.x + r) + ' ' + n1(b.y) + ' L' + n1(b.x) + ' ' + n1(b.y);
+    }
+    function stacked() { return !pickMode && getComputedStyle(board).getPropertyValue('--m-stack').trim() === '1'; }
+    function addDot(e, first) { if ($('.saa-m-dot', e)) { return; } var d = el('span', 'saa-m-dot'); d.setAttribute('aria-hidden', 'true'); if (first) { e.insertBefore(d, e.firstChild); } else { e.appendChild(d); } }
+    /* the snap-back: the loose end slides back to where the drag (or tap) started, then the band is gone */
+    function snapBack(g, from, to) {
+      if (reduce || !g) { drop(g); return; }
+      var t0 = 0;
+      function step(ts) {
+        if (!g.parentNode) { return; }
+        if (!t0) { t0 = ts; }
+        var t = Math.min(1, (ts - t0) / 280), e = 1 - Math.pow(1 - t, 3);
+        setD(g, band(from, { x: to.x + (from.x - to.x) * e, y: to.y + (from.y - to.y) * e }));
+        if (t < 1) { win.requestAnimationFrame(step); } else { drop(g); }
+      }
+      setTimeout(function () { win.requestAnimationFrame(step); }, 160);
+    }
+
+    if (pickMode) {
+      plug = el('span', 'saa-m-plug'); plug.setAttribute('aria-hidden', 'true'); k.appendChild(plug);
+      pickWire = mkLink('is-on'); pickWire.style.display = 'none';
+      targets.forEach(function (t) { addDot(t, true); });
+      sel = targets.filter(function (t) { return t.getAttribute('aria-checked') === 'true' || t.getAttribute('aria-pressed') === 'true' || t.classList.contains('is-selected'); })[0] || null;
+      targets.forEach(function (t) { t.addEventListener('click', function () { sel = t; redraw(); }); });
+      /* the game marks the checked answer: recolour the wire (only the targets are watched, never the svg) */
+      if (win.MutationObserver) { var mo = new MutationObserver(function () { redraw(); }); targets.forEach(function (t) { mo.observe(t, { attributes: true, attributeFilter: ['class', 'aria-checked'] }); }); }
+    } else {
+      if (k.hasAttribute('data-shuffle') && targets.length > 1) {   /* no target may sit straight across from its own item */
+        var box = targets[0].parentNode, order = targets.slice();
+        for (var tries = 0; tries < 60; tries++) {
+          shuffle(order);
+          if (order.every(function (t, i) { return !items[i] || items[i].getAttribute('data-pair') !== t.getAttribute('data-pair'); })) { break; }
+        }
+        order.forEach(function (t) { box.appendChild(t); }); targets = order;
+      }
+      st = el('p', 'saa-k-status'); st.setAttribute('aria-live', 'polite'); k.insertBefore(st, k.firstChild);
+      items.forEach(function (e) { addDot(e, false); e.setAttribute('aria-pressed', 'false'); });
+      targets.forEach(function (e) { addDot(e, true); e.setAttribute('aria-pressed', 'false'); });
+      why(k);
+    }
+    function count() { if (st) { st.textContent = links.length + ' of ' + items.length + ' matched'; } }
+    function redraw() {
+      var f = frame();
+      if (pickMode) {
+        targets.forEach(function (t) { t.classList.toggle('saa-m-on', t === sel); });
+        k.classList.toggle('has-link', !!sel);
+        if (!sel || !sel.isConnected) { pickWire.style.display = 'none'; return; }
+        var c = sel.className, state = /(^|\s)(is-)?right(\s|$)/.test(c) ? 'is-ok' : /(^|\s)(is-)?wrong(\s|$)/.test(c) ? 'is-bad' : 'is-on';
+        cls(pickWire, state); k.setAttribute('data-wire', state.slice(3)); pickWire.style.display = '';
+        var a = at(plug, f), b = at(sel, f); setD(pickWire, b.x - a.x >= 30 ? curve(a, b) : elbow(a, b));   /* plug beside the options: a curve; plug above them: down the gutter */
+        return;
+      }
+      links.forEach(function (L) { setD(L.g, curve(at(L.it, f), at(L.tg, f))); });
+    }
+    function setSel(e) {
+      if (sel) { sel.classList.remove('is-picked'); sel.setAttribute('aria-pressed', 'false'); }
+      sel = e && e !== sel ? e : null;
+      if (sel) { sel.classList.add('is-picked'); sel.setAttribute('aria-pressed', 'true'); }
+      k.classList.toggle('armed', !!sel);
+      k.classList.toggle('arm-to', !!sel && items.indexOf(sel) >= 0);
+      k.classList.toggle('arm-from', !!sel && items.indexOf(sel) < 0);
+    }
+    function link(it, tg, g) {
+      var hadFocus = doc.activeElement === it || doc.activeElement === tg, n = links.length + 1;
+      [it, tg].forEach(function (x) {
+        x.classList.remove('is-picked'); x.classList.add('is-linked'); x.disabled = true; x.setAttribute('aria-pressed', 'true');
+        var b = el('span', 'saa-m-n', String(n)); b.setAttribute('aria-hidden', 'true'); x.appendChild(b);
+      });
+      g = g || mkLink(''); cls(g, 'is-ok'); links.push({ it: it, tg: tg, g: g }); redraw();
+      say(k, it.getAttribute('data-why') || tg.getAttribute('data-why') || 'Yes, that is right.', true);
+      count();
+      var next = items.filter(function (x) { return !x.disabled; })[0];
+      if (!next) { var dt = k.getAttribute('data-done-text'); if (dt) { say(k, dt, true); } done(k); }
+      else if (hadFocus) { try { next.focus({ preventScroll: true }); } catch (x) { next.focus(); } }
+    }
+    function miss(it, tg, g, from) {
+      from = from || it; var to = from === it ? tg : it, f = frame();
+      shake(it); shake(tg);
+      say(k, it.getAttribute('data-hint') || tg.getAttribute('data-hint') || 'Not quite. Try again.', false);
+      if (stacked()) { drop(g); return; }
+      g = g || mkLink(''); cls(g, 'is-bad'); var a = at(from, f), b = at(to, f); setD(g, band(a, b)); snapBack(g, a, b);
+    }
+    function judge(it, tg, g, from) { if (it.getAttribute('data-pair') === tg.getAttribute('data-pair')) { link(it, tg, g); } else { miss(it, tg, g, from); } }
+    function tap(e) {
+      if (k.classList.contains('is-done') || e.disabled) { return; }
+      var isItem = items.indexOf(e) >= 0;
+      if (sel && (items.indexOf(sel) >= 0) !== isItem) { var s = sel; setSel(null); if (isItem) { judge(e, s, null, s); } else { judge(s, e, null, s); } }
+      else { setSel(e); }
+    }
+    if (!pickMode) {
+      items.concat(targets).forEach(function (e) { e.addEventListener('click', function () { if (dragged) { return; } tap(e); }); });
+      k.addEventListener('keydown', function (e) { if (e.key === 'Escape' && sel) { setSel(null); } });
+    }
+    /* drag a band (pairs: from either side; pick: from the plug). Phones with the stacked layout: tap only */
+    board.addEventListener('pointerdown', function (e) {
+      if (k.classList.contains('is-done') || (e.pointerType === 'mouse' && e.button !== 0) || stacked()) { return; }
+      var src = e.target.closest && e.target.closest(pickMode ? '.saa-m-plug' : '.saa-m-item, .saa-m-target');
+      if (!src || !board.contains(src) || src.disabled) { return; }
+      var fromItem = items.indexOf(src) >= 0, want = pickMode || fromItem ? targets : items;
+      var sx = e.clientX, sy = e.clientY, moved = false, g = null, over = null, id = e.pointerId;
+      try { src.setPointerCapture(id); } catch (x) {}
+      function hit(ev) {
+        var h = doc.elementFromPoint(ev.clientX, ev.clientY), t = null;
+        for (var n = h; n && n !== doc.body; n = n.parentElement) { if (want.indexOf(n) >= 0) { t = n; break; } }
+        return t && !t.disabled ? t : null;
+      }
+      function mv(ev) {
+        if (!moved && Math.abs(ev.clientX - sx) + Math.abs(ev.clientY - sy) < 8) { return; }
+        if (!moved) { moved = true; g = mkLink('is-live'); src.classList.add('is-src'); if (!pickMode) { setSel(null); } }
+        var f = frame(); setD(g, band(at(src, f), ptr(ev, f)));
+        var o = hit(ev); if (o !== over) { if (over) { over.classList.remove('over'); } over = o; if (over) { over.classList.add('over'); } }
+        ev.preventDefault();
+      }
+      function end(ev, cancel) {
+        src.removeEventListener('pointermove', mv); src.removeEventListener('pointerup', up); src.removeEventListener('pointercancel', cn); src.removeEventListener('lostpointercapture', cn);
+        src.classList.remove('is-src'); if (over) { over.classList.remove('over'); }
+        if (!moved) { return; }
+        dragged = true; setTimeout(function () { dragged = false; }, 80);
+        var t = !cancel && ev ? hit(ev) : null;
+        if (pickMode) { drop(g); if (t) { t.click(); } return; }
+        if (t) { if (fromItem) { judge(src, t, g, src); } else { judge(t, src, g, src); } }
+        else if (ev && g) { var f = frame(); cls(g, 'is-live'); snapBack(g, at(src, f), ptr(ev, f)); } else { drop(g); }
+      }
+      function up(ev) { end(ev, false); } function cn() { end(null, true); }
+      src.addEventListener('pointermove', mv); src.addEventListener('pointerup', up); src.addEventListener('pointercancel', cn); src.addEventListener('lostpointercapture', cn);
+    });
+    /* lines follow the layout: resize, zoom (--z), fonts, and the screen becoming visible */
+    var rq = 0; function later() { win.cancelAnimationFrame(rq); rq = win.requestAnimationFrame(redraw); }
+    win.addEventListener('resize', later);
+    if (win.ResizeObserver) { new ResizeObserver(later).observe(board); }
+    if (doc.fonts && doc.fonts.ready) { doc.fonts.ready.then(later); }
+    count(); redraw();
+  }
+
+  /* ---------- dial (Pressure Gauge / Volume Knob): turn a knob to each position; a sample AI answer swaps live.
+     Each .saa-dial-stop = one position: .saa-d-name (label, may hold an icon), .saa-d-you (what you type, optional),
+     .saa-d-ans (the AI answer), data-why = the caption, shown in .saa-k-why (so it gets a narrated clip).
+     data-start on one stop = the position shown first (the original answer); it does not count as a try.
+     Drag the knob (it turns), tap the knob (next position), tap a label, or arrow keys on the knob (role=slider).
+     Done when every position has been tried: is-done + one saa:done. No right or wrong. ---------- */
+  function dial(k) {
+    var stops = $$('.saa-dial-stop', k); if (!stops.length) { return; }
+    var n = stops.length, reduce = !!(win.matchMedia && win.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var first = stops.filter(function (s) { return s.hasAttribute('data-start'); })[0], cur = -1, rot = 0, seen = [];
+    var A = (k.getAttribute('data-angles') || '').split(',').map(parseFloat).filter(function (x) { return !isNaN(x); });
+    if (A.length !== n) { A = n === 2 ? [-90, 90] : n === 3 ? [-90, 0, 90] : n === 4 ? [-45, 45, 135, 225] : stops.map(function (s, i) { return -120 + 240 * i / (n - 1); }); }
+    k.classList.add('saa-dial', 'saa-d-n' + (n <= 4 ? n : 'x'));
+    var st = el('p', 'saa-k-status'); st.setAttribute('aria-live', 'polite'); k.insertBefore(st, k.firstChild);
+    var ctl = el('div', 'saa-d-ctl'), chat = el('div', 'saa-d-chat'), w = why(k);
+    k.insertBefore(ctl, st.nextSibling); k.insertBefore(chat, ctl.nextSibling); if (w.parentNode === k) { k.appendChild(w); }
+    w.setAttribute('aria-live', 'polite');
+    var knob = el('div', 'saa-d-knob'), face = el('span', 'saa-d-face'), ring = el('span', 'saa-d-ring');
+    ring.setAttribute('aria-hidden', 'true'); face.setAttribute('aria-hidden', 'true'); face.appendChild(el('span', 'saa-d-notch'));
+    knob.appendChild(ring); knob.appendChild(face);
+    knob.setAttribute('role', 'slider'); knob.setAttribute('tabindex', '0');
+    knob.setAttribute('aria-label', k.getAttribute('data-label') || 'Dial'); knob.setAttribute('aria-valuemin', '1'); knob.setAttribute('aria-valuemax', String(n));
+    var ticks = [], btns = stops.map(function (s, i) {
+      var nm = $('.saa-d-name', s), b = el('button', 'saa-d-pos'); b.type = 'button'; b.setAttribute('data-pos', i); b.style.setProperty('--i', i);
+      if (nm) { while (nm.firstChild) { b.appendChild(nm.firstChild); } nm.parentNode.removeChild(nm); } else { b.textContent = s.getAttribute('data-label') || String(i + 1); }
+      var tw = doc.createTreeWalker(b, NodeFilter.SHOW_TEXT, null), tx = [], tn; while ((tn = tw.nextNode())) { if (tn.nodeValue.trim()) { tx.push(tn.nodeValue.trim()); } }
+      s.setAttribute('data-label', s.getAttribute('data-label') || tx.join(' '));
+      b.setAttribute('aria-pressed', 'false');
+      var t = el('span', 'saa-d-tick'); t.style.transform = 'rotate(' + A[i] + 'deg)'; ring.appendChild(t); ticks.push(t);
+      ctl.appendChild(b); chat.appendChild(s);
+      var you = $('.saa-d-you', s), ans = $('.saa-d-ans', s);
+      if (you) { you.setAttribute('data-who', k.getAttribute('data-you') || 'You'); }
+      if (ans) { ans.setAttribute('data-who', k.getAttribute('data-ai') || 'AI tool'); }
+      return b;
+    });
+    ctl.insertBefore(knob, ctl.firstChild);   /* first in tab order: the slider, then the labels */
+    var track = first ? stops.map(function (s, i) { return s === first ? -1 : i; }).filter(function (i) { return i >= 0; }) : stops.map(function (s, i) { return i; });
+    function count() {
+      var c = track.filter(function (i) { return seen[i]; }).length;
+      st.textContent = c + ' of ' + track.length + ' tried';
+      if (c === track.length) { done(k); }
+    }
+    function turnTo(a) { rot = rot + ((((a - rot) % 360) + 540) % 360 - 180); face.style.transform = 'rotate(' + rot + 'deg)'; }
+    function show(i) {   /* the chat swaps to position i (also while dragging) */
+      stops.forEach(function (s, j) { s.classList.toggle('is-on', j === i); if (j === i) { s.removeAttribute('aria-hidden'); } else { s.setAttribute('aria-hidden', 'true'); } });
+      btns.forEach(function (b, j) { b.classList.toggle('is-on', j === i); b.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+      ticks.forEach(function (t, j) { t.classList.toggle('is-on', j === i); });
+      knob.setAttribute('aria-valuenow', String(i + 1)); knob.setAttribute('aria-valuetext', stops[i].getAttribute('data-label'));
+    }
+    function set(i, quiet) {   /* settle on position i: count the try, show its caption */
+      i = Math.max(0, Math.min(n - 1, i)); show(i); turnTo(A[i]);
+      if (i !== cur || quiet) { say(k, stops[i].getAttribute('data-why') || '', null); }
+      cur = i;
+      if (!quiet) { seen[i] = true; btns[i].classList.add('is-seen'); }
+      count();
+    }
+    function nearest(a) { var best = 0, bd = 999; A.forEach(function (x, i) { var d = Math.abs((((a - x) % 360) + 540) % 360 - 180); if (d < bd) { bd = d; best = i; } }); return best; }
+    btns.forEach(function (b, i) { b.addEventListener('click', function () { set(i); }); });
+    knob.addEventListener('keydown', function (e) {
+      var i = cur, K = e.key;
+      if (K === 'ArrowRight' || K === 'ArrowUp' || K === 'PageUp') { i = cur + 1; } else if (K === 'ArrowLeft' || K === 'ArrowDown' || K === 'PageDown') { i = cur - 1; }
+      else if (K === 'Home') { i = 0; } else if (K === 'End') { i = n - 1; } else if (K === 'Enter' || K === ' ') { i = (cur + 1) % n; } else { return; }
+      e.preventDefault(); set(i);
+    });
+    /* drag: the knob turns with the pointer and snaps to the nearest position; a tap moves on one position */
+    knob.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse' && e.button !== 0) { return; }
+      var r = knob.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, sx = e.clientX, sy = e.clientY, moved = false, at = cur;
+      try { knob.setPointerCapture(e.pointerId); } catch (x) {}
+      function ang(ev) { return Math.atan2(ev.clientX - cx, cy - ev.clientY) * 180 / Math.PI; }
+      function mv(ev) {
+        if (!moved && Math.abs(ev.clientX - sx) + Math.abs(ev.clientY - sy) < 6) { return; }
+        if (!moved) { moved = true; k.classList.add('is-turning'); }
+        var a = ang(ev); turnTo(a); var i = nearest(a); if (i !== at) { at = i; show(i); }
+        ev.preventDefault();
+      }
+      function end(ev, cancel) {
+        knob.removeEventListener('pointermove', mv); knob.removeEventListener('pointerup', up); knob.removeEventListener('pointercancel', cn); knob.removeEventListener('lostpointercapture', cn);
+        k.classList.remove('is-turning');
+        if (!moved) { if (!cancel) { set((cur + 1) % n); } return; }
+        set(cancel ? cur : at);
+      }
+      function up(ev) { end(ev, false); } function cn() { end(null, true); }
+      knob.addEventListener('pointermove', mv); knob.addEventListener('pointerup', up); knob.addEventListener('pointercancel', cn); knob.addEventListener('lostpointercapture', cn);
+    });
+    if (reduce) { k.classList.add('saa-d-still'); }
+    if (first) { btns[stops.indexOf(first)].classList.add('is-start'); }
+    set(first ? stops.indexOf(first) : 0, !!first);
+  }
+
+  var KITS = { reveal: reveal, quick: quick, sort: sort, order: order, spot: spot, stamp: stamp, match: match, dial: dial };
   function init(root) {
     $$('.saa-kit[data-kit]', root).forEach(function (k) {
       if (k.getAttribute('data-ready')) { return; }
@@ -370,7 +633,7 @@
     if (!open) { return; }
     e.preventDefault(); e.stopImmediatePropagation();
     shake(open);
-    $$('.saa-card:not(.open), .saa-k-opt:not(:disabled), .saa-pool .saa-chip, .saa-steps > li, .saa-s, .saa-row:not(.done)', open).slice(0, 8).forEach(function (x) { x.classList.add('saa-nudge'); });
+    $$('.saa-card:not(.open), .saa-k-opt:not(:disabled), .saa-pool .saa-chip, .saa-steps > li, .saa-s, .saa-row:not(.done), .saa-m-item:not(:disabled), .saa-d-pos:not(.is-seen):not(.is-start)', open).slice(0, 8).forEach(function (x) { x.classList.add('saa-nudge'); });
     setTimeout(function () { $$('.saa-nudge', open).forEach(function (x) { x.classList.remove('saa-nudge'); }); }, 2600);
   }, true);
   doc.addEventListener('saa:done', function () { $$('.saa-nudge').forEach(function (x) { x.classList.remove('saa-nudge'); }); });
