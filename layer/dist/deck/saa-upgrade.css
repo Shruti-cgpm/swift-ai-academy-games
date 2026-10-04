@@ -268,6 +268,20 @@ html.saa-skin button.saa-back.saa-back-blank::after { content: "Back"; }
 
 /* very narrow phones: the logo alone, so the header keeps room for its tools */
 @media (max-width: 400px) { html.saa-skin .saa-hd-brand .saa-wm { display: none; } }
+
+/* ---- light mode, branded like the dark frame: logo, "Swift AI / ACADEMY", section eyebrow and title in navy ---- */
+@media (min-width: 701px) { html[data-saa-themes][data-theme="light"] :is(.saa-header, header.top) { display: flex !important; align-items: center !important; gap: calc(clamp(16px, 3vw, 48px) / var(--z, 1)) !important; flex-wrap: nowrap !important; } }   /* phones keep the game's own wrapping header */
+html[data-saa-themes][data-theme="light"] :is(.saa-header, header.top) > .brand { display: none !important; }
+html[data-saa-themes][data-theme="light"] .saa-hd-brand { display: flex !important; align-items: center; gap: calc(12px / var(--z, 1)); flex: 0 0 auto; }
+html[data-saa-themes][data-theme="light"] .saa-hd-brand img, html[data-saa-themes][data-theme="light"] .saa-hd-brand .brand-mark { width: calc(30px / var(--z, 1)) !important; height: calc(27px / var(--z, 1)) !important; object-fit: contain; display: block; }
+html[data-saa-themes][data-theme="light"] .saa-wm { line-height: 1; }
+html[data-saa-themes][data-theme="light"] .saa-wm .n { display: block; font-size: calc(21px / var(--z, 1)); font-weight: 700; letter-spacing: -.02em; color: #0E1A4F; }
+html[data-saa-themes][data-theme="light"] .saa-wm .s { display: block; font-size: calc(9px / var(--z, 1)); font-weight: 600; letter-spacing: .34em; text-transform: uppercase; color: #6B76A0; margin-top: calc(3px / var(--z, 1)); }
+html[data-saa-themes][data-theme="light"] .saa-hd-ttl { display: block !important; flex: 1 1 auto; min-width: 0; }   /* takes the free space, so the tools sit on the right */
+html[data-saa-themes][data-theme="light"] .saa-hd-eb { margin: 0 0 calc(2px / var(--z, 1)); font-size: calc(11.5px / var(--z, 1)); font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #3C59F6; }
+html[data-saa-themes][data-theme="light"] .saa-hd-h { margin: 0; font-size: calc(18.72px / var(--z, 1)); font-weight: 700; letter-spacing: -.01em; color: #0E1A4F; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 400px) { html[data-saa-themes][data-theme="light"] .saa-hd-brand .saa-wm { display: none; } }
+@media (max-width: 700px) { html[data-saa-themes][data-theme="light"] .saa-hd-eb { display: none; } html[data-saa-themes][data-theme="light"] .saa-hd-h { font-size: 15px; } }
 /* ==========================================================================
    NARRATION controls + word highlight (same look as game 1's header buttons)
    ========================================================================== */

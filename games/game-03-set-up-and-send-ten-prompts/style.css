@@ -560,3 +560,6 @@ html.saa-skin .app > .main { flex: 1 1 auto !important; min-height: 0 !important
   .bar #cpBtn{display:none}
 }
 @media (max-width:760px){.stage > .card.grow{flex:none}.stage > .card.grow > ol.log{overflow:visible !important}}
+
+/* teacher-only: the assessor view is not shown in the learner game */
+[data-act="assessor"] { display: none !important; }

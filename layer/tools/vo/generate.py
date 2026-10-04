@@ -12,6 +12,9 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from pronounce import spoken
 
 URL = 'https://api.narakeet.com/text-to-speech/mp3?voice=sheela&voice-speed=0.95'
+# Gujarati text (Gujarati script) is read by a Gujarati female voice; English pronunciation fixes are not applied to it
+URL_GU = 'https://api.narakeet.com/text-to-speech/mp3?voice=manasi&voice-speed=0.95'
+GUJ = re.compile('[\u0a80-\u0aff]')
 
 
 def key(s):
@@ -38,7 +41,8 @@ def fetch(req):
 
 
 def tts(text, api):
-    body, ctype = fetch(urllib.request.Request(URL, data=spoken(text).encode(), method='POST',
+    gu = bool(GUJ.search(text))
+    body, ctype = fetch(urllib.request.Request(URL_GU if gu else URL, data=(text if gu else spoken(text)).encode(), method='POST',
                                                headers={'x-api-key': api, 'Content-Type': 'text/plain'}))
     if 'json' in ctype or body[:1] == b'{':
         job = json.loads(body)
