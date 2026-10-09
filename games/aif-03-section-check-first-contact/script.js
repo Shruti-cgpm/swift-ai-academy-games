@@ -272,6 +272,20 @@ function paintTheme(){
 }
 window.addEventListener('saa:theme',paintTheme);
 
+/* ---------- AI Fluency designer assets (Oct 2026) ---------- */
+/* a library line icon in the current theme's tone (ivory on dark, navy on light); paintTheme swaps it later */
+const aic = (name,px)=>`<img class="aic aiv-ic" src="assets/icons/${isLight()?'light':'dark'}/icon-${name}.webp" alt="" aria-hidden="true" width="${px||24}" height="${px||24}">`;
+/* order items: one icon per step, by the step's place in the right order, so it travels with its step when shuffled */
+const STEP_IC = ['get-openapp','send','verify','rewrite'];
+/* result rows: one topic icon per concept */
+const CONCEPT_IC = {tool:'rule-approved', task:'task', privacy:'rule-private', check:'verify'};
+/* scenario items: the established character for the item's lane, next to the scene sentence (recall items have no scene, so no avatar) */
+const AVATAR = {
+  ITI:{src:'assets/illustrations/char-iti-trainee-avatar.webp', alt:'An ITI trainee in a blue uniform and safety glasses.'},
+  HE:{src:'assets/illustrations/char-college-student-avatar.webp', alt:'A college student in a blue kurta.'}
+};
+const SEND_SVG = '<svg class="aiv-send" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5 20 12 6 19.5Z"/></svg>';
+
 /* ---------- state ---------- */
 let S = {attempts:store.get(KEY+':attempts',0), passedEver:store.get(KEY+':passed',false), queue:[], i:0, results:[], form:'A', page:'intro'};
 let snaps = [];          /* each checked question as it looked after Check (Back shows it again, read-only) */
@@ -379,29 +393,29 @@ function question(){
   if(it.type==='mcq' || it.type==='spot'){
     const opts = it.type==='spot' ? it.options.map((o,k)=>({...o,k})) : shuffle(it.options.map((o,k)=>({...o,k})));
     work = `
-      ${it.type==='spot'?'<span class="tag" aria-hidden="true">AI answer</span>':''}
+      ${it.type==='spot'?'<div class="aiv-chat"><span class="tag aiv-chat-head" aria-hidden="true">AI tool</span>':''}
       <fieldset class="opts${it.type==='spot'?' ai-lines':''}" id="opts">
         <legend class="sr">${it.type==='spot'?'AI answer. Choose the line with a mistake.':'Choose one answer.'}</legend>
         ${opts.map((o,n)=>`<label class="opt" data-k="${o.k}">
             <input type="radio" name="a" value="${o.k}">
             ${it.type==='spot'?`<span class="ln" aria-hidden="true">${n+1}</span>`:''}
             <span class="mark" aria-hidden="true"></span><span class="ot">${rich(o.t)}</span></label>`).join('')}
-      </fieldset>`;
+      </fieldset>${it.type==='spot'?'</div>':''}`;
   } else {
     let sh; do { sh = shuffle(it.steps.map((t,k)=>({t,k}))); } while(sh.every((s,n)=>s.k===n));
     work = `
       <div class="opts" id="opts" role="group" aria-label="Steps. Tap them in order.">
-        ${sh.map(s=>`<button type="button" class="opt ostep" data-k="${s.k}" aria-label="${esc(s.t)}. Not placed."><span class="num" aria-hidden="true"></span><span class="ot">${esc(s.t)}</span></button>`).join('')}
+        ${sh.map(s=>`<button type="button" class="opt ostep" data-k="${s.k}" aria-label="${esc(s.t)}. Not placed."><span class="num" aria-hidden="true"></span>${aic(STEP_IC[s.k])}<span class="ot">${esc(s.t)}</span></button>`).join('')}
       </div>
       <div><button type="button" class="reset" id="reset" disabled>${ICON.undo}Start over</button></div>`;
   }
   qcard.innerHTML = `
     <div class="saa-lead q-left" data-saa-lead>
       <p class="eyebrow">${EYEBROW[it.type]}</p>
-      ${it.stem?`<p class="q-scene">${rich(it.stem)}</p>`:''}
+      ${it.stem?(AVATAR[it.lane]?`<div class="aiv-scene-row"><span class="aiv-av"><img src="${AVATAR[it.lane].src}" width="160" height="160" alt="${AVATAR[it.lane].alt}"></span><p class="q-scene">${rich(it.stem)}</p></div>`:`<p class="q-scene">${rich(it.stem)}</p>`):''}
       <h2 class="q-ask" id="qask" tabindex="-1">${rich(it.ask)}</h2>
-      ${it.quote?`<div class="quote"><span class="tag">Example request</span><p>${esc(it.quote)}</p></div>`:''}
-      ${it.notes?`<div class="notes"><span class="tag">Example notes</span><p>${esc(it.notes)}</p></div>`:''}
+      ${it.quote?`<div class="aiv-composer"><span class="tag aiv-composer-head">AI tool</span><div class="aiv-composer-box"><p>${esc(it.quote)}</p>${SEND_SVG}</div></div>`:''}
+      ${it.notes?`<div class="aiv-notes"><span class="tag">My notes</span><p>${esc(it.notes)}</p></div>`:''}
       <p class="do saa-do"><b class="saa-do-label">Your task.</b> ${TASK[it.type]}</p>
     </div>
     <div class="saa-work q-right">
@@ -456,7 +470,7 @@ function grade(){
     /* show the right order: the list is redrawn 1 to 4; green = you put it in the right place, red = you did not */
     const box=$('#opts');
     box.innerHTML = it.steps.map((t,k)=>{ const right=Q.order[k]===k;
-      return `<div class="opt ostep locked ${right?'right':'wrong'}"><span class="num" aria-hidden="true">${k+1}</span><span class="ot">${esc(t)}</span><span class="mark" aria-hidden="true">${right?ICON.check:ICON.x}</span></div>`; }).join('');
+      return `<div class="opt ostep locked ${right?'right':'wrong'}"><span class="num" aria-hidden="true">${k+1}</span>${aic(STEP_IC[k])}<span class="ot">${esc(t)}</span><span class="mark" aria-hidden="true">${right?ICON.check:ICON.x}</span></div>`; }).join('');
     box.setAttribute('aria-label','The right order.');
     $('#reset').parentNode.remove();
   } else {
@@ -496,6 +510,7 @@ function showSnap(i){
   qcard.innerHTML=snaps[i]; qcard.removeAttribute('data-saa-locked'); primary.classList.remove('saa-locked'); lockPrimary(false);
   chrome();
   setPrimary(i===TOTAL-1?(S.results.length===TOTAL?'See my result':'See my result'):'Next question',next);
+  paintTheme();
   const h=$('#qask'); if(h){ try{h.focus({preventScroll:true});}catch(e){} }
 }
 
@@ -511,7 +526,7 @@ function enterResult(){
   $('#concepts').innerHTML = Object.entries(CONCEPTS).map(([k,c])=>{
     const rs=S.results.filter(r=>r.concept===k), good=rs.filter(r=>r.ok).length, all=good===rs.length;
     return `<li class="${all?'ok':'no'}"><span class="ci" aria-hidden="true">${all?ICON.check:ICON.book}</span>
-      <span class="cn">${esc(c.name)}${all?'':`<small>${esc(c.look)}</small>`}</span>
+      ${aic(CONCEPT_IC[k])}<span class="cn">${esc(c.name)}${all?'':`<small>${esc(c.look)}</small>`}</span>
       <span class="st">${good} of ${rs.length}</span></li>`;
   }).join('');
   $('#saved').hidden=true;

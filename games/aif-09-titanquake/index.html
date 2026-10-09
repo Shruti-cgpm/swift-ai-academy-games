@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#081421">
+  <title>Titanquake</title>
+  <link rel="icon" href="assets/ui/torch.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="level1/level1-torch.css">
+  <link rel="stylesheet" href="level1/level1-skin.css">
+  <link rel="stylesheet" href="level2/level2.css">
+  <link rel="stylesheet" href="level3/level3.css">
+  <link rel="stylesheet" href="upgrade.css">
+</head>
+<body>
+  <div id="viewport">
+    <img id="backdrop" src="assets/room-calm.webp" alt="" aria-hidden="true" draggable="false">
+    <div id="stage" data-mode="title" data-light="bright" data-screen="normal">
+
+      <!-- Everything inside #world shakes together during the quake. -->
+      <div id="world">
+        <img id="bg" class="bg" src="assets/room-calm.webp" alt="" draggable="false">
+        <video id="quake" class="bg" src="assets/quake.mp4" playsinline preload="auto" aria-hidden="true"></video>
+        <img id="monRed" src="assets/monitor-red.webp" alt="" draggable="false">
+        <div id="monFlash" aria-hidden="true"></div>
+        <div id="monNum" aria-hidden="true"></div>
+        <div id="items" aria-hidden="true"></div>
+        <div id="ril" class="char" aria-hidden="true"><img src="assets/ril.webp" alt="" draggable="false"></div>
+        <div id="nova" class="char" aria-hidden="true"><img src="assets/gen/nova-idle.webp" alt="" draggable="false"></div>
+        <canvas id="light" width="1600" height="900" aria-hidden="true"></canvas>
+        <img id="torch" src="assets/ui/torch.webp" alt="" draggable="false" hidden>
+        <div id="flicker" aria-hidden="true"></div>
+        <div id="warm" aria-hidden="true"></div>
+        <div id="spots" aria-hidden="true"></div>
+      </div>
+
+      <canvas id="fx" width="1600" height="900" aria-hidden="true"></canvas>
+
+      <div id="chip" class="meter ui"></div>
+      <ol id="checklist" class="ui" aria-label="Things to fix"></ol>
+      <div id="ost" aria-live="polite"></div>
+
+      <div id="dialogue" class="hidden">
+        <div class="portrait"></div>
+        <div class="speaker"></div>
+        <p class="line"><span class="shown"></span><span class="rest"></span></p>
+      </div>
+      <button id="btnNext" class="key ui" type="button">NEXT</button>
+
+      <div id="topbar" class="ui">
+        <button id="btnReplay" class="key" type="button" title="Replay scene (R)">REPLAY</button>
+        <button id="btnSkip" class="key" type="button" title="Skip scene (S)">SKIP SCENE</button>
+        <button id="btnMute" class="key" type="button" title="Sound on/off (M)" aria-pressed="false">SOUND ON</button>
+      </div>
+
+      <!-- Title / start screen (same layout as the main game's title). -->
+      <div id="title" class="overlay">
+        <div class="meter title-meter"><b>TITAN STATION</b><small>RECORDS DIVISION • YEAR 2060</small></div>
+        <div class="panel title-panel"><b>TITANQUAKE</b><small>RECORD ROOM RESCUE</small></div>
+        <button id="btnStart" class="key big" type="button">BEGIN STORY</button>
+        <p class="hint">TAP NEXT TO HEAR THE NEXT LINE</p>
+        <button id="btnGentle" class="key" type="button" aria-pressed="false">GENTLE QUAKE: OFF</button>
+      </div>
+
+      <div id="endcard" class="overlay" hidden>
+        <div class="panel"><b class="ok">ALL FIXED</b><small>GREAT JOB, RECORD KEEPER!</small></div>
+        <div class="row">
+          <button id="btnAgain" class="key big" type="button">PLAY AGAIN</button>
+          <button id="btnOutro" class="key big" type="button">REPLAY ENDING</button>
+        </div>
+      </div>
+
+      <!-- Level 2 · Build the Number (storyboard BN0–BN7) -->
+      <section id="level2" aria-label="Level 2: Build the number" hidden>
+        <img class="l2-bg" src="assets/level2/table.webp" alt="" draggable="false">
+        <div class="l2-railbox"></div>
+        <div id="l2-sign" class="l2-sign"><span id="l2-label">BUILD</span><span id="l2-target"></span></div>
+        <div class="l2-hud"><div class="l2-pill">BUILD THE NUMBER</div><ol id="l2-dots"></ol></div>
+        <div id="l2-tray"></div>
+        <div id="l2-sum">&nbsp;</div>
+        <div id="l2-rail"></div>
+        <button id="l2-check" type="button" disabled>CHECK</button>
+        <div id="l2-task" class="tq-task" hidden><b>WHAT TO DO</b><span>Tap the cards that make this number. Then tap CHECK.</span></div>
+        <div class="l2-veil"></div>
+        <p id="l2-caption" class="l2-caption"></p>
+        <div id="l2-say" data-who="nova"><div class="l2-portrait"></div><div class="l2-text"><b class="l2-name">NOVA</b><p class="l2-line"></p></div></div>
+        <img id="l2-hand" src="assets/gen/ui-hand-back.webp" alt="">
+        <button id="l2-next" type="button" hidden>NEXT</button>
+      </section>
+
+      <!-- Level 3 · Fix the Big Screen (storyboard FS0–FS7) -->
+      <section id="level3" aria-label="Level 3: Fix the big screen" hidden>
+        <img class="l3-bg" src="assets/level3-screen.webp" alt="" draggable="false">
+        <div class="l3-scan"></div>
+        <div class="l3-hud"><div class="l3-pill">FIX THE SCREEN</div><ol id="l3-dots"></ol></div>
+        <div class="l3-should">THE SCREEN SHOULD SHOW</div>
+        <p id="l3-name"></p>
+        <div id="l3-boxes"></div>
+        <div id="l3-opts"></div>
+        <button id="l3-check" type="button" disabled>CHECK</button>
+        <div id="l3-task" class="tq-task" hidden><b>WHAT TO DO</b><span>Tap the wrong box. Tap the right digit. Then tap CHECK.</span></div>
+        <p id="l3-caption" class="l3-caption"></p>
+        <div id="l3-say" data-who="nova"><div class="l2-portrait"></div><div class="l2-text"><b class="l2-name">NOVA</b><p class="l2-line"></p></div></div>
+        <img id="l3-hand" src="assets/gen/ui-hand-back.webp" alt="">
+        <button id="l3-next" type="button" hidden>NEXT</button>
+      </section>
+
+      <button id="btnSound" class="key ui" type="button" aria-pressed="false" title="Sound on or off (M)">SOUND ON</button>
+
+      <label id="jump" class="ui" hidden><span>JUMP TO</span>
+        <select id="jumpSel" aria-label="Jump to a part of the game">
+          <option value="">Choose…</option>
+          <option value="1">Scene 1 · Record Room</option>
+          <option value="2">Scene 2 · The Quake</option>
+          <option value="3">Scene 3 · The Mess</option>
+          <option value="4">Scene 4 · The Plan</option>
+          <option value="level1">Level 1 · Find the Record</option>
+          <option value="t1">Transition · Repair Table</option>
+          <option value="level2">Level 2 · Build the Number</option>
+          <option value="t2">Transition · Big Screen</option>
+          <option value="level3">Level 3 · Fix the Big Screen</option>
+          <option value="outro">Scene 5 · All Fixed</option>
+        </select>
+      </label>
+
+      <div id="wipe" aria-hidden="true"></div>
+    </div>
+    <!-- Level 1 · Find the record (storyboard FR0–FR7) -->
+    <section id="level1" class="l1" aria-label="Level 1: Find the record" hidden>
+      <div id="l1-stage" class="l1-stage">
+        <img class="l1-bg" alt="" draggable="false">
+        <div id="l1-peds" class="l1-peds" aria-label="Record pedestals"></div>
+        <canvas id="l1-dark" class="l1-dark" aria-hidden="true"></canvas>
+        <canvas id="l1-light" class="l1-light" aria-hidden="true"></canvas>
+        <div id="l1-cone" class="l1-cone" aria-hidden="true"></div>
+        <img class="l1-lamp" alt="" draggable="false">
+        <img class="l1-dock" alt="" draggable="false">
+        <canvas id="l1-rig" class="l1-rig" aria-hidden="true"></canvas>
+        <div id="l1-rings" class="l1-rings" aria-hidden="true"></div>
+        <div id="l1-beam" class="l1-beam" aria-hidden="true"></div>
+        <img class="l1-nova" src="assets/gen/nova-l1.webp" alt="" draggable="false">
+        <div id="l1-banner" class="l1-banner is-hidden">
+          <div class="l1-banner-frame"></div>
+          <div class="l1-banner-glass"><span class="l1-banner-scan" aria-hidden="true"></span><p id="l1-name" class="l1-name"></p></div>
+          <div class="l1-banner-flash" aria-hidden="true"></div>
+        </div>
+        <div class="l1-hud">
+          <div class="l1-pill">FIND THE RECORD</div>
+          <ol id="l1-dots" class="l1-dots" aria-label="Progress"></ol>
+        </div>
+        <div id="l1-chart" class="l1-chart"></div>
+        <p id="l1-caption" class="l1-caption"></p>
+        <div id="l1-ril" class="l1-ril" data-who="nova">
+          <div class="l1-ril-portrait" aria-hidden="true"></div>
+          <div class="l1-ril-body"><b class="l1-ril-name">NOVA</b><p id="l1-ril-line" class="l1-ril-line"></p></div>
+        </div>
+        <p id="l1-tap" class="l1-tap" hidden>TAP ANYWHERE TO START</p>
+        <div id="l1-task" class="tq-task" hidden><b>WHAT TO DO</b><span></span></div>
+        <div id="l1-hand" class="l1-hand" aria-hidden="true"><img src="assets/gen/ui-hand.webp" alt=""></div>
+        <button id="l1-mute" class="l1-mute" type="button">SOUND ON</button>
+        <button id="l1-next" class="l1-next" type="button" hidden>NEXT</button>
+      </div>
+    </section>
+  </div>
+  <div id="sr" class="sr-only" aria-live="polite"></div>
+  <script src="voice.js"></script>
+  <script src="assets/vo/lines.js"></script>
+  <script src="assets/vo/story-vo.js"></script>
+  <script src="level1/level1-data.js"></script>
+  <script src="level1/level1-torch.js"></script>
+  <script src="level2/level2.js"></script>
+  <script src="level3/level3.js"></script>
+  <script src="story.js"></script>
+</body>
+</html>

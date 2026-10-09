@@ -384,3 +384,32 @@ details.check-group summary{min-height:44px}
   html.saa-skin .saa-foot .foot-right .saa-prog{order:-1!important;flex:1 1 100%!important;max-width:none;width:100%!important;margin:0!important}
   html.saa-skin .saa-foot button.saa-navtxt{padding:0 calc(22px / var(--zz,1))!important}
 }
+
+/* AI Fluency designer assets (Oct 2026) */
+/* run screen: an icon on each of the 4 "How did you save the answer?" chips */
+#capture-chips .chip .cap-ic{width:20px;height:20px;flex:none}
+/* predict screen: a small picture of where the case happens, at the top right of the prompt box (the text flows round it) */
+.wg-scene-box{display:block}
+.wg-scene-box .wg-scene{float:right;width:56px;height:56px;margin:0 0 6px 12px;border-radius:12px;object-fit:cover;border:1px solid rgba(143,160,255,.35)}
+.wg-scene-box .label{display:block;margin-bottom:10px}
+.wg-scene-box p{margin:0}
+/* why screen: missing detail -> AI guesses (right column, above the question: the left column is already full) */
+.wg-diag{display:block;width:100%;max-width:440px;height:auto;max-height:calc(18vh / var(--z,1));object-fit:contain;object-position:left center;align-self:flex-start}
+/* practice screen: "How to check a line" pop-up + link */
+.wg-tip-box{width:min(560px,100%)}
+.wg-tip-vid{display:block;width:100%;height:auto;aspect-ratio:480 / 200;border-radius:12px;background:#0B1238}
+.wg-see-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.wg-tip-open{min-height:44px}
+/* run screen: Copy prompt + See how, and the example pop-up */
+.wg-copy-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.wg-copy-box{width:min(640px,100%)}
+.wg-copy-vid{display:block;width:100%;height:auto;max-height:calc(52vh / var(--z,1));aspect-ratio:600 / 400;object-fit:contain;border-radius:14px;background:#fff}
+@media (max-width:700px){ .wg-diag{max-height:none} }
+/* rules: an item icon on all 5 sort cards (plain item icons, never the "-never" ones) */
+.saa-kit .saa-chip .sort-ic{width:24px;height:24px;flex:none}
+/* check: an icon on each of the 3 outcome options (a self-report, so it gives nothing away) */
+#outcome .option .out-ic{width:22px;height:22px;flex:none}
+/* rewrite: an icon before each of the 5 field labels */
+.field-label .lbl-ic{width:20px;height:20px;display:inline-block;vertical-align:-4px;margin-right:7px}
+/* practice, after Check only: the kind-of-detail icon on Caught / Missed labels */
+.claim .verdict .verdict-ic{width:16px;height:16px;display:inline-block;vertical-align:-3px;margin-right:6px}

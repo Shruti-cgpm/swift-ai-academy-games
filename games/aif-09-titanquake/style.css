@@ -1,0 +1,509 @@
+/* Titanquake – story / cutscene styles.
+   The stage is a fixed 1600×900 box scaled to fit (see fit() in story.js). */
+
+:root {
+  --navy: #0f1d3a;
+  --ink: #13213b;
+  --cream: #fffaf0;
+  --nova: #ff6b4a;
+  --ril: #2f7be0;
+  --yellow: #ffd23f;
+  --orange: #ff9f1c;
+  --green: #2ecc71;
+  --red: #ff4757;
+  --font: Rajdhani, "Segoe UI", system-ui, sans-serif;
+  --head: Orbitron, "Segoe UI", system-ui, sans-serif;
+  --gold: #f6dfac;
+  --cyan: #94e8f4;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #0b1428;
+  font-family: var(--font);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #1c2d55 0%, #070d1c 80%);
+}
+
+#stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1600px;
+  height: 900px;
+  transform: translate(-50%, -50%) scale(var(--s, .5));
+  overflow: hidden;
+  background: #241a16;
+  border-radius: 6px;
+  box-shadow: 0 0 60px rgba(0, 0, 0, .5);
+  cursor: pointer;
+}
+
+/* applySetup() adds this while it snaps everything into place. */
+#stage.instant *, #stage.instant *::before, #stage.instant *::after { transition: none !important; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* ---------- world layers ---------- */
+
+#world { position: absolute; inset: 0; transform-origin: 50% 60%; }
+.bg {
+  position: absolute; left: -20px; top: -12px; width: 1640px; height: 924px;   /* a little bleed for the shake */
+  object-fit: cover; pointer-events: none;
+}
+#quake { display: none; background: #241a16; }
+#stage[data-bg="video"] #quake { display: block; }
+#stage[data-bg="video"] #bg { visibility: hidden; }
+
+#light, #fx { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; pointer-events: none; }
+#light { display: none; }
+#stage[data-light="dark"] #light { display: block; }
+
+#flicker { position: absolute; inset: 0; pointer-events: none; background: #050a1e; opacity: 0; }
+
+#warm {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  transition: opacity 1.2s;
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 18%, rgba(255, 200, 120, .35), rgba(255, 200, 120, 0) 70%),
+    linear-gradient(rgba(255, 170, 80, .06), rgba(255, 130, 60, .10));
+}
+#stage[data-light="warm"] #warm { opacity: 1; }
+
+#fx { z-index: 25; }
+
+/* ---------- the big wall monitor (it is part of the background art) ---------- */
+
+#monRed {
+  position: absolute; left: 548px; top: 280px; width: 504px; height: 190px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 1.1s ease;
+  -webkit-mask-image: radial-gradient(ellipse 54% 58% at 50% 50%, #000 80%, transparent 100%);
+          mask-image: radial-gradient(ellipse 54% 58% at 50% 50%, #000 80%, transparent 100%);
+}
+#stage[data-bg="calm"][data-screen="wrong"] #monRed { opacity: 1; }
+
+#monFlash {
+  position: absolute; left: 560px; top: 292px; width: 480px; height: 180px; border-radius: 26px;
+  pointer-events: none; opacity: 0;
+  background: radial-gradient(ellipse at center, rgba(255, 70, 80, .75), rgba(255, 40, 60, .25) 60%, rgba(255, 40, 60, 0) 100%);
+  mix-blend-mode: screen;
+}
+#stage[data-screen="wrong"] #monFlash { animation: alarmFlash 1.2s ease-in-out infinite; }
+#stage[data-bg="video"] #monFlash { display: none; }
+
+#monNum {
+  position: absolute; left: 715px; top: 322px; width: 170px; height: 96px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 46px; font-weight: 900; color: #eafff1; letter-spacing: .01em;
+  text-shadow: 0 0 18px rgba(170, 255, 200, .95), 0 3px 0 rgba(0, 60, 30, .5);
+  font-variant-numeric: tabular-nums;
+  opacity: 0; transition: opacity .4s;
+}
+#stage[data-screen="normal"] #monNum, #stage[data-screen="fixed"] #monNum, #monNum.rolling { opacity: 1; }
+#stage[data-bg="video"] #monNum { opacity: 0; }
+#monNum.pop { animation: numPop .6s cubic-bezier(.2, 1.8, .4, 1); }
+
+@keyframes alarmFlash { 0%, 100% { opacity: .15; } 50% { opacity: 1; } }
+@keyframes numPop { 0% { transform: scale(.5); } 100% { transform: scale(1); } }
+
+/* ---------- broken record card (scenes 3-4) ---------- */
+
+#items { display: none; }
+#stage[data-pieces="on"] #items { display: block; }
+.piece {
+  position: absolute; left: 0; top: 0; width: 96px; height: 168px; will-change: transform;
+  background: url(assets/ui/card-2000.webp) center / 100% 100% no-repeat;
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, .5));
+}
+.piece.p0 { clip-path: polygon(0 0, 100% 0, 100% 30%, 70% 36%, 82% 44%, 0 40%); transform-origin: 50% 20%; }
+.piece.p1 { clip-path: polygon(0 40%, 82% 44%, 70% 36%, 100% 30%, 100% 66%, 64% 72%, 78% 60%, 0 64%); transform-origin: 50% 50%; }
+.piece.p2 { clip-path: polygon(0 64%, 78% 60%, 64% 72%, 100% 66%, 100% 100%, 0 100%); transform-origin: 50% 82%; }
+
+/* ---------- characters (the supplied artwork) ---------- */
+
+.char {
+  position: absolute;
+  transition: left var(--walk, 0ms) linear;
+  filter: drop-shadow(0 10px 10px rgba(20, 10, 0, .35));
+}
+.char::before {                       /* contact shadow */
+  content: ""; position: absolute; left: 12%; right: 12%; bottom: -10px; height: 22px;
+  border-radius: 50%; background: radial-gradient(rgba(30, 15, 0, .45), rgba(30, 15, 0, 0) 70%);
+}
+.char img { display: block; width: 100%; height: 100%; transform-origin: 50% 100%; animation: breathe 3.4s ease-in-out infinite; }
+.char.ril img { animation-delay: -1.4s; }
+
+/* pose classes – later rules win */
+.talking img           { animation: talkBob .46s ease-in-out infinite; }
+.pose-happy img        { animation: happyBob .55s ease-in-out 3; }
+.pose-startled img     { animation: hop .5s cubic-bezier(.3, 0, .4, 1) 1; }
+.pose-brace img        { animation: brace .16s linear infinite; }
+.pose-worried img      { animation: shiver 1.6s ease-in-out infinite; }
+.pose-nod img          { animation: nod .5s ease-in-out 2; }
+.pose-cheer img        { animation: jump .6s cubic-bezier(.3, 0, .4, 1) infinite; }
+.ril.pose-cheer img    { animation-delay: -.3s; }
+.walking img           { animation: walkBob .34s ease-in-out infinite; }
+
+@keyframes breathe  { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.01, .985); } }
+@keyframes talkBob  { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-5px) rotate(.6deg); } }
+@keyframes happyBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+@keyframes hop      { 0%, 100% { transform: translateY(0) scale(1); } 15% { transform: scale(1.04, .94); } 45% { transform: translateY(-34px) scale(.97, 1.04); } }
+@keyframes brace    { 0% { transform: rotate(-2.2deg) translateX(-3px); } 50% { transform: rotate(2deg) translateX(3px); } 100% { transform: rotate(-2.2deg) translateX(-3px); } }
+@keyframes shiver   { 0%, 100% { transform: rotate(-1.4deg); } 50% { transform: rotate(1.2deg) translateY(2px); } }
+@keyframes nod      { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px) scale(1, .98); } }
+@keyframes jump     { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-52px) rotate(-2deg); } }
+@keyframes walkBob  { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-10px) rotate(1.5deg); } }
+
+/* ---------- torch (assets/level1/torch.webp from the main game) ---------- */
+
+#torch {
+  position: absolute; left: 0; top: 0; width: 120px; height: 86px; margin: -43px 0 0 -60px;
+  transform-origin: 50% 50%; pointer-events: none;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .5));
+}
+
+/* ---------- highlight rings ---------- */
+
+#spots { position: absolute; inset: 0; pointer-events: none; }
+.spot {
+  position: absolute; border-radius: 50%;
+  border: 6px dashed #f2c46a;
+  box-shadow: 0 0 34px 10px rgba(255, 224, 102, .5), inset 0 0 34px rgba(255, 224, 102, .35);
+  animation: spotIn .45s cubic-bezier(.2, 1.6, .4, 1) both, spotPulse 1.1s ease-in-out .45s infinite;
+}
+.spot.soft {
+  border: 5px solid rgba(255, 240, 160, .95);
+  box-shadow: 0 0 40px 14px rgba(255, 230, 120, .55), inset 0 0 40px rgba(255, 230, 120, .4);
+}
+.spot.out { animation: spotOut .4s ease-in forwards; }
+.spot .badge {
+  position: absolute; left: 50%; top: -40px; transform: translateX(-50%);
+  width: 70px; height: 70px; border-radius: 50%;
+  background: #10213a; border: 4px solid #f2b45a;
+  display: grid; place-items: center; font-family: var(--head);
+  font-size: 36px; font-weight: 800; color: var(--gold);
+}
+@keyframes spotIn { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes spotOut { to { transform: scale(1.15); opacity: 0; } }
+@keyframes spotPulse { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.35); } }
+
+/* ---------- UI chrome: raster art from the main game (assets/ui) ---------- */
+
+.ui { z-index: 40; }
+.key {
+  font-family: var(--head); font-weight: 700; font-size: 22px; letter-spacing: .06em;
+  color: var(--gold); text-shadow: 0 2px 6px rgba(0, 0, 0, .8);
+  width: 220px; height: 68px; padding: 0 22px; border: 0;
+  background: url(assets/ui/key.webp) center / 100% 100% no-repeat;
+  cursor: pointer; transition: transform .08s, filter .15s;
+}
+.key:hover, .key:focus-visible { filter: drop-shadow(0 0 14px rgba(87, 222, 244, .55)); outline: none; }
+.key:active { transform: scale(.96); }
+.key.big { width: 360px; height: 112px; font-size: 26px; }
+
+.meter, .panel {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: center / 100% 100% no-repeat; text-align: center;
+}
+.meter { background-image: url(assets/ui/meter.webp); }
+.panel { background-image: url(assets/ui/panel.webp); }
+.meter b, .panel b { font-family: var(--head); font-weight: 800; color: var(--gold); text-shadow: 0 2px 8px rgba(0, 0, 0, .8); letter-spacing: .04em; }
+.meter small, .panel small { font-family: var(--head); font-weight: 600; color: var(--cyan); letter-spacing: .08em; text-shadow: 0 2px 6px rgba(0, 0, 0, .8); }
+
+#topbar { position: absolute; inset: 0; pointer-events: none; }
+#topbar .key { position: absolute; top: 18px; pointer-events: auto; }
+#btnReplay { left: 18px; width: 190px; }
+#btnSkip   { left: 214px; width: 230px; }
+#btnMute   { right: 18px; width: 210px; }
+
+/* scene title strip – same spot as the main game's story meter */
+#chip { position: absolute; left: 470px; top: 22px; width: 660px; height: 110px; padding-top: 4px;
+  font-family: var(--head); font-weight: 700; font-size: 24px; color: #eef7fa; letter-spacing: .06em; text-shadow: 0 2px 6px rgba(0, 0, 0, .9); }
+#chip b { color: var(--gold); font-weight: 700; }
+
+#stage:not([data-mode="story"]) #btnReplay,
+#stage:not([data-mode="story"]) #btnSkip,
+#stage:not([data-mode="story"]) #btnNext,
+#stage:not([data-mode="story"]) #chip { display: none; }
+#stage[data-mode="title"] #checklist { display: none; }
+
+/* checklist */
+#checklist {
+  position: absolute; right: 14px; top: 104px; width: 310px;
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 2px; pointer-events: none;
+}
+#checklist li {
+  height: 96px; padding: 0 30px 2px 46px;
+  display: flex; align-items: center; gap: 12px;
+  background: url(assets/ui/meter.webp) center / 100% 100% no-repeat;
+  font-family: var(--font); font-size: 24px; font-weight: 700; color: var(--gold); text-transform: uppercase;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, .9);
+  opacity: 0; transform: translateX(60px);
+  transition: opacity .3s, transform .4s cubic-bezier(.2, 1.4, .4, 1), filter .3s;
+}
+#checklist li.show { opacity: 1; transform: none; }
+#checklist li.active { filter: drop-shadow(0 0 12px rgba(87, 222, 244, .9)); color: #ffffff; }
+#checklist li.done { color: #b9ffc5; }
+#checklist .ck-num { font-family: var(--head); font-weight: 800; font-size: 26px; color: var(--cyan); min-width: 30px; }
+#checklist li.done .ck-num { color: #b9ffc5; }
+
+/* ---------- dialogue: console panel, placed like the main game's story screens ---------- */
+
+#dialogue {
+  position: absolute; left: 145px; top: 640px; width: 1310px; height: 232px; z-index: 35;
+  padding: 46px 380px 40px 113px;
+  background: url(assets/ui/panel.webp) center / 100% 100% no-repeat;
+  transition: opacity .25s, transform .3s ease;
+}
+#dialogue.hidden { opacity: 0; transform: translateY(40px); pointer-events: none; }
+#dialogue .speaker { font-family: var(--head); font-weight: 700; font-size: 26px; color: var(--cyan); letter-spacing: .08em; text-shadow: 0 2px 6px rgba(0, 0, 0, .8); }
+#dialogue[data-speaker="nova"] .speaker { color: #ffb38f; }
+#dialogue .line { margin: 2px 0 0; font-family: var(--font); font-size: 31px; line-height: 1.12; font-weight: 600; color: #f0f7f7; text-shadow: 0 2px 6px rgba(0, 0, 0, .8); }
+#dialogue .rest { visibility: hidden; }
+
+#btnNext { position: absolute; left: 1070px; top: 735px; width: 320px; height: 100px; z-index: 41; font-size: 26px; }
+#stage.await-next #btnNext { animation: nudge 1s ease-in-out infinite; }
+@keyframes nudge { 0%, 100% { filter: none; } 50% { filter: drop-shadow(0 0 16px rgba(87, 222, 244, .9)); } }
+
+/* ---------- OST title cards: a large status meter ---------- */
+
+#ost {
+  position: absolute; inset: 0; z-index: 30; pointer-events: none;
+  display: grid; place-items: center;
+}
+#ost:empty { display: none; }
+#ost .banner {
+  width: 1040px; height: 250px; padding-top: 6px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: url(assets/ui/meter.webp) center / 100% 100% no-repeat;
+  animation: bannerIn .55s cubic-bezier(.2, 1.4, .4, 1) both;
+  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .6));
+}
+#ost .kicker { font-family: var(--head); font-size: 22px; font-weight: 600; letter-spacing: .3em; color: var(--cyan); }
+#ost .big { font-family: var(--head); font-size: 68px; font-weight: 800; line-height: 1.05; color: var(--gold); white-space: nowrap; text-shadow: 0 0 22px rgba(242, 180, 90, .55), 0 3px 8px rgba(0, 0, 0, .9); }
+#ost .big span { display: inline-block; animation: letterIn .45s ease-out both; animation-delay: calc(var(--i) * 35ms + .15s); }
+#ost.alert .big { color: #ff8a8a; text-shadow: 0 0 22px rgba(255, 60, 60, .8), 0 3px 8px rgba(0, 0, 0, .9); }
+#ost.alert .banner { animation: bannerIn .55s cubic-bezier(.2, 1.4, .4, 1) both, alertShake .45s ease-in-out .6s 3; }
+#ost.done .big { color: #b9ffc5; text-shadow: 0 0 22px rgba(90, 255, 140, .6), 0 3px 8px rgba(0, 0, 0, .9); }
+#ost.out .banner { animation: bannerOut .4s ease-in forwards; }
+@keyframes bannerIn { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes bannerOut { to { transform: scale(.8) translateY(-60px); opacity: 0; } }
+@keyframes letterIn { from { transform: translateY(-30px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes alertShake { 0%, 100% { transform: none; } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+/* ---------- overlays (title / placeholder / end) ---------- */
+
+.overlay {
+  position: absolute; inset: 0; z-index: 50;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px;
+  cursor: default; background: rgba(4, 13, 23, .45);
+}
+.overlay[hidden] { display: none; }
+.overlay .panel { width: 850px; height: 245px; animation: bannerIn .5s ease-out both; }
+.overlay .panel { padding-bottom: 14px; }
+.overlay .panel b { font-size: 50px; white-space: nowrap; }
+.overlay .panel b.ok { color: #b9ffc5; }
+.overlay .panel small { font-size: 20px; margin-top: 6px; }
+.overlay .row { display: flex; gap: 24px; }
+#title { justify-content: flex-start; padding-top: 30px; }
+#title .title-meter { width: 630px; height: 140px; margin-bottom: 70px; }
+#title .title-meter b { font-size: 30px; }
+#title .title-meter small { font-size: 14px; margin-top: 4px; }
+#title .title-panel b { font-size: 60px; }
+#title .hint { margin: 10px 0 0; font-family: var(--head); font-size: 18px; font-weight: 600; color: #e6f3f5; letter-spacing: .08em; text-shadow: 0 2px 6px rgba(0, 0, 0, .9); }
+
+#wipe {
+  position: absolute; inset: 0; z-index: 60; pointer-events: none;
+  background: #050d16; opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .char img { animation: none !important; }
+}
+
+/* ======================================================================
+   V3 – generated art (assets/gen) : emotions, walk cycles and UI plates
+   ====================================================================== */
+
+/* walking uses the generated 6-frame walk strips */
+.char .walker {
+  display: none; position: absolute; left: 50%; bottom: 0; height: 100%;
+  background-repeat: no-repeat; background-size: auto 100%;
+  transform: translateX(-50%);
+}
+.char.walking img { visibility: hidden; }
+.char.walking .walker { display: block; animation: walkcycle var(--walkdur, .8s) steps(8) infinite; }
+.char.flip .walker { transform: translateX(-50%) scaleX(-1); }
+@keyframes walkcycle { from { background-position: 0 0; } to { background-position: calc(-1 * var(--sheet)) 0; } }
+
+/* buttons */
+.key { background-image: url(assets/gen/ui-button.webp); }
+
+/* scene strip + title cards */
+#chip { left: 500px; top: 10px; width: 600px; height: 150px; padding-top: 0; background: url(assets/gen/ui-title.webp) center / 100% 100% no-repeat; font-size: 22px; }
+#ost .banner { width: 980px; height: 270px; background-image: url(assets/gen/ui-title.webp); }
+.overlay .panel { background-image: url(assets/gen/ui-title.webp); width: 900px; height: 247px; }
+.meter.title-meter { background-image: url(assets/gen/ui-title.webp); width: 600px; height: 165px; }
+
+/* checklist – top-left under the buttons */
+#checklist { left: 18px; right: auto; top: 104px; width: 400px; gap: 8px; }
+#checklist li {
+  height: 52px; padding: 0 20px 0 9px; gap: 22px; font-size: 22px;
+  background-image: url(assets/gen/ui-checkrow.webp); transform: translateX(-60px);
+}
+#checklist li.show { transform: none; }
+#checklist .ck-num {
+  width: 36px; height: 36px; min-width: 36px; display: grid; place-items: center; font-size: 20px;
+  background: center / contain no-repeat;
+}
+#checklist li.done .ck-num { background-image: url(assets/gen/ui-check.webp); width: 46px; height: 46px; min-width: 46px; margin: 0 -5px; }
+
+/* highlight rings + number badges */
+.spot { border: 0; box-shadow: none; border-radius: 0; background: url(assets/gen/ui-ring.webp) center / 100% 100% no-repeat; filter: drop-shadow(0 0 14px rgba(255, 196, 90, .8)); }
+.spot.soft { border: 0; box-shadow: none; filter: drop-shadow(0 0 18px rgba(120, 230, 255, .9)); opacity: .9; }
+.spot .badge { width: 84px; height: 84px; top: -46px; border: 0; background: url(assets/gen/ui-badge.webp) center / contain no-repeat; box-shadow: none; padding-bottom: 4px; }
+
+/* dialogue – generated frame with a round portrait window */
+#dialogue {
+  left: 390px; top: 600px; width: 820px; height: 299px;
+  padding: 58px 46px 0 303px;
+  background-image: url(assets/gen/ui-dialogue.webp);
+}
+#dialogue .portrait {
+  position: absolute; left: 64px; top: 56px; width: 188px; height: 188px; border-radius: 50%;
+  background: #0b1a2c center / cover no-repeat;
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, .7);
+}
+#dialogue[data-speaker="nova"] .portrait { background-image: url(assets/gen/nova-portrait.webp); background-size: cover; background-position: center; }
+#dialogue[data-speaker="ril"] .portrait  { background-image: url(assets/ril.webp);  background-size: 419px auto; background-position: -190px 0; }
+#dialogue .speaker { font-size: 22px; }
+#dialogue .line { font-size: 27px; line-height: 1.15; max-width: 470px; }
+#btnNext { left: 985px; top: 822px; width: 200px; height: 70px; font-size: 22px; }
+
+
+/* ======================================================================
+   V4 – responsive shell, no flat colours
+   ====================================================================== */
+html, body { background: #0b1428 url(assets/room-mess.webp) center / cover no-repeat; }
+#viewport { position: fixed; left: 0; top: 0; width: 100vw; height: 100dvh; background: none; overflow: hidden; }
+#viewport.rot { transform-origin: 0 0; transform: rotate(90deg) translateY(-100%); }
+#backdrop {
+  position: absolute; inset: -60px; width: calc(100% + 120px); height: calc(100% + 120px);
+  object-fit: cover; pointer-events: none;
+  filter: blur(26px) brightness(.5) saturate(1.25);
+}
+#stage { background: transparent; box-shadow: 0 0 80px rgba(0, 0, 0, .55); border-radius: 10px; }
+#stage.behind { visibility: hidden; }
+#flicker { background: radial-gradient(ellipse at 50% 30%, rgba(8, 14, 34, .85), rgba(2, 4, 14, .97)); }
+#wipe { background: radial-gradient(ellipse at center, rgba(20, 30, 60, .55), rgba(2, 6, 16, .92)); -webkit-backdrop-filter: blur(14px) brightness(.4); backdrop-filter: blur(14px) brightness(.4); }
+.overlay { background: radial-gradient(ellipse at 50% 45%, rgba(20, 34, 64, .25), rgba(4, 10, 22, .7)); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+#dialogue .portrait { background-color: transparent; }
+#stage .bg { background: none; }
+
+/* small screens (phones): larger words, buttons and dialogue */
+#stage.compact #dialogue { scale: 1.28; transform-origin: 50% 100%; }
+#stage.compact #btnNext { scale: 1.28; transform-origin: 50% 100%; left: 1020px; top: 846px; }
+#stage.compact #topbar .key { scale: 1.25; transform-origin: 0 0; }
+#stage.compact #btnMute { transform-origin: 100% 0; }
+#stage.compact #btnSkip { left: 258px; }
+#stage.compact #checklist { scale: 1.2; transform-origin: 0 0; top: 120px; }
+#stage.compact #chip { left: 640px; width: 470px; height: 130px; font-size: 20px; scale: 1.15; transform-origin: 50% 0; }
+#stage.compact #ost .banner { scale: 1.15; }
+#stage.compact .overlay .key.big { scale: 1.2; }
+
+/* ---------- requested fixes ---------- */
+#monNum { display: none; }                                      /* no numbers on the monitor */
+#stage.screen-fixing #monRed { opacity: 0 !important; }          /* red fades into the green monitor art */
+#stage.screen-fixing #monFlash { animation: none; opacity: 0; }
+/* highlights are soft light, not a ring */
+.spot, .spot.soft { background: radial-gradient(ellipse at center, rgba(255, 226, 150, .38), rgba(255, 200, 100, .14) 55%, rgba(255, 200, 100, 0) 72%); filter: none; mix-blend-mode: screen; }
+/* Nova is hidden while the quake video plays, then appears */
+.char { transition: left var(--walk, 0ms) cubic-bezier(.22, .8, .3, 1), opacity .45s ease; }
+.char.is-hidden { opacity: 0; }
+/* Ril slides in (no walk cycle) */
+.char.sliding img { animation: slideTilt .35s ease-in-out infinite alternate; }
+@keyframes slideTilt { from { transform: translateY(0) rotate(-1deg); } to { transform: translateY(-4px) rotate(1deg); } }
+
+/* Scene 3: Nova stays still (no worried shiver) */
+.pose-worried img { animation: breathe 3.4s ease-in-out infinite; }
+
+/* title screen: no characters */
+#stage[data-mode="title"] .char { visibility: hidden; }
+
+/* developer jump menu */
+#jump { position: absolute; left: 18px; bottom: 14px; z-index: 70; display: flex; align-items: center; gap: 8px; padding: 14px 26px;
+  background: url(assets/gen/ui-button.webp) center / 100% 100% no-repeat; font: 700 15px Orbitron, sans-serif; color: #f6dfac; text-shadow: 0 2px 4px #000; cursor: default; }
+#jump select { font: 700 16px Rajdhani, sans-serif; color: #f6dfac; background: rgba(10, 16, 30, .75); border: 1px solid rgba(242, 180, 90, .6); border-radius: 8px; padding: 4px 6px; cursor: pointer; }
+#jump option { background: #141c2e; color: #f6dfac; }
+
+#stage.behind { z-index: 30; }
+#stage.behind #jump { visibility: visible; }
+
+/* top bar (Replay / Skip / Sound) and the scene-title strip are removed from every screen */
+#topbar, #chip, #stage:not([data-mode]) #chip { display: none !important; }
+
+/* ---------- stable characters: no wobble, feet planted on the floor ---------- */
+.char img, .talking img, .char.sliding img, .pose-happy img, .pose-worried img, .pose-nod img { animation: none !important; transform: none !important; }
+.char { transition: left var(--walk, 0ms) cubic-bezier(.33, 0, .2, 1), opacity .45s ease; filter: drop-shadow(0 4px 4px rgba(20, 10, 0, .35)); }
+#ril { translate: 0 16px; }          /* stand on the floor, not above it */
+#nova { translate: 0 10px; }
+.char::before { left: 8%; right: 8%; bottom: -6px; height: 26px; background: radial-gradient(ellipse at center, rgba(25, 12, 0, .55), rgba(25, 12, 0, .25) 45%, rgba(25, 12, 0, 0) 72%); }
+.char.pose-cheer img { animation: jump .6s cubic-bezier(.3, 0, .4, 1) 3 !important; }   /* keep the celebration jump */
+
+/* ---------- small speech bubble above the speaker's head ---------- */
+#dialogue {
+  left: 0; top: 0; right: auto; bottom: auto; width: auto; min-width: 240px; max-width: 520px; height: auto; min-height: 0;
+  padding: 16px 26px 18px; display: block; z-index: 36;
+  background: linear-gradient(170deg, rgba(30, 44, 74, .96), rgba(10, 16, 32, .97));
+  border: 3px solid #f2b45a; border-radius: 24px;
+  box-shadow: 0 0 0 2px rgba(10, 16, 30, .8), 0 10px 22px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .18), 0 0 18px rgba(242, 180, 90, .35);
+  transform-origin: var(--tail, 50%) 100%;
+  transition: opacity .22s ease, transform .3s cubic-bezier(.2, 1.5, .4, 1);
+  scale: 1 !important;
+}
+#dialogue::after {   /* the tail pointing down at the speaker */
+  content: ""; position: absolute; left: var(--tail, 50%); bottom: -15px; width: 24px; height: 24px; margin-left: -12px;
+  background: linear-gradient(135deg, rgba(14, 22, 42, .97), rgba(10, 16, 32, .97));
+  border-right: 3px solid #f2b45a; border-bottom: 3px solid #f2b45a; border-bottom-right-radius: 6px; transform: rotate(45deg);
+}
+#dialogue.free::after { display: none; }
+#dialogue.hidden { opacity: 0; transform: scale(.4); pointer-events: none; }
+#dialogue .portrait { display: none; }
+#dialogue .speaker { font-size: 18px; letter-spacing: .1em; }
+#dialogue .line { margin-top: 2px; max-width: none; font-size: 27px; line-height: 1.18; }
+#dialogue[data-speaker="nova"] { border-color: #ffb38f; }
+#dialogue[data-speaker="nova"]::after { border-color: #ffb38f; }
+#stage.compact #dialogue { scale: 1 !important; max-width: 600px; }
+#stage.compact #dialogue .line { font-size: 34px; }
+#stage.compact #dialogue .speaker { font-size: 22px; }
+
+/* NEXT button: bottom-right corner, glows when the line is finished */
+#btnNext { left: auto; top: auto; right: 28px; bottom: 24px; width: 230px; height: 80px; font-size: 26px; display: inline-flex !important; opacity: .55; transition: opacity .25s; }
+#stage.await-next #btnNext { opacity: 1; }
+#stage:not([data-mode="story"]) #btnNext { display: none !important; }
+
+/* broken record in scenes 3-4 = the same amber number card used in Level 2, cracked into three pieces */
+.piece { width: 230px; height: 98px; background: url(assets/level2/plate-amber.webp) center / 100% 100% no-repeat;
+  display: grid; place-items: center; padding-right: 30px; box-sizing: border-box; filter: drop-shadow(0 8px 8px rgba(0, 0, 0, .55)); }
+.piece span { font: 800 34px Orbitron, sans-serif; color: #fff; text-shadow: 0 2px 0 rgba(0, 0, 0, .6), 0 0 10px rgba(0, 0, 0, .6); }
+.piece.p0 { clip-path: polygon(0 0, 36% 0, 31% 24%, 39% 48%, 32% 72%, 37% 100%, 0 100%); transform-origin: 18% 50%; }
+.piece.p1 { clip-path: polygon(36% 0, 69% 0, 64% 30%, 72% 56%, 66% 100%, 37% 100%, 32% 72%, 39% 48%, 31% 24%); transform-origin: 50% 50%; }
+.piece.p2 { clip-path: polygon(69% 0, 100% 0, 100% 100%, 66% 100%, 72% 56%, 64% 30%); transform-origin: 84% 50%; }

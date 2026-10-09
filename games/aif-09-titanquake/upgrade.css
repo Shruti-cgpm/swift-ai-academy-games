@@ -1,0 +1,146 @@
+/* Titanquake – Swift AI Academy upgrade (loaded last).
+   Task lines, sound button, gentle quake, keyboard focus, and bigger words and targets on small screens.
+   The game keeps its own art: these pieces reuse its glass panels, gold frames and fonts. */
+
+/* ---------- "What to do" line ---------- */
+.tq-task {
+  position: absolute; z-index: 6; width: 420px; margin: 0; padding: 14px 24px 16px;
+  background: linear-gradient(170deg, rgba(30, 44, 74, .94), rgba(10, 16, 32, .96));
+  border: 3px solid #f2b45a; border-radius: 22px;
+  box-shadow: 0 0 0 2px rgba(10, 16, 30, .8), 0 10px 22px rgba(0, 0, 0, .45), 0 0 18px rgba(242, 180, 90, .3);
+  font: 600 27px/1.18 Rajdhani, "Segoe UI", sans-serif; color: #f0f7f7; text-shadow: 0 2px 6px rgba(0, 0, 0, .8);
+  pointer-events: none;
+}
+.tq-task[hidden] { display: none; }
+.tq-task b { display: block; margin-bottom: 4px; font: 700 19px Orbitron, sans-serif; letter-spacing: .14em; color: #94e8f4; }
+.tq-task span { display: block; }
+#l1-task { right: 24px; top: 150px; z-index: 11; }
+#l2-task { right: 22px; top: 100px; width: 390px; }
+#l3-task { right: 26px; bottom: 26px; width: 440px; }
+
+/* staff-only jump menu (shown with ?dev) */
+#jump[hidden] { display: none !important; }
+
+/* ---------- sound button (story, Level 2, Level 3; Level 1 has its own) ---------- */
+#btnSound { position: absolute; left: 18px; bottom: 14px; z-index: 55; width: 210px; height: 72px; font-size: 19px; }
+#level2:not([hidden]) ~ #btnSound { left: auto; bottom: auto; right: 22px; top: 14px; }
+#stage[data-mode="title"] #btnSound { display: none; }
+
+/* ---------- title ---------- */
+#title .title-meter small { font-size: 18px; }
+#btnGentle { width: 380px; height: 76px; font-size: 19px; margin-top: 4px; }
+#btnGentle[aria-pressed="true"] { color: #b9ffc5; }
+
+/* ---------- Level 3: bigger tap area on the ▲ ▼ arrows (the triangles look the same) ---------- */
+.l3-arrow { height: 72px; }
+.l3-comma { margin-bottom: 138px; }
+
+/* ---------- keyboard focus: a clear cyan ring on every control ---------- */
+#stage button:focus-visible, #level1 button:focus-visible, #stage select:focus-visible {
+  outline: 6px solid #57def4 !important; outline-offset: 5px; border-radius: 20px; filter: drop-shadow(0 0 14px rgba(87, 222, 244, .7));
+}
+.l1-ped:focus-visible { outline: 6px solid #57def4 !important; outline-offset: -6px; border-radius: 24px; }
+
+/* ---------- gentle quake (also on by default with reduced motion): no shaking, no flashing ---------- */
+html.gentle #ost.alert .banner { animation: bannerIn .55s ease-out both; }
+html.gentle .l1-ped.is-wrong, html.gentle .l2-sign.bad, html.gentle .l2-sign.drop { animation: none; }
+html.gentle .l2-card.tray { animation: l2-pop .45s ease-out var(--d, 0ms) both; }
+html.gentle .l3-box.blink, html.gentle .l3-box.nudge, html.gentle .l2-card.wrongpart, html.gentle .l2-col.wrongpart { animation-duration: 1s; animation-iteration-count: 2; }
+html.gentle .l3-scan { animation: none; }
+html.gentle .char.pose-cheer img { animation: none !important; }
+html.gentle #stage.await-next #btnNext { animation: none; }
+
+/* ---------- small screens (stage scale below .62): words at least about 14px, targets at least 44px ---------- */
+#stage.compact #btnNext { scale: 1; width: 290px; height: 116px; font-size: 32px; right: 22px; bottom: 16px; left: auto; top: auto; }
+#stage.compact #btnSound { width: 290px; height: 116px; font-size: 26px; }
+#stage.compact #btnGentle { width: 460px; height: 116px; font-size: 26px; }
+#stage.compact #title { gap: 18px; padding-top: 14px; }
+#stage.compact #title .title-meter { margin-bottom: 20px; }
+#stage.compact #title .hint { font-size: 30px; }
+#stage.compact #checklist { scale: 1.45; }
+#stage.compact .tq-task { width: 560px; font-size: 36px; padding: 16px 26px 18px; }
+#stage.compact .tq-task b { font-size: 24px; }
+#stage.compact #dialogue .line { font-size: 36px; }
+
+/* Level 1 (its own 1672×941 stage) */
+.l1.compact .l1-mute { scale: 1; width: 300px; height: 120px; font-size: 26px; }
+.l1.compact #l1-task { width: 560px; font-size: 36px; top: 170px; }
+.l1.compact #l1-task b { font-size: 24px; }
+.l1.compact .l1-hud { scale: 1.5; }
+.l1.compact .l1-banner { width: 72%; height: 22%; top: 18%; }
+.l1.compact .l1-num { font-family: Rajdhani, "Segoe UI", sans-serif; font-weight: 700; }
+.l1.compact .l1-chart-title { font-size: 38px; }
+.l1.compact .l1-chart-col { grid-template-rows: 78px 80px; }
+.l1.compact .l1-chart-col span { font-size: 32px; }
+.l1.compact .l1-tap { font-size: 30px; }
+
+/* Level 2 */
+#stage.compact .l2-hud { scale: 1.4; transform-origin: 0 0; }
+#stage.compact .l2-card.tray { height: 116px; }
+#stage.compact #l2-sum { top: 526px; height: 118px; }
+#stage.compact .l2-card.chip { width: 176px; height: 112px; font-size: 28px; }
+#stage.compact .l2-col { grid-template-rows: 74px 1fr; }
+#stage.compact .l2-col span { font-size: 34px; line-height: .95; text-align: center; }
+#stage.compact .l2-col b { font-size: 56px; }
+#stage.compact #l2-check { height: 116px; top: 784px; }
+#stage.compact #l2-next { height: 116px; }
+#stage.compact #l2-say .l2-line { font-size: 36px; }
+#stage.compact #l2-task { width: 400px; top: 160px; }
+
+/* Level 3: tap a box, tap a digit (the small arrows are hidden; keys and dragging still roll a digit) */
+#stage.compact .l3-hud { scale: 1.4; transform-origin: 0 0; }
+#stage.compact .l3-should { font-size: 30px; top: 100px; }
+#stage.compact .l3-arrow { visibility: hidden; height: 20px; }
+#stage.compact .l3-box { grid-template-rows: 1fr 80px; height: 250px; }
+#stage.compact .l3-box b { font-size: 100px; }
+#stage.compact .l3-box span { font-size: 32px; line-height: .95; text-align: center; }
+#stage.compact .l3-comma { margin-bottom: 100px; }
+#stage.compact .l3-opt { height: 116px; }
+#stage.compact #l3-check { height: 116px; top: 776px; }
+#stage.compact #l3-next { width: 300px; height: 116px; }
+#stage.compact #l3-say .l2-line { font-size: 36px; }
+#stage.compact #l3-task { width: 380px; right: auto; left: 22px; }
+#stage.compact #level3:not([hidden]) ~ #btnSound { left: auto; bottom: auto; right: 22px; top: 14px; }
+#stage.compact .overlay .panel small, #stage.compact #title .title-meter small { font-size: 26px; }
+.l1.compact .l1-ril-name { font-size: 24px; }
+
+/* phones (stage scale about .4): every word at least about 14px on the glass */
+#stage.compact #dialogue .speaker { font-size: 34px; }
+#stage.compact #btnNext { font-size: 36px; }
+#stage.compact #btnSound { font-size: 34px; width: 330px; }
+#stage.compact #checklist { scale: 1.6; }
+#stage.compact .tq-task b { font-size: 34px; letter-spacing: .08em; }
+#stage.compact .overlay .panel small, #stage.compact #title .title-meter small { font-size: 34px; }
+#stage.compact #title .title-meter b { font-size: 38px; }
+#stage.compact .overlay .key.big { font-size: 30px; }
+#stage.compact #title .hint { font-size: 36px; }
+#stage.compact #btnGentle { width: 560px; font-size: 32px; }
+.l1.compact .l1-hud { scale: 1.7; }
+.l1.compact .l1-ril-name { font-size: 36px; }
+.l1.compact .l1-ril-line { font-size: 38px; }
+.l1.compact #l1-task b { font-size: 36px; letter-spacing: .08em; }
+.l1.compact .l1-mute { font-size: 36px; width: 330px; }
+.l1.compact .l1-chart-col span { font-size: 36px; }
+#stage.compact #l2-label { font-size: 36px; letter-spacing: .12em; }
+#stage.compact .l2-hud { scale: 1.8; }
+#stage.compact .l2-card.chip { font-size: 36px; width: 186px; }
+#stage.compact #l2-check, #stage.compact #l3-check { font-size: 36px; }
+#stage.compact .l3-hud { scale: 1.9; }
+#stage.compact .l3-should { font-size: 36px; }
+#stage.compact .l3-box span { font-size: 36px; }
+#stage.compact #btnGentle { width: 600px; font-size: 34px; }
+#stage.compact #checklist .ck-num { font-size: 22px; }
+
+/* phones: the level title pills give way to the task line (the dots still show progress) */
+.l1.compact .l1-pill, #stage.compact .l2-pill, #stage.compact .l3-pill { display: none; }
+.l1.compact .l1-hud { scale: 1.6; }
+#stage.compact .l2-hud, #stage.compact .l3-hud { scale: 1.6; top: 12px; }
+.l1.compact #l1-task { right: auto; left: 24px; top: 43%; width: 520px; }
+.l1-chart.is-visible ~ #l1-task { display: none; }
+.l1.compact .l1-caption { scale: 1; max-width: 56%; font-size: 38px; }
+#stage.compact #l2-task { right: auto; left: 22px; top: 52px; width: 380px; }
+#stage.compact #title .title-meter small { font-size: 26px; }
+.l1.compact .l1-chart-grid { grid-template-columns: repeat(var(--cols, 6), 184px); }
+.l1.compact .l1-chart-col span { font-size: 32px; line-height: 1; }
+.l1.compact .l1-chart-grid { grid-template-columns: repeat(var(--cols, 6), 200px); }
+.l1.compact .l1-chart-col span { font-size: 36px; }

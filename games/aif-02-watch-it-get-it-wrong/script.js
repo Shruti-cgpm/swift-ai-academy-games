@@ -389,6 +389,8 @@ Issued By:
     document.querySelectorAll('[data-fill="prompt"]').forEach(n => { n.textContent = scenario.prompt; });
     document.querySelectorAll('[data-fill="output"]').forEach(n => { n.textContent = scenario.output; });
     document.querySelectorAll('[data-safety]').forEach(n => { n.hidden = !scenario.safety; });
+    /* where the case happens (no labels, so it does not hint at what is made up) */
+    document.querySelectorAll('[data-scene]').forEach(n => { n.src = 'assets/mocks/dark/' + (scenario.lane === 'iti' ? 'scene-iti-workshop' : 'scene-campus') + '.webp'; n.alt = scenario.lane === 'iti' ? 'An ITI workshop.' : 'A college campus.'; });
     renderCheckCard();
     byId('check-source').value = 'Check card, ' + caseLabel();
     byId('gaps').textContent = 'Your prompt did not say ' + scenario.gaps;
@@ -447,7 +449,8 @@ Issued By:
       else if (!c.ok) { cls = 'miss'; label = 'Missed · ' + CATS[c.cat]; }
       else if (flagged) { cls = 'false-flag'; label = 'This one is supported'; falseFlags++; }
       else { cls = 'ok'; label = 'Supported'; }
-      b.classList.add(cls); b.querySelector('.verdict').textContent = label; b.querySelector('.why').textContent = c.why; b.setAttribute('aria-disabled', 'true');
+      b.classList.add(cls); b.querySelector('.verdict').textContent = label;
+      if (!c.ok && CAT_ICON[c.cat]) { const vi = icon(CAT_ICON[c.cat]); vi.classList.add('verdict-ic'); b.querySelector('.verdict').prepend(vi); }   /* kind icon, only after Check */ b.querySelector('.why').textContent = c.why; b.setAttribute('aria-disabled', 'true');
     });
     const total = unsupportedClaims().length;
     st.caught = caught; st.falseFlags = falseFlags;
@@ -613,6 +616,7 @@ Issued By:
   /* ---------------- navigation ---------------- */
   const dashes = byId('dashes');
   flow.forEach(() => dashes.append(el('li')));
+  let maybeTip = () => {};   /* set below: the first-visit "How to check a line" pop-up */
   function show(name) {
     current = name; clearNudges(); hideNeed();
     document.querySelectorAll('.page').forEach(p => { p.hidden = p.dataset.page !== name; });
@@ -628,6 +632,7 @@ Issued By:
     byId('finish').hidden = name !== 'review' || !st.downloaded;
     byId('nav-next').querySelector('span').textContent = name === 'practice' && !st.revealed ? 'Check my flags' : 'Continue';
     if (name === 'check') paintOutcome();
+    if (name === 'practice') setTimeout(() => { if (current === 'practice') maybeTip(); }, 400);
     if (name === 'rewrite') {
       byId('rewrite-sub').textContent = usedPractice()
         ? 'Your own AI answer was correct, so fix the practice answer instead. Add the facts it got wrong, and tell the AI tool not to guess.'
@@ -691,6 +696,27 @@ Issued By:
   byId('output-close').addEventListener('click', closeOut);
   outModal.addEventListener('click', e => { if (e.target === outModal) closeOut(); });
   outModal.addEventListener('keydown', e => { if (e.key === 'Escape') closeOut(); if (e.key === 'Tab') { e.preventDefault(); (document.activeElement === byId('output-close') ? outModal.querySelector('.raw-output') : byId('output-close')).focus(); } });
+
+  /* AI Fluency designer assets (Oct 2026) */
+  const reduceMotion = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } };
+  const playVid = v => { if (reduceMotion()) { v.controls = true; return; } v.controls = false; const pr = v.play(); if (pr && pr.catch) pr.catch(() => { v.controls = true; }); };
+  /* practice screen: "How to check a line" tip, a pop-up on the first visit (closing it is remembered), opened again from a small link */
+  const TIP_KEY = 'wg-line-tip-closed';
+  const tipModal = byId('tip-modal'), tipVid = byId('line-tip-vid'), tipOpen = byId('line-tip-open');
+  const openTip = () => { tipModal.hidden = false; app.inert = true; playVid(tipVid); byId('line-tip-close').focus(); };
+  const closeTip = () => { tipModal.hidden = true; tipVid.pause(); app.inert = false; try { localStorage.setItem(TIP_KEY, '1'); } catch (e) { /* storage blocked */ } tipOpen.focus({ preventScroll: true }); };
+  maybeTip = () => { let seen = false; try { seen = localStorage.getItem(TIP_KEY) === '1'; } catch (e) { /* storage blocked */ } if (!seen && tipModal.hidden) openTip(); };
+  tipOpen.addEventListener('click', openTip);
+  byId('line-tip-close').addEventListener('click', closeTip);
+  tipModal.addEventListener('click', e => { if (e.target === tipModal) closeTip(); });
+  tipModal.addEventListener('keydown', e => { if (e.key === 'Escape') closeTip(); if (e.key === 'Tab') { e.preventDefault(); byId('line-tip-close').focus(); } });
+  /* run screen: a short "how to copy and paste" example in a pop-up */
+  const copyModal = byId('copy-modal'), copyVid = byId('copy-vid');
+  const closeCopy = () => { copyModal.hidden = true; copyVid.pause(); app.inert = false; byId('see-copy-demo').focus(); };
+  byId('see-copy-demo').addEventListener('click', () => { copyModal.hidden = false; app.inert = true; playVid(copyVid); byId('copy-close').focus(); });
+  byId('copy-close').addEventListener('click', closeCopy);
+  copyModal.addEventListener('click', e => { if (e.target === copyModal) closeCopy(); });
+  copyModal.addEventListener('keydown', e => { if (e.key === 'Escape') closeCopy(); if (e.key === 'Tab') { e.preventDefault(); byId('copy-close').focus(); } });
 
   /* typed work: warn before the page is closed */
   let typedSomething = false;

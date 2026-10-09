@@ -327,6 +327,20 @@
     'HE-C': ['Topic, length, cover page', 'Last date', 'Where to submit']
   };
   var STD_FRONT_SHARED = ['Word limit', 'Tone', 'Facts only'];
+  /* one line icon per card front (designer assets, Oct 2026); the same icon repeats on the standard check (5b) */
+  var STD_ICON = {
+    'Date, time and place': 'date', 'Date and times': 'date', 'Dates, times and rooms': 'date', 'Last date': 'date',
+    'Bring and wear': 'safe-workshop', 'What to bring': 'safe-workshop', 'Missing tool': 'missing',
+    'Registration': 'sign', 'Library card form': 'sign', 'Where to submit': 'send', 'Topic, length, cover page': 'format',
+    'Photos and consent': 'consent', 'New class': 'new-class',
+    'Word limit': 'word-limit', 'Tone': 'tone', 'Facts only': 'fact'
+  };
+  /* icons go on every card or on none */
+  function stdIcons() {
+    var v = V(), fr = (STD_FRONT[S.setup.variant] || []).concat(STD_FRONT_SHARED);
+    var ics = v.standard.map(function (_, n) { return STD_ICON[fr[n]] || ''; });
+    return ics.every(Boolean) ? ics : ics.map(function () { return ''; });
+  }
 
   /* the learner's work screens: [step, sub, id] */
   var WS = [
@@ -466,6 +480,15 @@
     return (list || []).some(function (w) { return t.indexOf(String(w).toLowerCase()) !== -1; });
   }
   function laneLabel(l) { return l === 'iti' ? 'ITI trade lane' : 'Higher education lane'; }
+  /* the approved tool's own logo on an ivory mat (ChatGPT, Gemini or Claude); any other tool keeps icon-ai-helper */
+  function toolLogoName() {
+    var t = String(S.setup.tool || '').toLowerCase();
+    return /chat\s*gpt/.test(t) ? 'chatgpt' : (/gemini/.test(t) ? 'gemini' : (/claude/.test(t) ? 'claude' : ''));
+  }
+  function toolMark(cls) {
+    var n = toolLogoName();
+    return n ? '<span class="logo-mat ' + (cls || '') + '" aria-hidden="true"><img src="assets/mocks/dark/' + n + '-64.webp" alt="" width="64" height="64"></span>' : img('ai-helper', cls ? 'aic ' + cls : 'aic');
+  }
   function img(name, cls) { return '<img class="' + (cls || 'aic') + '" src="assets/icons/ivory/icon-' + name + '.webp" alt="" aria-hidden="true" width="28" height="28">'; }
 
   function elapsed() {
@@ -752,7 +775,7 @@
   function kitSort(kid, bins, chips, doneText) {
     /* one card at a time (deck): flick, drag, tap a box, or the arrow keys; the card sits above the two boxes */
     return '<div class="saa-kit" data-kit="sort" data-style="deck" data-kid="' + kid + '"' + req(kid) + ' data-shuffle data-done-text="' + esc(doneText) + '"><div class="saa-pool">' +
-      chips.map(function (c) { return '<button class="saa-chip" type="button" data-bin="' + c.bin + '" data-why="' + esc(c.why) + '" data-hint="' + esc(c.hint) + '">' + img(c.icon) + esc(c.t) + '</button>'; }).join('') +
+      chips.map(function (c) { return '<button class="saa-chip" type="button" data-bin="' + c.bin + '" data-why="' + esc(c.why) + '" data-hint="' + esc(c.hint) + '">' + (c.logo ? toolMark('sort-logo') : img(c.icon)) + esc(c.t) + '</button>'; }).join('') +
       '</div><div class="saa-bins">' +
       bins.map(function (b) { return '<div class="saa-bin" data-bin="' + b[0] + '" data-label="' + esc(b[1]) + '"></div>'; }).join('') +
       '</div><p class="saa-k-why"></p></div>';
@@ -805,7 +828,7 @@
           lede('You can use 3 things. Please do not do 3 things.') +
           task('Sort each card into the right box.'),
         work: kitSort('k-rules', [['a', 'You can use'], ['b', 'Please do not']], [
-          { bin: 'a', icon: 'ai-helper', t: tool(), why: 'Yes. This is your approved AI tool.', hint: 'Not quite. Which AI tool did your assessor open for you?' },
+          { bin: 'a', icon: 'ai-helper', logo: true, t: tool(), why: 'Yes. This is your approved AI tool.', hint: 'Not quite. Which AI tool did your assessor open for you?' },
           { bin: 'a', icon: 'source-data-sheet', t: 'The fact sheet on the screen', why: 'Yes. The fact sheet has the true information.', hint: 'Not quite. Where is the true information for your notice?' },
           { bin: 'a', icon: 'rulebook', t: 'Your Rulebook, sections R1 and R3', why: 'Yes. You may use sections R1 and R3 of your Personal AI Rulebook.', hint: 'Not quite. Your own Rulebook notes are there to help you.' },
           { bin: 'b', icon: 'help-get', t: 'Help from other people', why: 'Yes. You do this checkpoint alone.', hint: 'Not quite. Who does the checkpoint: you alone, or a group?' },
@@ -819,6 +842,7 @@
       key: 'w2', count: 3, back: function () { S.wsub = 1; save(); render(); },
       lead: eb('Before you start') + head('h2', 'Your assessor watches but does not help.') +
         lede('That is normal in a checkpoint. Your work saves by itself.') +
+        '<img class="lead-art assessor-art" src="assets/mocks/dark/spot-facilitator.webp" width="240" height="180" alt="Your assessor, holding a clipboard.">' +
         task('Tap how sure you feel, then press Start my 30 minutes.'),
       work: confScale('confBefore', 'How sure do you feel about checking AI work?') +
         '<div class="calm-note">' + icon('info') + '<span>You have done every part of this before. The clock starts when you press Start.</span></div>',
@@ -944,12 +968,12 @@
   var W = {};
   /* 1a. read the task */
   W.read = function () {
-    var v = V(), fr = (STD_FRONT[S.setup.variant] || []).concat(STD_FRONT_SHARED);
+    var v = V(), fr = (STD_FRONT[S.setup.variant] || []).concat(STD_FRONT_SHARED), ics = stdIcons();
     return {
       lead: stepEb(1) + head('h2', 'Read your task first.') + lede(v.scenario) + task('Tap each card to see what a good notice has.'),
       work: '<div class="job">' + img('task') + '<div><b>' + esc(v.job) + '</b><span class="small">Use ' + esc(tool()) + ' to help you.</span></div></div>' +
         '<p class="mini-h">A good notice has</p>' +
-        kitReveal('k-std-' + S.setup.variant, v.standard.map(function (s, n) { return { n: n + 1, front: fr[n] || ('Point ' + (n + 1)), back: s + '.' }; }), 'std')
+        kitReveal('k-std-' + S.setup.variant, v.standard.map(function (s, n) { return { n: n + 1, icon: ics[n], front: fr[n] || ('Point ' + (n + 1)), back: s + '.' }; }), 'std')
     };
   };
   /* 1b. read the draft and the fact sheet */
@@ -1058,11 +1082,11 @@
     var fields = r.mode === 'free'
       ? '<label class="field"><span class="field-label">Your request</span><textarea class="textarea" data-bind="req1.free" maxlength="1500" placeholder="Write it your own way."' + dis + '>' + esc(r.free) + '</textarea></label>'
       : '<div class="b-fields">' +
-        bField('req1.role', 'Role', 'Who should the AI act as?', r.role, dis) +
-        bField('req1.context', 'Context', 'Who is it for, and why?', r.context, dis) +
-        bField('req1.task', 'Task', 'What should the AI make?', r.task, dis) +
-        bField('req1.format', 'Format', 'How should it look? How long?', r.format, dis) +
-        '<div class="span-2">' + bField('req1.extra', 'Anything else', 'Optional.', r.extra, dis) + '</div></div>';
+        bField('req1.role', 'Role', 'Who should the AI act as?', r.role, dis, 'role') +
+        bField('req1.context', 'Context', 'Who is it for, and why?', r.context, dis, 'context') +
+        bField('req1.task', 'Task', 'What should the AI make?', r.task, dis, 'task') +
+        bField('req1.format', 'Format', 'How should it look? How long?', r.format, dis, 'format') +
+        '<div class="span-2">' + bField('req1.extra', 'Anything else', 'Optional.', r.extra, dis, 'extra') + '</div></div>';
     return {
       lead: stepEb(3) + head('h2', 'Write your request for the AI tool.') +
         lede('Use the 4 parts: Role, Context, Task and Format. Or write it your own way.') +
@@ -1084,8 +1108,8 @@
       }
     };
   };
-  function bField(bind, label, help, val, dis) {
-    return '<label class="field"><span class="field-label">' + label + '</span><input class="input" data-bind="' + bind + '" maxlength="300" placeholder="' + esc(help) + '" value="' + esc(val) + '"' + dis + '></label>';
+  function bField(bind, label, help, val, dis, ic) {
+    return '<label class="field"><span class="field-label">' + (ic ? img(ic, 'aic lbl-ic') : '') + label + '</span><input class="input" data-bind="' + bind + '" maxlength="300" placeholder="' + esc(help) + '" value="' + esc(val) + '"' + dis + '></label>';
   }
   function previewReq1() {
     var r = S.req1, v = V(), parts = [];
@@ -1106,7 +1130,7 @@
     if (r.draft) html += '<span class="attach">+ ' + esc(v.author) + '’s draft (' + v.draft.length + ' lines)</span>';
     return html;
   }
-  function howStep(n, t) { return '<span class="how-step"><b>' + n + '</b>' + esc(t) + '</span>'; }
+  function howStep(n, t, mark) { return '<span class="how-step"><b>' + n + '</b>' + (mark || '') + esc(t) + '</span>'; }
 
   /* 3b. copy it into the AI tool */
   W.copy = function () {
@@ -1114,9 +1138,10 @@
     return {
       lead: stepEb(3) + head('h2', 'Copy your request into the AI tool.') +
         lede('Then copy the answer that the AI tool gives you.') +
-        task('Press Copy request, then paste it into the AI tool.') + leadFsButton(),
+        task('Press Copy request, then paste it into the AI tool.') + leadFsButton() +
+        '<button type="button" class="btn btn-ghost btn-sm see-how" data-action="copy-demo">' + icon('eye') + 'See how</button>',
       work: lockBanner() +
-        '<div class="how-row" aria-hidden="true">' + howStep(1, 'Copy') + howStep(2, 'Paste in ' + tool()) + howStep(3, 'Copy the answer') + howStep(4, 'Paste on the next screen') + '</div>' +
+        '<div class="how-row" aria-hidden="true">' + howStep(1, 'Copy') + howStep(2, 'Paste in ' + tool(), toolMark('how-logo')) + howStep(3, 'Copy the answer') + howStep(4, 'Paste on the next screen') + '</div>' +
         '<span class="field-label">Your request</span>' +
         '<div class="preview selectable" data-live="preview1">' + previewReq1() + '</div>' +
         '<div class="meta-row"><button type="button" class="btn btn-blue btn-sm" data-action="copy-req1">' + icon('copy') + 'Copy request</button><span class="count saa-vo-skip" data-live="req1-words">' + words(req1Text()) + ' words</span></div>' +
@@ -1130,7 +1155,7 @@
     var help = offline
       ? '<div class="notice">' + icon('offline') + '<span>The AI tool is offline for this checkpoint. When your request is ready, your assessor will add the AI answer.</span></div>' +
         '<button type="button" class="btn btn-ghost btn-sm" data-action="offline-fill" data-arg="' + stage + '"' + dis + '>' + icon('lock') + 'Assessor: add the AI answer</button>'
-      : '<button type="button" class="btn-text" data-action="tool-problem">AI tool not working?</button>';
+      : '<button type="button" class="btn-text help-link" data-action="tool-problem">' + img('access-fail', 'aic help-ic') + 'AI tool not working?</button>';
     return lockBanner() + '<label class="field answer-box"><span class="field-label">' + esc(title) + '</span><span class="field-help">Paste exactly what ' + esc(tool()) + ' gave you. Do not fix it here.</span>' +
       '<textarea class="textarea" data-bind="' + bind + '" maxlength="5000"' + dis + ' placeholder="Paste here">' + esc(val) + '</textarea></label>' +
       '<div class="meta-row"><span class="count saa-vo-skip" data-live="' + bind + '-words">' + words(val) + ' words</span>' + (offline ? '' : help) + '</div>' +
@@ -1159,7 +1184,7 @@
   /* 4a. ask for one improvement */
   W.follow = function () {
     var dis = S.locked ? ' disabled' : '';
-    var starters = [['shorter', 'Make it shorter'], ['add', 'Add something'], ['remove', 'Remove something'], ['simple', 'Use simpler words'], ['format', 'Change the format']];
+    var starters = [['shorter', 'Make it shorter', 'shorter'], ['add', 'Add something', 'extra'], ['remove', 'Remove something', 'remove'], ['simple', 'Use simpler words', 'understand'], ['format', 'Change the format', 'format']];
     var w1 = words(S.ans1);
     return {
       cls: 'with-facts',
@@ -1169,7 +1194,7 @@
         '<span class="count ' + (w1 > CONFIG.wordLimit ? 'over' : 'ok') + '">' + w1 + ' words</span></div>' + leadFsButton(),
       work: lockBanner() +
         '<div class="lbl"><span class="field-label">Start with</span><span class="field-help">Tap one or more. Then finish the sentence.</span></div>' +
-        '<div class="chips">' + starters.map(function (s) { return '<button type="button" class="chip" data-action="starter" data-arg="' + s[0] + '"' + dis + '>' + esc(s[1]) + '</button>'; }).join('') + '</div>' +
+        '<div class="chips">' + starters.map(function (s) { return '<button type="button" class="chip" data-action="starter" data-arg="' + s[0] + '"' + dis + '>' + img(s[2], 'aic st-ic') + esc(s[1]) + '</button>'; }).join('') + '</div>' +
         '<label class="field"><span class="field-label">Your follow-up request</span><span class="field-help">Say exactly what to change.</span>' +
         '<textarea class="textarea" id="req2" data-bind="req2" maxlength="600"' + dis + '>' + esc(S.req2) + '</textarea></label>' +
         '<div class="meta-row"><button type="button" class="btn btn-blue btn-sm" data-action="copy-req2">' + icon('copy') + 'Copy request</button><span class="count saa-vo-skip" data-live="req2-words">' + words(S.req2) + ' words</span></div>' +
@@ -1224,7 +1249,7 @@
   };
   /* 5b. check against the standard: Yes or Not yet for every point */
   W.standard = function () {
-    var v = V(), dis = S.locked ? ' disabled' : '';
+    var v = V(), dis = S.locked ? ' disabled' : '', ics = stdIcons();
     return {
       cls: 'with-facts',
       lead: stepEb(5) + head('h2', 'Check your notice against the standard.') +
@@ -1234,7 +1259,7 @@
       work: lockBanner() +
         '<ul class="ticks">' + v.standard.map(function (s, i) {
           var t = S.ticks[i];
-          return '<li class="tick-row' + (t === true ? ' yes' : (t === false ? ' not' : '')) + '"><span class="tick-t" id="tk-' + i + '">' + esc(s) + '</span>' +
+          return '<li class="tick-row' + (t === true ? ' yes' : (t === false ? ' not' : '')) + '">' + (ics[i] ? img(ics[i], 'aic tick-ic') : '') + '<span class="tick-t" id="tk-' + i + '">' + esc(s) + '</span>' +
             '<span class="seg" role="group" aria-labelledby="tk-' + i + '">' +
             '<button type="button" data-action="tick" data-arg="' + i + ':1" aria-pressed="' + (t === true) + '"' + dis + '>Yes</button>' +
             '<button type="button" data-action="tick" data-arg="' + i + ':0" aria-pressed="' + (t === false) + '"' + dis + '>Not yet</button></span></li>';
@@ -1253,8 +1278,8 @@
         lede('Short answers are fine. This shows your thinking.') +
         task('Finish at least one pair of sentences.'),
       work: (S.locked ? '<div class="notice warn">' + icon('clock') + '<span>Work time is over. Write what you changed, then submit.</span></div>' : '') +
-        '<div class="pair"><p class="pair-h">Pair 1</p><div class="starter">' + tArea('note.removed', 'I removed or fixed…', n.removed) + tArea('note.removedWhy', 'Because…', n.removedWhy) + '</div></div>' +
-        '<div class="pair"><p class="pair-h">Pair 2</p><div class="starter">' + tArea('note.added', 'I added…', n.added) + tArea('note.addedWhy', 'Because…', n.addedWhy) + '</div></div>' +
+        '<div class="pair"><p class="pair-h">Pair 1</p><div class="starter">' + tArea('note.removed', 'I removed or fixed…', n.removed, 'remove') + tArea('note.removedWhy', 'Because…', n.removedWhy) + '</div></div>' +
+        '<div class="pair"><p class="pair-h">Pair 2</p><div class="starter">' + tArea('note.added', 'I added…', n.added, 'extra') + tArea('note.addedWhy', 'Because…', n.addedWhy) + '</div></div>' +
         gateLine(),
       gate: function () {
         var ok = function (a, b) { return words(a) >= 2 && letters(a) >= 4 && words(b) >= 2 && letters(b) >= 4; };
@@ -1262,8 +1287,8 @@
       }
     };
   };
-  function tArea(bind, label, val) {
-    return '<label class="field"><span class="field-label">' + esc(label) + '</span><textarea class="textarea short" data-bind="' + bind + '" maxlength="400">' + esc(val) + '</textarea></label>';
+  function tArea(bind, label, val, ic) {
+    return '<label class="field"><span class="field-label">' + (ic ? img(ic, 'aic lbl-ic') : '') + esc(label) + '</span><textarea class="textarea short" data-bind="' + bind + '" maxlength="400">' + esc(val) + '</textarea></label>';
   }
   /* 6b. submit */
   W.submit = function () {
@@ -1363,7 +1388,8 @@
   function vHandover() {
     return {
       key: 'handover', count: null, back: null,
-      lead: eb('Checkpoint 1') + head('h1', 'Your work is submitted.') + lede('Please give this device to your assessor now. Thank you.'),
+      lead: eb('Checkpoint 1') + head('h1', 'Your work is submitted.') + lede('Please give this device to your assessor now. Thank you.') +
+        '<img class="lead-art hand-art" src="assets/mocks/dark/handover-' + (S.setup.lane === 'he' ? 'college' : 'iti') + '.webp" width="600" height="400" alt="' + (S.setup.lane === 'he' ? 'A student' : 'A trainee') + ' hands a tablet with a check mark to the assessor.">',
       work: '<div class="hand-box"><div class="badge-wrap"><div class="badge-ring"></div><div class="badge quiet">' + icon('check') + '</div></div>' +
         '<p class="hand-time saa-vo-skip">' + (S.autoSubmitted ? 'Submitted when the time ended. ' : '') + 'Time used: ' + mmss(S.elapsedAtSubmit || 0) + '</p></div>',
       next: { label: 'Open assessor view', fn: function () { actions['open-assessor'](); } }
@@ -1797,6 +1823,12 @@
     'open-facts': function () { openSheet(factsCard(true)); },
     'modal-close': function () { closeModal(); },
     'pin-ok': function () { checkPin(); },
+    'copy-demo': function () {
+      var still = false; try { still = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { /* old browser */ }
+      openModal('<h2 id="modal-title">How to copy and paste</h2><p class="lead" style="font-size:15px">An example only. Your own request is the one on the screen.</p>' +
+        '<video class="copy-demo-vid" muted loop playsinline' + (still ? ' controls' : ' autoplay') + ' poster="assets/mocks/light/anim-copy-paste-loop-poster.webp" width="600" height="400" aria-label="Example: copy the request, paste it into the AI tool and send it, copy the answer, then paste the answer back here."><source src="assets/mocks/light/anim-copy-paste-loop.mp4" type="video/mp4"></video>' +
+        '<div class="actions"><button class="btn btn-ghost" data-action="modal-close">Close</button></div>', { wide: true });
+    },
     'tool-problem': function () {
       openModal('<h2 id="modal-title">AI tool not working?</h2><p class="lead" style="font-size:16px">Raise your hand and tell your assessor. They can pause the clock. Your work is saved.</p>' +
         '<div class="actions"><button class="btn btn-ghost" data-action="modal-close">Close</button><button class="btn btn-blue" data-action="assessor-menu">' + icon('lock') + 'Assessor options</button></div>');

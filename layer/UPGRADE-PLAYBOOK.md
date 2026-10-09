@@ -140,6 +140,13 @@ Compare screenshots with game 1. Game-specific steppers or tabs above the card a
 - **Look at the screenshots** of every screen and state (`qa/screens.js … <shot-prefix>`). Check both themes for light/dark games.
 
 ## 12. Publish (lead)
-1. Add the game to the gallery repo `~/Downloads/swift-ai-academy-games`: the game folder, its thumbnail, and the home-page entry in `index.html`.
-2. Rebuild the inner site zips and the package.
-3. Commit and push. GitHub Pages updates in about a minute.
+1. Add the game to `_upgrade-layer/gallery-map.txt`: number, repo slug, source folder and title.
+2. Run `qa/sync-gallery.sh`. It copies every listed game and the layer source into `~/Downloads/swift-ai-academy-games`.
+3. Add its home-page card to that repo's `index.html` (the SECTIONS list).
+4. Make its thumbnail: `node qa/thumbs.js ~/Downloads/swift-ai-academy-games <slug>`.
+5. Rebuild any inner site zip and the game's package zip.
+6. `git add -A && git commit && git push` in the repo. GitHub Pages updates in about a minute.
+
+## 13. Visual assets plan (optional)
+1. Run the asset audit with `ASSET-AUDIT-BRIEF.md`, one JSON file per batch, into `asset-audit/`.
+2. Add the rows to `Game-Visual-Assets-Plan.xlsx` with `asset-audit/add_to_sheet.py` (run it with `qa/.venv/bin/python`; edit its input file names first). It backs up the workbook before writing.

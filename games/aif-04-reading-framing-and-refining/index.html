@@ -25,6 +25,7 @@
   <symbol id="i-tick" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5M12 8h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="i-recall" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 4v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 <div class="frame app">
@@ -66,6 +67,7 @@
             <template data-fb-for="b">Yes. It guesses the most likely next words. Keep this in mind, because it explains what you will see next.</template>
             <template data-fb-for="c">Not quite. No person is writing. The AI tool guesses the most likely next words.</template>
           </div>
+          <figure class="nw-anim" data-after-q="recall" hidden><video muted loop playsinline preload="none" data-mock-video="anim-next-word" poster="assets/mocks/dark/anim-next-word.poster.webp" aria-label="Animation: an AI tool writes “Road safety means” one word at a time. For each next word it compares choices such as using, driving and banana, and picks the most likely one." tabindex="0"><source src="assets/mocks/dark/anim-next-word.mp4" type="video/mp4"></video></figure>
           <p class="ga-gate saa-k-why" aria-live="polite"></p>
         </div>
       </div>
@@ -92,6 +94,7 @@
             <div class="fb" data-fb hidden></div>
             <template data-fb-for="any">Locked in. A wrong guess costs you nothing. Tap Next to see what really happens.</template>
           </div>
+          <button type="button" class="ex-chip" data-ex="ex-weak" data-after-q="predict" hidden><img class="ex-thumb" data-mock="mock-weak-request-long" src="assets/mocks/dark/mock-weak-request-long.webp" alt="" aria-hidden="true"><span>See what you get</span></button>
           <p class="ga-gate saa-k-why" aria-live="polite"></p>
         </div>
       </div>
@@ -109,6 +112,7 @@
             <template data-reveal-for="c">You guessed a question back. Some tools do ask, but most give a long, general answer.</template>
           </div>
           <p>Here is why. Your request left 4 gaps, and the AI tool filled each gap with a guess.</p>
+          <figure class="lead-fig"><img data-mock="diagram-missing-detail" src="assets/mocks/dark/diagram-missing-detail.webp" alt="A request page with a missing detail goes to an AI tool with question marks above it: the AI tool guesses, and out comes a vague answer in a dashed box."></figure>
           <p class="do"><b>Your task.</b> Tap each gap to see what the AI tool guessed.</p>
         </div>
         <div class="saa-work">
@@ -174,6 +178,7 @@
             </div>
             <p class="saa-k-why"></p>
           </div>
+          <button type="button" class="ex-chip" data-ex="ex-notice" data-ex-after="kit" hidden><span class="ex-ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-chat"/></svg></span><span>See the answer you get</span></button>
         </div>
       </div>
     </section>
@@ -187,10 +192,10 @@
           <p>Your friend missed class. You want an AI tool to write them a short recap.</p>
           <p class="do"><b>Your task.</b> Choose the Task that gives a clear job, then tap Check my answer.</p>
           <div class="builder" aria-label="Your request so far">
-            <div class="bf"><span class="k">Role</span><span class="v">You are a helpful classmate.</span></div>
-            <div class="bf"><span class="k">Context</span><span class="v">My friend missed class today. They have a test on Monday. Here are my notes: [your notes].</span></div>
-            <div class="bf open saa-vo-skip" data-slot="task"><span class="k">Task</span><span class="v">? You choose.</span></div>
-            <div class="bf open saa-vo-skip" data-slot="format"><span class="k">Format</span><span class="v">? You choose.</span></div>
+            <div class="bf"><span class="k"><img class="ic" data-ic="role" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">Role</span><span class="v">You are a helpful classmate.</span></div>
+            <div class="bf"><span class="k"><img class="ic" data-ic="context" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">Context</span><span class="v">My friend missed class today. They have a test on Monday. Here are my notes: [your notes].</span></div>
+            <div class="bf open saa-vo-skip" data-slot="task"><span class="k"><img class="ic" data-ic="task" src="assets/icons/icon-task.webp" alt="" aria-hidden="true">Task</span><span class="v">? You choose.</span></div>
+            <div class="bf open saa-vo-skip" data-slot="format"><span class="k"><img class="ic" data-ic="format" src="assets/icons/icon-format.webp" alt="" aria-hidden="true">Format</span><span class="v">? You choose.</span></div>
           </div>
         </div>
         <div class="saa-work">
@@ -221,10 +226,10 @@
           <p>The Task is done now. The Format tells the AI tool how the recap should look.</p>
           <p class="do"><b>Your task.</b> Choose the Format, then tap Check my answer.</p>
           <div class="builder" aria-label="Your request so far">
-            <div class="bf"><span class="k">Role</span><span class="v">You are a helpful classmate.</span></div>
-            <div class="bf"><span class="k">Context</span><span class="v">My friend missed class today. They have a test on Monday. Here are my notes: [your notes].</span></div>
-            <div class="bf filled"><span class="k">Task</span><span class="v">Write a short recap of the 3 main points from my notes.</span></div>
-            <div class="bf open saa-vo-skip" data-slot="format"><span class="k">Format</span><span class="v">? You choose.</span></div>
+            <div class="bf"><span class="k"><img class="ic" data-ic="role" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">Role</span><span class="v">You are a helpful classmate.</span></div>
+            <div class="bf"><span class="k"><img class="ic" data-ic="context" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">Context</span><span class="v">My friend missed class today. They have a test on Monday. Here are my notes: [your notes].</span></div>
+            <div class="bf filled"><span class="k"><img class="ic" data-ic="task" src="assets/icons/icon-task.webp" alt="" aria-hidden="true">Task</span><span class="v">Write a short recap of the 3 main points from my notes.</span></div>
+            <div class="bf open saa-vo-skip" data-slot="format"><span class="k"><img class="ic" data-ic="format" src="assets/icons/icon-format.webp" alt="" aria-hidden="true">Format</span><span class="v">? You choose.</span></div>
           </div>
         </div>
         <div class="saa-work">
@@ -241,6 +246,7 @@
             <template data-fb-for="b">Not quite. The AI tool cannot know what “nice” means to you. Say the shape and the size.</template>
             <template data-fb-for="c">Not quite. Remember, a missing part becomes a guess. Often the guess is long paragraphs.</template>
           </div>
+          <figure class="work-fig" data-after-q="format" hidden><img data-mock="diag-format-shapes" src="assets/mocks/dark/diag-format-shapes.webp" alt="Three shapes an answer can take: bullet points, a short message, a table."></figure>
           <p class="ga-gate saa-k-why" aria-live="polite"></p>
         </div>
       </div>
@@ -344,6 +350,13 @@
               <button class="saa-card" type="button"><span class="saa-front"><img class="ic" data-ic="source" src="assets/icons/icon-source.webp" alt="" aria-hidden="true">Step 2: Check</span><span class="saa-back">Check those parts yourself with a source you trust: your teacher or instructor, your textbook or manual, or the official notice.</span></button>
             </div>
           </div>
+          <figure class="cm cm-sm" data-after-card="check-steps" hidden aria-label="An AI tool chat. You ask: Which parts of this might be wrong or made up? The AI tool replies: I am not sure the homework is due on Friday, please check the date. I also guessed the group size.">
+            <div class="cm-top">AI tool</div>
+            <div class="cm-body">
+              <p class="cm-you">Which parts of this might be wrong or made up?</p>
+              <p class="cm-ai">I am not sure the homework is due on Friday - please check the date. I also guessed the group size.</p>
+            </div>
+          </figure>
           <p class="after-done saa-k-why" aria-live="polite"></p>
         </div>
       </div>
@@ -356,6 +369,7 @@
           <div class="eyebrow"><span>Part 2 · Fix moves</span></div>
           <h1>Combine the best parts, and know when to stop.</h1>
           <p>Move 5, Combine, joins the best parts of 2 versions. Stop asking when your own fix is quicker, or when 2 moves did not help.</p>
+          <figure class="lead-fig"><img data-mock="diagram-combine-check" src="assets/mocks/dark/diagram-combine-check.webp" alt="Answer A and Answer B join into one answer, which is then checked and gets a tick."></figure>
           <p class="do"><b>Your task.</b> Stamp each case with the right action.</p>
         </div>
         <div class="saa-work">
@@ -378,15 +392,16 @@
           <h1>Practice: pick the move that fixes it.</h1>
           <p class="scn"><b>You asked:</b> “Tips for my first job interview.”</p>
           <p class="scn got"><b>You got:</b> 25 tips over 3 screens.</p>
+          <button type="button" class="ex-chip" data-ex="ex-long"><img class="ex-thumb" data-mock="mock-practice-got-long" src="assets/mocks/dark/mock-practice-got-long.webp" alt="" aria-hidden="true"><span>See what you got</span></button>
           <p class="do"><b>Your task.</b> Choose the move, then tap Check my answer.</p>
         </div>
         <div class="saa-work">
           <div class="q" data-q="p1" data-correct="a">
             <p class="q-stem">Which move fixes this?</p>
             <div class="options" role="radiogroup">
-              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><span>Narrow it: “Only the 5 most important tips for a fresher.”</span></button>
-              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><span>Expand it: “Tell me more about each tip.”</span></button>
-              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><span>Combine: “Combine the best parts.”</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><img class="ic opt-ic" data-ic="move-1" src="assets/icons/icon-move-1.webp" alt="" aria-hidden="true"><span>Narrow it: “Only the 5 most important tips for a fresher.”</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><img class="ic opt-ic" data-ic="move-2" src="assets/icons/icon-move-2.webp" alt="" aria-hidden="true"><span>Expand it: “Tell me more about each tip.”</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><img class="ic opt-ic" data-ic="move-5" src="assets/icons/icon-move-5.webp" alt="" aria-hidden="true"><span>Combine: “Combine the best parts.”</span></button>
             </div>
             <button type="button" class="btn-blue" data-check disabled>Check my answer</button>
             <div class="fb" data-fb hidden></div>
@@ -407,15 +422,16 @@
           <h1>Practice: pick the move that fixes it.</h1>
           <p class="scn"><b>You asked</b> an AI tool to explain a fuse to your brother in Class 5.</p>
           <p class="scn got"><b>You got:</b> a correct answer, full of words like “overcurrent protection”.</p>
+          <button type="button" class="ex-chip" data-ex="ex-hard"><img class="ex-thumb" data-mock="mock-practice-got-hard" src="assets/mocks/dark/mock-practice-got-hard.webp" alt="" aria-hidden="true"><span>See what you got</span></button>
           <p class="do"><b>Your task.</b> Choose the move, then tap Check my answer.</p>
         </div>
         <div class="saa-work">
           <div class="q" data-q="p2" data-correct="b">
             <p class="q-stem">Which move fixes this?</p>
             <div class="options" role="radiogroup">
-              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><span>Narrow it</span></button>
-              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><span>Change the tone: “Say this simply, for a 10-year-old.”</span></button>
-              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><span>Check it</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><img class="ic opt-ic" data-ic="move-1" src="assets/icons/icon-move-1.webp" alt="" aria-hidden="true"><span>Narrow it</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><img class="ic opt-ic" data-ic="move-3" src="assets/icons/icon-move-3.webp" alt="" aria-hidden="true"><span>Change the tone: “Say this simply, for a 10-year-old.”</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><img class="ic opt-ic" data-ic="move-4" src="assets/icons/icon-move-4.webp" alt="" aria-hidden="true"><span>Check it</span></button>
             </div>
             <button type="button" class="btn-blue" data-check disabled>Check my answer</button>
             <div class="fb" data-fb hidden></div>
@@ -436,15 +452,16 @@
           <h1>Practice: pick the move that fixes it.</h1>
           <p class="scn"><b>You asked</b> for a notice about new bus times at your institute. You did not give any times.</p>
           <p class="scn got"><b>You got:</b> “Buses now leave at 4:15 pm. Late fee: ₹50.”</p>
+          <button type="button" class="ex-chip" data-ex="ex-madeup"><img class="ex-thumb" data-mock="mock-practice-got-madeup--before" data-swap-q="p3" data-swap-to="mock-practice-got-madeup--after" src="assets/mocks/dark/mock-practice-got-madeup--before.webp" alt="" aria-hidden="true"><span>See what you got</span></button>
           <p class="do"><b>Your task.</b> Choose the move, then tap Check my answer.</p>
         </div>
         <div class="saa-work">
           <div class="q" data-q="p3" data-correct="c">
             <p class="q-stem">Which move fixes this?</p>
             <div class="options" role="radiogroup">
-              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><span>Change the tone, to sound friendlier</span></button>
-              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><span>Expand it, to get more detail</span></button>
-              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><span>Check it, then confirm with the transport office</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><img class="ic opt-ic" data-ic="move-3" src="assets/icons/icon-move-3.webp" alt="" aria-hidden="true"><span>Change the tone, to sound friendlier</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><img class="ic opt-ic" data-ic="move-2" src="assets/icons/icon-move-2.webp" alt="" aria-hidden="true"><span>Expand it, to get more detail</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><img class="ic opt-ic" data-ic="move-4" src="assets/icons/icon-move-4.webp" alt="" aria-hidden="true"><span>Check it, then confirm with the transport office</span></button>
             </div>
             <button type="button" class="btn-blue" data-check disabled>Check my answer</button>
             <div class="fb" data-fb hidden></div>
@@ -474,7 +491,7 @@
             <li><label><input type="checkbox"><img class="ic" data-ic="format" src="assets/icons/icon-format.webp" alt="" aria-hidden="true"><span><b>Format:</b> it says how it should look.</span></label></li>
             <li><label><input type="checkbox"><img class="ic" data-ic="verify" src="assets/icons/icon-verify.webp" alt="" aria-hidden="true"><span><b>Check:</b> I checked one name, number, date or rule myself.</span></label></li>
           </ul>
-          <div class="note safe"><svg width="18" height="18" aria-hidden="true"><use href="#i-shield"/></svg><p>Use made-up names and numbers. Never type a phone number, ID number or password. If you share a device, one person types and the other reads and checks, then you swap.</p></div>
+          <div class="note safe"><span class="safe-ics" aria-hidden="true"><img class="ic" data-ic="private-phone-never" src="assets/icons/icon-private-phone-never.webp" alt="" aria-hidden="true"><img class="ic" data-ic="private-id-never" src="assets/icons/icon-private-id-never.webp" alt="" aria-hidden="true"><img class="ic" data-ic="private-password" src="assets/icons/icon-private-password.webp" alt="" aria-hidden="true"><img class="ic" data-ic="madeup-name" src="assets/icons/icon-madeup-name.webp" alt="" aria-hidden="true"></span><p>Use made-up names and numbers. Never type a phone number, ID number or password. If you share a device, one person types and the other reads and checks, then you swap.</p></div>
         </div>
       </div>
     </section>
@@ -491,15 +508,16 @@
         <div class="saa-work">
           <div class="saa-kit loop-order" data-kit="order" data-required>
             <ol class="saa-steps">
-              <li data-n="1">Ask with all 4 parts: Context, Role, Task, Format.</li>
-              <li data-n="2">Read the answer.</li>
-              <li data-n="3">Name the problem.</li>
-              <li data-n="4">Use one move.</li>
-              <li data-n="5">Check it with a source you trust.</li>
-              <li data-n="6">Use it.</li>
+              <li data-n="1"><img class="ic step-ic" data-ic="loop-ask" src="assets/icons/icon-loop-ask.webp" alt="" aria-hidden="true">Ask with all 4 parts: Context, Role, Task, Format.</li>
+              <li data-n="2"><img class="ic step-ic" data-ic="verify" src="assets/icons/icon-verify.webp" alt="" aria-hidden="true">Read the answer.</li>
+              <li data-n="3"><img class="ic step-ic" data-ic="spot-gap" src="assets/icons/icon-spot-gap.webp" alt="" aria-hidden="true">Name the problem.</li>
+              <li data-n="4"><img class="ic step-ic" data-ic="rewrite" src="assets/icons/icon-rewrite.webp" alt="" aria-hidden="true">Use one move.</li>
+              <li data-n="5"><img class="ic step-ic" data-ic="loop-check" src="assets/icons/icon-loop-check.webp" alt="" aria-hidden="true">Check it with a source you trust.</li>
+              <li data-n="6"><img class="ic step-ic" data-ic="loop-use" src="assets/icons/icon-loop-use.webp" alt="" aria-hidden="true">Use it.</li>
             </ol>
             <p class="saa-k-why" data-right="Yes. Ask, read, name the problem, use a move, check it, and then use it." data-wrong="Not yet. The red steps are in the wrong place. You always check before you use it."></p>
           </div>
+          <button type="button" class="ex-chip" data-ex="ex-loop" data-ex-after="kit" hidden><img class="ex-thumb" data-mock="diag-refine-loop-6" src="assets/mocks/dark/diag-refine-loop-6.webp" alt="" aria-hidden="true"><span>See the whole loop</span></button>
         </div>
       </div>
     </section>
@@ -528,6 +546,7 @@
       <div class="done-badge"><span class="ring"></span><span class="badge"><svg width="18" height="18" aria-hidden="true"><use href="#i-tick"/></svg></span></div>
       <div class="eyebrow"><span>Reading complete</span></div>
       <h1>Ask clearly. Fix the answer. Check it.</h1>
+      <figure class="done-fig"><img data-mock="anim-refine-loop-final" src="assets/mocks/dark/anim-refine-loop-final.webp" alt="A better answer with a tick, and the 5 move icons under it."></figure>
       <p>Next is the Request Builder and Refinement Card. It puts the 4 parts and the 5 moves on one page.</p>
     </section>
   </main>
@@ -541,6 +560,26 @@
     </div>
   </footer>
 </div>
+
+<!-- "See example" pop-up: the designer mocks and diagrams (AI Fluency, Oct 2026) -->
+<dialog class="ex-pop" id="ex-pop" aria-label="Example">
+  <div class="ex-pop-top"><button type="button" class="ex-pop-x" data-ex-close>Close</button></div>
+  <div class="ex-pop-body"></div>
+</dialog>
+<template id="ex-weak"><img data-mock="mock-weak-request-long" alt="An AI tool chat. The request “Write about road safety.” gets a long answer titled “Road Safety: Why It Matters”, with long general paragraphs about traffic rules and pedestrians that run on past the window. Label: Long, general, for anyone."></template>
+<template id="ex-notice"><figure class="cm" aria-label="An AI tool chat. The full request with all 4 parts gets a short notice with 3 points.">
+  <div class="cm-top">AI tool</div>
+  <div class="cm-body">
+    <p class="cm-you" data-fill="request"></p>
+    <p class="cm-h">Cross safely at the school gate</p>
+    <ul class="cm-list"><li>Wait for the guard’s signal.</li><li>Use the zebra crossing.</li><li>Look both ways.</li></ul>
+  </div>
+  <p class="cm-tag">Short, clear, for our school</p>
+</figure></template>
+<template id="ex-long"><img data-mock="mock-practice-got-long" alt="A phone shows an AI tool answer titled “25 Tips for Your First Job Interview”: a long numbered list that runs on over 3 screens."></template>
+<template id="ex-hard"><img data-mock="mock-practice-got-hard" alt="An AI tool answer: “A fuse provides overcurrent protection by interrupting the circuit when the current exceeds the rated ampere capacity...” Next to it, a confused boy with a question mark."></template>
+<template id="ex-madeup"><img data-mock="mock-practice-got-madeup--before" data-swap-q="p3" data-swap-to="mock-practice-got-madeup--after" data-alt-after="An AI tool notice: “NOTICE: New bus times. Buses now leave at 4:15 pm. Late fee: ₹50.” The time 4:15 pm and the fee ₹50 have dashed boxes, marked: Nobody gave these." alt="An AI tool notice: “NOTICE: New bus times. Buses now leave at 4:15 pm. Late fee: ₹50.”"></template>
+<template id="ex-loop"><img data-mock="diag-refine-loop-6" alt="The whole loop: 1 Ask (4 parts), 2 Read, 3 Name the problem, 4 Use one move, 5 Check it, 6 Use it, then back to 1. Still not right after step 4? Go back to step 3. After 2 moves, start again at step 1."></template>
 
 <script src="script.js"></script>
 <script src="saa-upgrade.js"></script>

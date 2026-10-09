@@ -1,0 +1,192 @@
+/* Level 2 · Build the Number. Positioned on the 1600×900 story stage. */
+#level2 { position: absolute; inset: 0; z-index: 48; cursor: default; font-family: Rajdhani, "Segoe UI", sans-serif; }
+#level2[hidden] { display: none; }
+.l2-bg { position: absolute; inset: -14px; width: calc(100% + 28px); height: calc(100% + 28px); object-fit: cover; filter: blur(3px) brightness(.9); }
+.l2-railart { position: absolute; left: 70px; top: 585px; width: 1460px; height: 321px; }
+
+/* hanging sign with the target number */
+.l2-sign {
+  position: absolute; left: 50%; top: -34px; width: 760px; height: 311px; margin-left: -380px;
+  background: url(../assets/level2/sign.webp) center / 100% 100% no-repeat;
+  transform-origin: 50% 0; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .55));
+}
+.l2-sign.drop { animation: l2-swing 1.1s ease-out; }
+.l2-sign.bad { animation: l2-shake .45s ease-in-out; }
+.l2-sign.good #l2-target { color: #b9ffc5; text-shadow: 0 0 26px rgba(90, 255, 140, .8), 0 4px 0 #0c3b1f; }
+#l2-label { position: absolute; left: 0; right: 0; top: 34%; text-align: center; font: 700 24px Orbitron, sans-serif; letter-spacing: .2em; color: #e8e0cf; text-shadow: 0 2px 4px #000; }
+#l2-target { position: absolute; left: 0; right: 0; top: 49%; text-align: center; font: 900 88px Orbitron, sans-serif; color: #ffcf4a; text-shadow: 0 0 20px rgba(255, 190, 60, .7), 0 5px 0 #6b3d00; }
+@keyframes l2-swing { 0% { transform: translateY(-260px) rotate(-3deg); } 60% { transform: translateY(10px) rotate(1.5deg); } 80% { transform: rotate(-.8deg); } 100% { transform: none; } }
+@keyframes l2-shake { 0%, 100% { transform: none; } 25% { transform: rotate(-2deg) translateX(-8px); } 75% { transform: rotate(2deg) translateX(8px); } }
+
+/* progress */
+.l2-hud { position: absolute; left: 30px; top: 22px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.l2-pill { padding: 24px 52px 22px; background: url(../assets/gen/ui-button.webp) center / 100% 100% no-repeat; font: 700 20px Orbitron, sans-serif; letter-spacing: .06em; color: #f6dfac; text-shadow: 0 2px 6px #000; }
+#l2-dots { display: flex; gap: 16px; margin: 0; padding: 0; list-style: none; }
+#l2-dots li { width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffe7a8, #e59a2a); box-shadow: 0 0 10px rgba(255, 190, 90, .9); }
+#l2-dots li.done { background: radial-gradient(circle at 35% 35%, #d9ffe7, #2fbf6a); box-shadow: 0 0 10px rgba(80, 255, 150, .9); }
+#l2-dots li.cur { outline: 3px solid #ffd98a; outline-offset: 3px; }
+
+/* card tray: plates float above holo pads */
+#l2-tray { position: absolute; left: 40px; right: 40px; top: 300px; height: 280px; display: flex; justify-content: center; gap: 22px; }
+.l2-bay { position: relative; width: 232px; display: flex; flex-direction: column; align-items: center; }
+.l2-pad { position: absolute; top: 160px; width: 190px; pointer-events: none; }
+.l2-beam { position: absolute; top: 88px; width: 120px; height: 120px; pointer-events: none; mix-blend-mode: screen;
+  background: linear-gradient(0deg, rgba(80, 170, 255, .85), rgba(80, 170, 255, .35) 55%, rgba(80, 170, 255, 0));
+  -webkit-mask: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent); mask: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent);
+  animation: l2-beam 1.6s ease-in-out infinite; }
+@keyframes l2-beam { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
+
+.l2-card {
+  position: relative; border: 0; padding: 0 30px 0 0; cursor: pointer; background: center / 100% 100% no-repeat;
+  display: grid; place-items: center; font: 800 34px Orbitron, sans-serif; color: #fff;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, .6), 0 0 10px rgba(0, 0, 0, .6);
+  transition: transform .15s, filter .25s, opacity .25s;
+}
+.l2-card span { pointer-events: none; }
+.l2-card.tray { width: 232px; height: 100px; animation: l2-pop .45s cubic-bezier(.2, 1.5, .4, 1) both, l2-float 2.6s ease-in-out .5s infinite; z-index: 1; }
+.l2-card.tray:hover { filter: brightness(1.15) drop-shadow(0 0 14px rgba(255, 220, 140, .8)); }
+.l2-card.tray.used { opacity: .25; filter: grayscale(.8); pointer-events: none; animation: none; }
+.l2-card.nudge { filter: drop-shadow(0 0 18px #7fd4ff) drop-shadow(0 0 32px rgba(120, 200, 255, .8)) brightness(1.2); }
+.l2-card:active { transform: scale(.94); }
+.plate-red    { background-image: url(../assets/level2/plate-red.webp); }
+.plate-orange { background-image: url(../assets/level2/plate-orange.webp); }
+.plate-amber  { background-image: url(../assets/level2/plate-amber.webp); }
+.plate-yellow { background-image: url(../assets/level2/plate-yellow.webp); color: #3a2400; text-shadow: 0 1px 0 rgba(255, 255, 255, .5); }
+.plate-green  { background-image: url(../assets/level2/plate-green.webp); }
+.plate-blue   { background-image: url(../assets/level2/plate-blue.webp); }
+@keyframes l2-pop { from { transform: translateY(-40px) scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes l2-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+/* sum readout + build rail */
+#l2-sum { position: absolute; left: 0; right: 0; top: 548px; text-align: center; font: 700 34px Rajdhani, sans-serif; color: #f0f7f7; text-shadow: 0 2px 6px #000, 0 0 12px rgba(0, 0, 0, .8); }
+#l2-sum.bad b { color: #ff7a7a; }
+#l2-sum.good b { color: #8dffb0; }
+#l2-rail { position: absolute; left: 175px; top: 660px; width: 1250px; height: 120px; display: flex; justify-content: center; align-items: center; gap: 14px; }
+.l2-slot { width: 230px; height: 96px; border-radius: 12px; display: grid; place-items: center;
+  background: radial-gradient(ellipse at center, rgba(255, 190, 90, .12), rgba(255, 190, 90, 0) 70%); box-shadow: inset 0 0 0 2px rgba(255, 190, 90, .35); }
+.l2-card.placed { width: 224px; height: 96px; font-size: 30px; animation: l2-snap .3s cubic-bezier(.2, 1.6, .4, 1); }
+.l2-card.placed.glow { filter: drop-shadow(0 0 14px rgba(90, 255, 140, .9)); }
+.l2-card.placed.wrongpart { animation: l2-blink .5s ease-in-out 4; }
+@keyframes l2-snap { from { transform: scale(.6); } to { transform: none; } }
+@keyframes l2-blink { 50% { filter: drop-shadow(0 0 16px #ff4d4d) brightness(1.3); } }
+
+/* check button */
+#l2-check { position: absolute; left: 50%; top: 798px; width: 300px; height: 96px; margin-left: -150px; border: 0; cursor: pointer;
+  background: url(../assets/gen/ui-button.webp) center / 100% 100% no-repeat; font: 800 30px Orbitron, sans-serif; letter-spacing: .1em; color: #f6dfac; text-shadow: 0 2px 6px #000; }
+#l2-check:disabled { filter: grayscale(.6) brightness(.7); cursor: default; }
+#l2-check:not(:disabled):hover { filter: drop-shadow(0 0 14px rgba(87, 222, 244, .7)); }
+
+/* feedback caption */
+.l2-caption { position: absolute; left: 50%; top: 452px; transform: translateX(-50%) scale(.9); max-width: 1180px; padding: 30px 80px 32px; opacity: 0; pointer-events: none; z-index: 3;
+  background: url(../assets/gen/ui-title.webp) center / 100% 100% no-repeat; font: 700 30px Rajdhani, sans-serif; color: #f0f7f7; text-align: center; text-shadow: 0 2px 6px #000;
+  transition: opacity .25s, transform .3s; }
+.l2-caption.show { opacity: 1; transform: translateX(-50%) scale(1); }
+.l2-caption.good { color: #b9ffc5; }
+.l2-caption.bad { color: #ffb3b3; }
+
+/* speech box (same frame as the story) */
+#l2-say { position: absolute; left: 50%; bottom: 8px; width: 880px; height: 321px; margin-left: -440px; z-index: 4; opacity: 0; transform: translateY(24px); transition: opacity .3s, transform .3s; pointer-events: none;
+  background: url(../assets/gen/ui-dialogue.webp) center / 100% 100% no-repeat; }
+#l2-say.show { opacity: 1; transform: none; }
+#l2-say .l2-portrait { position: absolute; left: 69px; top: 63px; width: 200px; height: 200px; border-radius: 50%; background: center / cover no-repeat; box-shadow: inset 0 0 18px rgba(0, 0, 0, .7); }
+#l2-say[data-who="nova"] .l2-portrait { background-image: url(../assets/gen/nova-portrait.webp); background-size: cover; background-position: center; }
+#l2-say[data-who="ril"] .l2-portrait { background-image: url(../assets/ril.webp); background-size: 446px auto; background-position: -202px 0; }
+#l2-say .l2-text { position: absolute; left: 325px; right: 78px; top: 62px; }
+#l2-say .l2-name { display: block; font: 700 24px Orbitron, sans-serif; letter-spacing: .08em; color: #94e8f4; }
+#l2-say[data-who="nova"] .l2-name { color: #ffb38f; }
+#l2-say .l2-line { margin: 4px 0 0; font: 600 29px/1.16 Rajdhani, sans-serif; color: #f0f7f7; text-shadow: 0 2px 6px #000; }
+#l2-next { position: absolute; right: 60px; bottom: 34px; width: 300px; height: 106px; z-index: 5; border: 0; cursor: pointer;
+  background: url(../assets/gen/ui-button.webp) center / 100% 100% no-repeat; font: 700 28px Orbitron, sans-serif; letter-spacing: .08em; color: #f6dfac; text-shadow: 0 2px 6px #000; }
+#l2-next[hidden] { display: none; }
+
+/* tutorial hand */
+#l2-hand { position: absolute; left: 0; top: 0; width: 96px; z-index: 6; opacity: 0; pointer-events: none; transition: opacity .25s; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .6)); }
+#l2-hand.show { opacity: 1; animation: l2-tap 1s ease-in-out infinite; }
+@keyframes l2-tap { 0%, 100% { translate: 0 0; } 50% { translate: 0 -14px; } }
+
+/* bigger touch targets on phones */
+#stage.compact .l2-caption { font-size: 36px; }
+#stage.compact #l2-sum { font-size: 40px; }
+
+/* ---------- place-value board on the rail ---------- */
+#l2-rail { left: 190px; top: 646px; width: 1220px; height: 150px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: stretch; }
+.l2-col { display: grid; grid-template-rows: 34px 1fr; border-radius: 12px; overflow: hidden;
+  background: linear-gradient(rgba(255, 190, 90, .14), rgba(255, 190, 90, .04)); box-shadow: inset 0 0 0 2px rgba(255, 190, 90, .4); }
+.l2-col span { display: grid; place-items: center; font: 700 17px Rajdhani, sans-serif; color: #f6dfac; background: linear-gradient(rgba(242, 180, 90, .45), rgba(242, 180, 90, .18)); text-shadow: 0 1px 3px #000; }
+.l2-col b { display: grid; place-items: center; font: 900 64px Orbitron, sans-serif; color: #fff; text-shadow: 0 3px 0 rgba(0, 0, 0, .55), 0 0 14px rgba(0, 0, 0, .6); background: center / 170% 190% no-repeat; }
+.l2-col.on { animation: l2-digit .35s cubic-bezier(.2, 1.7, .4, 1); }
+.l2-col.on.plate-red b    { background-image: url(../assets/level2/plate-red.webp); }
+.l2-col.on.plate-orange b { background-image: url(../assets/level2/plate-orange.webp); }
+.l2-col.on.plate-amber b  { background-image: url(../assets/level2/plate-amber.webp); }
+.l2-col.on.plate-yellow b { background-image: url(../assets/level2/plate-yellow.webp); color: #3a2400; text-shadow: 0 1px 0 rgba(255, 255, 255, .5); }
+.l2-col.on.plate-green b  { background-image: url(../assets/level2/plate-green.webp); }
+.l2-col.on.plate-blue b   { background-image: url(../assets/level2/plate-blue.webp); }
+.l2-col.glow { box-shadow: inset 0 0 0 3px #6dff9e, 0 0 18px rgba(90, 255, 140, .8); }
+.l2-col.wrongpart { animation: l2-blink .5s ease-in-out 4; }
+@keyframes l2-digit { from { transform: scale(.6); } to { transform: none; } }
+
+/* chosen cards (tap to take out) + total, above the board */
+#l2-sum { top: 560px; height: 76px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+.l2-card.chip { width: 150px; height: 64px; font-size: 22px; padding-right: 18px; animation: l2-pop .35s cubic-bezier(.2, 1.7, .4, 1); }
+.l2-card.chip.wrongpart { animation: l2-blink .5s ease-in-out 4; }
+.l2-plus { font: 800 34px Orbitron, sans-serif; color: #f6dfac; font-style: normal; text-shadow: 0 2px 6px #000; }
+.l2-total { font: 900 38px Orbitron, sans-serif; color: #ffcf4a; text-shadow: 0 2px 6px #000; }
+#l2-sum.bad .l2-total { color: #ff7a7a; }
+#l2-sum.good .l2-total { color: #8dffb0; }
+#l2-tray { top: 290px; }
+.l2-pad { top: 150px; }
+
+/* pop-up effect on the cards */
+.l2-card.tray { animation: l2-pop .55s cubic-bezier(.2, 1.7, .4, 1) both, l2-float 2.6s ease-in-out .6s infinite; }
+.l2-card.tray:hover { transform: translateY(-14px) scale(1.08); }
+.l2-card.tray:active { transform: translateY(-6px) scale(.96); }
+
+/* feedback pops up in the middle over a blurred, dimmed room */
+.l2-veil { position: absolute; inset: 0; z-index: 3; opacity: 0; pointer-events: none; transition: opacity .3s;
+  -webkit-backdrop-filter: blur(10px) brightness(.55); backdrop-filter: blur(10px) brightness(.55);
+  background: radial-gradient(ellipse at center, rgba(10, 18, 36, .25), rgba(4, 8, 18, .6)); }
+#level2.popup .l2-veil { opacity: 1; pointer-events: auto; }
+.l2-caption { top: 50%; z-index: 4; padding: 44px 110px 46px; font-size: 38px; max-width: 1300px; transform: translate(-50%, -50%) scale(.6); }
+.l2-caption.show { transform: translate(-50%, -50%) scale(1); transition: opacity .25s, transform .4s cubic-bezier(.2, 1.6, .4, 1); }
+
+/* cards rise out of the holo pads on a beam of light */
+.l2-card.tray { animation: l2-rise .9s cubic-bezier(.2, 1.2, .4, 1) var(--d, 0ms) both, l2-float 2.6s ease-in-out calc(var(--d, 0ms) + .9s) infinite; }
+@keyframes l2-rise {
+  0%   { transform: translateY(190px) scale(.25); opacity: 0; filter: brightness(3) blur(6px) drop-shadow(0 0 30px #8fd6ff); }
+  45%  { opacity: 1; filter: brightness(2) blur(1px) drop-shadow(0 0 26px #8fd6ff); }
+  100% { transform: none; opacity: 1; filter: none; }
+}
+.l2-beam { animation: l2-beamup 1s ease-out var(--d, 0ms) both, l2-beam 1.6s ease-in-out calc(var(--d, 0ms) + 1s) infinite; }
+@keyframes l2-beamup {
+  0%   { opacity: 0; transform: scaleY(0); transform-origin: 50% 100%; }
+  35%  { opacity: 1; transform: scaleY(1.6); transform-origin: 50% 100%; filter: brightness(1.8); }
+  100% { opacity: .8; transform: scaleY(1); transform-origin: 50% 100%; }
+}
+
+/* clean navy frames with a glass screen (no lights): corners keep their shape, only the middle stretches */
+.l2-sign { background: none; border-style: solid; border-width: 120px 46px 46px; border-image: url(../assets/level2/sign.webp) 170 60 60 60 fill / 120px 46px 46px stretch; box-sizing: border-box; }
+#l2-label { top: 24%; color: #dfe8f7; }
+#l2-target { top: 46%; }
+.l2-railart { object-fit: fill; opacity: 0; }
+.l2-railbox { position: absolute; left: 70px; top: 592px; width: 1460px; height: 308px; box-sizing: border-box; border-style: solid; border-width: 44px;
+  border-image: url(../assets/level2/rail.webp) 60 fill / 44px stretch; filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .45)); }
+.l2-col { background: linear-gradient(rgba(170, 210, 255, .14), rgba(120, 170, 230, .05)); box-shadow: inset 0 0 0 2px rgba(170, 210, 255, .35); }
+.l2-col span { background: linear-gradient(rgba(170, 210, 255, .35), rgba(170, 210, 255, .12)); color: #eaf3ff; }
+
+#l2-label { top: 12%; }
+#l2-target { top: 28%; }
+
+#l2-hand { width: 72px; z-index: 7; }
+
+/* compact speech bubble with a small portrait (no big frame) */
+#l2-say { left: 50%; top: 330px; bottom: auto; width: auto; max-width: 760px; height: auto; margin-left: 0; translate: -50% 0;
+  display: flex; align-items: center; gap: 16px; padding: 14px 28px 14px 14px;
+  background: linear-gradient(170deg, rgba(30, 44, 74, .96), rgba(10, 16, 32, .97)); border: 3px solid #f2b45a; border-radius: 24px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, .45), 0 0 18px rgba(242, 180, 90, .35); }
+#l2-say[data-who="nova"] { border-color: #ffb38f; }
+#l2-say .l2-portrait { position: static; flex: none; width: 88px; height: 88px; border: 3px solid currentColor; color: #f2b45a; }
+#l2-say[data-who="nova"] .l2-portrait { color: #ffb38f; }
+#l2-say .l2-text { position: static; }
+#l2-say .l2-name { font-size: 18px; }
+#l2-say .l2-line { font-size: 27px; }
+.l2-caption { width: max-content; max-width: 1300px; }

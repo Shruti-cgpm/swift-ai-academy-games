@@ -1,0 +1,148 @@
+/* Level 1 skin for the story build: same art direction as the story (generated UI plates, Orbitron / Rajdhani),
+   no flat colour panels. Loaded after level1-torch.css. */
+
+.l1 { background: transparent; font-family: Rajdhani, "Segoe UI", system-ui, sans-serif; z-index: 20; }
+.l1-stage { background: transparent; }
+
+/* name banner on the generated title plate */
+.l1-banner { width: 50%; height: 17%; top: 19%; filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .55)); }
+.l1-banner-frame { background: url(../assets/gen/ui-title.webp) center / 100% 100% no-repeat; clip-path: none; }
+.l1-banner-glass { inset: 18% 11%; background: none; clip-path: none; padding: 0 10px; }
+.l1-banner-glass::before, .l1-banner-glass::after { display: none; }
+.l1-name { font-family: Orbitron, sans-serif; font-weight: 800; color: #f6dfac; text-shadow: 0 0 18px rgba(242, 180, 90, .6), 0 3px 8px rgba(0, 0, 0, .9); }
+
+/* HUD */
+.l1-hud { top: 24px; right: 24px; }
+.l1-pill {
+  padding: 24px 56px 22px; border: 0; border-radius: 0; box-shadow: none;
+  background: url(../assets/gen/ui-button.webp) center / 100% 100% no-repeat;
+  font-family: Orbitron, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: .06em; color: #f6dfac;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, .9);
+}
+.l1-dot { width: 20px; height: 20px; background: radial-gradient(circle at 35% 35%, #ffe7a8, #e59a2a); box-shadow: 0 0 10px rgba(255, 190, 90, .9); }
+.l1-dot.is-done { background: radial-gradient(circle at 35% 35%, #d9ffe7, #2fbf6a); box-shadow: 0 0 10px rgba(80, 255, 150, .9); }
+.l1-dot.is-current::after { border-color: #ffd98a; }
+
+/* hold-to-select ring: CSS conic ring (no vector art) */
+.l1-ring {
+  border-radius: 50%;
+  background: conic-gradient(#ffb347 calc(var(--p, 0) * 1turn), rgba(255, 179, 71, .18) 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 calc(100% - 7px));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 calc(100% - 7px));
+  filter: drop-shadow(0 0 6px #ffb347);
+}
+
+/* caption on the title plate */
+.l1-caption {
+  bottom: 14px; max-width: 74%; padding: 30px 80px 32px; border: 0; border-radius: 0; box-shadow: none;
+  background: url(../assets/gen/ui-title.webp) center / 100% 100% no-repeat;
+  font-size: 32px; font-weight: 700; color: #f0f7f7; text-shadow: 0 2px 6px rgba(0, 0, 0, .9);
+}
+.l1-caption.is-good { color: #b9ffc5; box-shadow: none; }
+.l1-caption.is-bad { color: #ffb3b3; box-shadow: none; }
+
+/* place-value chart on the dark glass panel */
+.l1-chart {
+  padding: 44px 70px 50px; border: 0; border-radius: 0; box-shadow: none;
+  background: url(../assets/ui/panel.webp) center / 100% 100% no-repeat;
+}
+.l1-chart-title { font-size: 24px; color: #94e8f4; font-weight: 700; }
+.l1-chart-title strong { color: #ffb3b3; }
+.l1-chart-col span { background: linear-gradient(rgba(242, 180, 90, .45), rgba(242, 180, 90, .2)); color: #fff4d8; font-size: 17px; }
+.l1-chart-col b { border-color: rgba(242, 180, 90, .6); color: #f6dfac; font-family: Orbitron, sans-serif; }
+
+/* speech box: the same generated dialogue frame as the story */
+.l1-ril {
+  left: 50%; bottom: 8px; width: 880px; height: 321px; display: block;
+  background: url(../assets/gen/ui-dialogue.webp) center / 100% 100% no-repeat;
+  transform: translate(-50%, 24px);
+}
+.l1-ril.is-visible { transform: translate(-50%, 0); }
+.l1-ril-portrait {
+  position: absolute; left: 69px; top: 63px; width: 200px; height: 200px; flex: none;
+  border: 0; border-radius: 50%; box-shadow: inset 0 0 18px rgba(0, 0, 0, .7);
+  background: center / cover no-repeat;
+}
+.l1-ril[data-who="nova"] .l1-ril-portrait { background-image: url(../assets/gen/nova-portrait.webp); background-size: cover; background-position: center; }
+.l1-ril[data-who="ril"]  .l1-ril-portrait { background-image: url(../assets/ril.webp);  background-size: 446px auto; background-position: -202px 0; }
+.l1-ril-body { position: absolute; left: 325px; right: 78px; top: 62px; bottom: 60px; }
+.l1-ril-name { display: block; font-family: Orbitron, sans-serif; font-weight: 700; font-size: 24px; letter-spacing: .08em; color: #94e8f4; }
+.l1-ril[data-who="nova"] .l1-ril-name { color: #ffb38f; }
+.l1-ril-line { padding: 4px 0 0; border: 0; border-radius: 0; background: none; box-shadow: none; font-size: 27px; line-height: 1.16; color: #f0f7f7; text-shadow: 0 2px 6px rgba(0, 0, 0, .8); }
+.l1-ril-line::before { display: none; }
+
+/* start prompt + next button on the generated button plate */
+.l1-tap, .l1-next {
+  border: 0; border-radius: 0; box-shadow: none;
+  background: url(../assets/gen/ui-button.webp) center / 100% 100% no-repeat;
+  font-family: Orbitron, sans-serif; font-weight: 700; color: #f6dfac; text-shadow: 0 2px 6px rgba(0, 0, 0, .9);
+}
+.l1-tap { padding: 30px 70px 28px; font-size: 24px; letter-spacing: .06em; }
+.l1-next { width: 300px; height: 106px; padding: 0; font-size: 28px; letter-spacing: .08em; right: 250px; bottom: 30px; z-index: 14; }
+
+/* tutorial hand: generated glove image */
+.l1-hand { width: 96px; height: 96px; }
+.l1-hand img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .6)); }
+.l1-hand.is-pointing img { animation: l1-bob .9s ease-in-out infinite; }
+
+/* Nova stands in the room holding the torch rig's light */
+.l1-nova { position: absolute; right: -10px; bottom: 6px; height: 40%; z-index: 11; pointer-events: none; filter: drop-shadow(0 10px 10px rgba(0, 0, 0, .45)); transform-origin: 50% 100%; animation: l1-nova-idle 3.4s ease-in-out infinite; }
+@keyframes l1-nova-idle { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.01, .985); } }
+.l1.is-celebrating .l1-nova { animation: l1-nova-hop .55s ease-in-out 3; }
+@keyframes l1-nova-hop { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+
+/* mute button inside Level 1 */
+.l1-mute {
+  position: absolute; left: 22px; bottom: 22px; z-index: 13; width: 200px; height: 70px; border: 0;
+  background: url(../assets/gen/ui-button.webp) center / 100% 100% no-repeat;
+  font-family: Orbitron, sans-serif; font-weight: 700; font-size: 18px; color: #f6dfac; cursor: pointer;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, .9);
+}
+
+/* small screens: bigger words and buttons */
+.l1.compact .l1-caption { scale: 1.3; transform-origin: 50% 100%; }
+.l1.compact .l1-ril { scale: 1.22; transform-origin: 50% 100%; }
+.l1.compact .l1-next, .l1.compact .l1-mute { scale: 1.3; }
+.l1.compact .l1-next { transform-origin: 100% 100%; right: 270px; }
+.l1.compact .l1-mute { transform-origin: 0 100%; }
+.l1.compact .l1-hud { scale: 1.2; transform-origin: 100% 0; }
+.l1.compact .l1-tap { scale: 1.3; }
+
+/* records are faintly readable in the dark so children can find them with the torch */
+.l1-num { opacity: .5; filter: blur(.3px); }
+.l1-ped-art { filter: brightness(1.25); }
+.l1-ring { display: none; }
+.l1-nova { height: 44%; right: -6px; }
+
+/* soft-focus room so the records and torch light stand out */
+.l1-bg { filter: blur(7px) brightness(.85) saturate(1.1); transform: scale(1.04); }
+
+/* place-value chart: fixed, even columns so each digit sits exactly under its place name */
+.l1-chart { padding: 54px 90px 58px; min-width: 1060px; }
+.l1-chart-title { margin: 0 0 14px; font-size: 28px; }
+.l1-chart-grid { display: grid; grid-template-columns: repeat(var(--cols, 6), 140px); gap: 10px; justify-content: center; }
+.l1-chart-col { width: auto; display: grid; grid-template-rows: 44px 70px; }
+.l1-chart-col span {
+  display: grid; place-items: center; padding: 0 4px; white-space: normal;
+  font-size: 18px; font-weight: 700; line-height: 1; border-radius: 10px 10px 0 0;
+}
+.l1-chart-col b {
+  display: grid; place-items: center; height: auto; width: 100%; box-sizing: border-box;
+  border: 2px solid rgba(242, 180, 90, .65); border-top: 0; border-radius: 0 0 10px 10px;
+  background: rgba(0, 0, 0, .35); font-size: 42px; padding: 0;
+}
+
+/* speech bubble above Nova (she stands bottom-right) */
+.l1-ril { left: auto; right: 24px; bottom: 455px; width: auto; max-width: 560px; height: auto; display: block; padding: 16px 26px 18px;
+  background: linear-gradient(170deg, rgba(30, 44, 74, .96), rgba(10, 16, 32, .97)); border: 3px solid #ffb38f; border-radius: 24px;
+  box-shadow: 0 0 0 2px rgba(10, 16, 30, .8), 0 10px 22px rgba(0, 0, 0, .45), 0 0 18px rgba(255, 179, 143, .35);
+  transform: translateY(10px) scale(.6); transform-origin: calc(100% - 120px) 100%; scale: 1 !important; }
+.l1-ril.is-visible { transform: none; }
+.l1-ril::after { content: ""; position: absolute; right: 108px; bottom: -15px; width: 24px; height: 24px;
+  background: rgba(12, 18, 36, .97); border-right: 3px solid #ffb38f; border-bottom: 3px solid #ffb38f; border-bottom-right-radius: 6px; transform: rotate(45deg); }
+.l1-ril[data-who="ril"], .l1-ril[data-who="ril"]::after { border-color: #f2b45a; }
+.l1-ril-portrait { display: none; }
+.l1-ril-body { position: static; }
+.l1-ril-name { font-size: 18px; }
+.l1-ril-line { font-size: 26px; padding-top: 2px; }
+.l1.compact .l1-ril-line { font-size: 32px; }

@@ -32,6 +32,7 @@
       <p class="kicker">Portfolio · Before you start</p>
       <h2>Your Proof File shows your finished MC1 work.</h2>
       <p>Your assessor checks this file. You make it in 3 steps.</p>
+      <p class="pf-diag pf-diag-steps"><img data-mock="diag-proof-file-gather" src="assets/mocks/dark/diag-proof-file-gather.webp" width="960" height="250" alt="Proof File in 3 steps: 1 Gather, 2 Attach, 3 Declare and submit. Then your Proof File goes to your assessor, who checks it."></p>
       <p class="do"><b>Your task.</b> Tap each card to see what you do.</p>
       <div class="saa-kit" data-kit="reveal" data-theme="dark" data-required>
         <div class="saa-cards">
@@ -50,6 +51,7 @@
       <p class="kicker">Step 1 · Attach</p>
       <h2>Attach your 6 pieces of work.</h2>
       <p>This is a practice form, so you type a file name. Each piece of work shows the types of file you can use.</p>
+      <p class="pf-diag pf-diag-fname"><img data-mock="diag-file-name" src="assets/mocks/dark/diag-file-name.webp" width="480" height="240" alt="A file name has 2 parts joined by a dot: the name, like my-notes, and the type, like pdf. Types of file: .pdf, .docx, .jpg and .png."></p>
       <p class="do"><b>Your task.</b> Type a file name for each piece of work and tap Attach.</p>
       <div class="pf-attach">
         <p class="pf-count saa-vo-skip" id="attachCount" aria-live="polite">0 of 6 attached</p>
@@ -75,7 +77,7 @@
           <div class="gauge-text"><b id="gaugeCount">0 of 6 pieces of work attached</b></div>
         </div>
         <div class="connect-row">
-          <div class="connect-status saa-vo-skip"><span class="connect-dot" id="connectDot"></span><span id="connectLabel">Online. Your work saves by itself.</span></div>
+          <div class="connect-status saa-vo-skip"><img class="connect-ic" id="connectIc" data-ic="icon-online" src="assets/icons/ivory/icon-online.webp" alt="" aria-hidden="true"><span class="connect-dot" id="connectDot"></span><span id="connectLabel">Online. Your work saves by itself.</span></div>
           <button class="connect-btn" type="button" onclick="toggleConnection()" id="connectBtn">Stop the internet</button>
         </div>
         <p class="pf-msg saa-k-why" id="msg-2" aria-live="polite"></p>
@@ -101,6 +103,7 @@
         <div class="pf-rlist saa-vo-skip" id="reviewList"></div>
         <label class="declaration-box" for="declareBox">
           <input type="checkbox" id="declareBox" onchange="refreshLocks()">
+          <img class="decl-ic" data-ic="icon-sign" src="assets/icons/ivory/icon-sign.webp" alt="" aria-hidden="true">
           <span><b>My declaration</b><span>These are my own finished files. I am submitting them myself.</span></span>
         </label>
         <p class="pf-msg saa-k-why" id="msg-3" aria-live="polite"></p>
@@ -114,6 +117,7 @@
       <p class="kicker">Step 4 · Submit</p>
       <h2>Submit your Proof File for review.</h2>
       <p>Your assessor checks your files. You get a receipt after you submit.</p>
+      <p class="pf-diag pf-diag-submit"><img data-mock="diag-proof-file-submit" src="assets/mocks/dark/diag-proof-file-submit.webp" width="720" height="250" alt="After you submit: you submit, your assessor reviews your files, then you get a receipt."></p>
       <p class="do"><b>Your task.</b> Tap Submit my Proof File.</p>
       <div class="pf-submit">
         <ul class="pf-ready saa-vo-skip" id="readyList"></ul>

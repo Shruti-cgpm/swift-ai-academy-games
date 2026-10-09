@@ -459,3 +459,88 @@ html:root.saa-skin .eyebrow span{color:#8FA0FF;font-size:inherit;letter-spacing:
   html:root.saa-skin .saa-lead:has(.builder) p:not(.do){font-size:calc(clamp(14px,2.1vh,20px) / var(--zz)) !important;margin:0 !important}
   html:root.saa-skin .saa-lead:has(.builder) .do{font-size:14px !important;padding:7px 12px !important}
 }
+
+/* AI Fluency designer assets (Oct 2026)
+   Mocks and diagrams sit behind a "See …" chip that opens one pop-up (dialog). Each chip shows only after its
+   learning event: Lock in my guess (screen 2), all 4 matched (5), Check (13-15), the right order (17).
+   Line icons: builder labels (6, 7), stamp buttons (12), every practice option (13-15), privacy note (16), loop steps (17). */
+.ex-chip{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;max-width:100%;min-height:44px;margin:0;padding:5px 14px 5px 5px;border-radius:12px;border:1px solid var(--blue-line);background:var(--blue-bg);color:var(--heading);font:600 15px/1.25 var(--font-family);text-align:left;cursor:pointer;box-sizing:border-box}
+.ex-chip[hidden]{display:none}
+.ex-chip:hover{border-color:var(--blue)}
+.ex-thumb{display:block;height:40px;width:auto;max-width:72px;object-fit:cover;object-position:top left;border-radius:6px;border:1px solid var(--border);background:var(--card)}
+.ex-ic{display:grid;place-items:center;width:40px;height:34px;border-radius:6px;background:var(--card);border:1px solid var(--border);color:var(--blue)}
+.saa-lead .ex-chip{margin-top:2px}
+html[data-theme="dark"] .ex-chip{background:rgba(91,118,255,.14);border-color:rgba(143,160,255,.5);color:#F6F4EF}
+html[data-theme="dark"] .ex-chip:hover{border-color:#8FA0FF}
+html[data-theme="dark"] .ex-thumb, html[data-theme="dark"] .ex-ic{background:#141F5C;border-color:#405185}
+html[data-theme="dark"] .ex-ic{color:#8FA0FF}
+/* the pop-up sits outside the zoomed app, so it takes the same zoom (--z) itself */
+.ex-pop{zoom:var(--z,1);width:min(820px,calc(94vw / var(--z,1)));max-width:calc(94vw / var(--z,1));max-height:calc(94vh / var(--z,1));max-height:calc(94dvh / var(--z,1));margin:auto;padding:12px;border:1px solid var(--border);border-radius:18px;background:var(--card);color:var(--heading);box-shadow:0 24px 64px rgba(8,13,36,.35);box-sizing:border-box;overflow:hidden}
+.ex-pop[open]{display:flex;flex-direction:column;gap:8px}
+.ex-pop::backdrop{background:rgba(8,13,36,.6)}
+.ex-pop-top{display:flex;justify-content:flex-end}
+.ex-pop-x{min-height:40px;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--bg-wash);color:var(--heading);font:600 14px var(--font-family);cursor:pointer}
+.ex-pop-body{display:flex;justify-content:center;min-height:0}
+.ex-pop-body img{display:block;max-width:100%;max-height:calc(94vh / var(--z,1) - 84px);max-height:calc(94dvh / var(--z,1) - 84px);width:auto;height:auto;object-fit:contain}
+html[data-theme="dark"] .ex-pop{background:#0E1A4F;border-color:#405185;color:#F6F4EF}
+html[data-theme="dark"] .ex-pop-x{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.25);color:#F6F4EF}
+/* screen 5: the chat mock, built live so the request is the game's own (pack look: mock-road-notice-short) */
+.cm{margin:0;width:min(640px,100%);border:1.5px solid #DCE2F1;border-radius:14px;background:#FFFFFF;color:#0E1A4F;font-family:var(--font-family);overflow:auto;max-height:calc(94dvh / var(--z,1) - 84px)}
+.cm-top{padding:12px 18px;border-bottom:1.5px solid #DCE2F1;font-weight:600;font-size:18px}
+.cm-body{padding:14px 18px 4px}
+.cm-you{margin:0 0 14px auto;max-width:78%;padding:10px 14px;border:1.5px solid #DCE2F1;border-radius:14px;background:#EEF1FF;font-size:15.5px;line-height:1.45}
+.cm-h{margin:0 0 8px;font-size:19px;font-weight:700;line-height:1.3}
+.cm-list{margin:0;padding-left:22px;font-size:16.5px;line-height:1.5}
+.cm-list li{margin:0 0 6px}
+.cm-tag{margin:0;padding:6px 18px 14px;font-size:14px;color:#56608A}
+html[data-theme="dark"] .cm{background:#141F5C;border-color:#405185;color:#F6F4EF}
+html[data-theme="dark"] .cm-top{border-color:#405185}
+html[data-theme="dark"] .cm-you{background:#1E2D69;border-color:#405185}
+html[data-theme="dark"] .cm-tag{color:#B7C2E7}
+/* line icons */
+.bf .k{display:inline-flex;align-items:center;gap:4px}
+.bf .k .ic{width:16px;height:16px;flex:0 0 16px}
+.saa-lead .bf{grid-template-columns:86px 1fr}
+.opt .opt-ic{width:22px;height:22px;flex:0 0 22px;margin-top:1px}
+.saa-kit .saa-stamp-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.saa-kit .saa-stamp-btn .stamp-ic{width:18px;height:18px;flex:0 0 18px}
+.saa-kit .saa-steps > li .step-ic{width:22px;height:22px;flex:0 0 22px}
+.note.safe{align-items:center}
+.safe-ics{display:flex;gap:6px;flex:0 0 auto}
+.safe-ics .ic{width:22px;height:22px;flex:0 0 22px}
+@media (max-height:780px) and (min-width:701px){ .saa-lead .bf{grid-template-columns:80px 1fr} }
+@media (max-width:720px){ .saa-lead .bf{grid-template-columns:1fr} .note.safe{flex-direction:column;align-items:flex-start} }
+/* screen 12: with an icon on each stamp, the 3 stamps sit on their own line under the case */
+.saa-kit.stop-stamp .saa-row{flex-wrap:wrap;row-gap:6px}
+.saa-kit.stop-stamp .saa-row-t{flex:1 1 100%}
+.saa-kit.stop-stamp .saa-row.done .saa-row-t{flex:1 1 0}
+.saa-kit.stop-stamp .saa-stamps{flex:1 1 100%}
+.saa-kit.stop-stamp .saa-stamp-btn{flex:1 1 0;min-width:0}
+.saa-kit.stop-stamp .saa-row{min-width:0}
+/* a narrow case box (phones, the light theme's narrower column): the icon sits above its label */
+.saa-kit.stop-stamp .saa-row{container-type:inline-size}
+@container (max-width:460px){ .saa-kit.stop-stamp .saa-stamp-btn{flex-direction:column;gap:2px;padding:6px} }
+/* reused diagrams and the next-word animation (light files recoloured from the dark originals) */
+.lead-fig, .work-fig, .done-fig, .nw-anim{margin:0}
+.lead-fig[hidden], .work-fig[hidden], .nw-anim[hidden], .cm[hidden]{display:none}
+.lead-fig img{display:block;width:auto;max-width:100%;height:auto;max-height:calc(15vh / var(--z,1))}
+.work-fig img{display:block;width:auto;max-width:100%;height:auto;max-height:calc(14vh / var(--z,1))}
+.done-fig img{display:block;width:auto;max-width:100%;height:auto;max-height:calc(22vh / var(--z,1));margin:0 auto;border-radius:12px}
+.nw-anim video{display:block;width:auto;max-width:100%;max-height:calc(22vh / var(--z,1));aspect-ratio:600 / 300;border-radius:12px;border:1px solid var(--border);cursor:pointer;background:#F3F1EC}
+html[data-theme="dark"] .nw-anim video{background:#0B1033;border-color:rgba(255,255,255,.14)}
+/* screen 11: the self-check chat, inline and smaller */
+.cm.cm-sm{width:100%;max-height:none;overflow:visible}
+.cm-sm .cm-top{padding:7px 14px;font-size:14.5px}
+.cm-sm .cm-body{padding:9px 14px 10px;display:flex;flex-direction:column;gap:8px}
+.cm-sm .cm-you{margin:0 0 0 auto;max-width:80%;padding:6px 12px;font-size:14px;line-height:1.4;border-radius:12px}
+.cm-ai{margin:0;max-width:88%;padding:7px 12px;border:1.5px solid #DCE2F1;border-radius:12px;background:#F7F8FC;font-size:14.5px;line-height:1.45}
+html[data-theme="dark"] .cm-ai{background:#0B1033;border-color:#2A3870}
+@media (max-width:720px){ .lead-fig img, .work-fig img{max-height:none} .nw-anim video{max-height:none;width:100%} }
+/* flip cards (screens 3, 4, 11): the card grows to fit its front and back, so the icon and the
+   back text stay inside the card on short screens (the faces share one grid cell instead of being absolute) */
+.page .saa-kit .saa-card{display:grid}
+.page .saa-kit .saa-card .saa-card-in{position:relative;inset:auto;display:grid}
+.page .saa-kit .saa-card .saa-front, .page .saa-kit .saa-card .saa-back{position:relative;inset:auto;grid-area:1 / 1;min-height:100%;box-sizing:border-box;padding:10px 14px}
+.page .saa-kit .saa-front .ic{margin:0 auto 2px}
+.page .saa-kit .saa-front{gap:4px}
+.check-steps .saa-back{font-size:clamp(13px,1.9vh,16px);line-height:1.35}

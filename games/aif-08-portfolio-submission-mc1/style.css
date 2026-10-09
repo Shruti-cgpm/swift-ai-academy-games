@@ -326,3 +326,26 @@ html[data-theme="dark"] .receipt-row{border-color:rgba(255,255,255,.12)}
   .review-row .rv{text-align:left}
   .page.active > .card{justify-content:flex-start}
 }
+
+/* AI Fluency designer assets (Oct 2026) */
+/* screens 1, 2 and 5: diagrams in the left column (light or dark drawing follows the theme) */
+.pf-diag{margin:0;line-height:0}
+.pf-diag img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain;object-position:left center}
+.pf-diag-steps img{max-height:calc(20vh / var(--z,1));max-width:620px}
+.pf-diag-fname img{max-height:calc(22vh / var(--z,1));max-width:380px}
+.pf-diag-submit img{max-height:calc(24vh / var(--z,1));max-width:520px}
+/* screen 3: the status is shown by a line icon (wifi = online, wifi with a slash = offline), not a coloured dot */
+.connect-ic{width:24px;height:24px;flex:0 0 auto}
+.connect-status .connect-dot{display:none}
+/* screen 4: the same piece-of-work icon as on the Attach screen, and a pen on the declaration */
+.review-tile:has(.rt-ic){padding-left:44px}
+.rt-ic{position:absolute;left:12px;top:50%;width:20px;height:20px;transform:translateY(-50%)}
+.decl-ic{width:24px;height:24px;flex:0 0 auto;margin-top:1px}
+/* the page is scaled by --z: vh sizes that were written without it made light mode spill over at 1920x1080 */
+html[data-theme="light"] .saa-lead h2{font-size:clamp(22px,calc(4.2vh / var(--z,1)),34px)}
+html[data-theme="light"] .saa-lead p:not(.do):not(.kicker){font-size:clamp(14px,calc(2.3vh / var(--z,1)),19px)}
+.saa-kit .saa-card:has(.pf-ic){min-height:max(104px, clamp(84px,calc(14vh / var(--z,1)),130px))}
+@media (max-width:700px){
+  .pf-diag-steps img,.pf-diag-submit img{max-height:none;max-width:100%}
+  .pf-diag-fname img{max-height:none;max-width:320px}
+}

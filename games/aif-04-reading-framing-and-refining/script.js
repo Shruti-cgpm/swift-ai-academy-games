@@ -25,6 +25,73 @@
   var prevBtn = document.querySelector('[data-prev]');
   var restartBtn = document.getElementById('restart');
 
+  /* ---- designer mocks and diagrams (Oct 2026): light / dark files, shown only after their learning event ---- */
+  /* screen 5's full request, from the game's own match pieces (read before the kit shuffles them) */
+  var REQUEST = (function () {
+    var m = document.querySelector('.anatomy-match'); if (!m) { return ''; }
+    return ['role', 'task', 'context', 'format'].map(function (k) {
+      var e = m.querySelector('.saa-m-item[data-pair="' + k + '"]'); return e ? e.textContent.replace(/\s+/g, ' ').trim() : '';
+    }).filter(Boolean).join(' ');
+  })();
+  function isLight() { return document.documentElement.getAttribute('data-theme') === 'light'; }
+  function paintMocks(root) {
+    (root || document).querySelectorAll('img[data-mock]').forEach(function (im) {
+      var q = im.getAttribute('data-swap-q');   /* practice 3: plain notice until the answer is checked, then the made-up parts are boxed */
+      if (q && answered[q] && im.getAttribute('data-swap-to')) {
+        im.setAttribute('data-mock', im.getAttribute('data-swap-to')); im.removeAttribute('data-swap-q');
+        if (im.getAttribute('data-alt-after')) { im.alt = im.getAttribute('data-alt-after'); }
+      }
+      var want = 'assets/mocks/' + (isLight() ? 'light' : 'dark') + '/' + im.getAttribute('data-mock') + '.webp';
+      if (im.getAttribute('src') !== want) { im.setAttribute('src', want); }
+    });
+    /* screen 1: the next-word animation (light / dark files) */
+    (root || document).querySelectorAll('video[data-mock-video]').forEach(function (v) {
+      var base = 'assets/mocks/' + (isLight() ? 'light' : 'dark') + '/' + v.getAttribute('data-mock-video');
+      var src = v.querySelector('source');
+      if (src && src.getAttribute('src') !== base + '.mp4') {
+        var was = !v.paused;
+        v.setAttribute('poster', base + '.poster.webp'); src.setAttribute('src', base + '.mp4');
+        v.load(); if (was) { playVid(v); }
+      }
+    });
+  }
+  var STILL = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function playVid(v) { var p = v.play(); if (p && p.catch) { p.catch(function () {}); } }
+  /* play only the animation on the screen you are on; reduced motion: the poster, with a play control */
+  function syncVids() {
+    document.querySelectorAll('video[data-mock-video]').forEach(function (v) {
+      var fig = v.closest('figure'), page = v.closest('.screen');
+      if (!fig || fig.hidden || !page || page.hidden) { v.pause(); return; }
+      if (STILL) { v.controls = true; } else if (v.paused && !v.__userPaused) { playVid(v); }
+    });
+  }
+  document.querySelectorAll('video[data-mock-video]').forEach(function (v) {
+    var toggle = function () { if (v.controls) { return; } if (v.paused) { v.__userPaused = false; playVid(v); } else { v.__userPaused = true; v.pause(); } };
+    v.addEventListener('click', toggle);
+    v.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+  function afterQ(id) {
+    document.querySelectorAll('[data-after-q="' + id + '"]').forEach(function (e) { e.hidden = false; });
+    paintMocks(document);
+    syncVids();
+  }
+  var pop = document.getElementById('ex-pop'), popBody = pop && pop.querySelector('.ex-pop-body');
+  function openEx(chip) {
+    var t = document.getElementById(chip.getAttribute('data-ex'));
+    if (!t || !pop || chip.hidden) { return; }
+    popBody.innerHTML = '';
+    popBody.appendChild(t.content.cloneNode(true));
+    popBody.querySelectorAll('[data-fill="request"]').forEach(function (e) { e.textContent = REQUEST; });
+    paintMocks(popBody);
+    if (pop.showModal) { if (!pop.open) { pop.showModal(); } } else { pop.setAttribute('open', ''); }
+  }
+  function closeEx() { if (!pop) { return; } if (pop.close) { pop.close(); } else { pop.removeAttribute('open'); } }
+  document.addEventListener('click', function (e) {
+    var c = e.target.closest && e.target.closest('.ex-chip[data-ex]');
+    if (c) { openEx(c); return; }
+    if (pop && (e.target === pop || (e.target.closest && e.target.closest('[data-ex-close]')))) { closeEx(); }
+  });
+
   function notify(ev) { try { window.parent.postMessage({ source: 'swift-ai-academy', segment: SEGMENT, event: ev }, '*'); } catch (e) {} }
   function sfx(ok) { try { if (window.SAA_SFX) { if (ok) { window.SAA_SFX.correct(); } else { window.SAA_SFX.wrong(); } } } catch (e) {} }
 
@@ -81,6 +148,7 @@
     if (restartBtn) { restartBtn.hidden = !onDone; }
     prevBtn.hidden = onCover || onDone;
     paintGates();
+    syncVids();
   }
 
   function go(i) {
@@ -157,6 +225,7 @@
         show('any', 'locked');
         opts.forEach(function (o) { o.disabled = true; });
         check.hidden = true; answered[id] = true;
+        afterQ(id);
         document.querySelectorAll('[data-reveal]').forEach(function (r) {
           var t = r.querySelector('template[data-reveal-for="' + chosen + '"]');
           var out = r.querySelector('[data-reveal-out]');
@@ -170,6 +239,7 @@
       if (good) {
         opts.forEach(function (o) { o.disabled = true; if (o.getAttribute('data-val') === correct) { o.classList.add('is-right'); } });
         check.hidden = true; answered[id] = true;
+        afterQ(id);
         var slot = q.getAttribute('data-fills');
         var right = q.querySelector('.opt[data-val="' + correct + '"]');
         if (slot && right) {
@@ -233,6 +303,31 @@
       [nextBtn, prevBtn].forEach(function (b) { b.addEventListener('click', sync); });
     }
 
+    /* screen 11: the self-check chat appears once Step 1 (Ask) is opened */
+    document.querySelectorAll('[data-after-card]').forEach(function (f) {
+      var kit = document.querySelector('.' + f.getAttribute('data-after-card'));
+      var first = kit && kit.querySelector('.saa-card');
+      if (!first) { return; }
+      first.addEventListener('click', function () { setTimeout(function () { if (first.classList.contains('open')) { f.hidden = false; } }, 0); });
+    });
+
+    /* screens 5 and 17: the example appears only once the kit is done (all 4 matched / the right order) */
+    document.querySelectorAll('.ex-chip[data-ex-after="kit"]').forEach(function (c) {
+      var k = c.closest('.screen').querySelector('.saa-kit[data-required]');
+      if (k) { k.addEventListener('saa:done', function () { c.hidden = false; }); }
+    });
+
+    setTimeout(function () {
+      /* screen 12: the same 3 icons on every stamp button (the kit builds the buttons) */
+      var STAMP_IC = { 'Combine': 'move-5', 'Fix it myself': 'rewrite', 'Write it again': 'retry' };
+      document.querySelectorAll('.stop-stamp .saa-stamp-btn').forEach(function (b) {
+        var k = STAMP_IC[b.textContent.trim()]; if (!k || b.querySelector('img.ic')) { return; }
+        var im = document.createElement('img');
+        im.className = 'ic stamp-ic'; im.setAttribute('data-ic', k); im.alt = ''; im.setAttribute('aria-hidden', 'true');
+        b.insertBefore(im, b.firstChild);
+      });
+      theme();
+    }, 0);
     /* start screen: the trainee above the title (the overlay is built by the layer) */
     setTimeout(function () {
       var mid = document.querySelector('#saa-start .saa-mid');
@@ -252,6 +347,7 @@
         var want = 'assets/icons/' + (light ? 'navy/' : '') + 'icon-' + im.getAttribute('data-ic') + '.webp';
         if (im.getAttribute('src') !== want) { im.setAttribute('src', want); }
       });
+      paintMocks(document);
     }
     window.addEventListener('saa:theme', theme);
     theme();

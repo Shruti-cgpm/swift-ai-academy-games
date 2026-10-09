@@ -156,6 +156,18 @@
   function icon(id, cls) { var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('class', cls || 'ic'); s.setAttribute('aria-hidden', 'true'); var u = document.createElementNS('http://www.w3.org/2000/svg', 'use'); u.setAttribute('href', '#' + id); s.appendChild(u); return s; }
   function shortTime(r) { if (r.min == null) return 'Time varies'; if (r.min < 60) return r.min + ' min'; var h = r.min / 60; return (Math.round(h * 2) / 2) + ' hours'; }
   function shortAccess(r) { if (/Needs a ChatGPT account/.test(r.access)) return 'Free, needs a ChatGPT account'; if (/Needs a/.test(r.access)) return 'Free, needs an account'; if (/Sign in only/.test(r.access)) return 'Free, sign-in optional'; return 'Free, no account'; }
+  /* AI Fluency designer assets (Oct 2026): a small ivory icon on the card's fact chips (decorative: the chip text says it) */
+  function chipIcon(k) { var i = el('img', 'chip-ic'); i.src = 'assets/icons/ivory/icon-' + k + '.webp'; i.alt = ''; i.setAttribute('aria-hidden', 'true'); return i; }
+  /* the format chip, from RES.format: [icon, short label] */
+  function formatOf(r) {
+    var f = r.format;
+    if (/PDF/.test(f)) return ['pdf', 'PDF'];
+    if (/^Video/.test(f)) return ['video', 'Video'];
+    if (/developer/i.test(f)) return ['devdoc', 'Developer docs'];
+    if (/course/i.test(f)) return ['course', 'Course'];
+    if (/guide|checklist/i.test(f)) return ['guide', 'Guide'];
+    return ['article', 'Article'];
+  }
   function sfx(k) { try { if (window.SAA_SFX && SAA_SFX[k]) SAA_SFX[k](); } catch (e) {} }
   function byId(id) { return RES.filter(function (r) { return r.id === id; })[0]; }
 
@@ -193,12 +205,14 @@
   function card(r) {
     var a = el('article', 'res'); a.id = 'res-' + r.id; a.setAttribute('data-url', r.url);
     var main = el('div', 'res-main');
-    main.appendChild(el('h2', '', r.title));
+    var fm = formatOf(r), h2 = el('h2', 'res-h');
+    var fi = el('span', 'res-fmt'); fi.title = fm[1]; fi.appendChild(chipIcon('res-' + fm[0])); fi.appendChild(el('span', 'sr-only', fm[1] + ': ')); h2.appendChild(fi);
+    h2.appendChild(document.createTextNode(r.title)); main.appendChild(h2);
     main.appendChild(el('span', 'by', r.org));
     var facts = el('div', 'facts');
     facts.appendChild(el('span', '', shortTime(r)));
     facts.appendChild(el('span', '', shortAccess(r)));
-    if (r.lane !== 'both') facts.appendChild(el('span', 'tag-lane', LANE_LABEL[r.lane]));
+    if (r.lane !== 'both') { var lc = el('span', 'tag-lane'); lc.appendChild(chipIcon(r.lane === 'iti' ? 'lane-iti' : 'lane-college-cap')); lc.appendChild(document.createTextNode(LANE_LABEL[r.lane])); facts.appendChild(lc); }
     if (r.opt) facts.appendChild(el('span', 'tag-opt', 'Optional extra'));
     var pk = el('span', 'tag-pick', 'Picked for you'); pk.hidden = true; facts.appendChild(pk);
     var sn = el('span', 'tag-seen'); sn.appendChild(icon('i-check')); sn.appendChild(document.createTextNode('Opened')); facts.appendChild(sn);
@@ -306,6 +320,33 @@
 
   $$('.res-list[data-res]').forEach(function (list) {
     list.getAttribute('data-res').split(/\s+/).forEach(function (id) { var r = byId(id); if (!r) return; list.appendChild(card(r)); host.appendChild(popup(r)); });
+  });
+
+  /* ---------- screen 8: the "See example" pop-up (same pattern as Key points) ---------- */
+  $$('[data-fc-example]').forEach(function (b) {
+    var d = $(b.getAttribute('data-fc-example')); if (!d) return;
+    b.addEventListener('click', function () {
+      closeKP(true); lastFocus = b;
+      d.hidden = false; openPop = d; document.body.classList.add('kp-open');
+      var x = d.querySelector('.kp-x'); if (x) x.focus();
+    });
+  });
+  $$('.fc-ex').forEach(function (d) {
+    $$('[data-fc-close]', d).forEach(function (c) { c.addEventListener('click', closeKP); });
+    d.addEventListener('click', function (e) { if (e.target === d) closeKP(); });
+    d.addEventListener('keydown', function (e) { trap(e, d, closeKP); });
+  });
+
+  /* the diagrams under the lead text open larger in a pop-up. They become buttons only after the layer has split
+     the screen (a control inside the lead text would move it to the right-hand side). */
+  window.addEventListener('load', function () {
+    var d = $('ex-fig'), big = $('ex-fig-img'); if (!d || !big) return;
+    $$('.fc-fig img').forEach(function (im) {
+      im.setAttribute('role', 'button'); im.tabIndex = 0; im.title = 'Tap to see it larger';
+      function show() { closeKP(true); lastFocus = im; big.src = im.src; big.alt = im.alt; d.hidden = false; openPop = d; document.body.classList.add('kp-open'); var x = d.querySelector('.kp-x'); if (x) x.focus(); }
+      im.addEventListener('click', show);
+      im.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(); } });
+    });
   });
 
   /* ---------- opened cards ---------- */

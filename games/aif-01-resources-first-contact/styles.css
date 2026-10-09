@@ -225,3 +225,52 @@ body.kp-open{overflow:hidden}
   .tk-count,.empty{color:#2C3660!important}
 }
 @media print{html body #main p.lead,html.saa-skin body #main .saa-lead p.lead{color:#2C3660!important}.kp-h{color:#0E1A4F!important}}
+
+/* AI Fluency designer assets (Oct 2026) ===================================== */
+/* icons on chips: picker goal/course chips and the fact chips on every resource card (decorative) */
+.chip .chip-ic{width:18px;height:18px;flex:none;display:block}
+.facts .chip-ic{width:14px;height:14px;flex:none;display:block}
+/* diagrams under the lead text (left column); they shrink with the screen height */
+.fc-fig{margin:0;line-height:0}
+.fc-fig img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain;object-position:left center}
+.fc-fig-steps img{max-height:calc(29vh / var(--z,1));width:auto;max-width:100%}
+.fc-fig-wide img{max-height:calc(24vh / var(--z,1));width:auto;max-width:100%}
+/* screen 7: the 7 kinds of private detail, under the lead text (a picture caption: not read aloud) */
+.fc-keep{display:flex;flex-direction:column;gap:6px;padding:8px 12px;border-radius:14px;border:1px solid var(--line-2);background:rgba(255,255,255,.03)}
+.fc-keep-h{font-size:13px;font-weight:700;color:var(--label);line-height:1.2}
+.fc-keep-i{display:flex;flex-wrap:wrap;gap:5px 12px}
+.fc-k{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--body);line-height:1.2}
+.fc-k img{width:20px;height:20px;display:block;flex:none}
+@media print{.fc-k img{filter:brightness(.25)}.fc-keep{border-color:#D9DEEE!important;background:#fff!important}.fc-keep-h,.fc-k{color:#0E1A4F!important}}
+/* screen 8: "See example" opens the settings mock in a pop-up */
+.fc-ex-btn{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:8px 14px 8px 8px;border-radius:14px;border:1px solid var(--color-blue-tonal-border);background:var(--color-blue-tonal-bg);color:var(--dark-text);text-align:left;font-size:14px}
+.fc-ex-btn:hover{background:rgba(91,118,255,.26)}
+.fc-ex-btn img{width:40px;height:48px;object-fit:cover;object-position:top;border-radius:6px;flex:none}
+.fc-ex-btn span{display:flex;flex-direction:column;line-height:1.3}
+.fc-ex-btn b{color:var(--blue-pale)}
+.fc-ex-btn small{font-size:12.5px;color:var(--muted);font-weight:500}
+.fc-ex-panel{width:min(440px,100%);align-items:center}
+.fc-ex-panel .kp-head,.fc-ex-panel .kp-actions{align-self:stretch}
+.fc-ex-img{display:block;width:auto;max-width:100%;height:auto;max-height:calc(62vh / var(--z,1))}
+.fc-fig img[role="button"]{cursor:zoom-in;border-radius:10px}
+.fc-fig-panel{width:min(760px,100%)}
+.fc-fig-panel .fc-ex-img{width:100%;object-fit:contain}
+@media (max-width:700px){
+  .fc-fig-steps img,.fc-fig-wide img{max-height:none;width:100%}
+  .fc-ex-panel{align-items:stretch}
+  .fc-ex-img{max-height:70vh;margin:0 auto}
+}
+@media print{.fc-ex-btn,.kp.fc-ex,.kp.fc-ex[hidden]{display:none!important}.facts .chip-ic{filter:brightness(.25)}}
+/* the format icon (guide, article, course, video, PDF, developer docs) sits before each resource title; its name is in the title and for screen readers */
+.res h2.res-h{display:flex;align-items:flex-start;gap:8px}
+.res-fmt{flex:none;display:grid;place-items:center;width:24px;height:24px;margin-top:-1px;border-radius:7px;background:rgba(91,118,255,.16);border:1px solid rgba(91,118,255,.4)}
+.res-fmt .chip-ic{width:16px;height:16px;display:block}
+@media print{.res-fmt{background:#fff!important;border-color:#D9DEEE!important}.res-fmt .chip-ic{filter:brightness(.25)}}
+/* screens 7 and 10: two long advisory/course cards; slightly tighter so both fit inside the card on a 1024x600 laptop */
+@media (min-width:701px){
+  .screen:is([data-title="Keep information safe"],[data-title="How AI works: courses from India"]) .res-list{gap:8px}
+  .screen:is([data-title="Keep information safe"],[data-title="How AI works: courses from India"]) .res{padding:11px 16px;gap:8px 14px}
+  .screen:is([data-title="Keep information safe"],[data-title="How AI works: courses from India"]) .facts{margin-top:5px;gap:5px}
+  .screen:is([data-title="Keep information safe"],[data-title="How AI works: courses from India"]) .res .why{margin-top:5px;line-height:1.45}
+  .screen:is([data-title="Keep information safe"],[data-title="How AI works: courses from India"]) .res .by{line-height:1.4}
+}

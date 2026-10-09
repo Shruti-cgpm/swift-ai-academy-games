@@ -257,5 +257,47 @@
   kitTheme();
   document.addEventListener('DOMContentLoaded', kitTheme);   /* again once the layer has applied a remembered theme */
 
+  /* AI Fluency designer assets (Oct 2026): icons and mocks follow the page theme
+     (ivory icons + dark mocks on the dark frame, navy icons + light mocks on the light one) */
+  function assetTheme() {
+    var light = document.documentElement.getAttribute('data-theme') === 'light';
+    document.querySelectorAll('img[data-aiv-ic]').forEach(function (im) {
+      var want = 'assets/icons/' + (light ? 'navy' : 'ivory') + '/icon-' + im.getAttribute('data-aiv-ic') + '.webp';
+      if (im.getAttribute('src') !== want) im.setAttribute('src', want);
+    });
+    document.querySelectorAll('img[data-aiv-mock]').forEach(function (im) {
+      var want = 'assets/mocks/' + (light ? 'light' : 'dark') + '/' + im.getAttribute('data-aiv-mock') + '.webp';
+      if (im.getAttribute('src') !== want) im.setAttribute('src', want);
+    });
+  }
+  window.addEventListener('saa:theme', assetTheme);
+  assetTheme();
+  document.addEventListener('DOMContentLoaded', assetTheme);
+
+  /* "See example" pop-up (demo turn 1): the example answer for the group picked at the top */
+  document.querySelectorAll('[data-aiv-open]').forEach(function (b) {
+    var dlg = document.getElementById(b.getAttribute('data-aiv-open'));
+    if (!dlg) return;
+    b.addEventListener('click', function () {
+      assetTheme();
+      if (dlg.showModal) { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } } else dlg.setAttribute('open', '');
+      var x = dlg.querySelector('[data-aiv-close]'); if (x) x.focus();
+    });
+    function shut() { if (dlg.close) { try { dlg.close(); } catch (e) {} } dlg.removeAttribute('open'); b.focus(); }
+    dlg.querySelectorAll('[data-aiv-close]').forEach(function (x) { x.addEventListener('click', shut); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) shut(); });   /* tap outside the picture closes it */
+  });
+
+  /* the "See example" buttons belong under the short text (left column): the layer builds the columns after this script,
+     so they move there once the page has loaded. Buttons are never narrated, so the narration does not change. */
+  function seeToLead() {
+    document.querySelectorAll('.aiv-see[data-aiv-lead]').forEach(function (b) {
+      var lead = b.closest('.screen') && b.closest('.screen').querySelector('.saa-lead');
+      if (lead && b.parentNode !== lead) { lead.appendChild(b); window.dispatchEvent(new Event('resize')); }
+    });
+  }
+  document.addEventListener('DOMContentLoaded', function () { setTimeout(seeToLead, 0); });
+  window.addEventListener('load', seeToLead);
+
   render();
 })();

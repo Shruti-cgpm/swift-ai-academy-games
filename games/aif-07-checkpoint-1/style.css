@@ -1001,3 +1001,49 @@ html.saa-skin .card.a-card { justify-content: flex-start !important; }
 .label-fiction { font-size: 12.5px; }
 .setup-grid .field-help { font-size: 12.5px; }
 @media (max-width: 700px) { .saa-kit.phases .saa-card { min-height: 112px; } .saa-kit.std .saa-card { min-height: 84px; } }
+
+/* AI Fluency designer assets (Oct 2026) */
+/* 1a: a line icon on every "A good notice has" card; 5b: the same icon on each standard row; 4a: icons on the 5 starters */
+/* the icon sits at the top right, on the same line as the number, so the cards keep their height */
+.saa-kit.std .saa-front .aic { position: absolute; top: 9px; right: 10px; width: 24px; height: 24px; }
+.saa-kit.std .saa-front:has(.aic) { padding-right: 34px; }
+.saa-kit.std .saa-card:has(.aic) { min-height: clamp(84px, calc(15vh / var(--z,1)), 112px); }
+.tick-row .tick-ic { width: 22px; height: 22px; margin-right: -2px; }
+.tick-row .tick-t { flex: 1 1 auto; min-width: 0; }
+.chips .chip .st-ic { width: 18px; height: 18px; }
+@media (max-width: 700px) {
+  .tick-row:has(.tick-ic) { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 10px; row-gap: 6px; align-items: center; }
+  .tick-row:has(.tick-ic) .seg { grid-column: 1 / -1; }
+}
+/* assessor set-up (staff screen) at short desktop heights: tighter, and the form may scroll in its own panel, never past the card */
+@media (min-width: 701px) and (max-height: 640px) {
+  .setup-grid { gap: 2px 14px; }
+  .setup-grid .field-help { line-height: 1.3; }
+  #c-setup > .saa-work { gap: 6px; }
+  .setup-grid .field-help { min-height: 0; }
+  .setup-why { margin-top: 2px; }
+  .setup-grid .input, .setup-grid .select { padding: 8px 12px; }
+  .setup-grid .seg { margin-top: 2px; }
+  .setup-grid .input, .setup-grid .select { margin-top: 4px; }
+  .setup-grid .seg button { white-space: nowrap; padding-left: 12px; padding-right: 12px; }
+}
+.card.setup > .saa-work { min-height: 0; max-height: 100%; overflow-y: auto; }
+/* the approved tool's logo on an ivory mat: rules sort card (welcome 2) and step chip 2 (3b) */
+.logo-mat { display: inline-grid; place-items: center; flex: 0 0 auto; background: #F6F4EF; border-radius: 8px; }
+.logo-mat img { display: block; width: 70%; height: 70%; object-fit: contain; }
+.saa-kit .saa-chip .logo-mat.sort-logo { width: clamp(30px, 6vh, 48px); height: clamp(30px, 6vh, 48px); border-radius: 10px; }
+.saa-kit .saa-chip .logo-mat.sort-logo img, .saa-kit.saa-deck .saa-pool > .saa-chip .logo-mat img, .saa-kit.saa-deck .saa-deck-ghost .logo-mat img { width: 70%; height: 70%; margin: 0; }
+.how-step .logo-mat.how-logo { width: 20px; height: 20px; border-radius: 6px; }
+.how-step .aic.how-logo { width: 18px; height: 18px; }
+/* left-column pictures: the assessor (welcome 3) and the device handover (after submit) */
+.lead-art { display: block; height: auto; max-width: 100%; object-fit: contain; object-position: left center; }
+.assessor-art { width: 200px; max-height: calc(17vh / var(--z,1)); }
+.hand-art { width: 360px; max-height: calc(30vh / var(--z,1)); }
+/* 3b: copy-and-paste example in a pop-up */
+.see-how { align-self: flex-start; }
+.copy-demo-vid { display: block; width: 100%; height: auto; max-height: calc(55vh / var(--z,1)); aspect-ratio: 600 / 400; object-fit: contain; border-radius: 14px; background: #fff; margin-top: 10px; }
+@media (max-width: 700px) { .assessor-art { max-height: 140px; } .hand-art { max-height: 200px; } }
+/* 3a request parts, 6a change note: a small icon before the field label; 3c/4b: wifi-off icon on "AI tool not working?" */
+.field-label .lbl-ic { width: 20px; height: 20px; display: inline-block; vertical-align: -4px; margin-right: 7px; }
+.help-link { display: inline-flex; align-items: center; gap: 6px; }
+.help-link .help-ic { width: 18px; height: 18px; }

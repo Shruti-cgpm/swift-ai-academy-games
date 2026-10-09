@@ -75,11 +75,11 @@
               <div class="saa-bin" data-bin="b" data-label="Keep out"></div>
             </div>
             <div class="saa-pool">
-              <button class="saa-chip" type="button" data-bin="b" data-why="Yes. Keep it out. ID numbers can be stored and misused." data-hint="Not quite. Can an ID number be stored and misused?">Your Aadhaar number</button>
-              <button class="saa-chip" type="button" data-bin="a" data-why="Yes. A made-up name is safe to use." data-hint="Not quite. Is this a real person's name?">A made-up name, like "Trainee A"</button>
-              <button class="saa-chip" type="button" data-bin="b" data-why="Yes. Keep it out. It is someone else's private data." data-hint="Not quite. Think about whose private data this is.">Your friend's phone number</button>
-              <button class="saa-chip" type="button" data-bin="a" data-why="Yes. The lab prompt has no personal data in it." data-hint="Not quite. Does the lab prompt have any personal data in it?">The prompt given in this lab</button>
-              <button class="saa-chip" type="button" data-bin="b" data-why="Yes. Keep it out. Marks are private records." data-hint="Not quite. Are your marks a private record?">Your marks from last term</button>
+              <button class="saa-chip" type="button" data-bin="b" data-why="Yes. Keep it out. ID numbers can be stored and misused." data-hint="Not quite. Can an ID number be stored and misused?"><img class="sort-ic" src="assets/icons/ivory/icon-private-aadhaar.webp" alt="" aria-hidden="true">Your Aadhaar number</button>
+              <button class="saa-chip" type="button" data-bin="a" data-why="Yes. A made-up name is safe to use." data-hint="Not quite. Is this a real person's name?"><img class="sort-ic" src="assets/icons/ivory/icon-private-name-madeup.webp" alt="" aria-hidden="true">A made-up name, like "Trainee A"</button>
+              <button class="saa-chip" type="button" data-bin="b" data-why="Yes. Keep it out. It is someone else's private data." data-hint="Not quite. Think about whose private data this is."><img class="sort-ic" src="assets/icons/ivory/icon-private-phone.webp" alt="" aria-hidden="true">Your friend's phone number</button>
+              <button class="saa-chip" type="button" data-bin="a" data-why="Yes. The lab prompt has no personal data in it." data-hint="Not quite. Does the lab prompt have any personal data in it?"><img class="sort-ic" src="assets/icons/ivory/icon-task.webp" alt="" aria-hidden="true">The prompt given in this lab</button>
+              <button class="saa-chip" type="button" data-bin="b" data-why="Yes. Keep it out. Marks are private records." data-hint="Not quite. Are your marks a private record?"><img class="sort-ic" src="assets/icons/ivory/icon-private-marks.webp" alt="" aria-hidden="true">Your marks from last term</button>
             </div>
             <p class="saa-k-why"></p>
           </div>
@@ -105,7 +105,7 @@
           </div>
           <p class="saa-k-why wg-need" aria-live="polite" hidden></p>
           <div class="wg-ctx">
-            <div class="prompt-box"><span class="label">Your prompt · <span data-fill="case"></span></span><p data-fill="prompt"></p></div>
+            <div class="prompt-box wg-scene-box"><img class="wg-scene" data-scene src="assets/mocks/dark/scene-iti-workshop.webp" width="320" height="320" alt=""><span class="label">Your prompt · <span data-fill="case"></span></span><p data-fill="prompt"></p></div>
           </div>
         </div>
         <div class="wg-work">
@@ -134,7 +134,7 @@
           <div class="score saa-vo-skip" id="practice-score" hidden aria-live="polite"><span class="big" id="score-big"></span><p id="score-text"></p></div>
           <p class="saa-k-why wg-result" id="practice-why"></p>
           <div class="claims" id="claims" role="group" aria-label="Lines of the AI answer"></div>
-          <button class="btn btn-ghost wg-see" id="see-output" type="button">See the full AI answer</button>
+          <div class="wg-see-row"><button class="btn btn-ghost wg-see" id="see-output" type="button">See the full AI answer</button><button class="btn btn-link wg-tip-open" id="line-tip-open" type="button">How to check a line</button></div>
         </div>
       </div>
     </section>
@@ -152,7 +152,7 @@
           <p class="saa-k-why wg-need" aria-live="polite" hidden></p>
           <div class="wg-ctx">
             <div class="prompt-box"><span class="label">Your prompt · <span data-fill="case"></span></span><p data-fill="prompt" id="prompt-text"></p>
-              <div><button class="btn btn-ghost" id="copy-prompt" type="button"><svg class="ic"><use href="#i-copy"/></svg><span>Copy prompt</span></button></div>
+              <div class="wg-copy-row"><button class="btn btn-ghost" id="copy-prompt" type="button"><svg class="ic"><use href="#i-copy"/></svg><span>Copy prompt</span></button><button class="btn btn-link" id="see-copy-demo" type="button">See how</button></div>
             </div>
             <div class="callout warn" data-safety hidden><svg class="ic"><use href="#i-alert"/></svg><div><b>Practice only.</b> This list is for checking, not for live electrical work. In any practical, follow your instructor's approved materials and safety steps.</div></div>
             <div class="callout task wg-help"><img src="assets/icons/icon-access-fail.webp" alt="" aria-hidden="true"><div>If the internet is slow, copy the text instead of taking a screenshot. If the AI tool does not work, ask your facilitator for a printed answer.</div></div>
@@ -163,10 +163,10 @@
             <textarea class="field-input tall" id="first-output" maxlength="6000" placeholder="Paste the AI tool's answer here."></textarea></div>
           <div class="field"><span class="field-label" id="cap-q">How did you save the answer?</span>
             <div class="chips" role="radiogroup" aria-labelledby="cap-q" id="capture-chips" style="margin-top:8px">
-              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Copied the text">Copied the text</button>
-              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Took a screenshot">Took a screenshot</button>
-              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Wrote it out by hand">Wrote it out by hand</button>
-              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Facilitator's printed answer">Facilitator's printed answer</button>
+              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Copied the text"><img class="cap-ic" src="assets/icons/ivory/icon-copy.webp" alt="" aria-hidden="true">Copied the text</button>
+              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Took a screenshot"><img class="cap-ic" src="assets/icons/ivory/icon-device-phone.webp" alt="" aria-hidden="true">Took a screenshot</button>
+              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Wrote it out by hand"><img class="cap-ic" src="assets/icons/ivory/icon-safe-notes.webp" alt="" aria-hidden="true">Wrote it out by hand</button>
+              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Facilitator's printed answer"><img class="cap-ic" src="assets/icons/ivory/icon-help-get.webp" alt="" aria-hidden="true">Facilitator's printed answer</button>
             </div></div>
           <label class="tick"><input type="checkbox" id="changed-prompt"> I changed the prompt before I ran it.</label>
           <div class="field" id="changed-wrap" hidden><label class="field-label" for="assigned-prompt">The prompt you really used</label>
@@ -193,9 +193,9 @@
         <div class="wg-work">
           <span class="pane-title" id="outcome-q">What did your AI tool do?</span>
           <div class="options" role="radiogroup" aria-labelledby="outcome-q" id="outcome">
-            <button class="option" type="button" role="radio" aria-checked="false" data-v="found"><span class="dot"></span>It gave at least 1 detail that the card does not support.</button>
-            <button class="option" type="button" role="radio" aria-checked="false" data-v="asked"><span class="dot"></span>It asked me for missing details, or it left blanks to fill in.</button>
-            <button class="option" type="button" role="radio" aria-checked="false" data-v="matched"><span class="dot"></span>Everything in it matched the card.</button>
+            <button class="option" type="button" role="radio" aria-checked="false" data-v="found"><span class="dot"></span><img class="out-ic" src="assets/icons/ivory/icon-unsupported.webp" alt="" aria-hidden="true">It gave at least 1 detail that the card does not support.</button>
+            <button class="option" type="button" role="radio" aria-checked="false" data-v="asked"><span class="dot"></span><img class="out-ic" src="assets/icons/ivory/icon-missing.webp" alt="" aria-hidden="true">It asked me for missing details, or it left blanks to fill in.</button>
+            <button class="option" type="button" role="radio" aria-checked="false" data-v="matched"><span class="dot"></span><img class="out-ic" src="assets/icons/ivory/icon-supported.webp" alt="" aria-hidden="true">Everything in it matched the card.</button>
           </div>
           <div id="found-wrap" hidden class="options" style="gap:16px">
             <div class="field" data-req="unsupported"><label class="field-label" for="unsupported">Which parts are not on the card, or are wrong?</label>
@@ -236,6 +236,7 @@
           </div>
         </div>
         <div class="wg-work">
+          <img class="wg-diag" src="assets/mocks/dark/diagram-missing-detail.webp" width="960" height="400" alt="A page with a missing detail goes to the AI tool. The AI tool guesses, and fills the gap in its answer.">
           <div class="saa-kit" data-kit="quick" data-required>
             <p class="saa-q">Your first prompt left out key facts. What is the best fix?</p>
             <div class="saa-k-opts">
@@ -273,11 +274,11 @@
         </div>
         <div class="wg-work">
           <div class="wg-row"><span class="pane-title">Fill in the boxes.</span><button class="chip" type="button" id="hint-btn">Show a hint</button></div>
-          <div class="field" data-req="b-role"><label class="field-label" for="b-role">Role <span class="field-help">Who should the AI tool act as?</span></label><input class="field-input" id="b-role" type="text" maxlength="200" data-build></div>
-          <div class="field" data-req="b-context"><label class="field-label" for="b-context">Context <span class="field-help">Why you need it, and who it is for.</span></label><input class="field-input" id="b-context" type="text" maxlength="300" data-build></div>
-          <div class="field" data-req="b-task"><label class="field-label" for="b-task">Task <span class="field-help">What should the AI tool make?</span></label><input class="field-input" id="b-task" type="text" maxlength="300" data-build></div>
-          <div class="field" data-req="b-facts"><label class="field-label" for="b-facts">Facts <span class="field-help">Facts from the check card that the answer got wrong or missed.</span></label><textarea class="field-input" id="b-facts" maxlength="1500" data-build></textarea></div>
-          <div class="field" data-req="b-format"><label class="field-label" for="b-format">Format <span class="field-help">How should it look?</span></label><input class="field-input" id="b-format" type="text" maxlength="200" data-build></div>
+          <div class="field" data-req="b-role"><label class="field-label" for="b-role"><img class="lbl-ic" src="assets/icons/ivory/icon-role.webp" alt="" aria-hidden="true">Role <span class="field-help">Who should the AI tool act as?</span></label><input class="field-input" id="b-role" type="text" maxlength="200" data-build></div>
+          <div class="field" data-req="b-context"><label class="field-label" for="b-context"><img class="lbl-ic" src="assets/icons/ivory/icon-context.webp" alt="" aria-hidden="true">Context <span class="field-help">Why you need it, and who it is for.</span></label><input class="field-input" id="b-context" type="text" maxlength="300" data-build></div>
+          <div class="field" data-req="b-task"><label class="field-label" for="b-task"><img class="lbl-ic" src="assets/icons/ivory/icon-task.webp" alt="" aria-hidden="true">Task <span class="field-help">What should the AI tool make?</span></label><input class="field-input" id="b-task" type="text" maxlength="300" data-build></div>
+          <div class="field" data-req="b-facts"><label class="field-label" for="b-facts"><img class="lbl-ic" src="assets/icons/ivory/icon-fact.webp" alt="" aria-hidden="true">Facts <span class="field-help">Facts from the check card that the answer got wrong or missed.</span></label><textarea class="field-input" id="b-facts" maxlength="1500" data-build></textarea></div>
+          <div class="field" data-req="b-format"><label class="field-label" for="b-format"><img class="lbl-ic" src="assets/icons/ivory/icon-format.webp" alt="" aria-hidden="true">Format <span class="field-help">How should it look?</span></label><input class="field-input" id="b-format" type="text" maxlength="200" data-build></div>
           <label class="tick" id="b-missing-row"><input type="checkbox" id="b-missing" data-build> Tell the AI tool to say when information is missing, and not to guess.</label>
         </div>
       </div>
@@ -379,6 +380,23 @@
     <div class="modal-actions">
       <button class="btn btn-ghost" id="output-close" type="button">Close</button>
     </div>
+  </div>
+</div>
+
+<div class="modal" id="tip-modal" hidden role="dialog" aria-modal="true" aria-labelledby="tip-title">
+  <div class="modal-box wg-tip-box">
+    <h2 id="tip-title">How to check a line</h2>
+    <video class="wg-tip-vid" id="line-tip-vid" muted loop playsinline preload="metadata" poster="assets/mocks/dark/anim-line-check.poster.webp" width="480" height="200" aria-label="Example: the AI line says Meet in Room 4 at 10 am. The check card says Place: Room 2, Time: 10 am. The time matches, the room does not, so the line is flagged."><source src="assets/mocks/dark/anim-line-check.mp4" type="video/mp4"></video>
+    <div class="modal-actions"><button class="btn btn-ghost" id="line-tip-close" type="button">Close</button></div>
+  </div>
+</div>
+
+<div class="modal" id="copy-modal" hidden role="dialog" aria-modal="true" aria-labelledby="copy-title">
+  <div class="modal-box wg-copy-box">
+    <h2 id="copy-title">How to copy and paste</h2>
+    <p>An example only. Your own prompt is the one on the screen.</p>
+    <video class="wg-copy-vid" id="copy-vid" muted loop playsinline preload="none" poster="assets/mocks/light/anim-copy-paste-loop-poster.webp" width="600" height="400" aria-label="Example: copy the prompt, paste it into the AI tool and send it, copy the answer, then paste the answer back here."><source src="assets/mocks/light/anim-copy-paste-loop.mp4" type="video/mp4"></video>
+    <div class="modal-actions"><button class="btn btn-ghost" id="copy-close" type="button">Close</button></div>
   </div>
 </div>
 

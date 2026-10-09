@@ -64,10 +64,10 @@
       <div class="router" id="router">
         <div class="q"><span class="q-label" id="q-goal">What do you want to get better at?</span>
           <div class="chips" role="radiogroup" aria-labelledby="q-goal" data-q="goal">
-            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s1">Writing prompts</button>
-            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s2">Checking AI answers</button>
-            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s3">Keeping my data safe</button>
-            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s4">Understanding how AI works</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s1"><img class="chip-ic" src="assets/icons/ivory/icon-rewrite.webp" alt="" aria-hidden="true">Writing prompts</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s2"><img class="chip-ic" src="assets/icons/ivory/icon-verify.webp" alt="" aria-hidden="true">Checking AI answers</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s3"><img class="chip-ic" src="assets/icons/ivory/icon-rule-private.webp" alt="" aria-hidden="true">Keeping my data safe</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s4"><img class="chip-ic" src="assets/icons/ivory/icon-understand.webp" alt="" aria-hidden="true">Understanding how AI works</button>
           </div></div>
         <div class="q"><span class="q-label" id="q-time">How much time do you have?</span>
           <div class="chips" role="radiogroup" aria-labelledby="q-time" data-q="time">
@@ -77,8 +77,8 @@
           </div></div>
         <div class="q"><span class="q-label" id="q-lane">Which course are you on?</span>
           <div class="chips" role="radiogroup" aria-labelledby="q-lane" data-q="lane">
-            <button class="chip" type="button" role="radio" aria-checked="false" data-v="iti">ITI</button>
-            <button class="chip" type="button" role="radio" aria-checked="false" data-v="he">College or university</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="iti"><img class="chip-ic" src="assets/icons/ivory/icon-lane-iti.webp" alt="" aria-hidden="true">ITI</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="he"><img class="chip-ic" src="assets/icons/ivory/icon-lane-college-cap.webp" alt="" aria-hidden="true">College or university</button>
           </div></div>
         <div class="router-go">
           <button class="btn btn-primary" id="show-picks" type="button">Show my picks <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
@@ -93,6 +93,7 @@
       <div class="eyebrow"><span>Section 1 · Prompt better</span></div>
       <h1>These 2 guides help you write better prompts.</h1>
       <p class="lead">A prompt is what you type to ask an AI tool. Each guide takes about 10 minutes.</p>
+      <p class="fc-fig fc-fig-steps"><img src="assets/mocks/dark/diag-prompt-3-steps.webp" width="600" height="300" alt="A good prompt has 3 steps. 1, say the task, for example: write a notice. 2, give the background, for example: for Batch B trainees. 3, describe the answer you want, its tone, format and length, for example: polite, 3 lines."></p>
       <p class="do"><b>Your task.</b> Tap Key points on a guide, then tap Open to read it.</p>
       <div class="res-list" data-res="openai-prompting anthropic-prompting"></div>
     </section>
@@ -114,6 +115,7 @@
       <div class="eyebrow"><span>Section 2 · Check before you trust</span></div>
       <h1>Use a checklist and clear rules when you use AI.</h1>
       <p class="lead">The checklist is for college students. The short guide is for everyone.</p>
+      <p class="fc-fig fc-fig-wide"><img src="assets/mocks/dark/diag-before-during-after.webp" width="720" height="250" alt="Use AI rules at 3 moments. Before: check the rules. During: check each answer. After: say you used AI."></p>
       <p class="do"><b>Your task.</b> Tap Key points to see what each link teaches.</p>
       <div class="res-list" data-res="usask openai-responsible"></div>
     </section>
@@ -121,6 +123,7 @@
       <div class="eyebrow"><span>Section 3 · Keep information safe</span></div>
       <h1>Never type private details into an AI tool.</h1>
       <p class="lead">The course asks you to keep personal and secret details out of AI tools. These 2 links from governments explain why.</p>
+      <p class="fc-keep saa-vo-skip"><span class="fc-keep-h">Keep these out of AI</span><span class="fc-keep-i"><span class="fc-k"><img src="assets/icons/ivory/icon-private-phone.webp" alt="" aria-hidden="true">Phone</span><span class="fc-k"><img src="assets/icons/ivory/icon-private-id.webp" alt="" aria-hidden="true">ID card</span><span class="fc-k"><img src="assets/icons/ivory/icon-private-aadhaar.webp" alt="" aria-hidden="true">Aadhaar</span><span class="fc-k"><img src="assets/icons/ivory/icon-private-address.webp" alt="" aria-hidden="true">Address</span><span class="fc-k"><img src="assets/icons/ivory/icon-private-health.webp" alt="" aria-hidden="true">Health</span><span class="fc-k"><img src="assets/icons/ivory/icon-private-password.webp" alt="" aria-hidden="true">Password</span><span class="fc-k"><img src="assets/icons/ivory/icon-private-marks.webp" alt="" aria-hidden="true">Marks</span></span></p>
       <p class="do"><b>Your task.</b> Tap Key points on an advisory, then tap Open to read it.</p>
       <div class="res-list" data-res="certin csa"></div>
     </section>
@@ -130,6 +133,7 @@
       <p class="lead">This article compares 6 big AI companies. It shows what they do with your chats.</p>
       <p class="do"><b>Your task.</b> Tap Key points, then tap Open to read the article.</p>
       <div class="res-list" data-res="stanford"></div>
+      <button class="fc-ex-btn" type="button" aria-haspopup="dialog" data-fc-example="ex-settings"><img src="assets/mocks/dark/mock-chat-data-settings.webp" alt="" aria-hidden="true"><span><b>See example</b><small>Where a chat app keeps this setting</small></span></button>
     </section>
     <section class="screen page" data-title="How AI works" hidden>
       <div class="eyebrow"><span>Section 4 · How AI works</span></div>
@@ -165,6 +169,7 @@
       <div class="eyebrow"><span>Resources · My AI toolkit</span></div>
       <h1>Your notes are saved in My AI toolkit.</h1>
       <p class="lead">Your notes stay on this device only. On a shared device, download them and then clear them.</p>
+      <p class="fc-fig fc-fig-wide"><img src="assets/mocks/dark/diag-shared-device-clear.webp" width="720" height="300" alt="On a shared device: step 1, download notes. Step 2, clear notes."></p>
       <p class="do"><b>Your task.</b> Tap Download notes to keep a copy of your notes.</p>
       <div class="toolkit-box" id="toolkit-inline">
         <p class="tk-count saa-vo-skip" id="tk-count"></p>
@@ -183,6 +188,26 @@
     <span class="pos count" data-pos></span>
     <button type="button" class="btn-primary" id="primary" data-next><span data-next-label>Continue</span><svg width="15" height="15" class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
   </footer>
+</div>
+
+<!-- Screen 8 example: a made-up chat app's data settings (same pop-up pattern as Key points) -->
+<div class="kp fc-ex" id="ex-settings" hidden role="dialog" aria-modal="true" aria-labelledby="ex-settings-h">
+  <div class="kp-panel fc-ex-panel">
+    <div class="kp-head"><div><p class="kp-eb">Example</p><h2 id="ex-settings-h">Chat app data settings</h2></div>
+      <button class="icon-btn kp-x" type="button" aria-label="Close example" data-fc-close><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+    <img class="fc-ex-img" src="assets/mocks/dark/mock-chat-data-settings.webp" width="480" height="570" alt="A made-up app called ChatHelper. Settings, then Data controls. The setting 'Use my chats to improve the model' is switched on and circled. Keep chat history: Always. Delete all chats.">
+    <div class="kp-actions"><button class="btn btn-ghost" type="button" data-fc-close>Close</button></div>
+  </div>
+</div>
+
+<!-- Diagrams on screens 3, 6 and 13: tap one to see it larger (same pop-up pattern) -->
+<div class="kp fc-ex" id="ex-fig" hidden role="dialog" aria-modal="true" aria-labelledby="ex-fig-h">
+  <div class="kp-panel fc-ex-panel fc-fig-panel">
+    <div class="kp-head"><div><p class="kp-eb">Picture</p><h2 id="ex-fig-h">See it larger</h2></div>
+      <button class="icon-btn kp-x" type="button" aria-label="Close picture" data-fc-close><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+    <img class="fc-ex-img" id="ex-fig-img" alt="">
+    <div class="kp-actions"><button class="btn btn-ghost" type="button" data-fc-close>Close</button></div>
+  </div>
 </div>
 
 <!-- Key points for each resource: one pop-up each, built by script.js -->

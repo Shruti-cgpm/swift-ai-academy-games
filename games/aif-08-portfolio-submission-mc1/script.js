@@ -239,6 +239,8 @@ function toggleConnection(){
   isOnline = !isOnline;
   if(!isOnline) triedOffline = true;
   $('connectDot').classList.toggle('offline', !isOnline);
+  $('connectIc').setAttribute('data-ic', isOnline ? 'icon-online' : 'icon-access-fail');
+  $('connectIc').setAttribute('src', iconSrc(isOnline ? 'icon-online' : 'icon-access-fail'));
   $('connectLabel').textContent = isOnline ? 'Online. Your work saves by itself.' : 'Offline. Your work is still here.';
   $('connectBtn').textContent = isOnline ? 'Stop the internet' : 'Start the internet again';
   say($('msg-2'), isOnline ? MSG.online : MSG.offline);
@@ -254,7 +256,7 @@ function renderReview(){
     t.type = 'button';
     t.className = 'review-tile' + (a.file ? ' done' : '');
     t.setAttribute('aria-label', a.title + ': ' + (a.file || 'not attached yet') + '. Tap to change it.');
-    t.innerHTML = '<span class="rt-k">'+a.title+'</span><span class="rt-v">'+(a.file ? esc(a.file) : 'Not attached yet')+'</span><span class="rt-c">Change</span>';
+    t.innerHTML = '<img class="rt-ic" data-ic="'+a.ic+'" src="'+iconSrc(a.ic)+'" alt="" aria-hidden="true"><span class="rt-k">'+a.title+'</span><span class="rt-v">'+(a.file ? esc(a.file) : 'Not attached yet')+'</span><span class="rt-c">Change</span>';
     t.addEventListener('click', function(){ current = 1; render(); showArtifact(a.id, true); });
     list.appendChild(t);
   });
@@ -333,6 +335,11 @@ function paintTheme(){
   document.querySelectorAll('.saa-kit[data-theme]').forEach(function(k){ k.setAttribute('data-theme', light ? 'light' : 'dark'); });
   document.querySelectorAll('img[data-ic]').forEach(function(im){
     var src = iconSrc(im.getAttribute('data-ic'));
+    if(im.getAttribute('src') !== src) im.setAttribute('src', src);
+  });
+  /* designer diagrams: the light or dark drawing */
+  document.querySelectorAll('img[data-mock]').forEach(function(im){
+    var src = 'assets/mocks/' + (light ? 'light' : 'dark') + '/' + im.getAttribute('data-mock') + '.webp';
     if(im.getAttribute('src') !== src) im.setAttribute('src', src);
   });
 }

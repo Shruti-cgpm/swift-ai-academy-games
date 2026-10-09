@@ -213,3 +213,44 @@ html.saa-skin .saa-lead p.q-scene{margin-bottom:calc(8px / var(--zz))!important}
 .rv a{color:#3D5AFE}
 body.scroll .rv, body.scroll .rv *{-webkit-user-select:text;user-select:text}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* AI Fluency designer assets (Oct 2026) */
+/* pack look: dark frame #141F5C / box #1E2D69 / line #405185 / ivory text; light frame #FFFFFF / box #EEF1FF / line #DCE2F1 / navy text */
+:root{--aiv-frame:#FFFFFF;--aiv-box:#EEF1FF;--aiv-line:#DCE2F1;--aiv-ink:#0E1A4F;--aiv-sub:#5A6489;--aiv-paper:#FFFFFF;--aiv-rule:#DCE2F1;--aiv-ring:#C9D1EA}
+:root[data-theme="dark"]{--aiv-frame:#141F5C;--aiv-box:#1E2D69;--aiv-line:#405185;--aiv-ink:#F6F4EF;--aiv-sub:#AEB6D4;--aiv-paper:#1E2D69;--aiv-rule:#405185;--aiv-ring:#5B6BA8}
+/* slot 5: the request sits typed (not sent) in an AI tool's message box; no part is highlighted */
+.aiv-composer{background:var(--aiv-frame);border:1.5px solid var(--aiv-line);border-radius:calc(14px / var(--zz));margin:0 0 calc(4px / var(--zz));overflow:hidden}
+.aiv-composer .aiv-composer-head{margin:0;padding:calc(7px / var(--zz)) calc(14px / var(--zz));border-bottom:1.5px solid var(--aiv-line);font-size:calc(12px / var(--zz));letter-spacing:.04em;text-transform:none;font-weight:700;color:var(--aiv-ink)}
+.aiv-composer-box{display:flex;align-items:flex-end;gap:calc(10px / var(--zz));margin:calc(10px / var(--zz)) calc(12px / var(--zz)) calc(12px / var(--zz));padding:calc(10px / var(--zz)) calc(12px / var(--zz));background:var(--aiv-box);border:1.5px solid var(--aiv-line);border-radius:calc(12px / var(--zz))}
+.aiv-composer-box p{flex:1 1 auto;min-width:0;margin:0;font-size:calc(clamp(14px,2.1vh,21px) / var(--zz));line-height:1.45;color:var(--aiv-ink)}
+.aiv-send{flex:0 0 auto;width:calc(22px / var(--zz));height:calc(22px / var(--zz));fill:none;stroke:var(--aiv-ink);stroke-width:1.9;stroke-linejoin:round}
+/* slot 7: the notes on a lined notebook page with a spiral edge */
+.aiv-notes{position:relative;margin:0 0 calc(4px / var(--zz));padding:calc(10px / var(--zz)) calc(14px / var(--zz)) calc(12px / var(--zz)) calc(34px / var(--zz));background:var(--aiv-paper);border:1.5px solid var(--aiv-line);border-radius:calc(12px / var(--zz))}
+.aiv-notes::before{content:"";position:absolute;left:calc(10px / var(--zz));top:calc(10px / var(--zz));bottom:calc(10px / var(--zz));width:calc(11px / var(--zz));
+  background:radial-gradient(circle at 50% 50%,transparent calc(3px / var(--zz)),var(--aiv-ring) calc(3.2px / var(--zz)),var(--aiv-ring) calc(4.6px / var(--zz)),transparent calc(5px / var(--zz))) 0 0/100% calc(18px / var(--zz)) no-repeat space}
+.aiv-notes .tag{color:var(--aiv-ink);letter-spacing:.04em;text-transform:none;font-size:calc(12.5px / var(--zz));font-weight:700;margin-bottom:calc(2px / var(--zz))}
+.aiv-notes p{margin:0;font-size:calc(clamp(14px,2.1vh,21px) / var(--zz));line-height:1.6;color:var(--aiv-ink);
+  background-image:linear-gradient(to bottom,transparent calc(1.6em - 1.5px),var(--aiv-rule) calc(1.6em - 1.5px),var(--aiv-rule) 1.6em);background-size:100% 1.6em}
+/* slot 7: the 4 answer lines inside the AI tool's chat bubble; all 4 look the same until Check answer */
+.aiv-chat{background:var(--aiv-box);border:1.5px solid var(--aiv-line);border-radius:calc(16px / var(--zz)) calc(16px / var(--zz)) calc(16px / var(--zz)) calc(4px / var(--zz));padding:calc(8px / var(--zz)) calc(10px / var(--zz)) calc(10px / var(--zz))}
+.aiv-chat .aiv-chat-head{margin:0 0 calc(6px / var(--zz)) calc(4px / var(--zz));color:var(--aiv-ink);letter-spacing:.04em;text-transform:none;font-size:calc(12.5px / var(--zz));font-weight:700}
+.aiv-chat .opts{gap:calc(6px / var(--zz))}
+/* slot 8 steps and result rows: icon sizes */
+.ostep img.aiv-ic{width:calc(24px / var(--zz));height:calc(24px / var(--zz))}
+.concepts img.aiv-ic{width:calc(24px / var(--zz));height:calc(24px / var(--zz))}
+/* result rows: topic icon first, the tick / book status stays at the right with the score */
+.concepts li .ci{order:3;margin-left:auto}
+.concepts li .st{order:4;margin-left:0}
+@media (max-width:700px){
+  .aiv-composer-box p,.aiv-notes p{font-size:15px}
+  .aiv-composer .aiv-composer-head,.aiv-notes .tag,.aiv-chat .aiv-chat-head{font-size:13px}
+}
+/* scenario items: 64px round avatar (glass backing) to the left of the scene sentence */
+.aiv-scene-row{display:flex;align-items:center;gap:calc(12px / var(--zz));margin:0 0 calc(clamp(8px,1.6vh,14px) / var(--zz))}
+.saa-lead .aiv-scene-row p.q-scene{margin:0!important;flex:1 1 auto;min-width:0}
+.aiv-av{flex:0 0 auto;width:calc(64px / var(--zz));height:calc(64px / var(--zz));border-radius:50%;overflow:hidden;display:block;
+  background:linear-gradient(160deg,rgba(91,118,255,.20),rgba(91,118,255,.06));border:1.5px solid var(--blue-line);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.aiv-av img{display:block;width:100%;height:100%;object-fit:cover}
+html[data-theme="light"] .aiv-av{background:linear-gradient(160deg,#EEF1FF,#DCE2F1)}
+@media (min-width:701px) and (max-height:660px){ .aiv-av{width:calc(52px / var(--zz));height:calc(52px / var(--zz))} }
+@media (max-width:700px){ .aiv-av{width:56px;height:56px} }
