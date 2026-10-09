@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Resources: First Contact | Swift AI Academy</title>
+<!--
+  Segment: AAI-E-MC1-S01-RES01 · Resource list · optional (kept here, not shown to learners).
+  ESL upgrade (Oct 2026): one scrolling page -> one idea per screen. Every resource link is unchanged (see RES in script.js).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body data-segment="AAI-E-MC1-S01-RES01" data-finish-label="Done">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><path d="M5 4h10l4 4v12H5z"/><path d="M15 4v4h4M8 12h8M8 16h5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11M6 10l6 6 6-6M5 20h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+</svg>
+
+<div class="frame app">
+  <header class="top">
+    <div class="brand"><img src="assets/logo-mark.webp" alt=""><span>SWIFT AI ACADEMY</span></div>
+    <span class="top-meta" hidden>Swift AI Academy · First Contact</span>
+    <div class="top-actions">
+      <button class="pill-btn" id="toolkit-open" type="button" aria-haspopup="dialog"><svg class="ic" aria-hidden="true"><use href="#i-note"/></svg><span>My AI toolkit</span><b id="toolkit-n">0</b></button>
+    </div>
+  </header>
+
+  <main class="card" id="main">
+    <!-- 1. Before you click: the 3 rules (required) -->
+    <section class="screen page" data-title="Before you click" hidden>
+      <div class="eyebrow"><span>Resources · Optional</span></div>
+      <h1>Use these free links to learn more about AI.</h1>
+      <p class="lead">Everything here is optional. The links go to other websites, so read these 3 rules first.</p>
+      <p class="do"><b>Your task.</b> Tap each card to read the rule.</p>
+      <div class="saa-kit" data-kit="reveal" data-theme="dark" data-required>
+        <div class="saa-cards">
+          <button class="saa-card" type="button"><span class="saa-front"><img class="res-ic" src="assets/icons/ivory/icon-get-signin.webp" alt="" aria-hidden="true">Accounts</span><span class="saa-back">Some links need an account. Check that your institute allows it before you sign up.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="res-ic" src="assets/icons/ivory/icon-never-type.webp" alt="" aria-hidden="true">Private details</span><span class="saa-back">Never type your full name, address, ID numbers or bank details into an AI tool.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="res-ic" src="assets/icons/ivory/icon-device-shared.webp" alt="" aria-hidden="true">Shared device</span><span class="saa-back">Your notes stay on this device only. On a shared device, download them and then clear them.</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Start here: the 3-question picker (optional) -->
+    <section class="screen page" data-title="Pick for me" hidden>
+      <div class="eyebrow"><span>Resources · Start here</span></div>
+      <h1>Answer 3 questions to find your best links.</h1>
+      <p class="lead">There are 18 free resources here. You do not need all of them.</p>
+      <p class="do"><b>Your task.</b> Tap 1 answer in each row, then tap Show my picks.</p>
+      <div class="router" id="router">
+        <div class="q"><span class="q-label" id="q-goal">What do you want to get better at?</span>
+          <div class="chips" role="radiogroup" aria-labelledby="q-goal" data-q="goal">
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s1">Writing prompts</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s2">Checking AI answers</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s3">Keeping my data safe</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="s4">Understanding how AI works</button>
+          </div></div>
+        <div class="q"><span class="q-label" id="q-time">How much time do you have?</span>
+          <div class="chips" role="radiogroup" aria-labelledby="q-time" data-q="time">
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="15">15 minutes</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="60">About an hour</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="999">A few hours</button>
+          </div></div>
+        <div class="q"><span class="q-label" id="q-lane">Which course are you on?</span>
+          <div class="chips" role="radiogroup" aria-labelledby="q-lane" data-q="lane">
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="iti">ITI</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" data-v="he">College or university</button>
+          </div></div>
+        <div class="router-go">
+          <button class="btn btn-primary" id="show-picks" type="button">Show my picks <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <span class="router-status" id="router-status" aria-live="polite"></span>
+        </div>
+        <div class="picks" id="picks" hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 3-12. The resources, 1 or 2 per screen (cards are built by script.js from RES) -->
+    <section class="screen page" data-title="Prompt better" hidden>
+      <div class="eyebrow"><span>Section 1 · Prompt better</span></div>
+      <h1>These 2 guides help you write better prompts.</h1>
+      <p class="lead">A prompt is what you type to ask an AI tool. Each guide takes about 10 minutes.</p>
+      <p class="do"><b>Your task.</b> Tap Key points on a guide, then tap Open to read it.</p>
+      <div class="res-list" data-res="openai-prompting anthropic-prompting"></div>
+    </section>
+    <section class="screen page" data-title="Prompt better: go further" hidden>
+      <div class="eyebrow"><span>Section 1 · Prompt better</span></div>
+      <h1>These 2 links help you go further with prompts.</h1>
+      <p class="lead">The course is for college students. The second link is an optional extra for advanced learners.</p>
+      <p class="do"><b>Your task.</b> Tap Key points to see if a link is right for you.</p>
+      <div class="res-list" data-res="openai-college openai-reasoning"></div>
+    </section>
+    <section class="screen page" data-title="Check before you trust" hidden>
+      <div class="eyebrow"><span>Section 2 · Check before you trust</span></div>
+      <h1>AI tools make mistakes, so learn to check them.</h1>
+      <p class="lead">In Watch It Get It Wrong, you saw an AI tool make things up. These guides show the mistakes to expect and how to check for them.</p>
+      <p class="do"><b>Your task.</b> Tap Key points on a guide, then tap Open to read it.</p>
+      <div class="res-list" data-res="unt umd"></div>
+    </section>
+    <section class="screen page" data-title="Check before you trust: rules" hidden>
+      <div class="eyebrow"><span>Section 2 · Check before you trust</span></div>
+      <h1>Use a checklist and clear rules when you use AI.</h1>
+      <p class="lead">The checklist is for college students. The short guide is for everyone.</p>
+      <p class="do"><b>Your task.</b> Tap Key points to see what each link teaches.</p>
+      <div class="res-list" data-res="usask openai-responsible"></div>
+    </section>
+    <section class="screen page" data-title="Keep information safe" hidden>
+      <div class="eyebrow"><span>Section 3 · Keep information safe</span></div>
+      <h1>Never type private details into an AI tool.</h1>
+      <p class="lead">The course asks you to keep personal and secret details out of AI tools. These 2 links from governments explain why.</p>
+      <p class="do"><b>Your task.</b> Tap Key points on an advisory, then tap Open to read it.</p>
+      <div class="res-list" data-res="certin csa"></div>
+    </section>
+    <section class="screen page" data-title="Keep information safe: your chats" hidden>
+      <div class="eyebrow"><span>Section 3 · Keep information safe</span></div>
+      <h1>AI companies may keep and use your chats.</h1>
+      <p class="lead">This article compares 6 big AI companies. It shows what they do with your chats.</p>
+      <p class="do"><b>Your task.</b> Tap Key points, then tap Open to read the article.</p>
+      <div class="res-list" data-res="stanford"></div>
+    </section>
+    <section class="screen page" data-title="How AI works" hidden>
+      <div class="eyebrow"><span>Section 4 · How AI works</span></div>
+      <h1>Learn why AI answers the way it does.</h1>
+      <p class="lead">Start with these 2 short reads. Then pick 1 course if you want more.</p>
+      <p class="do"><b>Your task.</b> Tap Key points on a read, then tap Open to read it.</p>
+      <div class="res-list" data-res="openai-models hallucinate"></div>
+    </section>
+    <section class="screen page" data-title="How AI works: courses from India" hidden>
+      <div class="eyebrow"><span>Section 4 · How AI works</span></div>
+      <h1>These 2 free courses come from the Government of India.</h1>
+      <p class="lead">The video course takes about 4.5 hours, in parts. SOAR is a good next step for ITI learners.</p>
+      <p class="do"><b>Your task.</b> Tap Key points to see what each course covers.</p>
+      <div class="res-list" data-res="yuva soar"></div>
+    </section>
+    <section class="screen page" data-title="How AI works: more courses" hidden>
+      <div class="eyebrow"><span>Section 4 · How AI works</span></div>
+      <h1>These 2 courses show how to work well with AI.</h1>
+      <p class="lead">Take the capabilities course first. The AI Fluency course is an optional extra.</p>
+      <p class="do"><b>Your task.</b> Tap Key points to see what each course covers.</p>
+      <div class="res-list" data-res="claude-capabilities ai-fluency"></div>
+    </section>
+    <section class="screen page" data-title="How AI works: inside a model" hidden>
+      <div class="eyebrow"><span>Section 4 · How AI works</span></div>
+      <h1>Researchers can now look inside an AI model.</h1>
+      <p class="lead">This article is an optional extra for advanced learners. It takes about 15 minutes.</p>
+      <p class="do"><b>Your task.</b> Tap Key points, then tap Open if you want to read it.</p>
+      <div class="res-list" data-res="tracing"></div>
+    </section>
+
+    <!-- 13. My AI toolkit: the notes and the download -->
+    <section class="screen page" data-title="My AI toolkit" hidden>
+      <div class="eyebrow"><span>Resources · My AI toolkit</span></div>
+      <h1>Your notes are saved in My AI toolkit.</h1>
+      <p class="lead">Your notes stay on this device only. On a shared device, download them and then clear them.</p>
+      <p class="do"><b>Your task.</b> Tap Download notes to keep a copy of your notes.</p>
+      <div class="toolkit-box" id="toolkit-inline">
+        <p class="tk-count saa-vo-skip" id="tk-count"></p>
+        <ol class="toolkit-list" data-toolkit-list></ol>
+        <p class="empty" data-toolkit-empty>No notes yet. Tap Key points on any link and write 1 thing you will try.</p>
+        <div class="drawer-actions">
+          <button class="btn btn-blue" type="button" data-toolkit-download><svg class="ic" aria-hidden="true"><use href="#i-down"/></svg>Download notes</button>
+          <button class="btn btn-ghost" type="button" data-toolkit-clear>Clear notes</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <button type="button" class="btn-quiet" id="back" data-prev><svg width="14" height="14" class="ic" aria-hidden="true"><use href="#i-back"/></svg>Back</button>
+    <span class="pos count" data-pos></span>
+    <button type="button" class="btn-primary" id="primary" data-next><span data-next-label>Continue</span><svg width="15" height="15" class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+  </footer>
+</div>
+
+<!-- Key points for each resource: one pop-up each, built by script.js -->
+<div id="details-host"></div>
+
+<div class="drawer" id="toolkit" hidden role="dialog" aria-modal="true" aria-labelledby="toolkit-title">
+  <div class="drawer-panel">
+    <div class="drawer-head">
+      <div><div class="d-eyebrow">Your notes</div><h2 id="toolkit-title">My AI toolkit</h2></div>
+      <button class="icon-btn" id="toolkit-close" type="button" aria-label="Close toolkit"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <p class="sub">You get 1 line for each link where you wrote a note. Notes stay on this device only. On a shared device, download them and then clear them.</p>
+    <ol class="toolkit-list" data-toolkit-list></ol>
+    <p class="empty" data-toolkit-empty>No notes yet. Tap Key points on any link and write 1 thing you will try.</p>
+    <div class="drawer-actions">
+      <button class="btn btn-blue" type="button" data-toolkit-download><svg class="ic" aria-hidden="true"><use href="#i-down"/></svg>Download notes</button>
+      <button class="btn btn-ghost" type="button" data-toolkit-clear>Clear notes</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

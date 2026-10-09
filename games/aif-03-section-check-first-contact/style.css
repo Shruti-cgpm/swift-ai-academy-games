@@ -1,0 +1,215 @@
+/* AAI-E-MC1-S01-EVAL01  Section check: First Contact
+   Swift AI Academy frame (Oct 2026): dark by default, light switch (the game's own light colours).
+   <html data-saa-themes data-theme="dark">: the layer adds the sun/moon switch and, in dark only, html.saa-skin
+   (game 1 header, card and footer). Sizes are divided by --z so a zoomed page shows them at game 1's size. */
+:root{
+  --bg:#F6F8FF; --card:#FFFFFF; --ink:#0E1B5C; --body:#3A4577; --muted:#5A6489;
+  --blue:#3D5AFE; --blue-tint:#EEF1FF; --blue-line:#B8C2F4; --gold:#FBB034; --line:#E2E6F2;
+  --ok:#0B6E47; --ok-bg:#E7F6EE; --ok-line:#8FD1B1;
+  --no:#A1262C; --no-bg:#FDF0F0; --no-line:#EFB4B7;
+  --opt-bg:#FFFFFF; --opt-line:#D9DEEE; --quote-bg:#FFFFFF; --notes-bg:#EEF1FF;
+  --zz:var(--z,1);
+}
+:root[data-theme="dark"]{
+  --bg:#080D24; --card:rgba(255,255,255,.035); --ink:#F6F4EF; --body:#DCE1F2; --muted:#AEB6D4;
+  --blue:#8FA0FF; --blue-tint:rgba(91,118,255,.16); --blue-line:rgba(91,118,255,.6); --line:rgba(255,255,255,.12);
+  --ok:#4FE0A8; --ok-bg:rgba(79,224,168,.10); --ok-line:rgba(79,224,168,.5);
+  --no:#FF8A80; --no-bg:rgba(255,107,107,.10); --no-line:rgba(255,107,107,.5);
+  --opt-bg:rgba(255,255,255,.05); --opt-line:rgba(255,255,255,.18); --quote-bg:rgba(255,255,255,.05); --notes-bg:rgba(91,118,255,.12);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%}
+body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
+html[data-theme="dark"] body{background:linear-gradient(150deg,#080D24 0%,#0E1A4F 52%,#0B1440 100%) fixed;background-color:#080D24}
+html[data-theme="dark"] body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(circle at 88% 4%,rgba(60,89,246,.22) 0%,rgba(60,89,246,0) 40%)}
+body.scroll{overflow:auto;height:auto}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+[tabindex="-1"]:focus{outline:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+[hidden]{display:none!important}
+
+/* ---- frame: header, the card between, footer ---- */
+.app{position:relative;z-index:1;display:flex;flex-direction:column;height:100dvh;width:100%;margin:0 auto;
+  padding:calc(clamp(8px,1.6vh,16px) / var(--zz)) calc(clamp(16px,3vw,48px) / var(--zz))}
+header.top{display:flex;align-items:center;gap:14px;flex:0 0 auto;min-height:calc(41px / var(--zz));margin:0 0 calc(clamp(6px,1.4vh,14px) / var(--zz))}
+header.top .brand{display:flex;align-items:center;gap:10px;min-width:0}
+header.top .brand img{width:28px;height:auto}
+header.top .brand b{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-meta{display:none}
+main.stage{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+section.page{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+.card{flex:1 1 auto;min-height:0;width:100%;background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:calc(clamp(14px,3vh,32px) / var(--zz)) calc(clamp(20px,3.5vw,56px) / var(--zz));box-shadow:0 10px 30px rgba(14,27,92,.06)}
+.card.saa-split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);column-gap:calc(clamp(24px,4vw,72px) / var(--zz));align-items:center;align-content:center}
+.saa-lead,.saa-work{display:flex;flex-direction:column;min-width:0}
+.saa-work{gap:calc(10px / var(--zz))}
+
+/* ---- type (same scale as game 1) ---- */
+.eyebrow{font-size:calc(11.5px / var(--zz));font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin:0 0 calc(6px / var(--zz))}
+.saa-lead h1,.saa-lead h2{font-size:calc(clamp(22px,4.4vh,54px) / var(--zz));font-weight:700;letter-spacing:-.03em;line-height:1.14;color:var(--ink);margin:0 0 calc(14px / var(--zz))}
+.saa-lead p.lede,.saa-lead p.q-scene{font-size:calc(clamp(14px,2.3vh,24px) / var(--zz));font-weight:500;line-height:1.6;color:var(--ink);margin:0 0 calc(clamp(8px,1.6vh,14px) / var(--zz))}
+.do,.saa-do{font-size:calc(clamp(14px,2.3vh,24px) / var(--zz))!important;font-weight:600!important;line-height:1.45!important;
+  padding:calc(clamp(10px,1.8vh,14px) / var(--zz)) calc(16px / var(--zz))!important;border-radius:calc(14px / var(--zz))!important;margin:calc(clamp(10px,2vh,18px) / var(--zz)) 0 0!important}
+html[data-theme="light"] .saa-do{background:var(--blue-tint)!important;border:1px solid var(--blue-line)!important;color:var(--ink)!important}
+html[data-theme="light"] .saa-do .saa-do-label{color:var(--blue)}
+.small{font-size:calc(14px / var(--zz));color:var(--muted);margin:calc(4px / var(--zz)) 0 0}
+.again{font-size:calc(15px / var(--zz));color:var(--muted);margin:0}
+img.aic{width:calc(28px / var(--zz));height:calc(28px / var(--zz));object-fit:contain;flex:0 0 auto}
+
+/* ---- cover tiles ---- */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:calc(14px / var(--zz))}
+.tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(10px / var(--zz));text-align:center;
+  background:var(--opt-bg);border:1px solid var(--opt-line);border-radius:calc(16px / var(--zz));padding:calc(22px / var(--zz)) calc(12px / var(--zz));min-height:calc(130px / var(--zz))}
+.tile b{font-size:calc(clamp(15px,2.4vh,22px) / var(--zz));font-weight:700;line-height:1.25}
+
+/* ---- how it works: reveal cards ---- */
+.rules .saa-front{display:flex;align-items:center;gap:calc(10px / var(--zz))}
+
+/* ---- question ---- */
+.q-ask{outline:none}
+.saa-lead h2.q-ask{font-size:calc(clamp(20px,3.6vh,44px) / var(--zz));margin-bottom:calc(10px / var(--zz))}
+.tag{display:block;font-size:calc(11px / var(--zz));font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 calc(4px / var(--zz))}
+.quote,.notes{border-radius:calc(12px / var(--zz));padding:calc(10px / var(--zz)) calc(14px / var(--zz));margin:0 0 calc(4px / var(--zz))}
+.quote{background:var(--quote-bg);border:1px solid var(--opt-line);border-left:4px solid var(--blue)}
+.notes{background:var(--notes-bg);border:1px solid var(--blue-line)}
+.quote p,.notes p{margin:0;font-size:calc(clamp(14px,2.1vh,21px) / var(--zz));line-height:1.45;color:var(--ink)}
+
+.opts{border:0;margin:0;padding:0;display:grid;gap:calc(8px / var(--zz));min-width:0}
+.saa-work > .tag{margin-bottom:calc(-4px / var(--zz))}
+.opt{position:relative;display:flex;align-items:center;gap:calc(12px / var(--zz));background:var(--opt-bg)!important;border:1.5px solid var(--opt-line)!important;
+  border-radius:calc(14px / var(--zz));padding:calc(9px / var(--zz)) calc(14px / var(--zz));min-height:calc(48px / var(--zz))!important;cursor:pointer;
+  font-size:calc(clamp(14px,2.2vh,21px) / var(--zz));line-height:1.36;color:var(--ink);text-align:left;width:100%;box-shadow:0 2px 0 rgba(14,26,79,.08)!important}
+html[data-theme="dark"] .opt{box-shadow:0 3px 0 rgba(0,0,0,.28)!important}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt .mark{width:calc(22px / var(--zz));height:calc(22px / var(--zz));border-radius:50%;border:1.75px solid var(--muted);flex:0 0 auto;display:grid;place-items:center}
+.opt .mark svg.i{width:calc(20px / var(--zz));height:calc(20px / var(--zz))}
+.opt:hover:not(.locked){border-color:var(--blue)!important}
+.opt:has(input:focus-visible){outline:3px solid var(--blue);outline-offset:2px}
+.opt.sel{border-color:var(--blue)!important;background:var(--blue-tint)!important}
+.opt.sel .mark{border-color:var(--blue);background:var(--blue)}
+.opt.sel .mark::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
+.opt.right{border-color:var(--ok-line)!important;background:var(--ok-bg)!important}
+.opt.wrong{border-color:var(--no-line)!important;background:var(--no-bg)!important}
+.opt.right .mark,.opt.wrong .mark{border:0;background:none}
+.opt.right .mark{color:var(--ok)} .opt.wrong .mark{color:var(--no)}
+.opt.locked{cursor:default;transform:none!important}
+.opt.dim{opacity:.55}
+.opt .ln{font-size:calc(12.5px / var(--zz));font-weight:700;color:var(--muted);flex:0 0 auto;width:calc(14px / var(--zz))}
+.ai-lines .opt{border-radius:calc(10px / var(--zz))}
+.ot{flex:1 1 auto;min-width:0}
+/* order */
+.ostep .num{width:calc(28px / var(--zz));height:calc(28px / var(--zz));border-radius:50%;border:1.75px dashed var(--muted);display:grid;place-items:center;font-size:calc(14px / var(--zz));font-weight:700;flex:0 0 auto;color:var(--muted)}
+.ostep.placed{border-color:var(--blue)!important;background:var(--blue-tint)!important}
+.ostep.placed .num{border:0;background:#3D5AFE;color:#fff}
+.ostep.right .num{border:1.75px solid var(--ok);color:var(--ok)}
+.ostep.wrong .num{border:1.75px solid var(--no);color:var(--no)}
+.ostep .mark{border:0}
+.reset{all:unset;cursor:pointer;color:var(--blue);font-size:calc(15px / var(--zz));padding:calc(10px / var(--zz)) 2px;min-height:calc(24px / var(--zz));display:inline-flex;gap:6px;align-items:center}
+.reset[disabled]{opacity:.45;cursor:default}
+.reset svg.i{width:18px;height:18px}
+/* feedback, under the answers */
+.q-fb{border:1px dashed var(--opt-line);border-radius:calc(14px / var(--zz));padding:calc(10px / var(--zz)) calc(14px / var(--zz));display:grid;gap:calc(4px / var(--zz))}
+.q-fb.on{border-style:solid}
+.q-fb:has(.q-why.ok){border-color:var(--ok-line);background:var(--ok-bg)}
+.q-fb:has(.q-why.bad){border-color:var(--no-line);background:var(--no-bg)}
+.q-why{margin:0;font-size:calc(clamp(14px,2.1vh,20px) / var(--zz));line-height:1.45;color:var(--ink)}
+.q-why:empty{display:none}
+.q-why b{font-weight:700}
+.q-why.ok b{color:var(--ok)} .q-why.bad b{color:var(--no)}
+.q-why.need{color:var(--no);font-weight:600}
+.q-more p{margin:0;font-size:calc(clamp(13.5px,1.95vh,19px) / var(--zz));line-height:1.45;color:var(--body)}
+.q-more p + p{margin-top:calc(3px / var(--zz))}
+.q-more b{color:var(--ink);font-weight:700}
+.q-hint{display:flex;gap:8px;align-items:center;color:var(--muted)!important}
+.q-why:not(:empty) + .q-more .q-hint{display:none}
+@keyframes qshake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.opts.saa-shake{animation:qshake .3s ease}
+
+/* dotted glossary words */
+.term{cursor:pointer;border-bottom:2px dotted var(--blue)}
+.term:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:3px}
+
+/* ---- result ---- */
+.score{font-size:calc(clamp(15px,2.3vh,22px) / var(--zz));color:var(--body);margin:0}
+.score b{color:var(--ink)}
+.concepts{list-style:none;margin:0;padding:0;background:var(--opt-bg);border:1px solid var(--opt-line);border-radius:calc(16px / var(--zz));overflow:hidden}
+.concepts li{display:flex;gap:calc(12px / var(--zz));align-items:center;padding:calc(11px / var(--zz)) calc(16px / var(--zz));border-top:1px solid var(--opt-line);font-size:calc(clamp(14px,2.1vh,20px) / var(--zz))}
+.concepts li:first-child{border-top:0}
+.concepts .ci{display:grid;place-items:center}
+.concepts li.ok .ci,.concepts li.ok .st{color:var(--ok)}
+.concepts li.no .ci,.concepts li.no .st{color:var(--no)}
+.concepts .cn{flex:1 1 auto;min-width:0}
+.concepts .st{margin-left:auto;font-size:calc(14px / var(--zz));font-weight:600;white-space:nowrap}
+.concepts small{display:block;color:var(--muted);font-size:calc(13.5px / var(--zz))}
+.saved{font-size:calc(15px / var(--zz));color:var(--ok);margin:0}
+.row-btns{display:flex;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:calc(48px / var(--zz));padding:0 calc(24px / var(--zz));border-radius:999px;font-weight:700;font-size:calc(15.5px / var(--zz));cursor:pointer}
+.btn-ghost{background:transparent;border:1px solid var(--opt-line);color:var(--ink)}
+
+/* ---- footer: Back | progress | Next (light mode; the dark skin does the same) ---- */
+footer.foot{flex:0 0 auto;display:flex;align-items:center;margin-top:calc(10px / var(--zz))}
+footer.foot .btn{min-height:calc(52px / var(--zz));padding:0 calc(30px / var(--zz));font-size:calc(15.5px / var(--zz))}
+#primary{border:0;background:linear-gradient(135deg,#FFC168,#F3AB31);color:#241300;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 8px 22px rgba(243,171,49,.28)}
+#primary.saa-locked,#primary.is-locked{background:var(--opt-bg)!important;color:var(--muted)!important;box-shadow:none!important;border:1px solid var(--opt-line)!important}
+html[data-theme="dark"] #primary.saa-locked,html[data-theme="dark"] #primary.is-locked{background:rgba(255,255,255,.08)!important;color:#AEB6D4!important}
+#back{background:transparent;border:1px solid var(--opt-line);color:var(--ink)}
+html[data-theme="light"] .saa-prog-bar{background:#E2E6F2}
+html[data-theme="light"] .saa-prog-fill{background:#3D5AFE}
+html[data-theme="light"] .saa-prog-n{color:#5A6489}
+html[data-theme="light"] .saa-demote{color:#0E1B5C!important;border-color:#B8C2F4!important}
+
+/* ---- kits in the light theme follow the game's ink ---- */
+html[data-theme="light"] .saa-kit{color:var(--ink)}
+
+/* ---- glossary popover ---- */
+.pop{position:fixed;z-index:40;max-width:280px;background:#0E1B5C;color:#fff;border-radius:12px;padding:10px 13px;font-size:15px;line-height:1.4;box-shadow:0 10px 30px rgba(14,27,92,.25)}
+html[data-theme="dark"] .pop{background:#F6F4EF;color:#0E1A4F}
+.pop b{display:block;font-weight:700;margin-bottom:2px}
+
+/* ---- dark: the skin draws the header, card and footer like game 1; these keep the game's parts in the series look ---- */
+html.saa-skin .card{box-shadow:none}
+html.saa-skin .saa-lead h2.q-ask{font-size:calc(clamp(20px,3.6vh,44px) / var(--zz))!important;margin-bottom:calc(10px / var(--zz))!important}
+html.saa-skin .saa-lead p.q-scene{margin-bottom:calc(8px / var(--zz))!important}
+
+/* ---- phones: one column, the area between header and footer scrolls; text never below 14px ---- */
+@media (max-width:700px){
+  .app{padding:8px 14px}
+  .card.saa-split{display:block}
+  .card{flex:0 0 auto;padding:16px}
+  .saa-work{margin-top:14px}
+  .tiles{grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .tile{min-height:0;padding:14px 6px}
+  .tile b{font-size:14px}
+  .opt{font-size:15px;min-height:46px!important}
+  .q-why{font-size:15px} .q-more p{font-size:14.5px}
+  .quote p,.notes p{font-size:15px}
+  footer.foot .btn{padding:0 22px}
+  /* phones: steady reading sizes (the vh scale is for wide screens) */
+  html .saa-lead :is(h1,h2), html.saa-skin .saa-lead :is(h1,h2), html.saa-skin .saa-lead h2.q-ask{font-size:24px!important;line-height:1.2!important}
+  html .saa-lead p.lede, html .saa-lead p.q-scene, html.saa-skin .saa-lead p:not(.do):not(.saa-do):not(.eyebrow){font-size:16.5px!important;line-height:1.5!important}
+  html .do, html .saa-do, html.saa-skin .saa-do{font-size:16px!important}
+  .tile b{font-size:14px!important}
+  .rules .saa-card .saa-back{font-size:15px!important;line-height:1.4}
+}
+/* landscape phones / short wide windows: the page scrolls as one column, the footer stays at the bottom */
+@media (orientation:landscape) and (max-height:480px) and (min-width:701px){
+  html[data-theme="light"] body .app > footer.foot{background:linear-gradient(180deg,rgba(246,248,255,0) 0,rgba(246,248,255,.94) 14px,#F6F8FF 100%)!important}
+  .card{flex:0 0 auto}
+}
+
+/* reviewer view (#review) */
+.rv{max-width:1200px;margin:0 auto;padding:24px 20px 60px;color:#0E1B5C;background:#F6F8FF;position:relative;z-index:2}
+.rv h1{font-size:28px;margin:0 0 6px}
+.rv h2{font-size:20px;margin:28px 0 8px}
+.rv p,.rv li{color:#3A4577;font-size:15px}
+.rv .mono,.rv td.mono,.rv th.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+.rv table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff}
+.rv th,.rv td{border:1px solid #E2E6F2;padding:8px;vertical-align:top;text-align:left}
+.rv th{background:#EEF1FF;font-weight:600}
+.rv .wrap{overflow-x:auto;border-radius:16px;border:1px solid #E2E6F2}
+.rv a{color:#3D5AFE}
+body.scroll .rv, body.scroll .rv *{-webkit-user-select:text;user-select:text}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Watch It Get It Wrong | Swift AI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11M6 10l6 6 6-6M5 20h14"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C4 4.67 4.67 4 5.5 4H12v16H5.5A1.5 1.5 0 0 1 4 18.5v-13Z"/><path d="M20 5.5c0-.83-.67-1.5-1.5-1.5H12v16h6.5c.83 0 1.5-.67 1.5-1.5v-13Z"/></symbol>
+  <symbol id="i-sound-on" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+  <symbol id="i-sound-off" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m22 9-6 6M16 9l6 6"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to activity</a>
+
+<!-- ===== Start screen (the game's own: it has the course choice) ===== -->
+<div class="saa-start wg-cover" id="saa-start" role="dialog" aria-modal="true" aria-labelledby="cover-title">
+  <div class="saa-in">
+    <div class="saa-brand"><img src="assets/logo-mark.webp" alt=""><span>SWIFT AI ACADEMY</span></div>
+    <div class="saa-mid">
+      <span class="saa-eb">Practical lab · 60 min</span>
+      <h1 id="cover-title" tabindex="-1">Watch It Get It Wrong</h1>
+      <p class="saa-tag">Guess what an AI tool will make up. Check its answer against a trusted card. Then fix your prompt and count what changes.</p>
+      <div class="lane-pick" id="lane-pick">
+        <span class="q" id="lane-q">Which course are you on?</span>
+        <div class="wg-lanes" role="radiogroup" aria-labelledby="lane-q">
+          <button type="button" class="wg-lane" role="radio" aria-checked="false" data-lane="iti"><img src="assets/icons/icon-lane-iti.webp" alt="" aria-hidden="true"><span>ITI trade</span></button>
+          <button type="button" class="wg-lane" role="radio" aria-checked="false" data-lane="he"><img src="assets/icons/icon-lane-college-cap.webp" alt="" aria-hidden="true"><span>Higher education</span></button>
+        </div>
+      </div>
+      <p class="saa-k-why wg-start-need" id="start-status" aria-live="polite"></p>
+      <button class="saa-go" id="start" type="button">Start <svg viewBox="0 0 24 24" fill="none" stroke="#241300" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="cover-foot"><b>AAI-E-MC1-S01-LAB02 · PC 1.1 to 1.5</b></p>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <header class="saa-header">
+    <div class="brand"><img src="assets/logo-mark.webp" alt=""><span class="brand-name">SWIFT AI ACADEMY</span><span class="brand-asset">Practical lab · Watch It Get It Wrong</span></div>
+  </header>
+
+  <main class="slides" id="main">
+
+    <!-- 1 · Rules -->
+    <section class="page" data-page="rules" hidden>
+      <div class="card wg-card">
+        <div class="wg-lead">
+          <div class="card-head head" data-saa-lead>
+            <div class="eyebrow">Prepare · Rules</div>
+            <h2 tabindex="-1">Some details must never go into the AI tool.</h2>
+            <p class="sub">Never type passwords, Aadhaar numbers, contact details, health details, marks or private records. If real private details appear, tell your facilitator.</p>
+            <p class="do"><b>Your task.</b> Sort the 5 items into the right box. Then tick the 3 rules.</p>
+          </div>
+          <p class="saa-k-why wg-need" aria-live="polite" hidden></p>
+        </div>
+        <div class="wg-work">
+          <div class="saa-kit" data-kit="sort" data-style="deck" data-required data-done-text="All sorted. Use made-up details only.">
+            <div class="saa-bins">
+              <div class="saa-bin" data-bin="a" data-label="OK to type"></div>
+              <div class="saa-bin" data-bin="b" data-label="Keep out"></div>
+            </div>
+            <div class="saa-pool">
+              <button class="saa-chip" type="button" data-bin="b" data-why="Yes. Keep it out. ID numbers can be stored and misused." data-hint="Not quite. Can an ID number be stored and misused?">Your Aadhaar number</button>
+              <button class="saa-chip" type="button" data-bin="a" data-why="Yes. A made-up name is safe to use." data-hint="Not quite. Is this a real person's name?">A made-up name, like "Trainee A"</button>
+              <button class="saa-chip" type="button" data-bin="b" data-why="Yes. Keep it out. It is someone else's private data." data-hint="Not quite. Think about whose private data this is.">Your friend's phone number</button>
+              <button class="saa-chip" type="button" data-bin="a" data-why="Yes. The lab prompt has no personal data in it." data-hint="Not quite. Does the lab prompt have any personal data in it?">The prompt given in this lab</button>
+              <button class="saa-chip" type="button" data-bin="b" data-why="Yes. Keep it out. Marks are private records." data-hint="Not quite. Are your marks a private record?">Your marks from last term</button>
+            </div>
+            <p class="saa-k-why"></p>
+          </div>
+          <div class="wg-rules" id="rules-ticks" role="group" aria-labelledby="rules-q">
+            <span class="pane-title" id="rules-q">The 3 rules for today</span>
+            <label class="tick"><input type="checkbox" data-rule="1"><img src="assets/icons/icon-rule-approved.webp" alt="" aria-hidden="true"><span>I use only the approved AI tool and my allowed account. I write my own prompt, check and conclusion.</span></label>
+            <label class="tick"><input type="checkbox" data-rule="2"><img src="assets/icons/icon-device-shared.webp" alt="" aria-hidden="true"><span>On a shared device, I take turns and sign out after my turn.</span></label>
+            <label class="tick"><input type="checkbox" data-rule="3"><img src="assets/icons/icon-rule-private.webp" alt="" aria-hidden="true"><span>I use made-up data only, never real private details.</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 · Predict -->
+    <section class="page" data-page="predict" hidden>
+      <div class="card wg-card">
+        <div class="wg-lead">
+          <div class="card-head head" data-saa-lead>
+            <div class="eyebrow">Prepare · Predict</div>
+            <h2 tabindex="-1">What will the AI tool make up?</h2>
+            <p class="sub">This prompt leaves out important facts. The AI tool may fill the gaps on its own.</p>
+            <p class="do"><b>Your task.</b> Tap the kinds of detail you think it will make up. You check your guess later.</p>
+          </div>
+          <p class="saa-k-why wg-need" aria-live="polite" hidden></p>
+          <div class="wg-ctx">
+            <div class="prompt-box"><span class="label">Your prompt · <span data-fill="case"></span></span><p data-fill="prompt"></p></div>
+          </div>
+        </div>
+        <div class="wg-work">
+          <span class="pane-title" id="predict-q">I think the AI tool will make up:</span>
+          <div class="options" id="predict-list" role="group" aria-labelledby="predict-q"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · Practise: spot what is made up -->
+    <section class="page" data-page="practice" hidden>
+      <div class="card wg-card">
+        <div class="wg-lead">
+          <div class="card-head head" data-saa-lead>
+            <div class="eyebrow">Practise · Spot what is made up</div>
+            <h2 tabindex="-1">Which lines did the AI tool make up?</h2>
+            <p class="sub">Another learner ran the same prompt and got this answer. Compare each line with the check card.</p>
+            <p class="do"><b>Your task.</b> Tap each line that the check card does not support. Then press Check my flags.</p>
+          </div>
+          <p class="saa-k-why wg-need" aria-live="polite" hidden></p>
+          <div class="wg-ctx">
+            <div data-slot="check-card"></div>
+          </div>
+        </div>
+        <div class="wg-work">
+          <div class="score saa-vo-skip" id="practice-score" hidden aria-live="polite"><span class="big" id="score-big"></span><p id="score-text"></p></div>
+          <p class="saa-k-why wg-result" id="practice-why"></p>
+          <div class="claims" id="claims" role="group" aria-label="Lines of the AI answer"></div>
+          <button class="btn btn-ghost wg-see" id="see-output" type="button">See the full AI answer</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · Ask and capture -->
+    <section class="page" data-page="ask" hidden>
+      <div class="card wg-card">
+        <div class="wg-lead">
+          <div class="card-head head" data-saa-lead>
+            <div class="eyebrow">Ask and check · Run it</div>
+            <h2 tabindex="-1">Now run the same prompt in the AI tool yourself.</h2>
+            <p class="sub">Every AI answer is different. Yours may make up other details, or none at all.</p>
+            <p class="do"><b>Your task.</b> Copy the prompt into the approved AI tool. Paste its first answer here.</p>
+          </div>
+          <p class="saa-k-why wg-need" aria-live="polite" hidden></p>
+          <div class="wg-ctx">
+            <div class="prompt-box"><span class="label">Your prompt · <span data-fill="case"></span></span><p data-fill="prompt" id="prompt-text"></p>
+              <div><button class="btn btn-ghost" id="copy-prompt" type="button"><svg class="ic"><use href="#i-copy"/></svg><span>Copy prompt</span></button></div>
+            </div>
+            <div class="callout warn" data-safety hidden><svg class="ic"><use href="#i-alert"/></svg><div><b>Practice only.</b> This list is for checking, not for live electrical work. In any practical, follow your instructor's approved materials and safety steps.</div></div>
+            <div class="callout task wg-help"><img src="assets/icons/icon-access-fail.webp" alt="" aria-hidden="true"><div>If the internet is slow, copy the text instead of taking a screenshot. If the AI tool does not work, ask your facilitator for a printed answer.</div></div>
+          </div>
+        </div>
+        <div class="wg-work">
+          <div class="field" data-req="first-output"><label class="field-label" for="first-output">First AI answer <span class="field-help">Paste or type it exactly as it appears.</span></label>
+            <textarea class="field-input tall" id="first-output" maxlength="6000" placeholder="Paste the AI tool's answer here."></textarea></div>
+          <div class="field"><span class="field-label" id="cap-q">How did you save the answer?</span>
+            <div class="chips" role="radiogroup" aria-labelledby="cap-q" id="capture-chips" style="margin-top:8px">
+              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Copied the text">Copied the text</button>
+              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Took a screenshot">Took a screenshot</button>
+              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Wrote it out by hand">Wrote it out by hand</button>
+              <button class="chip" type="button" role="radio" aria-checked="false" aria-pressed="false" data-v="Facilitator's printed answer">Facilitator's printed answer</button>
+            </div></div>
+          <label class="tick"><input type="checkbox" id="changed-prompt"> I changed the prompt before I ran it.</label>
+          <div class="field" id="changed-wrap" hidden><label class="field-label" for="assigned-prompt">The prompt you really used</label>
+            <textarea class="field-input" id="assigned-prompt" maxlength="2000" placeholder="Paste the prompt you ran."></textarea></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · Check own answer -->
+    <section class="page" data-page="check" hidden>
+      <div class="card wg-card">
+        <div class="wg-lead">
+          <div class="card-head head" data-saa-lead>
+            <div class="eyebrow">Ask and check · Check it</div>
+            <h2 tabindex="-1">Does your AI answer match the check card?</h2>
+            <p class="sub">Do not send, post, order or act on the AI answer. Compare it line by line with the card.</p>
+            <p class="do"><b>Your task.</b> Choose what your AI tool did. Then fill in the boxes that appear.</p>
+          </div>
+          <p class="saa-k-why wg-need" aria-live="polite" hidden></p>
+          <div class="wg-ctx">
+            <div data-slot="check-card"></div>
+          </div>
+        </div>
+        <div class="wg-work">
+          <span class="pane-title" id="outcome-q">What did your AI tool do?</span>
+          <div class="options" role="radiogroup" aria-labelledby="outcome-q" id="outcome">
+            <button class="option" type="button" role="radio" aria-checked="false" data-v="found"><span class="dot"></span>It gave at least 1 detail that the card does not support.</button>
+            <button class="option" type="button" role="radio" aria-checked="false" data-v="asked"><span class="dot"></span>It asked me for missing details, or it left blanks to fill in.</button>
+            <button class="option" type="button" role="radio" aria-checked="false" data-v="matched"><span class="dot"></span>Everything in it matched the card.</button>
+          </div>
+          <div id="found-wrap" hidden class="options" style="gap:16px">
+            <div class="field" data-req="unsupported"><label class="field-label" for="unsupported">Which parts are not on the card, or are wrong?</label>
+              <textarea class="field-input" id="unsupported" maxlength="1500" placeholder="Copy or describe each one."></textarea></div>
+            <div class="field"><span class="field-label" id="count1-l">How many unsupported details did you find?</span>
+              <div class="stepper" data-stepper="count1" role="group" aria-labelledby="count1-l"><button type="button" data-d="-1" aria-label="One fewer">−</button><output id="count1" aria-live="polite">0</output><button type="button" data-d="1" aria-label="One more">+</button></div></div>
+          </div>
+          <div id="clean-wrap" hidden class="options" style="gap:16px">
+            <div class="callout good"><svg class="ic"><use href="#i-check"/></svg><div><b>That is what a careful answer looks like.</b> In the rewrite step, you will fix the practice answer instead.</div></div>
+            <div class="field" data-req="clean-why"><label class="field-label" for="clean-why">What did your AI tool do to stay correct?</label>
+              <textarea class="field-input" id="clean-why" maxlength="1000" placeholder="For example: it wrote [date] instead of guessing a date."></textarea></div>
+          </div>
+          <div class="field" data-req="consequence" id="consequence-wrap" hidden><label class="field-label" for="consequence" id="consequence-l">What could happen if someone used it without checking?</label>
+            <textarea class="field-input" id="consequence" maxlength="1000" placeholder="Think about who would read it or act on it."></textarea></div>
+          <div class="field" data-req="check-source" id="source-wrap" hidden><label class="field-label" for="check-source">What did you check it against?</label>
+            <input class="field-input" id="check-source" type="text" maxlength="200"></div>
+          <div class="field" id="predict-recall-wrap" hidden><span class="field-label" id="recall-q">You guessed: <span id="recall-list" style="font-weight:500;color:var(--blue-pale)"></span>. Was your guess right?</span>
+            <div class="seg" role="radiogroup" aria-labelledby="recall-q" id="recall" style="margin-top:8px;align-self:flex-start">
+              <button type="button" role="radio" aria-checked="false" data-v="Right">Right</button><button type="button" role="radio" aria-checked="false" data-v="Partly">Partly</button><button type="button" role="radio" aria-checked="false" data-v="Wrong">Wrong</button>
+            </div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · Why it happened -->
+    <section class="page" data-page="why" hidden>
+      <div class="card wg-card">
+        <div class="wg-lead">
+          <div class="card-head head" data-saa-lead>
+            <div class="eyebrow">Ask and check · Why it happens</div>
+            <h2 tabindex="-1">The AI tool filled the gaps with guesses.</h2>
+            <p class="sub">An AI tool writes the words that usually come next. When your prompt leaves a gap, it fills it with something that sounds right.</p>
+            <p class="do"><b>Your task.</b> Choose the best fix for a prompt with missing facts.</p>
+          </div>
+          <div class="wg-ctx">
+            <div class="prompt-box"><span class="label">What your prompt left out</span><p id="gaps"></p><p class="wg-why-specific" id="why-specific"></p></div>
+            <p class="wg-more"><img src="assets/icons/icon-source.webp" alt="" aria-hidden="true"><span>To learn more, read “Why language models hallucinate” in Resources: First Contact, section 4.</span></p>
+          </div>
+        </div>
+        <div class="wg-work">
+          <div class="saa-kit" data-kit="quick" data-required>
+            <p class="saa-q">Your first prompt left out key facts. What is the best fix?</p>
+            <div class="saa-k-opts">
+              <button class="saa-k-opt" type="button" data-why="Not quite. Asking again gives you a different answer, not a checked one. The gaps are still there.">Ask the same question again until the answer looks right.</button>
+              <button class="saa-k-opt" type="button" data-ok data-why="Yes. Fill the gaps yourself, and let the AI tool say “I do not know” instead of guessing.">Add the facts you know, and tell the AI tool to say when something is missing.</button>
+              <button class="saa-k-opt" type="button" data-why="Not quite. A longer answer has more room for made-up details. Length does not fix missing facts.">Ask for a longer, more detailed answer.</button>
+            </div>
+            <p class="saa-k-why"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 · Rewrite -->
+    <section class="page" data-page="rewrite" hidden>
+      <div class="card wg-card">
+        <div class="wg-lead">
+          <div class="card-head head" data-saa-lead>
+            <div class="eyebrow">Rewrite · Build a better prompt</div>
+            <h2 tabindex="-1">Fill the gaps yourself, so the AI tool does not guess.</h2>
+            <p class="sub" id="rewrite-sub">Add the facts from the card that your first answer got wrong or missed. Then tell the AI tool not to guess.</p>
+            <p class="do"><b>Your task.</b> Fill in the 5 boxes and tick the last line. Then copy your new prompt.</p>
+          </div>
+          <p class="saa-k-why wg-need" aria-live="polite" hidden></p>
+          <div class="wg-ctx">
+            <div class="wg-preview-box">
+              <span class="pane-title">Your new prompt</span>
+              <div class="preview" id="preview" aria-live="polite"></div>
+              <div class="wg-copy-row">
+                <button class="btn btn-ghost" id="copy-revised" type="button"><svg class="ic"><use href="#i-copy"/></svg><span>Copy prompt</span></button>
+                <span class="wg-note">Run it in the same approved AI tool.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wg-work">
+          <div class="wg-row"><span class="pane-title">Fill in the boxes.</span><button class="chip" type="button" id="hint-btn">Show a hint</button></div>
+          <div class="field" data-req="b-role"><label class="field-label" for="b-role">Role <span class="field-help">Who should the AI tool act as?</span></label><input class="field-input" id="b-role" type="text" maxlength="200" data-build></div>
+          <div class="field" data-req="b-context"><label class="field-label" for="b-context">Context <span class="field-help">Why you need it, and who it is for.</span></label><input class="field-input" id="b-context" type="text" maxlength="300" data-build></div>
+          <div class="field" data-req="b-task"><label class="field-label" for="b-task">Task <span class="field-help">What should the AI tool make?</span></label><input class="field-input" id="b-task" type="text" maxlength="300" data-build></div>
+          <div class="field" data-req="b-facts"><label class="field-label" for="b-facts">Facts <span class="field-help">Facts from the check card that the answer got wrong or missed.</span></label><textarea class="field-input" id="b-facts" maxlength="1500" data-build></textarea></div>
+          <div class="field" data-req="b-format"><label class="field-label" for="b-format">Format <span class="field-help">How should it look?</span></label><input class="field-input" id="b-format" type="text" maxlength="200" data-build></div>
+          <label class="tick" id="b-missing-row"><input type="checkbox" id="b-missing" data-build> Tell the AI tool to say when information is missing, and not to guess.</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 · Compare -->
+    <section class="page" data-page="compare" hidden>
+      <div class="card wg-card">
+        <div class="wg-lead">
+          <div class="card-head head" data-saa-lead>
+            <div class="eyebrow">Rewrite · Compare</div>
+            <h2 tabindex="-1">Did the new prompt cut the made-up details?</h2>
+            <p class="sub">Run your new prompt in the same AI tool. Check its answer against the card, the same way as before.</p>
+            <p class="do"><b>Your task.</b> Paste the second answer and count its unsupported details. Then say what changed.</p>
+          </div>
+          <p class="saa-k-why wg-need" aria-live="polite" hidden></p>
+          <div class="wg-ctx">
+            <div class="meter saa-vo-skip" id="meter-compare"></div>
+          </div>
+        </div>
+        <div class="wg-work">
+          <div class="field" data-req="second-output"><label class="field-label" for="second-output">Second AI answer <span class="field-help">Paste it exactly as it appears.</span></label>
+            <textarea class="field-input tall" id="second-output" maxlength="6000" placeholder="Paste the AI tool's new answer here."></textarea></div>
+          <div class="field"><span class="field-label" id="count2-l">How many unsupported details are in the second answer?</span>
+            <div class="stepper" data-stepper="count2" role="group" aria-labelledby="count2-l"><button type="button" data-d="-1" aria-label="One fewer">−</button><output id="count2" aria-live="polite">0</output><button type="button" data-d="1" aria-label="One more">+</button></div></div>
+          <div class="field" data-req="comparison"><label class="field-label" for="comparison">What changed? What do you still need to check?</label>
+            <textarea class="field-input" id="comparison" maxlength="1500" placeholder="Name 1 thing that got better and 1 thing you would still check."></textarea></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 · Review -->
+    <section class="page" data-page="review" hidden>
+      <div class="card wg-card">
+        <div class="wg-lead">
+          <div class="card-head head" data-saa-lead>
+            <div class="eyebrow">Submit · Your record</div>
+            <h2 tabindex="-1">Check your record, then download it.</h2>
+            <p class="sub">This page does not send or save what you type. Download the PDF and hand it in the way your facilitator asks.</p>
+            <p class="do"><b>Your task.</b> Tick the 5 true statements and write 1 sentence. Then download the PDF.</p>
+          </div>
+          <p class="saa-k-why wg-need" aria-live="polite" hidden></p>
+          <div class="wg-ctx">
+            <div class="meter saa-vo-skip" id="meter-review"></div>
+            <div class="chips saa-vo-skip" id="review-stats"></div>
+          </div>
+        </div>
+        <div class="wg-work">
+          <span class="pane-title" id="checklist-q">Tick what is true.</span>
+          <div class="options" id="checklist" role="group" aria-labelledby="checklist-q">
+            <label class="tick"><input type="checkbox"> I used the approved AI tool and my allowed account.</label>
+            <label class="tick"><input type="checkbox"> I saved both AI answers exactly as they appeared.</label>
+            <label class="tick"><input type="checkbox"> I named what I checked against, the unsupported details and what could go wrong.</label>
+            <label class="tick"><input type="checkbox"> I rewrote the prompt, compared the answers, and said what I still need to check.</label>
+            <label class="tick"><input type="checkbox"> My record has no private or confidential data.</label>
+          </div>
+          <div class="field" data-req="learner-reflection"><label class="field-label" for="learner-reflection">1 sentence to remember next time</label>
+            <textarea class="field-input" id="learner-reflection" maxlength="500" placeholder="Next time I use AI, I will…"></textarea></div>
+          <p class="feedback ok" id="download-status" hidden aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Complete -->
+    <section class="page complete" data-page="complete" hidden>
+      <div class="complete-center" data-saa-lead>
+        <div class="badge" aria-hidden="true"><span><svg class="ic"><use href="#i-check"/></svg></span></div>
+        <span class="small">Lab complete</span>
+        <h2 tabindex="-1">You have finished the lab.</h2>
+        <p class="wg-done-sub">You saw an AI tool make things up, and you fixed your prompt.</p>
+        <div class="complete-stats chips saa-vo-skip" id="complete-stats"></div>
+      </div>
+      <div class="next-card">
+        <svg class="ic-lg" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-book"/></svg>
+        <div class="txt"><span class="eb">UP NEXT · RESOURCES</span><b>Resources: First Contact</b><span>Short, free readings about checking AI answers and keeping your data safe.</span></div>
+        <a class="btn btn-primary" id="next-link" href="#">Continue <svg class="ic"><use href="#i-arrow"/></svg></a>
+        <button class="btn btn-ghost" id="restart" type="button">Start again</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="saa-foot" id="foot">
+    <ol class="dashes" id="dashes" aria-hidden="true"></ol>
+    <span class="sr" id="step-sr" aria-live="polite"></span>
+    <div class="foot-right">
+      <button class="btn btn-ghost" id="nav-back" type="button"><svg class="ic"><use href="#i-back"/></svg>Back</button>
+      <span class="counter" id="counter">1 / 9</span>
+      <button class="btn btn-primary" id="nav-next" type="button"><span>Continue</span> <svg class="ic"><use href="#i-arrow"/></svg></button>
+      <button class="btn btn-primary" id="download" type="button" hidden><svg class="ic"><use href="#i-down"/></svg> Download PDF</button>
+      <button class="btn btn-primary" id="finish" type="button" hidden>Finish and clear <svg class="ic"><use href="#i-arrow"/></svg></button>
+    </div>
+  </footer>
+</div>
+
+<div class="modal" id="output-modal" hidden role="dialog" aria-modal="true" aria-labelledby="output-title">
+  <div class="modal-box wg-output-box">
+    <h2 id="output-title">The full AI answer</h2>
+    <div class="raw-output" data-fill="output" tabindex="0"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="output-close" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="confirm-modal" hidden role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+  <div class="modal-box">
+    <h2 id="confirm-title">Finish and clear this page?</h2>
+    <p>First open your PDF to check it. Then sign out of the AI tool in its own tab. This clears everything you typed here.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="confirm-cancel" type="button">Keep my entries</button>
+      <button class="btn btn-primary" id="confirm-ok" type="button">Clear and finish</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

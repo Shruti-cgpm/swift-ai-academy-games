@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080D24">
+  <meta name="description" content="Checkpoint 1: Use It, and Check It. Observed Challenge Day assessment for MC-1, Applied AI for Everyday and Workplace Use.">
+  <!-- Schema: AAI-E-MC1-S04-CHAL01 | Type: CHAL | Section 1.4 Checkpoint Assessment | 1.00 h assessment
+       Mapped PCs: All PCs in this micro-credential | Non-compensatory: All gates in this unit apply
+       Language: English only (user direction for this build)
+       Oct 2026: Swift AI Academy frame (zoom family), ESL screens, narration. Scoring, gates, timings, answers and facts unchanged. -->
+  <title>Checkpoint 1: Use It, and Check It | Swift AI Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+  <div class="app" id="shell">
+    <header class="top saa-header" id="topbar">
+      <div class="brand"><img class="brand-mark" src="assets/logo-mark.webp" alt="Swift AI Academy" width="22" height="20"><span>SWIFT&nbsp;AI&nbsp;ACADEMY</span></div>
+      <div class="top-meta">Checkpoint 1 · Checkpoint</div>
+      <div class="saa-header-actions" id="topbar-right"></div>
+    </header>
+
+    <main class="stage" id="stage" tabindex="-1">
+      <!-- Learner opening: 30 minutes, rules, before you start (drawn by script.js) -->
+      <section class="page" id="p-welcome" data-saa-split="mine" data-saa-page hidden><div class="card saa-split" id="c-welcome"></div></section>
+      <!-- Assessor set-up (staff screen, not narrated) -->
+      <section class="page" id="p-setup" data-saa-split="mine" data-saa-keep hidden><div class="card saa-split" id="c-setup"></div></section>
+      <!-- Learner work: steps 1 to 6, one short screen at a time -->
+      <section class="page" id="p-work" data-saa-split="mine" data-saa-page hidden><div class="card saa-split" id="c-work"></div></section>
+      <!-- Hand the device back -->
+      <section class="page" id="p-handover" data-saa-split="mine" data-saa-page hidden><div class="card saa-split" id="c-handover"></div></section>
+      <!-- Assessor view (staff screen behind the PIN, not narrated) -->
+      <section class="page" id="p-assessor" data-saa-split="mine" data-saa-keep hidden><div class="card a-card" id="c-assessor"></div></section>
+      <!-- Learner result -->
+      <section class="page" id="p-result" data-saa-split="mine" data-saa-page hidden><div class="card saa-split" id="c-result"></div></section>
+    </main>
+
+    <footer class="foot" id="foot">
+      <div class="foot-left" id="progress"><span class="count" id="counter">1 / 16</span></div>
+      <div class="nav">
+        <button type="button" class="btn btn-ghost" id="back" data-action="foot-back">Back</button>
+        <button type="button" class="btn btn-primary" id="primary" data-action="foot-next">Next</button>
+      </div>
+    </footer>
+  </div>
+
+  <div class="toast-wrap" id="toasts" role="status" aria-live="polite"></div>
+  <div id="overlay"></div>
+
+  <noscript>
+    <p style="color:#F6F4EF;padding:24px;font-family:sans-serif">This checkpoint needs JavaScript. Please ask your assessor.</p>
+  </noscript>
+
+  <script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" data-saa-themes data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Framing and the Five Refinement Moves — Swift AI Academy</title>
+<!--
+  Segment: AAI-E-MC1-S02-READ01 · Reading Material · Theory
+  Section 1.2 Framing and Refining (Use It, and Check It). Sits after VID01/VID02, before CARD01.
+  English only, one idea per screen (18 screens + completion).
+  ESL upgrade (Oct 2026): Swift AI Academy layer (zoom family), dark default with a light switch,
+  left text / right activity on every screen, one interaction per screen, narration.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body data-segment="AAI-E-MC1-S02-READ01" data-finish-label="Finish" data-after-label="Next">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-tick" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5M12 8h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-recall" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 4v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<div class="frame app">
+  <header class="top">
+    <div class="brand"><img class="brand-mark" src="data:image/png;base64,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" alt=""><span>SWIFT&nbsp;AI&nbsp;ACADEMY</span></div>
+    <span class="top-meta">Swift AI Academy · Framing and Refining</span>
+  </header>
+
+  <main class="card" id="main">
+
+    <!-- Cover: the layer builds the start screen from it, and Start skips it -->
+    <section class="screen page cover" data-title="Start" hidden>
+      <div class="eyebrow"><span>Reading · about 20 min</span></div>
+      <h1>Framing and the Five Refinement Moves</h1>
+      <p class="lead">Learn to ask an AI tool clearly. Then fix the answer and check it before you use it.</p>
+      <figure class="hero"><img src="assets/char-iti-trainee.webp" alt="An ITI trainee in a blue uniform and safety glasses types a request on a phone at a workshop bench and checks the AI tool's reply with a magnifier."></figure>
+    </section>
+
+    <!-- 1 Quick recall -->
+    <section class="screen page" data-title="Quick recall" data-gate="recall" data-gate-hint="Choose an answer, then tap Check my answer." data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Quick recall</span></div>
+          <h1>Do you remember how an AI tool writes?</h1>
+          <p>You learned this in Section 1.1. Let us check that you still remember it.</p>
+          <p class="do"><b>Your task.</b> Choose an answer, then tap Check my answer.</p>
+        </div>
+        <div class="saa-work">
+          <div class="q" data-q="recall" data-correct="b">
+            <p class="q-stem">How does an AI tool make its answer?</p>
+            <div class="options" role="radiogroup">
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><span>It looks up the answer on the internet.</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><span>It guesses the most likely next words, one by one.</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><span>A person writes the answer for you.</span></button>
+            </div>
+            <button type="button" class="btn-blue" data-check disabled>Check my answer</button>
+            <div class="fb" data-fb hidden></div>
+            <template data-fb-for="a">Not quite. It writes the answer by guessing the most likely next words. That is why it can sound sure and still be wrong.</template>
+            <template data-fb-for="b">Yes. It guesses the most likely next words. Keep this in mind, because it explains what you will see next.</template>
+            <template data-fb-for="c">Not quite. No person is writing. The AI tool guesses the most likely next words.</template>
+          </div>
+          <p class="ga-gate saa-k-why" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 Make a guess -->
+    <section class="screen page" data-title="Make a guess" data-gate="predict" data-gate-hint="Choose a guess, then tap Lock in my guess." data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Part 1 · Framing</span></div>
+          <h1>Make a guess first.</h1>
+          <p>You type only this into your AI tool: “Write about road safety.”</p>
+          <p class="do"><b>Your task.</b> Choose your guess, then tap Lock in my guess.</p>
+        </div>
+        <div class="saa-work">
+          <div class="q" data-q="predict" data-mode="predict">
+            <p class="q-stem">What will you most likely get back?</p>
+            <div class="options" role="radiogroup">
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><span>The exact notice you need for your class</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><span>A long, general answer that could be for anyone</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><span>A question asking what you need</span></button>
+            </div>
+            <button type="button" class="btn-blue" data-check disabled>Lock in my guess</button>
+            <div class="fb" data-fb hidden></div>
+            <template data-fb-for="any">Locked in. A wrong guess costs you nothing. Tap Next to see what really happens.</template>
+          </div>
+          <p class="ga-gate saa-k-why" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 A gap becomes a guess -->
+    <section class="screen page" data-title="A gap becomes a guess" data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Part 1 · Framing</span></div>
+          <h1>A missing detail becomes a guess.</h1>
+          <div class="note" data-reveal hidden><svg width="18" height="18" aria-hidden="true"><use href="#i-info"/></svg><p data-reveal-out></p>
+            <template data-reveal-for="a">You guessed the exact notice. Usually that is not what you get. You get a long, general answer.</template>
+            <template data-reveal-for="b">You guessed a long, general answer. That is what usually happens.</template>
+            <template data-reveal-for="c">You guessed a question back. Some tools do ask, but most give a long, general answer.</template>
+          </div>
+          <p>Here is why. Your request left 4 gaps, and the AI tool filled each gap with a guess.</p>
+          <p class="do"><b>Your task.</b> Tap each gap to see what the AI tool guessed.</p>
+        </div>
+        <div class="saa-work">
+          <div class="saa-kit gap-cards" data-kit="reveal" data-required data-after-done="4 guesses give you a long answer for nobody in particular.">
+            <div class="saa-cards">
+              <button class="saa-card" type="button"><span class="saa-front"><img class="ic" data-ic="context" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">Who is it for?</span><span class="saa-back">Who is it for? Not given, so the AI tool guesses: anyone.</span></button>
+              <button class="saa-card" type="button"><span class="saa-front"><img class="ic" data-ic="role" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">Who should the AI tool be?</span><span class="saa-back">Who should it be? Not given, so the AI tool guesses: a general writer.</span></button>
+              <button class="saa-card" type="button"><span class="saa-front"><img class="ic" data-ic="task" src="assets/icons/icon-task.webp" alt="" aria-hidden="true">What should it make?</span><span class="saa-back">What should it make? You only said “write about”, so the AI tool guesses: an essay.</span></button>
+              <button class="saa-card" type="button"><span class="saa-front"><img class="ic" data-ic="format" src="assets/icons/icon-format.webp" alt="" aria-hidden="true">How should it look?</span><span class="saa-back">How should it look? Not given, so the AI tool guesses: long paragraphs.</span></button>
+            </div>
+          </div>
+          <p class="after-done saa-k-why" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 The 4 parts -->
+    <section class="screen page" data-title="The 4 parts" data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Part 1 · Framing</span></div>
+          <h1>Fill the 4 gaps yourself.</h1>
+          <p>A clear request has 4 parts, and each part answers one question. The order does not matter, but do not leave one out.</p>
+          <p class="do"><b>Your task.</b> Tap each part to see the question it answers.</p>
+        </div>
+        <div class="saa-work">
+          <div class="saa-kit" data-kit="reveal" data-required>
+            <div class="saa-cards">
+              <button class="saa-card" type="button"><span class="saa-front"><img class="ic" data-ic="context" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">Context</span><span class="saa-back">Who is it for, and why?</span></button>
+              <button class="saa-card" type="button"><span class="saa-front"><img class="ic" data-ic="role" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">Role</span><span class="saa-back">Who should the AI tool act as?</span></button>
+              <button class="saa-card" type="button"><span class="saa-front"><img class="ic" data-ic="task" src="assets/icons/icon-task.webp" alt="" aria-hidden="true">Task</span><span class="saa-back">What should it make?</span></button>
+              <button class="saa-card" type="button"><span class="saa-front"><img class="ic" data-ic="format" src="assets/icons/icon-format.webp" alt="" aria-hidden="true">Format</span><span class="saa-back">How should it look?</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 See it done -->
+    <section class="screen page" data-title="See it done" data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Part 1 · Framing</span></div>
+          <h1>See it done with all 4 parts.</h1>
+          <p>This is the same job as before. Now the AI tool has nothing to guess, so you get a short notice for your school.</p>
+          <p class="do"><b>Your task.</b> Tap a piece of the request, then tap its part.</p>
+        </div>
+        <div class="saa-work">
+          <div class="saa-kit anatomy-match" data-kit="match" data-required data-shuffle data-done-text="All matched. Now the AI tool has nothing to guess.">
+            <div class="saa-m-board">
+              <div class="saa-m-left">
+                <button class="saa-m-item" type="button" data-pair="role" data-why="Yes. This is the Role. It says who the AI tool should be." data-hint="Not quite. Does this piece say who, what, for whom, or how it looks?">You are a teacher.</button>
+                <button class="saa-m-item" type="button" data-pair="task" data-why="Yes. This is the Task. It says what to make." data-hint="Not quite. Does this piece say who, what, for whom, or how it looks?">Write a notice</button>
+                <button class="saa-m-item" type="button" data-pair="context" data-why="Yes. This is the Context. It says who it is for and what it is about." data-hint="Not quite. Does this piece say who, what, for whom, or how it looks?">for students of our school about crossing the road safely at the school gate.</button>
+                <button class="saa-m-item" type="button" data-pair="format" data-why="Yes. This is the Format. It says how the notice should look." data-hint="Not quite. Does this piece say who, what, for whom, or how it looks?">Use 3 short points for the notice board.</button>
+              </div>
+              <div class="saa-m-right">
+                <button class="saa-m-target" type="button" data-pair="role"><img class="ic" data-ic="role" src="assets/icons/icon-role.webp" alt="" aria-hidden="true">Role</button>
+                <button class="saa-m-target" type="button" data-pair="task"><img class="ic" data-ic="task" src="assets/icons/icon-task.webp" alt="" aria-hidden="true">Task</button>
+                <button class="saa-m-target" type="button" data-pair="context"><img class="ic" data-ic="context" src="assets/icons/icon-context.webp" alt="" aria-hidden="true">Context</button>
+                <button class="saa-m-target" type="button" data-pair="format"><img class="ic" data-ic="format" src="assets/icons/icon-format.webp" alt="" aria-hidden="true">Format</button>
+              </div>
+            </div>
+            <p class="saa-k-why"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 Your turn: Task -->
+    <section class="screen page" data-title="Your turn: Task" data-gate="task" data-gate-hint="Choose the right Task, then tap Check my answer." data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Your turn</span></div>
+          <h1>Your turn: choose the Task.</h1>
+          <p>Your friend missed class. You want an AI tool to write them a short recap.</p>
+          <p class="do"><b>Your task.</b> Choose the Task that gives a clear job, then tap Check my answer.</p>
+          <div class="builder" aria-label="Your request so far">
+            <div class="bf"><span class="k">Role</span><span class="v">You are a helpful classmate.</span></div>
+            <div class="bf"><span class="k">Context</span><span class="v">My friend missed class today. They have a test on Monday. Here are my notes: [your notes].</span></div>
+            <div class="bf open saa-vo-skip" data-slot="task"><span class="k">Task</span><span class="v">? You choose.</span></div>
+            <div class="bf open saa-vo-skip" data-slot="format"><span class="k">Format</span><span class="v">? You choose.</span></div>
+          </div>
+        </div>
+        <div class="saa-work">
+          <div class="q" data-q="task" data-correct="b" data-fills="task">
+            <p class="q-stem">Which Task gives the AI tool a clear job?</p>
+            <div class="options" role="radiogroup">
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><span>“Help.”</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b" data-fill="Write a short recap of the 3 main points from my notes."><span class="radio"></span><span>“Write a short recap of the 3 main points from my notes.”</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><span>“Tell me everything about this topic.”</span></button>
+            </div>
+            <button type="button" class="btn-blue" data-check disabled>Check my answer</button>
+            <div class="fb" data-fb hidden></div>
+            <template data-fb-for="a">Not quite. “Help” does not say what to make, so the AI tool has to guess.</template>
+            <template data-fb-for="b">Yes. It says what to make, how much to write and what to use: a recap of 3 points from your notes.</template>
+            <template data-fb-for="c">Not quite. “Everything” gets you a long, general answer. A recap should be short.</template>
+          </div>
+          <p class="ga-gate saa-k-why" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 Your turn: Format -->
+    <section class="screen page" data-title="Your turn: Format" data-gate="format" data-gate-hint="Choose the right Format, then tap Check my answer." data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Your turn</span></div>
+          <h1>Your turn: choose the Format.</h1>
+          <p>The Task is done now. The Format tells the AI tool how the recap should look.</p>
+          <p class="do"><b>Your task.</b> Choose the Format, then tap Check my answer.</p>
+          <div class="builder" aria-label="Your request so far">
+            <div class="bf"><span class="k">Role</span><span class="v">You are a helpful classmate.</span></div>
+            <div class="bf"><span class="k">Context</span><span class="v">My friend missed class today. They have a test on Monday. Here are my notes: [your notes].</span></div>
+            <div class="bf filled"><span class="k">Task</span><span class="v">Write a short recap of the 3 main points from my notes.</span></div>
+            <div class="bf open saa-vo-skip" data-slot="format"><span class="k">Format</span><span class="v">? You choose.</span></div>
+          </div>
+        </div>
+        <div class="saa-work">
+          <div class="q" data-q="format" data-correct="a" data-fills="format">
+            <p class="q-stem">Which Format tells the AI tool how it should look?</p>
+            <div class="options" role="radiogroup">
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a" data-fill="As a WhatsApp message under 80 words."><span class="radio"></span><span>“As a WhatsApp message under 80 words.”</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><span>“Make it nice.”</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><span>Leave it out. The AI tool will know.</span></button>
+            </div>
+            <button type="button" class="btn-blue" data-check disabled>Check my answer</button>
+            <div class="fb" data-fb hidden></div>
+            <template data-fb-for="a">Yes. It gives the shape and the size: a chat message under 80 words.</template>
+            <template data-fb-for="b">Not quite. The AI tool cannot know what “nice” means to you. Say the shape and the size.</template>
+            <template data-fb-for="c">Not quite. Remember, a missing part becomes a guess. Often the guess is long paragraphs.</template>
+          </div>
+          <p class="ga-gate saa-k-why" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 Check before you send -->
+    <section class="screen page" data-title="Check before you send" data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Check before you use</span></div>
+          <h1>Check the recap before you send it.</h1>
+          <p>Look at the Context again: “Here are my notes.” The AI tool was not in your class, so without your notes it would make up a lesson.</p>
+          <p class="do"><b>Your task.</b> Answer the question about your recap.</p>
+        </div>
+        <div class="saa-work">
+          <div class="saa-kit" data-kit="quick" data-required>
+            <p class="saa-q">The AI tool used your notes to write the recap. What do you do before you send it?</p>
+            <div class="saa-k-opts">
+              <button class="saa-k-opt" type="button" data-why="Not quite. Even with your notes, the AI tool can get things wrong, so match it to your notes first.">I send it at once, because it used my notes.</button>
+              <button class="saa-k-opt" type="button" data-ok data-why="Yes. Even with your notes, read the recap and match it to your notes before you send it.">I read the recap and match it to my notes.</button>
+            </div>
+            <p class="saa-k-why"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 The first answer -->
+    <section class="screen page" data-title="The first answer" data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Part 2 · Fix moves</span></div>
+          <h1>The first answer may not be right.</h1>
+          <p>Do not start again. There are 5 moves, and each move fixes a different problem, so name the problem first.</p>
+          <p class="do"><b>Your task.</b> Put the 3 steps in the right order.</p>
+        </div>
+        <div class="saa-work">
+          <div class="saa-kit fix-order" data-kit="order" data-required>
+            <ol class="saa-steps">
+              <li data-n="1">Read the answer.</li>
+              <li data-n="2">Name the problem.</li>
+              <li data-n="3">Use one move.</li>
+            </ol>
+            <p class="saa-k-why" data-right="Yes. Read the answer, name the problem, then use the move that fixes it." data-wrong="Not yet. You must name the problem before you can choose a move."></p>
+          </div>
+          <figure class="anim" hidden><video muted loop playsinline preload="none" poster="assets/anim-refine-loop-poster.webp" aria-label="Animation: a first answer gets one of the 5 moves and turns into a better answer with a tick." tabindex="0"><source src="assets/anim-refine-loop.mp4" type="video/mp4"></video></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 Moves 1 to 3 -->
+    <section class="screen page" data-title="Moves 1 to 3" data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Part 2 · Fix moves</span></div>
+          <h1>Moves 1 to 3 fix the size and the tone.</h1>
+          <p>Each move has words that you can type. Fill the blank with what you need, or with who will read it.</p>
+          <p class="do"><b>Your task.</b> Turn the dial to each move and read the new answer.</p>
+        </div>
+        <div class="saa-work">
+          <div class="saa-kit move-dial" data-kit="dial" data-required data-label="Move dial">
+            <div class="saa-dial-stop" data-start data-why="This is the first answer. Now try each of the 3 moves.">
+              <span class="saa-d-name"><span>First answer<small>what you got</small></span></span>
+              <p class="saa-d-you">Write a notice about crossing the road near school.</p>
+              <p class="saa-d-ans">Students must use the zebra crossing. They must check for traffic in both directions. Running is not allowed.</p>
+            </div>
+            <div class="saa-dial-stop" data-why="Use Narrow it when the answer covers too much. Now it talks about one part only.">
+              <span class="saa-d-name"><img class="ic" data-ic="move-1" src="assets/icons/icon-move-1.webp" alt="" aria-hidden="true"><span>1. Narrow it<small>too much?</small></span></span>
+              <p class="saa-d-you">Only tell me about <mark>the zebra crossing</mark>.</p>
+              <p class="saa-d-ans">Students must use the zebra crossing. They must wait for the cars to stop.</p>
+            </div>
+            <div class="saa-dial-stop" data-why="Use Expand it when the answer is too short. Now it gives more detail.">
+              <span class="saa-d-name"><img class="ic" data-ic="move-2" src="assets/icons/icon-move-2.webp" alt="" aria-hidden="true"><span>2. Expand it<small>too little?</small></span></span>
+              <p class="saa-d-you">Tell me more about <mark>checking for traffic</mark>.</p>
+              <p class="saa-d-ans">Students must use the zebra crossing. They must stop at the edge of the road. They must look right, then left, then right again. They must cross only when the road is clear. Running is not allowed.</p>
+            </div>
+            <div class="saa-dial-stop" data-why="Use Change the tone when the words are too hard, or wrong for the reader. Now small children can understand it.">
+              <span class="saa-d-name"><img class="ic" data-ic="move-3" src="assets/icons/icon-move-3.webp" alt="" aria-hidden="true"><span>3. Change the tone<small>too hard?</small></span></span>
+              <p class="saa-d-you">Say this simply, for <mark>small children</mark>.</p>
+              <p class="saa-d-ans">Cross at the white stripes. Look both ways first. Please walk, do not run.</p>
+            </div>
+            <p class="saa-k-why"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 Move 4: Check it -->
+    <section class="screen page" data-title="Move 4: Check it" data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Part 2 · Fix moves</span></div>
+          <h1>Move 4 is Check it.</h1>
+          <p>Use it when the answer has names, numbers, dates or rules that you did not give it. When the AI tool checks itself, that is a hint, not proof.</p>
+          <p class="do"><b>Your task.</b> Tap each step to see what you do.</p>
+        </div>
+        <div class="saa-work">
+          <div class="saa-kit check-steps" data-kit="reveal" data-required data-after-done="You do the real check. You will practise this more in Section 1.3.">
+            <div class="saa-cards">
+              <button class="saa-card" type="button"><span class="saa-front"><img class="ic" data-ic="move-4" src="assets/icons/icon-move-4.webp" alt="" aria-hidden="true">Step 1: Ask</span><span class="saa-back">Ask the AI tool: “Which parts of this might be wrong or made up?”</span></button>
+              <button class="saa-card" type="button"><span class="saa-front"><img class="ic" data-ic="source" src="assets/icons/icon-source.webp" alt="" aria-hidden="true">Step 2: Check</span><span class="saa-back">Check those parts yourself with a source you trust: your teacher or instructor, your textbook or manual, or the official notice.</span></button>
+            </div>
+          </div>
+          <p class="after-done saa-k-why" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 Move 5, and when to stop -->
+    <section class="screen page" data-title="Move 5, and when to stop" data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Part 2 · Fix moves</span></div>
+          <h1>Combine the best parts, and know when to stop.</h1>
+          <p>Move 5, Combine, joins the best parts of 2 versions. Stop asking when your own fix is quicker, or when 2 moves did not help.</p>
+          <p class="do"><b>Your task.</b> Stamp each case with the right action.</p>
+        </div>
+        <div class="saa-work">
+          <div class="saa-kit stop-stamp" data-kit="stamp" data-required data-stamps="Combine|Fix it myself|Write it again" data-done-text="All stamped. Combine good versions, and know when to stop.">
+            <div class="saa-rows">
+              <div class="saa-row" data-ans="0" data-why="Yes. Type: “Combine the best parts of version 1 and version 2.”" data-hint="Not quite. You have 2 versions, and each has something good.">You have 2 versions. Each one has something good.</div>
+              <div class="saa-row" data-ans="1" data-why="Yes. When it is quicker to fix it by hand, fix it yourself." data-hint="Not quite. Would it be quicker to fix it by hand?">Only 2 words are wrong. You can fix them in a few seconds.</div>
+              <div class="saa-row" data-ans="2" data-why="Yes. After 2 moves, write the request again with all 4 parts." data-hint="Not quite. You tried 2 moves and it is still not close.">You tried 2 moves. The answer is still not close.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 Practice 1 -->
+    <section class="screen page" data-title="Practice 1" data-gate="p1" data-gate-hint="Choose the right move, then tap Check my answer." data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Practice 1 of 3</span></div>
+          <h1>Practice: pick the move that fixes it.</h1>
+          <p class="scn"><b>You asked:</b> “Tips for my first job interview.”</p>
+          <p class="scn got"><b>You got:</b> 25 tips over 3 screens.</p>
+          <p class="do"><b>Your task.</b> Choose the move, then tap Check my answer.</p>
+        </div>
+        <div class="saa-work">
+          <div class="q" data-q="p1" data-correct="a">
+            <p class="q-stem">Which move fixes this?</p>
+            <div class="options" role="radiogroup">
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><span>Narrow it: “Only the 5 most important tips for a fresher.”</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><span>Expand it: “Tell me more about each tip.”</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><span>Combine: “Combine the best parts.”</span></button>
+            </div>
+            <button type="button" class="btn-blue" data-check disabled>Check my answer</button>
+            <div class="fb" data-fb hidden></div>
+            <template data-fb-for="a">Yes. The problem was too much. Narrowing keeps the useful part, and “for a fresher” also adds the missing Context.</template>
+            <template data-fb-for="b">Not quite. The answer already has too much. Expanding makes it bigger.</template>
+            <template data-fb-for="c">Not quite. Combine needs 2 versions. You have one answer that is too long.</template>
+          </div>
+          <p class="ga-gate saa-k-why" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14 Practice 2 -->
+    <section class="screen page" data-title="Practice 2" data-gate="p2" data-gate-hint="Choose the right move, then tap Check my answer." data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Practice 2 of 3</span></div>
+          <h1>Practice: pick the move that fixes it.</h1>
+          <p class="scn"><b>You asked</b> an AI tool to explain a fuse to your brother in Class 5.</p>
+          <p class="scn got"><b>You got:</b> a correct answer, full of words like “overcurrent protection”.</p>
+          <p class="do"><b>Your task.</b> Choose the move, then tap Check my answer.</p>
+        </div>
+        <div class="saa-work">
+          <div class="q" data-q="p2" data-correct="b">
+            <p class="q-stem">Which move fixes this?</p>
+            <div class="options" role="radiogroup">
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><span>Narrow it</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><span>Change the tone: “Say this simply, for a 10-year-old.”</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><span>Check it</span></button>
+            </div>
+            <button type="button" class="btn-blue" data-check disabled>Check my answer</button>
+            <div class="fb" data-fb hidden></div>
+            <template data-fb-for="a">Not quite. The length is fine. The problem is the hard words.</template>
+            <template data-fb-for="b">Yes. It is the wrong level for the reader. The facts are fine, but the words are too hard, and naming the reader tells the AI tool what level to use.</template>
+            <template data-fb-for="c">Not quite. Nothing looks made up. It is just too hard for him.</template>
+          </div>
+          <p class="ga-gate saa-k-why" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15 Practice 3 -->
+    <section class="screen page" data-title="Practice 3" data-gate="p3" data-gate-hint="Choose the right move, then tap Check my answer." data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Practice 3 of 3</span></div>
+          <h1>Practice: pick the move that fixes it.</h1>
+          <p class="scn"><b>You asked</b> for a notice about new bus times at your institute. You did not give any times.</p>
+          <p class="scn got"><b>You got:</b> “Buses now leave at 4:15 pm. Late fee: ₹50.”</p>
+          <p class="do"><b>Your task.</b> Choose the move, then tap Check my answer.</p>
+        </div>
+        <div class="saa-work">
+          <div class="q" data-q="p3" data-correct="c">
+            <p class="q-stem">Which move fixes this?</p>
+            <div class="options" role="radiogroup">
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="a"><span class="radio"></span><span>Change the tone, to sound friendlier</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="b"><span class="radio"></span><span>Expand it, to get more detail</span></button>
+              <button type="button" class="opt" role="radio" aria-checked="false" data-val="c"><span class="radio"></span><span>Check it, then confirm with the transport office</span></button>
+            </div>
+            <button type="button" class="btn-blue" data-check disabled>Check my answer</button>
+            <div class="fb" data-fb hidden></div>
+            <template data-fb-for="a">Not quite. A friendly tone would still show a time and a fee that nobody gave the AI tool.</template>
+            <template data-fb-for="b">Not quite. More detail means more guesses, because a gap becomes a guess.</template>
+            <template data-fb-for="c">Yes. Nobody told the AI tool “4:15” or “₹50”, so it guessed them. Confirm with the real source first, and next time put the real times in your Context.</template>
+          </div>
+          <p class="ga-gate saa-k-why" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 16 Try it yourself (optional) -->
+    <section class="screen page" data-title="Try it yourself" data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Try it · optional</span></div>
+          <h1>Try it on your own AI tool.</h1>
+          <p>This is optional and takes about 5 minutes. Pick one real task from your week.</p>
+          <p class="do"><b>Your task.</b> Before you use the answer, tick each box.</p>
+        </div>
+        <div class="saa-work">
+          <ul class="selfcheck">
+            <li><label><input type="checkbox"><img class="ic" data-ic="context" src="assets/icons/icon-context.webp" alt="" aria-hidden="true"><span><b>Context:</b> it says who it is for, and why.</span></label></li>
+            <li><label><input type="checkbox"><img class="ic" data-ic="role" src="assets/icons/icon-role.webp" alt="" aria-hidden="true"><span><b>Role:</b> it says who the AI tool should be.</span></label></li>
+            <li><label><input type="checkbox"><img class="ic" data-ic="task" src="assets/icons/icon-task.webp" alt="" aria-hidden="true"><span><b>Task:</b> it says what to make.</span></label></li>
+            <li><label><input type="checkbox"><img class="ic" data-ic="format" src="assets/icons/icon-format.webp" alt="" aria-hidden="true"><span><b>Format:</b> it says how it should look.</span></label></li>
+            <li><label><input type="checkbox"><img class="ic" data-ic="verify" src="assets/icons/icon-verify.webp" alt="" aria-hidden="true"><span><b>Check:</b> I checked one name, number, date or rule myself.</span></label></li>
+          </ul>
+          <div class="note safe"><svg width="18" height="18" aria-hidden="true"><use href="#i-shield"/></svg><p>Use made-up names and numbers. Never type a phone number, ID number or password. If you share a device, one person types and the other reads and checks, then you swap.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 17 The whole loop -->
+    <section class="screen page" data-title="The whole loop" data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Wrap-up</span></div>
+          <h1>The whole loop has 6 steps.</h1>
+          <p>You will use it every time you use AI in this course. Still not right after step 4? Go back to step 3, and after 2 moves start again at step 1.</p>
+          <p class="do"><b>Your task.</b> Put the 6 steps in the right order.</p>
+        </div>
+        <div class="saa-work">
+          <div class="saa-kit loop-order" data-kit="order" data-required>
+            <ol class="saa-steps">
+              <li data-n="1">Ask with all 4 parts: Context, Role, Task, Format.</li>
+              <li data-n="2">Read the answer.</li>
+              <li data-n="3">Name the problem.</li>
+              <li data-n="4">Use one move.</li>
+              <li data-n="5">Check it with a source you trust.</li>
+              <li data-n="6">Use it.</li>
+            </ol>
+            <p class="saa-k-why" data-right="Yes. Ask, read, name the problem, use a move, check it, and then use it." data-wrong="Not yet. The red steps are in the wrong place. You always check before you use it."></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 18 Explain it -->
+    <section class="screen page" data-title="Explain it" data-gate="explain" data-gate-hint="Write one sentence of at least 6 words, or tap I told my buddy." data-saa-split="yes" hidden>
+      <div class="saa-inner saa-split">
+        <div class="saa-lead">
+          <div class="eyebrow"><span>Wrap-up</span></div>
+          <h1>Explain it in one sentence.</h1>
+          <p>Why does a short request get a general answer? Tell your buddy, or write it here.</p>
+          <p class="do"><b>Your task.</b> Write one sentence, or tap I told my buddy.</p>
+        </div>
+        <div class="saa-work">
+          <label class="fld-label" for="explain-box">Your sentence</label>
+          <textarea id="explain-box" rows="3" maxlength="400" placeholder="Because…"></textarea>
+          <button type="button" class="buddy" id="buddy" aria-pressed="false">I told my buddy</button>
+          <details class="model-ans"><summary>Compare with a model answer</summary><p class="model">Because the AI tool guesses the most likely words. Every gap I leave gets a common guess, and common guesses make a general answer.</p></details>
+          <p class="ga-gate saa-k-why" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Done -->
+    <section class="screen page done" data-title="Done" hidden>
+      <div class="done-badge"><span class="ring"></span><span class="badge"><svg width="18" height="18" aria-hidden="true"><use href="#i-tick"/></svg></span></div>
+      <div class="eyebrow"><span>Reading complete</span></div>
+      <h1>Ask clearly. Fix the answer. Check it.</h1>
+      <p>Next is the Request Builder and Refinement Card. It puts the 4 parts and the 5 moves on one page.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="foot-left"><span class="deck-count" data-pos></span></div>
+    <div class="nav">
+      <button type="button" class="btn-quiet" id="back" data-prev><svg width="14" height="14" aria-hidden="true"><use href="#i-back"/></svg>Back</button>
+      <button type="button" class="btn-quiet btn-restart" id="restart" hidden><svg width="14" height="14" aria-hidden="true"><use href="#i-recall"/></svg>Start over</button>
+      <button type="button" class="btn-primary" id="primary" data-next><span data-next-label>Next</span><svg width="15" height="15" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    </div>
+  </footer>
+</div>
+
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

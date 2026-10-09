@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Swift AI Academy Games</title>
-<meta name="description" content="Applied AI, Module 1: twenty short games for ITI trainees and college students.">
+<meta name="description" content="Applied AI, Module 1: short games for ITI trainees and college students.">
 <link rel="icon" href="assets/logo-mark.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +16,7 @@
     --card: rgba(255,255,255,.05); --card-hi: rgba(255,255,255,.09); --line: rgba(255,255,255,.12);
   }
   * { box-sizing: border-box; }
+  html { background: #080D24; }
   html { scroll-behavior: smooth; }
   body {
     margin: 0; min-height: 100vh; color: var(--ink);
@@ -77,12 +78,13 @@
 
   <div class="hero">
     <p class="eyebrow">Applied AI · Module 1</p>
-    <h1>Twenty short games about using AI well</h1>
+    <h1>Short games about using AI well</h1>
     <p class="lede">For ITI trainees and college students. Each game has narration, works on a phone or a laptop, and uses made-up examples only. Tap a card to play.</p>
     <nav class="jump" aria-label="Sections">
       <a href="#first-contact">1 · First Contact</a>
       <a href="#framing-and-refining">2 · Framing and Refining</a>
       <a href="#check-before-you-use">3 · Check Before You Use</a>
+      <a href="#ai-fluency">4 · AI Fluency</a>
     </nav>
   </div>
 
@@ -118,6 +120,16 @@
       ['game-18-my-personal-ai-rulebook', 'My Personal AI Rulebook', 'Write your own one-page rules for using AI.'],
       ['game-19-section-check-check-before-you-use', 'Section Check: Check Before You Use', 'Twenty questions across five checking stations.'],
       ['game-20-facilitator-kit-check-before-you-use', 'Facilitator Kit: Check Before You Use', 'For facilitators: run sheet, demos and answer bank.']
+    ]},
+    { id: 'ai-fluency', name: 'AI Fluency', games: [
+      ["aif-01-resources-first-contact", "Resources: First Contact", "Safe links to learn more, with your own notes."],
+      ["aif-02-watch-it-get-it-wrong", "Watch It Get It Wrong", "A lab: see an AI make things up, then check and fix it."],
+      ["aif-03-section-check-first-contact", "Section Check: First Contact", "10 questions on using an AI tool safely."],
+      ["aif-04-reading-framing-and-refining", "Framing and the Five Refinement Moves", "The 4 parts of a request and the 5 moves, step by step."],
+      ["aif-05-facilitator-kit-framing-and-refining", "Facilitator Kit: Framing and Refining", "For facilitators: session plan, live demo and answer bank."],
+      ["aif-06-resources-check-before-you-use", "Resources: Check Before You Use", "Links to check AI answers, including fact-check sites in India."],
+      ["aif-07-checkpoint-1", "Checkpoint 1: Use It, and Check It", "An assessed challenge: make a notice with AI and check it."],
+      ["aif-08-portfolio-submission-mc1", "Portfolio Submission: MC1", "Practise submitting your MC1 Proof File."]
     ]}
   ];
   var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';

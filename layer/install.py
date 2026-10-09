@@ -11,7 +11,7 @@ for f in ('saa-upgrade.css', 'saa-upgrade.js'):
     shutil.copy(s, d / f)
 h = idx.read_text()
 if 'saa-upgrade.css' not in h:
-    h = re.sub(r'(<link[^>]*href="style\.css"[^>]*>)', r'\1\n<link rel="stylesheet" href="saa-upgrade.css">', h, count=1)
+    h = re.sub(r'(<link[^>]*href="styles?\.css"[^>]*>)', r'\1\n<link rel="stylesheet" href="saa-upgrade.css">', h, count=1)
 if 'saa-upgrade.js' not in h:
     h = re.sub(r'(<script[^>]*src="script\.js"[^>]*></script>)', r'\1\n<script src="saa-upgrade.js"></script>', h, count=1)
 for f in ('saa-kit.css', 'saa-kit.js'):

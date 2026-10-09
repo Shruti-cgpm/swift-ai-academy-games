@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-saa-themes data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Portfolio Submission — MC1 — Swift AI Academy</title>
+<!--
+  Segment: AAI-E-MC1-S04-FORM01 · Portfolio Submission · not counted toward hours · all PCs in this micro-credential.
+  Kept here for staff; never shown to learners. A practice version of the real submission form:
+  nothing is uploaded or sent. The learner downloads a text receipt at the end.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="saa-upgrade.css">
+<link rel="stylesheet" href="saa-kit.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand"><img src="assets/logo-mark.webp" alt=""><span>SWIFT&nbsp;AI&nbsp;ACADEMY</span></div>
+    <span class="top-meta" hidden>Swift AI Academy · Portfolio</span>
+  </header>
+
+  <main class="slides">
+
+  <!-- PAGE 0: Brief -->
+  <section class="page active" data-page="0">
+    <div class="card">
+      <p class="kicker">Portfolio · Before you start</p>
+      <h2>Your Proof File shows your finished MC1 work.</h2>
+      <p>Your assessor checks this file. You make it in 3 steps.</p>
+      <p class="do"><b>Your task.</b> Tap each card to see what you do.</p>
+      <div class="saa-kit" data-kit="reveal" data-theme="dark" data-required>
+        <div class="saa-cards">
+          <button class="saa-card" type="button"><span class="saa-front"><img class="pf-ic" data-ic="icon-spot-added" src="assets/icons/ivory/icon-spot-added.webp" alt="" aria-hidden="true">Gather</span><span class="saa-back">Find your Reading, Card, Lab, Bot, Rulebook and Peer Exchange work.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="pf-ic" data-ic="icon-source" src="assets/icons/ivory/icon-source.webp" alt="" aria-hidden="true">Attach</span><span class="saa-back">Add each piece of work, one by one, on the next screen.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="pf-ic" data-ic="icon-sign" src="assets/icons/ivory/icon-sign.webp" alt="" aria-hidden="true">Declare and submit</span><span class="saa-back">Say that these are your own answers. Then submit them for review.</span></button>
+          <button class="saa-card" type="button"><span class="saa-front"><img class="pf-ic" data-ic="icon-rule-private" src="assets/icons/ivory/icon-rule-private.webp" alt="" aria-hidden="true">Keep it private</span><span class="saa-back">Never write passwords, Aadhaar numbers, phone numbers, addresses, health details or marks here.</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 1: Attach artifacts -->
+  <section class="page" data-page="1">
+    <div class="card">
+      <p class="kicker">Step 1 · Attach</p>
+      <h2>Attach your 6 pieces of work.</h2>
+      <p>This is a practice form, so you type a file name. Each piece of work shows the types of file you can use.</p>
+      <p class="do"><b>Your task.</b> Type a file name for each piece of work and tap Attach.</p>
+      <div class="pf-attach">
+        <p class="pf-count saa-vo-skip" id="attachCount" aria-live="polite">0 of 6 attached</p>
+        <div class="pf-tabs" id="artifactTabs" role="tablist" aria-label="Your 6 pieces of work"></div>
+        <div class="pf-list" id="artifactList"></div>
+        <p class="pf-msg saa-k-why" id="msg-1" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 2: Progress & connectivity -->
+  <section class="page" data-page="2">
+    <div class="card">
+      <p class="kicker">Step 2 · Progress</p>
+      <h2>Your work is safe if the internet stops.</h2>
+      <p>In the real form, your work saves as you go. Nothing is lost if the internet stops.</p>
+      <p class="do"><b>Your task.</b> Stop the internet, then start it again.</p>
+      <div class="pf-progress">
+        <div class="gauge-wrap saa-vo-skip">
+          <div class="gauge" id="gaugeRing">
+            <div class="gauge-inner"><span class="gauge-pct" id="gaugePct">0%</span><span class="gauge-label">DONE</span></div>
+          </div>
+          <div class="gauge-text"><b id="gaugeCount">0 of 6 pieces of work attached</b></div>
+        </div>
+        <div class="connect-row">
+          <div class="connect-status saa-vo-skip"><span class="connect-dot" id="connectDot"></span><span id="connectLabel">Online. Your work saves by itself.</span></div>
+          <button class="connect-btn" type="button" onclick="toggleConnection()" id="connectBtn">Stop the internet</button>
+        </div>
+        <p class="pf-msg saa-k-why" id="msg-2" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 3: Review -->
+  <section class="page" data-page="3">
+    <div class="card">
+      <p class="kicker">Step 3 · Review</p>
+      <h2>Check your Proof File before you submit.</h2>
+      <p>Look at each file name. Tap Change if a file is wrong.</p>
+      <p class="do"><b>Your task.</b> Choose the type of submission and tick the declaration.</p>
+      <div class="pf-review">
+        <label class="pf-field" for="submissionType"><span>Type of submission</span>
+          <select class="pf-select" id="submissionType" onchange="refreshLocks()">
+            <option value="">Choose one</option>
+            <option value="First submission">First submission</option>
+            <option value="Resubmission after assessor feedback">Resubmission after assessor feedback</option>
+          </select>
+        </label>
+        <div class="pf-rlist saa-vo-skip" id="reviewList"></div>
+        <label class="declaration-box" for="declareBox">
+          <input type="checkbox" id="declareBox" onchange="refreshLocks()">
+          <span><b>My declaration</b><span>These are my own finished files. I am submitting them myself.</span></span>
+        </label>
+        <p class="pf-msg saa-k-why" id="msg-3" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 4: Submit -->
+  <section class="page" data-page="4">
+    <div class="card">
+      <p class="kicker">Step 4 · Submit</p>
+      <h2>Submit your Proof File for review.</h2>
+      <p>Your assessor checks your files. You get a receipt after you submit.</p>
+      <p class="do"><b>Your task.</b> Tap Submit my Proof File.</p>
+      <div class="pf-submit">
+        <ul class="pf-ready saa-vo-skip" id="readyList"></ul>
+        <button class="submit-btn" type="button" id="submitBtn" onclick="doSubmit()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          Submit my Proof File
+        </button>
+        <p class="pf-msg saa-k-why" id="msg-4" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 5: Receipt -->
+  <section class="page" data-page="5">
+    <div class="card">
+      <p class="kicker">Done · Your receipt</p>
+      <h2>Your Proof File is submitted.</h2>
+      <p>Your assessor will now review it. Keep your receipt as proof.</p>
+      <p class="do"><b>Your task.</b> Tap Download my receipt to keep a copy.</p>
+      <div class="pf-done">
+        <div class="receipt saa-vo-skip">
+          <div class="receipt-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <div><b>Submission received</b><span id="receiptId">ID: —</span></div>
+          </div>
+          <div class="receipt-body">
+            <div class="receipt-row"><span class="rk">Course</span><span class="rv">MC1</span></div>
+            <div class="receipt-row"><span class="rk">Type of submission</span><span class="rv" id="receiptType">—</span></div>
+            <div class="receipt-row"><span class="rk">Files attached</span><span class="rv" id="receiptCount">—</span></div>
+            <div class="receipt-row"><span class="rk">Submitted</span><span class="rv" id="receiptTime">—</span></div>
+            <div class="receipt-row"><span class="rk">Status</span><span class="rv rv-wait">Waiting for assessor review</span></div>
+            <p class="receipt-note">If you submit again later, this version is kept. It is not replaced.</p>
+          </div>
+        </div>
+        <button class="dl-btn" type="button" id="downloadBtn" onclick="downloadReceipt()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Download my receipt
+        </button>
+        <p class="pf-msg saa-k-why" id="msg-5" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <div class="nav-row">
+    <button class="nav-btn" type="button" id="backBtn" onclick="changePage(-1)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <span class="page-count" id="pageCount">1 / 6</span>
+    <button class="nav-btn primary" type="button" id="nextBtn" onclick="changePage(1)">
+      Next
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="saa-upgrade.js"></script>
+<script src="saa-kit.js"></script>
+</body>
+</html>

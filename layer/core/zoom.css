@@ -84,5 +84,5 @@ body, button, input, textarea, select { font-family: 'Instrument Sans', 'Noto Sa
   html body .app > :is(main, .stage, .slides) { flex: none !important; height: auto !important; min-height: 0 !important; max-height: none !important; overflow: visible !important; padding-bottom: 84px !important; }
   html body .app :is(.page.active, .slide.active, .slide.show, .saa-cur) { flex: none !important; height: auto !important; min-height: 0 !important; max-height: none !important; overflow: visible !important; }
   html body .app :is(.card, .saa-surface, .saa-split, .saa-inner) { height: auto !important; max-height: none !important; }
-  html body .app > :is(footer, nav.deck-foot, .slide-footer, .nav-row, .saa-navrow) { position: sticky !important; bottom: 0 !important; z-index: 20 !important; background: linear-gradient(180deg, rgba(8,13,40,0) 0, rgba(8,13,40,.92) 14px, #080D28 100%); padding-top: 10px !important; }
+  html body .app > :is(footer, nav.deck-foot, .slide-footer, .nav-row, .saa-navrow), html.saa-skin body .app > :is(footer, nav, .saa-navrow) { position: sticky !important; bottom: 0 !important; z-index: 20 !important; background: linear-gradient(180deg, rgba(8,13,40,0) 0, rgba(8,13,40,.92) 14px, #080D28 100%); padding-top: 10px !important; }
 }

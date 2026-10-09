@@ -21,7 +21,9 @@
     var cover = pages()[0] || doc.querySelector('.app');
     if (!cover) { return; }
     var h = cover.querySelector('h1, h2, .title');
-    var title = txt(h) || (doc.title || '').split(/\s[—·|-]\s/)[0].trim();
+    /* the game's name: a cover heading, or the page title when the first screen's heading is a sentence (no cover) */
+    var dtitle = (doc.title || '').split(/\s[—·|-]\s/)[0].trim();
+    var title = (txt(h) && !/[.?!]$/.test(txt(h))) ? txt(h) : (dtitle || txt(h));
     if (!title) { return; }
     var ebEl = cover.querySelector('.kicker, .eyebrow, .saa-eyebrow, .q-kicker');
     var eb = txt(ebEl).replace(/\s*·\s*/g, ' · ');

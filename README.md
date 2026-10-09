@@ -1,6 +1,6 @@
 # Swift AI Academy: Applied AI, Module 1
 
-Twenty short browser games for ITI trainees and college students in India, about using AI tools well.
+Short browser games for ITI trainees and college students in India, about using AI tools well.
 Every person, record and number in the games is made up.
 
 **Play online:** https://shruti-cgpm.github.io/swift-ai-academy-games/
@@ -10,6 +10,7 @@ Every person, record and number in the games is made up.
 | 1 · First Contact | 01–04 |
 | 2 · Framing and Refining | 05–11 |
 | 3 · Check Before You Use | 12–20 |
+| 4 · AI Fluency | 21–28 (`games/aif-*`) |
 
 ## What is in this repository
 
