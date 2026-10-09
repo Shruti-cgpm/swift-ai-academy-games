@@ -320,3 +320,6 @@ html:not(.saa-skin) ::highlight(saa-vo-on) { background-color: rgba(60,89,246,.1
 
 /* phones: header narration buttons at least 44px */
 @media (max-width: 700px), (pointer: coarse) { .saa-vo-b, html.saa-skin .saa-vo-b, html.saa-skin .saa-vo-b.icon { min-height: 44px !important; min-width: 44px !important; } }
+
+/* print never shows the spoken-word highlight */
+@media print { ::highlight(saa-vo-on), ::highlight(saa-vo-todo) { background: none; color: inherit; } }

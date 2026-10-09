@@ -248,6 +248,14 @@
       });
     });
     bins.forEach(function (b) { b.addEventListener('click', function (e) { if (e.target.closest('.saa-chip') && e.target.closest('.saa-bin')) { return; } drop(b); }); });
+    /* keyboard: each box is a button (Tab to it, Enter or Space drops the picked card) */
+    bins.forEach(function (b) {
+      if (k.classList.contains('saa-deck')) { return; }
+      if (!b.hasAttribute('tabindex')) { b.setAttribute('tabindex', '0'); }
+      b.setAttribute('role', 'button');
+      if (!b.getAttribute('aria-label')) { b.setAttribute('aria-label', 'Put the chosen card in ' + ((b.getAttribute('data-label') || ($('.saa-bin-h', b) || {}).textContent || 'this box').trim())); }
+      b.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && e.target === b) { e.preventDefault(); drop(b); } });
+    });
   }
 
   /* ---------- order (domino chain): drag, or tap two to swap, or use the arrows; then check ---------- */

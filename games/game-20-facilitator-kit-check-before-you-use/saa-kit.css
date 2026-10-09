@@ -306,3 +306,6 @@
 @media (max-width: 700px), (pointer: coarse) {
   .saa-kit .saa-steps button, .saa-kit .saa-row button, .saa-kit .saa-k-check, .saa-kit .saa-k-opt, .saa-kit .saa-stamp, .saa-kit .saa-st button { min-height: 44px; min-width: 44px; }
 }
+
+/* phones: card backs never below 14px */
+@media (max-width: 700px) { .saa-kit .saa-card .saa-back { font-size: max(14px, 1em); } }
