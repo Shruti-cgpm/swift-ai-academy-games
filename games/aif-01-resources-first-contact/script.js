@@ -210,8 +210,11 @@
     h2.appendChild(document.createTextNode(r.title)); main.appendChild(h2);
     main.appendChild(el('span', 'by', r.org));
     var facts = el('div', 'facts');
-    facts.appendChild(el('span', '', shortTime(r)));
-    facts.appendChild(el('span', '', shortAccess(r)));
+    /* AI Fluency designer assets (Oct 2026): a timer on every time chip, and the account icon on the chips that need or offer an account */
+    var tc = el('span', 'tag-time'); tc.appendChild(chipIcon('timer')); tc.appendChild(document.createTextNode(shortTime(r))); facts.appendChild(tc);
+    var ac = el('span', 'tag-access'), at = shortAccess(r);
+    if (!/no account/.test(at)) ac.appendChild(chipIcon('account-own'));
+    ac.appendChild(document.createTextNode(at)); facts.appendChild(ac);
     if (r.lane !== 'both') { var lc = el('span', 'tag-lane'); lc.appendChild(chipIcon(r.lane === 'iti' ? 'lane-iti' : 'lane-college-cap')); lc.appendChild(document.createTextNode(LANE_LABEL[r.lane])); facts.appendChild(lc); }
     if (r.opt) facts.appendChild(el('span', 'tag-opt', 'Optional extra'));
     var pk = el('span', 'tag-pick', 'Picked for you'); pk.hidden = true; facts.appendChild(pk);
@@ -347,6 +350,13 @@
       im.addEventListener('click', show);
       im.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(); } });
     });
+  });
+
+  /* AI Fluency designer assets (Oct 2026): screen 7's "See example" moves under the private-details box (left column)
+     once the layer has split the screen, so the two advisory cards still fit on a 1024x600 laptop. Not read aloud. */
+  window.addEventListener('load', function () {
+    var b = $('see-lookalike'), k = document.querySelector('.fc-keep');
+    if (b && k && k.parentNode) k.parentNode.insertBefore(b, k.nextSibling);
   });
 
   /* ---------- opened cards ---------- */

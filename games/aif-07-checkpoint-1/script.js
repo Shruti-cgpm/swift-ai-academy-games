@@ -1826,7 +1826,7 @@
     'copy-demo': function () {
       var still = false; try { still = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { /* old browser */ }
       openModal('<h2 id="modal-title">How to copy and paste</h2><p class="lead" style="font-size:15px">An example only. Your own request is the one on the screen.</p>' +
-        '<video class="copy-demo-vid" muted loop playsinline' + (still ? ' controls' : ' autoplay') + ' poster="assets/mocks/light/anim-copy-paste-loop-poster.webp" width="600" height="400" aria-label="Example: copy the request, paste it into the AI tool and send it, copy the answer, then paste the answer back here."><source src="assets/mocks/light/anim-copy-paste-loop.mp4" type="video/mp4"></video>' +
+        '<video class="copy-demo-vid" muted loop playsinline' + (still ? ' controls' : ' autoplay') + ' poster="assets/mocks/dark/anim-copy-paste-loop-poster.webp" width="600" height="400" aria-label="Example: copy the request, paste it into the AI tool and send it, copy the answer, then paste the answer back here."><source src="assets/mocks/dark/anim-copy-paste-loop.mp4" type="video/mp4"></video>' +
         '<div class="actions"><button class="btn btn-ghost" data-action="modal-close">Close</button></div>', { wide: true });
     },
     'tool-problem': function () {

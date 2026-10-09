@@ -1047,3 +1047,6 @@ html.saa-skin .card.a-card { justify-content: flex-start !important; }
 .field-label .lbl-ic { width: 20px; height: 20px; display: inline-block; vertical-align: -4px; margin-right: 7px; }
 .help-link { display: inline-flex; align-items: center; gap: 6px; }
 .help-link .help-ic { width: 18px; height: 18px; }
+/* AI Fluency designer assets (Oct 2026): remaining assets */
+/* the copy-and-paste example is now the dark (navy) version: no white box behind it */
+.copy-demo-vid { background: #10163E; border: 1px solid rgba(255,255,255,.12); }

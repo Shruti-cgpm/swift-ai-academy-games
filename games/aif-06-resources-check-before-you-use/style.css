@@ -447,3 +447,20 @@ html[data-theme="dark"] .cb-pop-x{background:rgba(255,255,255,.05);border-color:
   .cb-pop-grid span:nth-child(3){background-position:66.667% 0}
   .cb-pop-grid span:nth-child(4){background-position:100% 0}
 }
+/* AI Fluency designer assets (Oct 2026): remaining assets */
+/* screen 1: 4 private items (password, ID, phone, address) */
+.saa-kit .saa-back .cb-keep{flex-wrap:wrap}
+/* screen 2: "sure but wrong" scene under the lead text (own light and dark versions) */
+.cb-fig-scene{align-self:flex-start;max-width:100%}
+.cb-fig-scene img{width:auto;max-width:100%;height:calc(19vh / var(--z,1));min-height:96px;object-fit:contain;object-position:left center}
+/* screen 2: tool logo on a neutral tile, top-left of each help-page card */
+.res-logo{float:left;display:grid;place-items:center;width:40px;height:40px;margin:2px 12px 4px 0;border-radius:10px;background:#F6F4EF;border:1px solid rgba(14,26,79,.08)}
+.res-logo img{display:block;width:26px;height:26px;object-fit:contain}
+.res-logo ~ .facts{clear:left}
+@media (max-width:700px){.cb-fig-scene img{height:auto;min-height:0;width:100%;max-width:420px}}
+@media print{.res-logo{background:none;border:0}}
+/* light theme on short laptop screens (1024x600): screens 4 and 5 ran 14px past the card (found during this QA); slightly tighter link cards */
+@media (min-width:701px) and (max-height:660px){
+  html[data-theme="light"] .saa-work .res{padding-top:10px;padding-bottom:10px;gap:8px 16px}
+  html[data-theme="light"] .saa-work .res .facts{margin-top:5px}
+}

@@ -111,7 +111,8 @@ function renderArtifacts(){
     var t = document.createElement('button');
     t.type = 'button'; t.className = 'pf-tab'; t.id = 'tab-' + a.id;
     t.setAttribute('role', 'tab'); t.setAttribute('aria-controls', 'row-' + a.id);
-    t.innerHTML = '<span class="pf-tab-n">' + (i+1) + '</span><span class="pf-tab-l">' + a.tab + '</span>';
+    /* AI Fluency designer assets (Oct 2026): the same icon as the artifact card, on its numbered tab (decorative) */
+    t.innerHTML = '<span class="pf-tab-n">' + (i+1) + '</span><img class="pf-tab-ic" data-ic="' + a.ic + '" src="' + iconSrc(a.ic) + '" alt="" aria-hidden="true"><span class="pf-tab-l">' + a.tab + '</span>';
     t.addEventListener('click', function(){ showArtifact(a.id, true); });
     tabs.appendChild(t);
 

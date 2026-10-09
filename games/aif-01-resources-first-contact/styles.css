@@ -274,3 +274,20 @@ body.kp-open{overflow:hidden}
   .screen:is([data-title="Keep information safe"],[data-title="How AI works: courses from India"]) .res .why{margin-top:5px;line-height:1.45}
   .screen:is([data-title="Keep information safe"],[data-title="How AI works: courses from India"]) .res .by{line-height:1.4}
 }
+/* AI Fluency designer assets (Oct 2026): remaining assets */
+/* screen 5: "sure but wrong" scene (dark-screen recolour), screen 9: missing detail -> AI guesses */
+.fc-fig-scene img{max-height:calc(20vh / var(--z,1));width:auto;max-width:100%}
+.fc-fig-mdd img{max-height:calc(21vh / var(--z,1))}
+/* screen 7: "See example" under the private-details box opens the look-alike app in a pop-up */
+.fc-ex-btn-sm{min-height:48px;padding:4px 14px 4px 6px;width:auto;align-self:flex-start;max-width:100%}
+.fc-ex-btn-sm img{width:64px;height:30px;object-fit:cover;object-position:left center}
+@media (max-width:700px){.fc-fig-scene img{max-height:none;width:100%;max-width:420px}}
+/* the time and account icons make the chips wider: screen 4's first card can wrap to 3 chip rows, so it gets the same tighter card as screens 7 and 10 */
+.facts .tag-time,.facts .tag-access{gap:4px}
+@media (min-width:701px){
+  .screen[data-title="Prompt better: go further"] .res-list{gap:8px}
+  .screen[data-title="Prompt better: go further"] .res{padding:11px 16px;gap:8px 14px}
+  .screen[data-title="Prompt better: go further"] .facts{margin-top:5px;gap:5px}
+  .screen[data-title="Prompt better: go further"] .res .why{margin-top:5px;line-height:1.45}
+  .screen[data-title="Prompt better: go further"] .res .by{line-height:1.4}
+}

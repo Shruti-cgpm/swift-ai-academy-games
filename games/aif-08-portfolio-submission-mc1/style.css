@@ -349,3 +349,11 @@ html[data-theme="light"] .saa-lead p:not(.do):not(.kicker){font-size:clamp(14px,
   .pf-diag-steps img,.pf-diag-submit img{max-height:none;max-width:100%}
   .pf-diag-fname img{max-height:none;max-width:320px}
 }
+/* AI Fluency designer assets (Oct 2026): remaining assets */
+/* screen 3: each numbered tab shows its artifact icon too */
+.pf-tab-ic{width:18px;height:18px;flex:none;display:block;margin-left:-2px}
+.pf-tab{gap:7px}
+/* a narrow tab (1024px laptops, small phones) has no room for the icon without breaking "Checkpoint 1": all 6 tab icons hide together there (the card below still shows it) */
+.pf-tab{container-type:inline-size}
+@container (max-width:139px){.pf-tab-ic{display:none}}
+@media print{.pf-tab-ic{filter:brightness(.25)}}
