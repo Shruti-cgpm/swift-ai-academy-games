@@ -3,7 +3,7 @@
 This is every step applied to the first 20 games, in order. Follow it from scratch for each new game.
 The reference game is game 1, `Unzipped/Applied-AI-MC1-main/`; compare against it whenever you are unsure.
 
-**Paths.** `<root>` = "~/Downloads/Updated HTMLS _ 1st October 2026". Shared layer source: `<root>/_upgrade-layer/` (and its source of truth `~/Downloads/saa-upgrade-src/`). QA tools: `<root>/_upgrade-layer/qa/` (run `node` from that folder; Playwright is installed there).
+**Paths.** `<root>` = "~/Downloads/01 Work – ConveGenius/Swift AI Academy/Updated HTMLS _ 1st October 2026". Shared layer source: `<root>/_upgrade-layer/` (and its source of truth `~/Downloads/01 Work – ConveGenius/Swift AI Academy/saa-upgrade-src/`). QA tools: `<root>/_upgrade-layer/qa/` (run `node` from that folder; Playwright is installed there).
 
 **Never do these.**
 - Never edit `saa-upgrade.*` or `saa-kit.*` inside a game. Never edit the layer source unless you are the lead. If the layer needs a change, describe it.
@@ -111,8 +111,8 @@ Compare screenshots with game 1. Game-specific steppers or tabs above the card a
 - **Dynamic games.** Mark them: `data-saa-page` on the current screen or turn, `data-saa-lead` on the block to read, and `data-saa-say` on chat lines to read.
 - **Stable text only.** Keep live counters and scores out with `saa-vo-skip`, and keep narrated text identical at every screen size.
 - **Generate:**
-  1. Run `node ~/Downloads/saa-upgrade-src/tools/vo/extract.js "<game>"`. For shuffled quizzes, chats and lanes, collect the texts with a playthrough that dumps `SAA_VO.seen`, `SAA_VO.reveals` and `SAA_VO.fbTexts()` to a JSON file.
-  2. Run `NARAKEET_API_KEY=… python3 ~/Downloads/saa-upgrade-src/tools/vo/generate.py "<game>" [--seen file.json]`. Run it with `--dry` first. Exit code 3 means you are out of credit: stop and report. It keeps existing clips.
+  1. Run `node ~/Downloads/01 Work – ConveGenius/Swift AI Academy/saa-upgrade-src/tools/vo/extract.js "<game>"`. For shuffled quizzes, chats and lanes, collect the texts with a playthrough that dumps `SAA_VO.seen`, `SAA_VO.reveals` and `SAA_VO.fbTexts()` to a JSON file.
+  2. Run `NARAKEET_API_KEY=… python3 ~/Downloads/01 Work – ConveGenius/Swift AI Academy/saa-upgrade-src/tools/vo/generate.py "<game>" [--seen file.json]`. Run it with `--dry` first. Exit code 3 means you are out of credit: stop and report. It keeps existing clips.
   3. Re-encode the new mp3s: `ffmpeg -i in.mp3 -ac 1 -ar 24000 -b:a 64k out.mp3`.
 - **Check coverage.** Every narrated screen, opened card and feedback line has a clip (`qa/screens.js` VO column, `qa/revtest.js`). Check that narration never restarts on the same screen when the learner taps.
 
@@ -141,9 +141,9 @@ Compare screenshots with game 1. Game-specific steppers or tabs above the card a
 
 ## 12. Publish (lead)
 1. Add the game to `_upgrade-layer/gallery-map.txt`: number, repo slug, source folder and title.
-2. Run `qa/sync-gallery.sh`. It copies every listed game and the layer source into `~/Downloads/swift-ai-academy-games`.
+2. Run `qa/sync-gallery.sh`. It copies every listed game and the layer source into `~/Downloads/01 Work – ConveGenius/Swift AI Academy/swift-ai-academy-games`.
 3. Add its home-page card to that repo's `index.html` (the SECTIONS list).
-4. Make its thumbnail: `node qa/thumbs.js ~/Downloads/swift-ai-academy-games <slug>`.
+4. Make its thumbnail: `node qa/thumbs.js ~/Downloads/01 Work – ConveGenius/Swift AI Academy/swift-ai-academy-games <slug>`.
 5. Rebuild any inner site zip and the game's package zip.
 6. `git add -A && git commit && git push` in the repo. GitHub Pages updates in about a minute.
 
